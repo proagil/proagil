@@ -14,7 +14,11 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 
-							@if(!empty($ownerProjects))
+		                	@if (Session::has('success_message'))
+		                		<div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+		                	@endif							
+
+							
 							<div class="filters-content">
 							
 								<div class="section-title fc-blue-iii fs-big">
@@ -25,6 +29,7 @@
 							</div>	
 							
 							<div class="list-content">
+							@if(!empty($ownerProjects))
 								@foreach($ownerProjects as $project)
 								<div class="activity">
 									<div class="list-item activity-info">
@@ -32,11 +37,13 @@
 											{{$project->name}}
 									</div>						
 								</div>
-								@endforeach																
+								@endforeach
+							@else
+								No tiene ning&uacute;n proyecto creado. Para crear uno hacer clic <a href="{{URL::action('ProjectController@create')}}">aqu&iacute;</a>
+							@endif 																
 							</div>
-							@endif
 
-							@if(!empty($memberProjects))
+							
 							<div class="filters-content">
 							
 								<div class="section-title section-title-green fc-blue-iii fs-big">
@@ -46,6 +53,7 @@
 
 							</div>	
 							<div class="list-content">
+							@if(!empty($memberProjects))
 								@foreach($memberProjects as $project)
 								<div class="activity">
 									<div class="list-item activity-info">
@@ -53,7 +61,9 @@
 										{{$project->name}}
 									</div>						
 								</div>	
-								@endforeach																										
+								@endforeach	
+							@else
+							A&uacute;n no eres colaborador en ning&uacute;n proyecto 																									
 							</div>	
 							@endif												
 						</div>

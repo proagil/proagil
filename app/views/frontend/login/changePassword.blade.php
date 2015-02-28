@@ -8,7 +8,7 @@
 	        <div class="row">
 	            <div class="col-md-4 col-md-offset-4">
 					<div class="login-logo txt-center">
-					   LOGO HERE
+					   <img src="{{URL::to('/').'/images/logo-sm.png'}}"/>
 					</div>
 
                     @if(isset($success_message))
@@ -38,8 +38,10 @@
 	                                    @if($errors->has('repeat_password'))
 	                                    	<label class="error fc-pink fs-min">{{$errors->first('repeat_password')}}</label>
 	                                    @endif
-	                                </div>	                                
-	                                <div  class="common-btn btn-ii btn-turquoise txt-center btn-change-password">Enviar</div>
+	                                </div>
+	                                <div class="btn-content">	                                
+	                                	<div  class="common-btn btn-ii btn-turquoise txt-center btn-change-password">Enviar</div>
+	                                </div>
 	                        <?=  Form::close() ?>
 	                    </div>
 	                </div>

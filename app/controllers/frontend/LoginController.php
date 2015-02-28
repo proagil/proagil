@@ -4,6 +4,12 @@ class LoginController extends BaseController {
 
 	public function index(){
 
+    if(!is_null(Session::get('user'))){
+
+          return Redirect::to(URL::action('DashboardController@index'));
+
+    }else{
+
       if(Input::has('_token')){
 
         // validation rules
@@ -21,7 +27,7 @@ class LoginController extends BaseController {
 
               $user = User::getUserByEmail($values['email']);
 
-              if ($user != NULL && Hash::check($values['password'], $user->password)){ 
+              if ($user != NULL && md5($values['password']) == $user->password){ 
 
                     $sessionUser = array(
                       'id'                => $user->id,
@@ -55,6 +61,8 @@ class LoginController extends BaseController {
         // first time 
         return View::make('frontend.login.index');
       } 
+
+    }
 
 	}
 
@@ -152,7 +160,7 @@ class LoginController extends BaseController {
 
               $userPassword = array(
                   'token'         => NULL,
-                  'password'      => Hash::make($values['password'])
+                  'password'      => md5($values['password'])
               );
 
                 //update user

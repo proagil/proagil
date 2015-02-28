@@ -58,8 +58,10 @@
 	                                @if($errors->has('repeat_password'))
 	                                	<label class="error fc-pink fs-min">{{$errors->first('repeat_password')}}</label>
 	                                @endif
-	                            </div>			                                		                                		                                                                
-	                            <div  class="common-btn btn-ii btn-turquoise txt-center btn-register">Registrarme</div>
+	                            </div>	
+	                             <div class="btn-content">			                                		                                		                                                                
+	                            	<div  class="common-btn btn-ii btn-turquoise txt-center btn-register">Registrarme</div>
+	                            </div>
                         {{Form::close()}} 
 	                    </div>
 	                </div>

@@ -24,7 +24,6 @@ class DashboardController extends BaseController {
 		$memberProjects = Project::getMemberProjects($sessionUser['id']);
 
    		return View::make('frontend.dashboard.index')
-   				->with('dashboard', TRUE)
    				->with('ownerProjects', $ownerProjects)
    				->with('memberProjects', $memberProjects); 
 

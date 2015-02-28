@@ -43,13 +43,25 @@ $(function() {
 
     $('.file-upload').bootstrapFileInput();  
 
-    $('.file-upload').on('change', function(){
+    // EDIT PROFILE
+    $('.btn-edit-user-profile').on('click', function(){
 
-            console.log($('.file-upload').val()); 
+        $('#form-edit-user-profile').submit();
 
-    })
+        return false;
 
+    });  
 
+    // CREATE PROJECT
+    $('.btn-create-project').on('click', function(){
+
+        $('#form-create-project').submit();
+
+        return false;
+
+    });      
+    
+    
     // DASHBOARD: show/hide section (artefacts or activities)
     $('.section-arrow').on('click', function(){
 

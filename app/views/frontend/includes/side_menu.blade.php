@@ -4,9 +4,9 @@
 		<div id="side-wrapper">
 			<ul class="nav sidebar-menu" id="side-menu">
 				<li>
-					<a class="fc-grey-iv" href="index.html"><i class="fc-turquoise fa fa-dashboard fa-fw"></i> Inicio</a>
+					<a class="fc-grey-iv" href="{{URL::to('/')}}"><i class="fc-turquoise fa fa-dashboard fa-fw"></i> Inicio</a>
 				</li>
-				@if(!isset($dashboard))
+				@if(isset($projectDetail) && $projectDetail)
 				<li>
 					<a class="fc-grey-iv" href="#"><i class="fc-turquoise fa fa-folder-open fa-fw"></i> Mis proyectos<span class="fc-green fa arrow"></span></a>
 					<ul class="nav sidebar-menu nav-second-level">
@@ -36,10 +36,13 @@
 				</li>
 				@endif
 				<ul class="nav sidebar-buttons">
+					@if(!isset($create_project))
 					<li class="btn-sidebar">
-						<a class="fc-grey-iv" href="#"><img src="../images/add-project.png"/> Crear proyecto</a>
+						<a class="fc-grey-iv" href="{{URL::action('ProjectController@create')}}"><img src="../images/add-project.png"/> Crear proyecto</a>
 					</li>
-					@if(!isset($dashboard))
+					@endif
+
+					@if(isset($projectDetail) && $projectDetail)
 					<li class="btn-sidebar">
 						<a class="fc-grey-iv" href="#"><img src="../images/config-project.png"/> Configurar proyecto</a>
 					</li>	

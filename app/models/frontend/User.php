@@ -55,6 +55,37 @@ class User extends Eloquent{
 		return DB::table('user_belongs_to_project')->insertGetId($values);
 	}
 
+	public static function getRoles(){
+
+		$result =  DB::table('user_role')->where('enabled', TRUE)->get();
+
+		$roles = array(); 
+
+		foreach($result as $index => $row){
+			$roles[$row->id] = $row->name;
+		}
+		return $roles; 
+	}
+
+	public static function exist($email){
+
+		$result =  DB::table('user')->where('email', $email)->first();
+
+		return (empty($result))?FALSE:TRUE; 
+	}
+
+	public static function saveInvitation($values) {
+
+		return DB::table('user_invitation')->insertGetId($values);
+
+	}
+
+	public static function getInvitationByToken($token){
+
+		return DB::table('user_invitation')->where('token', $token)->first();
+
+	}
+
 }
 
 ?>

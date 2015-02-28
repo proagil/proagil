@@ -41,7 +41,7 @@ class UserController extends BaseController {
                 'last_name'       	=> $values['last_name'],
                 'email'           	=> $values['email'],
                 'avatar'			=> (isset($imageId))?$imageId:'',
-                'password'        	=> Hash::make($values['password']),
+                'password'        	=> md5($values['password']),
                 'enabled'		  	=> Config::get('constant.NOT_ENABLED'),
                 'token'				=> md5($values['email'].date('H:i:s'))
               );
@@ -159,7 +159,7 @@ class UserController extends BaseController {
                 'first_name'      	=> $values['first_name'],
                 'last_name'       	=> $values['last_name'],
                 'avatar'			=> (isset($imageId))?$imageId:$user['avatar'],
-                'password'        	=> isset($values['password'])?Hash::make($values['password']):$user['password'],
+                'password'        	=> isset($values['password'])?md5($values['password']):$user['password'],
               );
 
               // update user on DB
@@ -179,6 +179,8 @@ class UserController extends BaseController {
 
 
                  Session::put('user', $sessionUser);
+
+                 Session::flash('success_message', 'Se ha editato su perfil exitosamente'); 
 
                  // update user session
 				return Redirect::to(URL::action('DashboardController@index'));

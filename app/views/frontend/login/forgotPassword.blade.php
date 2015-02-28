@@ -8,7 +8,7 @@
 	        <div class="row">
 	            <div class="col-md-4 col-md-offset-4">
 					<div class="login-logo txt-center">
-					   LOGO HERE
+					   <img src="{{URL::to('/').'/images/logo-sm.png'}}"/>
 					</div>
 
                     @if(isset($success_message))
@@ -30,7 +30,9 @@
 	                                    	<label class="error fc-pink fs-min">{{$errors->first('email')}}</label>
 	                                    @endif
 	                                </div>
-	                                <div  class="common-btn btn-ii btn-turquoise txt-center btn-forgot-password">Enviar</div>
+	                                <div class="btn-content">
+	                                	<div  class="common-btn btn-ii btn-turquoise txt-center btn-forgot-password">Enviar</div>
+	                                </div>
 	                        <?=  Form::close() ?>
 	                    </div>
 	                </div>

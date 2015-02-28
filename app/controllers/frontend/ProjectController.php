@@ -16,9 +16,9 @@ class ProjectController extends BaseController {
 
 	public function create(){
 
-      // view data
-      $artefacts = Artefact::enumerate(); 
-      $projectTypes = Project::selectProjectTypes(); 
+      // get view data
+      $artefacts = (array) Artefact::enumerate(); 
+      $projectTypes = (array) Project::selectProjectTypes(); 
 
 
 		if(Input::has('_token')){
@@ -65,7 +65,7 @@ class ProjectController extends BaseController {
 
                 }
 
-                // set user on session as owner of project
+                // get user on session
                 $user = Session::get('user');
 
                 $userRole = array(
@@ -76,16 +76,16 @@ class ProjectController extends BaseController {
 
                 );
 
+                // save user on session as project owner
                 User::userBelongsToProject($userRole);
 
-                //- - -
+                Session::flash('success_message', 'Se ha creado exitosamente su proyecto en el sistema, si lo desea puede invitar a otros a colaborar'); 
 
-                //TODO: send invitations with user emails
+                // save created project ID on session
+                Session::put('created_project_id', $projectId);
 
-                //- - -
-
-                // return to dashboard view
-
+                // redirect to invitation view
+                return Redirect::to(URL::action('ProjectController@invitation'));
 
               }else{
 
@@ -93,7 +93,8 @@ class ProjectController extends BaseController {
                               ->with('error_message', 'No se pudo crear el proyecto')
                               ->with('values', $values)
                               ->with('artefacts', $artefacts)
-                              ->with('projectTypes', $projectTypes);
+                              ->with('projectTypes', $projectTypes)
+                              ->with('create_project', TRUE);
               }
 
            	}else{
@@ -102,7 +103,8 @@ class ProjectController extends BaseController {
                           ->withErrors($validator)
                           ->with('values', $values)
                           ->with('artefacts', $artefacts)
-                          ->with('projectTypes', $projectTypes);
+                          ->with('projectTypes', $projectTypes)
+                          ->with('create_project', TRUE);
 
            	}
 
@@ -111,10 +113,145 @@ class ProjectController extends BaseController {
           // render view first time 
 	        return View::make('frontend.project.create')
                       ->with('artefacts', $artefacts)
-                      ->with('projectTypes', $projectTypes);
+                      ->with('projectTypes', $projectTypes)
+                      ->with('create_project', TRUE);
 	      }
 
 	}
+
+  public function invitation(){
+
+      $userRoles = User::getRoles(); 
+
+      if(Input::has('_token')) {
+
+        // get data from post input
+        $invitations = Input::get('invitations');
+
+        // create validation rules array
+        $rules = array();  
+        foreach($invitations['email'] as $index => $invitation){
+          $rules['email.'.$index] = 'required|email';
+          $rules['role.'.$index] = 'required';
+        }
+
+        // validate
+        $validator = Validator::make($invitations, $rules);
+
+           // if validator fails
+           if(!$validator->fails()){
+
+                // get invitations 
+                foreach($invitations['email'] as $index => $email){
+
+                  $userInvitation = array(
+                      'email'         => $email,
+                      'project_id'    => Session::get('created_project_id'),
+                      'user_role_id'  => $invitations['role'][$index],
+                      'token'         => md5($email.date('H:i:s'))
+                  );
+
+                  // if
+                  if(User::saveInvitation($userInvitation)>0){
+
+                    // verify if users email already exist on DB
+                    $savedUser = (array) User::getUserByEmail($email);
+
+                    //if
+                      if(!empty($savedUser)){
+
+                      // send email with validation
+
+                        // create email data
+                        $emailData = array(
+                          'user_name'     => $savedUser['first_name'],
+                          'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+
+                        );
+
+                        // send email to activate account
+                        Mail::send('frontend.email_templates.validateInvitation', 
+
+                        $emailData, 
+
+                        function($message) use ($email){
+
+                          $message->to($email);
+                          $message->subject('Invitación a formar parte de un proyecto');
+                        }); 
+
+                          // save sucess invitation
+                          Session::flash('success_message', 'Se han enviado las invitaciones a los correos indicados'); 
+
+                         return Redirect::to(URL::action('DashboardController@index'));
+
+                      
+                        }else{
+
+                          // send email with resgistration
+
+                          // - - -
+
+                          // TODO
+                        }
+                      }
+
+                    } //end foreach
+
+              }else{
+                 return View::make('frontend.project.invitation')->withErrors($validator)->with('values', $values);
+
+              }
+
+        }else{             
+        // first time 
+          return View::make('frontend.project.invitation')
+                       ->with('userRoles', $userRoles); 
+        }
+      
+
+  }
+
+  public function validateInvitation($token){
+
+    $invitation = (array) User::getInvitationByToken($token);
+
+    if(empty($invitation)){
+
+        return Redirect::to(URL::action('LoginController@index'));
+
+    }else{
+
+      // get user data
+      $user = (array) User::getUserByEmail($invitation['email']);
+      
+        $userRole = array(
+
+          'user_role_id'        => $invitation['user_role_id'],
+          'project_id'          => $invitation['project_id'],
+          'user_id'             => $user['id']
+
+        );
+
+        // get project name
+
+        // -- 
+
+        // --
+
+        // TODO
+
+        // save user as project member
+        User::userBelongsToProject($userRole);    
+
+        Session::flash('success_message', 'Ya eres parte del proyecto XXXX. Se ha agregado a tu lista'); 
+
+
+        return Redirect::to(URL::action('DashboardController@index'));  
+
+    }
+
+  }
 
   public function edit($projectId){
 
@@ -230,7 +367,7 @@ class ProjectController extends BaseController {
 
   public function detail(){
 
-    return View::make('frontend.project.detail'); 
+    return View::make('frontend.project.detail')->with('projectDetail', TRUE); 
   }
 
 }

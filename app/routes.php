@@ -39,6 +39,10 @@ Route::any('registro/validar/{token}', 'UserController@validateRegister');
 
 Route::any('proyecto/crear', 'ProjectController@create');
 
+Route::any('proyecto/invitar', 'ProjectController@invitation');
+
+Route::any('proyecto/validar-invitacion/{token}', 'ProjectController@validateInvitation');
+
 Route::any('proyecto/detalle', 'ProjectController@detail');
 
 Route::any('proyecto/editar/{id}', 'ProjectController@edit');

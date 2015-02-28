@@ -6,7 +6,13 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>APPNAME</title>
+    <!--FAVICON !-->
+
+    <link rel="icon" type="image/png" sizes="32x32" href="{{URL::to('/').'/images/favicon-32x32.png'}}">
+
+    <!--/FAVICON !-->
+
+    <title>PROAGIL - Apoyando la agilidad de los proyectos de software</title>
 	
 	<!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 	
