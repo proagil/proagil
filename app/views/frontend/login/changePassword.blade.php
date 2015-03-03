@@ -12,14 +12,14 @@
 					</div>
 
                     @if(isset($success_message))
-                    	<div class="success-alert"><i class="fc-green glyphicon glyphicon-alert"></i> {{$success_message}}</div>
+                    	<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{$success_message}}</div>
                 	@endif
 
                     @if(isset($error_message))
-                    	<div class="error-alert"><i class="fc-pink glyphicon glyphicon-alert"></i> {{$error_message}}</div>
+                    	<div class="error-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{$error_message}}</div>
                 	@endif
 
-                	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="login-link"> Volver</a>
+                	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::to('/')}}" class="login-link"> Volver</a>
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                          <?= Form::open(array('action' => array('LoginController@changePassword', $token), 'id' => 'form-change-password')) ?> 

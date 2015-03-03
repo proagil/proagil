@@ -1,6 +1,6 @@
         <!-- INIT TOP SECTION -->
         <nav class="top-menu navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
-            <div class="navbar-header">
+            <div class="navbar-header logo-content">
                 <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
                     <span class="sr-only">Toggle navigation</span>
                     <span class="icon-bar"></span>
@@ -11,14 +11,21 @@
 				
             </div>
             <!-- /.navbar-header -->
-			
-			<div class="hidden project-name-content hidden-xs">Proyecto: <span class="fc-pink">Lorem Ipsum</span></div>
+
+			@if(isset($project['name']))
+			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{$project['name']}}</span></div>
+            @endif
 
             <ul class="nav navbar-top-links navbar-right">
 
                 <li class="dropdown hidden-xs">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                         <img class="img-circle user-profile" src="{{URL::to('/').'/uploads/'.Session::get('user')['avatar_file']}}"/> <span class="fc-turquoise"> {{Session::get('user')['first_name'].' '.Session::get('user')['last_name'] }} </span> <i class="fc-green fa fa-caret-down"></i>
+                        @if(isset(Session::get('user')['avatar_file']) && Session::get('user')['avatar_file']>0)
+                            <img class="img-circle user-profile" src="{{URL::to('/').'/uploads/'.Session::get('user')['avatar_file']}}"/>
+                        @else
+                            <img class="img-circle user-profile" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
+                        @endif
+                            <span class="fc-turquoise"> {{Session::get('user')['first_name'].' '.Session::get('user')['last_name'] }} </span> <i class="fc-green fa fa-caret-down"></i>
                     </a>
                     <ul class="user-profile-options dropdown-menu dropdown-user">
                         <li><a href="{{URL::action('UserController@edit', array(Session::get('user')['id']))}}"><i class="fa fc-green fa-gear fa-fw"></i> Editar Perfil</a>

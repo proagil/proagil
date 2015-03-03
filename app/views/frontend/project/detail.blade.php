@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio <span class="fc-green"> &raquo; </span> Actividades 
+								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}}
 							</div>
 							
 							<div class="artefacts-content">
@@ -30,90 +30,24 @@
 									</div>
 								
 									<div class="artefacts-list">
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
+										@if(!empty($projectArtefacts))
+											@foreach($projectArtefacts as $projectArtefact)
+											<div class="artefact">
+												<div class="artefact-icon">
+													<img width="100%" src="{{URL::to('/').'/images/dummy-activity.png'}}"/>
 												</div>
-												<div class="artefact-name">
-													Gu&iacute;a de estilos
-												</div>
-											</div>
-										</div>
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-												</div>
-												<div class="artefact-name">
-													Lorem ipsum dolore et sit anum
+												
+												<div class="artefact-info">
+													<div class="artefact-status">
+														<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
+													</div>
+													<div class="artefact-name">
+														{{$projectArtefact->name}}
+													</div>
 												</div>
 											</div>
-										</div>
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-												</div>
-												<div class="artefact-name">
-													Lorem ipsum dolore et sit anum
-												</div>
-											</div>
-										</div>
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-green fa-fw"></i>
-												</div>
-												<div class="artefact-name">
-													Lorem ipsum dolore et sit anum
-												</div>
-											</div>
-										</div>
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-												</div>
-												<div class="artefact-name">
-													Lorem ipsum dolore et sit anum
-												</div>
-											</div>
-										</div>
-										<div class="artefact">
-											<div class="artefact-icon">
-												<img width="100%" src="images/dummy-activity.png"/>
-											</div>
-											
-											<div class="artefact-info">
-												<div class="artefact-status">
-													<i class="fs-big fa fa-check-circle fc-yellow fa-fw"></i>
-												</div>
-												<div class="artefact-name">
-													Lorem ipsum dolore et sit anum
-												</div>
-											</div>
-										</div>								
+											@endforeach
+										@endif								
 									</div>
 									
 									<div class="fc-grey-ii fs-xxbig arrow-left">
@@ -136,6 +70,10 @@
 									<a class="tags-list-off">Bases de Datos</a>
 									<a class="tags-list-off">Administraci&oacute;n</a>
 									<a class="tags-list-off">Administraci&oacute;n</a>
+									@if($projectOwner)
+									<a href="#"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar filtros</span></a>
+									@endif
+
 								</div>
 								
 								<div class="fs-med tags-list tags-list-i">
@@ -145,10 +83,11 @@
 									<a class="in-process-off">En proceso</a>
 									<a class="made-off">Terminadas</a>
 								</div>
-
-								<div class=" fs-med common-btn btn-i btn-pink pull-right">
+								@if($projectOwner)
+								<div class=" fs-med common-btn btn-i btn-turquoise pull-right">
 									<i class="fs-big fa fa-plus fa-fw"></i>Agregar tarea
 								</div>
+								@endif
 							</div>	
 							
 							<div class="list-activities-content">
@@ -285,9 +224,11 @@
 										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
 										
 										<div class="activity-options pull-right">
+											@if($projectOwner)
 											<div class="circle activity-option txt-center fs-big fc-turquoise">
 												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
+											</div>
+											@endif									
 											<div class="circle activity-option txt-center fs-big fc-turquoise">
 												<i class="fa fa-comments fa-fw"></i>
 											</div>

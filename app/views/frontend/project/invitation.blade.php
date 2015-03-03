@@ -58,6 +58,10 @@
                           <div class="form-group">
                                <div class="col-md-8 btn-save-invitations common-btn btn-ii btn-turquoise txt-center btn-send-invitations">Guardar</div> 
                           </div>
+
+                          <div class="form-group">
+                             <div class="col-md-8 fc-green"> <a href="#" >Ir al proyecto, deseo enviar invitaciones despu&eacute;s</a></div>
+                          </div>
                          
                           {{Form::close()}}
                       </div>	                              	                               	   				

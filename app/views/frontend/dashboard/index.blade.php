@@ -32,7 +32,7 @@
 							@if(!empty($ownerProjects))
 								@foreach($ownerProjects as $project)
 								<div class="activity">
-									<div class="list-item activity-info">
+									<div data-project-id="{{$project->id}}" class="list-item activity-info project-item">
 										<i class="fc-yellow fa fa-folder-open fa-fw"></i>
 											{{$project->name}}
 									</div>						
@@ -56,7 +56,7 @@
 							@if(!empty($memberProjects))
 								@foreach($memberProjects as $project)
 								<div class="activity">
-									<div class="list-item activity-info">
+									<div data-project-id="{{$project->id}}" class="project-item list-item activity-info">
 										<i class="fc-green fa fa-folder-open fa-fw"></i>
 										{{$project->name}}
 									</div>						
@@ -77,6 +77,21 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.javascript')
+
+	<script>
+
+    $(function() {
+
+      $('.project-item').on('click', function(){
+
+      	projectId = $(this).data('projectId');
+
+      	 window.location.href = projectURL+'/proyecto/detalle/'+projectId;
+
+      })
+
+  	});
+	</script>
 	</body>
 
 </html>

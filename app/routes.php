@@ -37,16 +37,22 @@ Route::any('perfil/{id}', 'UserController@edit');
 
 Route::any('registro/validar/{token}', 'UserController@validateRegister');
 
+Route::any('registro/validar-invitacion/{token}', 'UserController@validateRegisterInvitation');
+
 Route::any('proyecto/crear', 'ProjectController@create');
 
 Route::any('proyecto/invitar', 'ProjectController@invitation');
 
 Route::any('proyecto/validar-invitacion/{token}', 'ProjectController@validateInvitation');
 
-Route::any('proyecto/detalle', 'ProjectController@detail');
+Route::any('proyecto/detalle/{id}', 'ProjectController@detail');
 
 Route::any('proyecto/editar/{id}', 'ProjectController@edit');
 
 Route::any('inicio', 'DashboardController@index');
+
+Route::any('furl', 'ProjectController@friendlyURL');
+
+
 
 

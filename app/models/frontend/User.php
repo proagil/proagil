@@ -25,7 +25,7 @@ class User extends Eloquent{
 
 				->where('user.id', $userId)
 
-				->join('file', 'file.id', '=', 'user.avatar')
+				->leftJoin('file', 'file.id', '=', 'user.avatar')
 
 				->first();
 
@@ -39,7 +39,7 @@ class User extends Eloquent{
 
 				->where('user.email', $email)
 
-				->join('file', 'file.id', '=', 'user.avatar')
+				->leftJoin('file', 'file.id', '=', 'user.avatar')
 
 				->first();
 
@@ -65,6 +65,13 @@ class User extends Eloquent{
 			$roles[$row->id] = $row->name;
 		}
 		return $roles; 
+	}
+
+	public static function getUserRoleOnProject($projectId, $userId){
+		return DB::table('user_belongs_to_project')
+					->where('project_id', $projectId)
+					->where('user_id', $userId)
+					->first();
 	}
 
 	public static function exist($email){
