@@ -26,7 +26,12 @@
                             <label class="col-md-4 title-label control-label" for="textinput">&nbsp;</label>  
                             <div class="col-md-4">
                               <div class="edit-profile-img txt-center">
-                                  <img width="50%" src="{{URL::to('/').'/uploads/'.$values['avatar_file']}}"/>
+                                  @if (isset($values['avatar_file']))
+                                    <img width="50%" src="{{URL::to('/').'/uploads/'.$values['avatar_file']}}"/>
+                                  @else
+                                    <img width="50%" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
+
+                                  @endif
                               </div>
                                   <?= Form::file('avatar', array('id'=>'avatar', 'class' => 'file-upload file-upload-edit', 'title' => 'Cambiar avatar', 'data-filename-placement' => 'inside'))?>
                             </div>

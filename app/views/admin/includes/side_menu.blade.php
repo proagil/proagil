@@ -4,14 +4,14 @@
     <ul class="sidebar-nav">
         <li class="sidebar-brand">
             <a href="#">
-                APPGIL ADMIN
+                PROAGIL ADMIN
             </a>
         </li>
         <li>
-            <a href="#">Inicio</a>
+            <a href="{{URL::action('AdminLoginController@index')}}">Inicio</a>
         </li>
         <li>
-            <a href="">Tipo de Proyecto</a>
+            <a href="{{URL::action('AdminProjectTypeController@enumerate')}}">Tipo de Proyecto</a>
         </li>
     </ul>
 </div>

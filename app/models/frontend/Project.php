@@ -32,25 +32,28 @@ class Project extends Eloquent{
 				  	->first();
 	}
 
-	public static function getProjectArtefacts($projectId){
+	public static function getProjectArtefacts($projectId, $mode=NULL){
 
 		$consult = DB::table('artefact_belongs_to_project AS abtp')
 
-				->select('a.id')
+				->select('a.*')
 
 				->where('abtp.project_id', $projectId)
 
-				->join('artefact AS a', 'a.id', '=', 'abtp.artefact_id')
+				->leftJoin('artefact AS a', 'a.id', '=', 'abtp.artefact_id')
 
 				->get();
 
 		$result = array();
 
-		foreach($consult as $index => $row){
-			$result[$index] = $row->id; 
+		if($mode==NULL){
+
+			foreach($consult as $index => $row){
+				$result[$index] = $row->id; 
+			}			
 		}
 
-		return $result; 
+		return ($mode==NULL)?$result:$consult; 
 
 	}
 

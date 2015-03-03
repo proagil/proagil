@@ -10,7 +10,7 @@
             <div class="col-md-4 col-md-offset-4">
                 <div class="login-panel panel panel-default" style="margin:37% 0 0 0;">
                     <div class="panel-heading">
-                        <h3 class="panel-title">App Name Admin</h3>
+                        <h3 class="panel-title">PROAGIL Admin</h3>
                     </div>
                     @if(isset($error_message))
                     	<div class="alert alert-danger"><i class="glyphicon glyphicon-remove-sign"></i> {{$error_message}}</div>

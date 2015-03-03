@@ -277,11 +277,15 @@ a.login-link:hover  {
 	background-color: #f2f2f2;
 }
 
+.logo-content {
+	width: 21%;
+}
+
 .project-name-content {
 	width: 22%;
 	height: auto;
 	float: left;
-	margin: 1% 0 0 11%;
+	margin-top: 12px;
 }
 
 .user-profile {
@@ -403,10 +407,14 @@ a.login-link:hover  {
 
 .artefact {
 	width: 16%;
-	height: 150px;
+	min-height: 155px;
+	max-height: 155px;
 	background-color: #f2f2f2; 
 	float: left; 
 	margin: 2px; 
+	height: auto;
+ 	float: left;
+ 	overflow: hidden;
 }
 
 .artefact:hover {
@@ -423,6 +431,8 @@ a.login-link:hover  {
 	float: left;
 	width: 100%; 
 	margin: 10% 0 0 3%; 
+	height: auto;
+ 	overflow: hidden;
 }
 
 .artefact-status {
@@ -430,12 +440,15 @@ a.login-link:hover  {
 	width: 20%; 
 	height: auto; 
 	margin: 7% 0 0 0; 
+ 	overflow: hidden;
 }
 
 .artefact-name {
 	float: left;
 	width: 80%; 
 	padding: 4% 0 0 0; 
+	height: auto;
+ 	overflow: hidden;
 }
 
 .filters-content {

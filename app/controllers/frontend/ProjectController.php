@@ -151,16 +151,12 @@ class ProjectController extends BaseController {
                       'token'         => md5($email.date('H:i:s'))
                   );
 
-                  // if
                   if(User::saveInvitation($userInvitation)>0){
 
                     // verify if users email already exist on DB
                     $savedUser = (array) User::getUserByEmail($email);
 
-                    //if
                       if(!empty($savedUser)){
-
-                      // send email with validation
 
                         // create email data
                         $emailData = array(
@@ -169,7 +165,7 @@ class ProjectController extends BaseController {
 
                         );
 
-                        // send email to activate account
+                        // send email with invitation to registered user
                         Mail::send('frontend.email_templates.validateInvitation', 
 
                         $emailData, 
@@ -177,29 +173,44 @@ class ProjectController extends BaseController {
                         function($message) use ($email){
 
                           $message->to($email);
-                          $message->subject('Invitación a formar parte de un proyecto');
+                          $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
                         }); 
-
-                          // save sucess invitation
-                          Session::flash('success_message', 'Se han enviado las invitaciones a los correos indicados'); 
-
-                         return Redirect::to(URL::action('DashboardController@index'));
 
                       
                         }else{
 
-                          // send email with resgistration
+                          // create email data
+                          $emailData = array(
+                            'user_name'     => $email,
+                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
 
-                          // - - -
+                          );                          
 
-                          // TODO
+                            // send email with invitation to unregistered user
+                            Mail::send('frontend.email_templates.validateInvitation', 
+
+                            $emailData, 
+
+                            function($message) use ($email){
+
+                              $message->to($email);
+                              $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                            });                         
+
                         }
+
+                          Session::flash('success_message', 'Se han enviado las invitaciones a los correos indicados'); 
+
+                          return Redirect::to(URL::action('DashboardController@index'));
+
                       }
 
                     } //end foreach
 
               }else{
-                 return View::make('frontend.project.invitation')->withErrors($validator)->with('values', $values);
+                 return View::make('frontend.project.invitation')
+                            ->withErrors($validator)
+                            ->with('values', $values);
 
               }
 
@@ -256,10 +267,10 @@ class ProjectController extends BaseController {
   public function edit($projectId){
 
       // get view data
-      $artefacts = Artefact::enumerate(); 
-      $projectTypes = Project::selectProjectTypes(); 
-      $project = Project::get($projectId); 
-      $projectArtefacts = Project::getProjectArtefacts($projectId); 
+      $artefacts = (array) Artefact::enumerate(); 
+      $projectTypes = (array) Project::selectProjectTypes(); 
+      $project = (array) Project::get($projectId); 
+      $projectArtefacts = (array) Project::getProjectArtefacts($projectId); 
       $values =  (array) $project;
 
       // - -
@@ -365,9 +376,47 @@ class ProjectController extends BaseController {
 
   }
 
-  public function detail(){
+  public function detail($projectId){
 
-    return View::make('frontend.project.detail')->with('projectDetail', TRUE); 
+    $user = Session::get('user'); 
+    $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
+
+    if(empty($userRole)){
+
+      return Redirect::to(URL::action('DashboardController@index'));  
+
+    }else{
+          // get project data
+          $project = (array) Project::get($projectId);
+          $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
+
+          return View::make('frontend.project.detail')
+                ->with('projectDetail', TRUE) 
+                ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+                ->with('project', $project)
+                ->with('projectArtefacts', $projectArtefacts);
+
+    }
+
+
   }
+
+function friendlyURL() {
+  $str= 'Análisis de sistemas Existentes Evaluación';
+
+  $delimiter='-'; 
+
+  if( !empty($replace) ) {
+    $str = str_replace((array)$replace, ' ', $str);
+  }
+
+  $clean = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+  $clean = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $clean);
+  $clean = strtolower(trim($clean, '-'));
+  $clean = preg_replace("/[\/_|+ -]+/", $delimiter, $clean);
+
+  return $clean;
+
+}
 
 }

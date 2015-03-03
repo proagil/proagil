@@ -24,61 +24,70 @@ class UserController extends BaseController {
            	if(!$validator->fails()){
 
            		// validate email doesn't exist on DB
+				if(!empty(User::getUserByEmail($values['email']))){
+	                
+	                 return View::make('frontend.user.register')
+	                 			->withErrors($validator)
+	                 			->with('values', $values)
+	                 			->with('error_message', 'El correo electr&oacute;nico especificado ya est&aacute; registrado');
 
-           		// --- TODO
+				}else{
 
-	           	// get user avatar
-	           	$avatar = Input::file('avatar');
+		           	// get user avatar
+		           	$avatar = Input::file('avatar');
 
-	           	if($avatar!=NULL){
+		           	if($avatar!=NULL){
 
-	           		// save user avatar
-	           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
-	           	}
+		           		// save user avatar
+		           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
+		           	}
 
-              $user = array(
-                'first_name'      	=> $values['first_name'],
-                'last_name'       	=> $values['last_name'],
-                'email'           	=> $values['email'],
-                'avatar'			=> (isset($imageId))?$imageId:'',
-                'password'        	=> md5($values['password']),
-                'enabled'		  	=> Config::get('constant.NOT_ENABLED'),
-                'token'				=> md5($values['email'].date('H:i:s'))
-              );
+	              $user = array(
+	                'first_name'      	=> $values['first_name'],
+	                'last_name'       	=> $values['last_name'],
+	                'email'           	=> $values['email'],
+	                'avatar'			=> (isset($imageId))?$imageId:NULL,
+	                'password'        	=> md5($values['password']),
+	                'enabled'		  	=> Config::get('constant.NOT_ENABLED'),
+	                'token'				=> md5($values['email'].date('H:i:s'))
+	              );
 
-              // insert user on DB
-              if(User::insert($user)>0){
+	              // insert user on DB
+	              if(User::insert($user)>0){
 
-              	// create email data
-              	$emailData = array(
-              		'user_name'			=> $user['first_name'],
-              		'url_token'			=> URL::to('/'). '/registro/validar/'. $user['token']
+	              	// create email data
+	              	$emailData = array(
+	              		'user_name'			=> $user['first_name'],
+	              		'url_token'			=> URL::to('/'). '/registro/validar/'. $user['token']
 
-              	);
+	              	);
 
-				// send email to activate account
-              	Mail::send('frontend.email_templates.register', 
+					// send email to activate account
+	              	Mail::send('frontend.email_templates.register', 
 
-              	$emailData, 
+	              	$emailData, 
 
-              	function($message) use ($user){
+	              	function($message) use ($user){
 
-        			$message->to($user['email']);
-        			$message->subject('Confirmar registro');
-    			});
+	        			$message->to($user['email']);
+	        			$message->subject('Confirmar registro');
+	    			});
 
 
-                Session::flash('success_register', 'Se ha registrado exitosamente, revise su correo para validar el registro'); 
-                
-                return Redirect::to(URL::action('LoginController@index'));
+	                Session::flash('success_register', 'Se ha registrado exitosamente, revise su correo para validar el registro'); 
+	                
+	                return Redirect::to(URL::action('LoginController@index'));
 
-              }else{
+	              }else{
 
-                 return View::make('frontend.user.register')
-                 			->with('error_message', 'No se pudo realizar el registro')
-                 			->with('values', $values);
-                
-              }
+	                 return View::make('frontend.user.register')
+	                 			->with('error_message', 'No se pudo realizar el registro')
+	                 			->with('values', $values);
+	                
+	              }					
+
+				}
+
 
            	}else{
 
@@ -107,17 +116,162 @@ class UserController extends BaseController {
 			);
 
 			if(User::_update($userValues->id, $user)){
-				return Redirect::to('/');
+
+				// get user register invitation and insert user on project
+				if(Session::get('project_invitation')!=NULL){
+
+					$invitation = Session::get('project_invitation');
+
+			        $userRole = array(
+
+			          'user_role_id'        => $invitation['user_role_id'],
+			          'project_id'          => $invitation['project_id'],
+			          'user_id'             => $userValues->id
+
+			        );
+
+			        // get project name
+
+			        // -- 
+
+			        // --
+
+			        // TODO
+
+			        // save user as project member
+			        User::userBelongsToProject($userRole);    
+
+			        Session::flash('success_message', 'Ya eres parte del proyecto XXXX. Inicia sesi&oacute;n para acceder a &eacute;l'); 					
+
+				}else{
+
+					Session::flash('success_message', 'Se ha validado tu correo electr&oacute;nico. Ya puedes iniciar sesi&oacute;'); 					
+
+				}
+
+					return Redirect::to(URL::action('LoginController@index'));
 			}
 
 
 		}else{
-			//FIXME!!!
-			// - - -
-			// redirect
-			echo 'token invalido'; 
+ 			
+ 			return Redirect::to(URL::action('LoginController@index'));
 		}
 
+
+	}
+
+	public function validateRegisterInvitation($token) {
+
+		$invitation = (array) User::getInvitationByToken($token);
+
+	    if(empty($invitation)){
+
+	        return Redirect::to(URL::action('LoginController@index'));
+
+	    }else{
+
+	    		// save invitation on session
+		    	Session::put('project_invitation', $invitation);
+
+			if(Input::has('_token')){
+
+		        // validation rules
+		        $rules =  array(
+		          'first_name'         	=> 'required',
+		          'last_name'          	=> 'required',
+		          'email'				=> 'required|email',
+		          'password'           	=> 'required',
+		          'repeat_password'    	=> 'required|same:password'
+		        );
+
+		        // set validation rules to input values
+		        $validator = Validator::make(Input::get('values'), $rules);
+
+		        // get input valiues
+		        $values = Input::get('values');
+
+	           	if(!$validator->fails()){
+
+	           		// validate email doesn't exist on DB
+					if(!empty(User::getUserByEmail($values['email']))){
+		                
+		                 return View::make('frontend.user.register')
+		                 			->withErrors($validator)
+		                 			->with('values', $values)
+		                 			->with('error_message', 'El correo electr&oacute;nico especificado ya est&aacute; registrado');
+
+					}else{
+
+			           	// get user avatar
+			           	$avatar = Input::file('avatar');
+
+			           	if($avatar!=NULL){
+
+			           		// save user avatar
+			           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
+			           	}
+
+		              $user = array(
+		                'first_name'      	=> $values['first_name'],
+		                'last_name'       	=> $values['last_name'],
+		                'email'           	=> $values['email'],
+		                'avatar'			=> (isset($imageId))?$imageId:NULL,
+		                'password'        	=> md5($values['password']),
+		                'enabled'		  	=> Config::get('constant.NOT_ENABLED'),
+		                'token'				=> md5($values['email'].date('H:i:s'))
+		              );
+
+		              // insert user on DB
+		              if(User::insert($user)>0){
+
+		              	// create email data
+		              	$emailData = array(
+		              		'user_name'			=> $user['first_name'],
+		              		'url_token'			=> URL::to('/'). '/registro/validar/'. $user['token']
+
+		              	);
+
+						// send email to activate account
+		              	Mail::send('frontend.email_templates.register', 
+
+		              	$emailData, 
+
+		              	function($message) use ($user){
+
+		        			$message->to($user['email']);
+		        			$message->subject('Confirmar registro');
+		    			});
+
+
+		                Session::flash('success_register', 'Se ha registrado exitosamente, revise su correo para validar el registro'); 
+		                
+		                return Redirect::to(URL::action('LoginController@index'));
+
+		              }else{
+
+		                 return View::make('frontend.user.register')
+		                 			->with('error_message', 'No se pudo realizar el registro')
+		                 			->with('values', $values);
+		                
+		              }					
+
+					}
+
+
+	           	}else{
+
+	              return View::make('frontend.user.registerInvitation')->withErrors($validator)->with('values', $values);
+
+	           	}
+
+		      }else{
+
+		        // render view first time 
+		        return View::make('frontend.user.registerInvitation')->with('values', $invitation);
+		      }
+
+	    }
 
 	}
 
