@@ -90,6 +90,25 @@ class Project extends Eloquent{
 
 	}
 
+	public static function getUsersOnProject($projectId, $ownerId){
+
+		return DB::table('user_belongs_to_project AS ubtp')
+
+			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id')
+
+			->where('ubtp.project_id', $projectId)
+
+			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
+
+			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
+
+			->whereNotIn('u.id', array($ownerId))
+
+			->get();
+
+
+	}
+
 
 }
 

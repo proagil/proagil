@@ -59,8 +59,17 @@ $(function() {
 
         return false;
 
-    });      
-    
+    });  
+
+    // EDIT PROJECT
+    $('.btn-edit-project').on('click', function(){
+
+        $('#form-edit-project').submit();
+
+        return false;
+
+    });           
+  
     
     // DASHBOARD: show/hide section (artefacts or activities)
     $('.section-arrow').on('click', function(){

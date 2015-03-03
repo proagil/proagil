@@ -223,6 +223,118 @@ class ProjectController extends BaseController {
 
   }
 
+  public function editInvitation($projectId) {
+
+      $userRoles = User::getRoles(); 
+      $usersOnProject = (array) Project::getUsersOnProject($projectId, Session::get('user')['id']);
+      $project = (array) Project::get($projectId); 
+
+      if(Input::has('_token')) {
+
+        // get data from post input
+        $invitations = Input::get('new_invitations');
+
+        // create validation rules array
+        $rules = array();  
+        foreach($invitations['email'] as $index => $invitation){
+          $rules['email.'.$index] = 'required|email';
+          $rules['role.'.$index] = 'required';
+        }
+
+        // validate
+        $validator = Validator::make($invitations, $rules);
+
+           // if validator fails
+           if(!$validator->fails()){
+
+                // get invitations 
+                foreach($invitations['email'] as $index => $email){
+
+                  $userInvitation = array(
+                      'email'         => $email,
+                      'project_id'    => $projectId,
+                      'user_role_id'  => $invitations['role'][$index],
+                      'token'         => md5($email.date('H:i:s'))
+                  );
+
+                  if(User::saveInvitation($userInvitation)>0){
+
+                    // verify if users email already exist on DB
+                    $savedUser = (array) User::getUserByEmail($email);
+
+                      if(!empty($savedUser)){
+
+                        // create email data
+                        $emailData = array(
+                          'user_name'     => $savedUser['first_name'],
+                          'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+
+                        );
+
+                        // send email with invitation to registered user
+                        Mail::send('frontend.email_templates.validateInvitation', 
+
+                        $emailData, 
+
+                        function($message) use ($email){
+
+                          $message->to($email);
+                          $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
+                        }); 
+
+                      
+                        }else{
+
+                          // create email data
+                          $emailData = array(
+                            'user_name'     => $email,
+                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
+
+                          );                          
+
+                            // send email with invitation to unregistered user
+                            Mail::send('frontend.email_templates.validateInvitation', 
+
+                            $emailData, 
+
+                            function($message) use ($email){
+
+                              $message->to($email);
+                              $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                            });                         
+
+                        }
+
+                          Session::flash('success_message', 'Se han enviado las invitaciones a los correos indicados'); 
+
+                          return Redirect::to(URL::action('DashboardController@index'));
+
+                      }
+
+                    } //end foreach
+
+              }else{
+                 return View::make('frontend.project.editInvitation')
+                            ->withErrors($validator)
+                            ->with('values', $values)
+                            ->with('project', $project);
+
+              }
+
+        }else{       
+
+          // first time 
+          return View::make('frontend.project.editInvitation')
+                       ->with('userRoles', $userRoles)
+                       ->with('projectId', $projectId)
+                       ->with('usersOnProject', $usersOnProject)
+                       ->with('project', $project);
+        }
+      
+
+
+  }
+
   public function validateInvitation($token){
 
     $invitation = (array) User::getInvitationByToken($token);
@@ -273,11 +385,6 @@ class ProjectController extends BaseController {
       $projectArtefacts = (array) Project::getProjectArtefacts($projectId); 
       $values =  (array) $project;
 
-      // - -
-
-      // TODO: get users on project
-
-      // - -
 
     if(Input::has('_token')){
 
@@ -326,13 +433,7 @@ class ProjectController extends BaseController {
 
                 }
 
-                //- - -
-
-                //send invitations with user emails
-
-                //- - -
-
-                // return to dashboard view
+                 return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
 
 
               }else{

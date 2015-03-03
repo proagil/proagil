@@ -50,7 +50,7 @@
 
 					@if(isset($projectDetail) && $projectDetail && $projectOwner)
 					<li class="btn-sidebar">
-						<a class="fc-grey-iv" href="{{URL::action('ProjectController@edit', array($project['id']))}}"><i class="fc-turquoise fs-big fa fa-users"></i> Invitar a colaboradores</a>
+						<a class="fc-grey-iv" href="{{URL::action('ProjectController@editInvitation', array($project['id']))}}"><i class="fc-turquoise fs-big fa fa-users"></i> Invitar a colaboradores</a>
 					</li>	
 					@endif												
 				</ul>

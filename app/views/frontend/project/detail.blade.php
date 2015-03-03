@@ -85,7 +85,7 @@
 								</div>
 								@if($projectOwner)
 								<div class=" fs-med common-btn btn-i btn-turquoise pull-right">
-									<i class="fs-big fa fa-plus fa-fw"></i>Agregar tarea
+									<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
 								</div>
 								@endif
 							</div>	

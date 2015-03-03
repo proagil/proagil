@@ -15,7 +15,7 @@
 						<div class="activities-content">
 
 		                	@if (Session::has('success_message'))
-		                		<div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
 		                	@endif							
 
 							

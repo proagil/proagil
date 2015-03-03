@@ -57,9 +57,6 @@ class AdminLoginController extends AdminBaseController {
       }
 
 
-
-
-
 	}
 
 	public function logout(){

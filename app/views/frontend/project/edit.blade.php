@@ -26,7 +26,7 @@
         							</div>
 
                       <div class="form-content">
-						          {{ Form::open(array('action' => array('ProjectController@edit', $projectId)))}}
+						          {{ Form::open(array('action' => array('ProjectController@edit', $projectId), 'id' => 'form-edit-project'))}}
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre</label>  
                             <div class="col-md-4">
@@ -53,7 +53,7 @@
                             </div>
                           </div> 
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Artefacto a incluir</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Artefactos del proyecto</label>  
                             <div class="col-md-4">
                               @if (!is_null($artefacts))
                                 @foreach($artefacts as $artefact)
@@ -67,7 +67,7 @@
                           </div>                                                    
 
                           <div class="form-group">
-                               <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-create-project">Guardar</div> 
+                               <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-edit-project">Guardar</div> 
                           </div>
                          
                           {{Form::close()}}

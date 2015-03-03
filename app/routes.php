@@ -43,11 +43,13 @@ Route::any('proyecto/crear', 'ProjectController@create');
 
 Route::any('proyecto/invitar', 'ProjectController@invitation');
 
+Route::any('proyecto/editar-invitaciones/{project_id}', 'ProjectController@editInvitation');
+
 Route::any('proyecto/validar-invitacion/{token}', 'ProjectController@validateInvitation');
 
-Route::any('proyecto/detalle/{id}', 'ProjectController@detail');
+Route::any('proyecto/detalle/{project_id}', 'ProjectController@detail');
 
-Route::any('proyecto/editar/{id}', 'ProjectController@edit');
+Route::any('proyecto/editar/{project_id}', 'ProjectController@edit');
 
 Route::any('inicio', 'DashboardController@index');
 
