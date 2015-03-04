@@ -12,15 +12,29 @@ a, a:hover  {
 
 body {
     background-color: #ffffff;
-	font-family: 'Exo', sans-serif;
+	font-family:  'cabin_condensedregular', sans-serif;
 }
 
-.exo {
-	font-family: 'Exo', sans-serif;
+.cabin {
+	font-family: 'cabin_condensedregular', sans-serif;
 }
 
 .hidden {
 	display: none; 
+}
+
+ /* --- FONTS include -------------------------------------------------*/
+
+@font-face {
+    font-family: 'cabin_condensedregular';
+    src: url('/fonts/CabinCondensed-Regular-webfont.eot');
+    src: url('/fonts/CabinCondensed-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/CabinCondensed-Regular-webfont.woff2') format('woff2'),
+         url('/fonts/CabinCondensed-Regular-webfont.woff') format('woff'),
+         url('/fonts/CabinCondensed-Regular-webfont.ttf') format('truetype'),
+         url('/fonts/CabinCondensed-Regular-webfont.svg#cabin_condensedregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
 }
 
 /*-------------------------------------------
@@ -28,23 +42,23 @@ body {
  -------------------------------------------*/
  
 .fs-min {
-	font-size: 10px; 
+	font-size: 13px; 
 }
  
  .fs-med {
-	font-size: 14px; 
+	font-size: 16px; 
 }
  
 .fs-big {
-	font-size: 20px; 
+	font-size: 22px; 
 }
 
 .fs-xbig {
-	font-size: 24px; 
+	font-size: 26px; 
 }
 
 .fs-xxbig {
-	font-size: 26px; 
+	font-size: 30px; 
 }
  
 /*-------------------------------------------
@@ -221,6 +235,11 @@ body {
 	border-color: #ccc; 
 	box-shadow: none; 
 	float: left;
+}
+
+.category-input {
+	width: 80%; 
+
 }
 
 a.login-link {
@@ -445,7 +464,7 @@ a.login-link:hover  {
 
 .artefact-name {
 	float: left;
-	width: 80%; 
+	width: 78%; 
 	padding: 4% 0 0 0; 
 	height: auto;
  	overflow: hidden;

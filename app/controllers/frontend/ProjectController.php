@@ -65,6 +65,22 @@ class ProjectController extends BaseController {
 
                 }
 
+                //save project activity categories
+                if(isset($values['category'])) {
+
+                  foreach($values['category'] as $index => $category){
+
+                      $activityCategory = array(
+                        'name'        => $category,
+                        'project_id'  => $projectId
+                      );
+
+                      ActivityCategory::insert($activityCategory);
+
+                  }              
+
+                }
+
                 // get user on session
                 $user = Session::get('user');
 
@@ -231,47 +247,72 @@ class ProjectController extends BaseController {
 
       if(Input::has('_token')) {
 
-        // get data from post input
-        $invitations = Input::get('new_invitations');
+          // update user role on project
+          if(Input::get('invitations')!=NULL){
 
-        // create validation rules array
-        $rules = array();  
-        foreach($invitations['email'] as $index => $invitation){
-          $rules['email.'.$index] = 'required|email';
-          $rules['role.'.$index] = 'required';
-        }
+              $savedInvitations = Input::get('invitations');
 
-        // validate
-        $validator = Validator::make($invitations, $rules);
+              foreach($savedInvitations['role'] as $id => $savedInvitation) {
 
-           // if validator fails
-           if(!$validator->fails()){
+                $newUserRole = array(
+                  'user_role_id'  => $savedInvitation
+                );
 
-                // get invitations 
-                foreach($invitations['email'] as $index => $email){
+                User::EditUserBelongsToProject($id, $projectId, $newUserRole);
 
-                  $userInvitation = array(
-                      'email'         => $email,
-                      'project_id'    => $projectId,
-                      'user_role_id'  => $invitations['role'][$index],
-                      'token'         => md5($email.date('H:i:s'))
-                  );
+              }
+          }
 
-                  if(User::saveInvitation($userInvitation)>0){
+          // save new invitations
+          if(Input::get('new_invitations')!=NULL){
 
-                    // verify if users email already exist on DB
-                    $savedUser = (array) User::getUserByEmail($email);
+            $invitations = Input::get('new_invitations');
 
-                      if(!empty($savedUser)){
+            foreach($invitations['email'] as $index => $email){
 
-                        // create email data
-                        $emailData = array(
-                          'user_name'     => $savedUser['first_name'],
-                          'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+              $userInvitation = array(
+                  'email'         => $email,
+                  'project_id'    => $projectId,
+                  'user_role_id'  => $invitations['role'][$index],
+                  'token'         => md5($email.date('H:i:s'))
+              );
 
-                        );
+              if(User::saveInvitation($userInvitation)>0){
 
-                        // send email with invitation to registered user
+                // verify if users email already exist on DB
+                $savedUser = (array) User::getUserByEmail($email);
+
+                  if(!empty($savedUser)){
+
+                    // create email data
+                    $emailData = array(
+                      'user_name'     => $savedUser['first_name'],
+                      'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+
+                    );
+
+                    // send email with invitation to registered user
+                    Mail::send('frontend.email_templates.validateInvitation', 
+
+                    $emailData, 
+
+                    function($message) use ($email){
+
+                      $message->to($email);
+                      $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
+                    }); 
+
+                  
+                    }else{
+
+                      // create email data
+                      $emailData = array(
+                        'user_name'     => $email,
+                        'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
+
+                      );                          
+
+                        // send email with invitation to unregistered user
                         Mail::send('frontend.email_templates.validateInvitation', 
 
                         $emailData, 
@@ -279,47 +320,25 @@ class ProjectController extends BaseController {
                         function($message) use ($email){
 
                           $message->to($email);
-                          $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
-                        }); 
+                          $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                        });                         
 
-                      
-                        }else{
+                    }
 
-                          // create email data
-                          $emailData = array(
-                            'user_name'     => $email,
-                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
+                  }
 
-                          );                          
-
-                            // send email with invitation to unregistered user
-                            Mail::send('frontend.email_templates.validateInvitation', 
-
-                            $emailData, 
-
-                            function($message) use ($email){
-
-                              $message->to($email);
-                              $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
-                            });                         
-
-                        }
-
-                          Session::flash('success_message', 'Se han enviado las invitaciones a los correos indicados'); 
-
-                          return Redirect::to(URL::action('DashboardController@index'));
-
-                      }
-
-                    } //end foreach
-
-              }else{
-                 return View::make('frontend.project.editInvitation')
-                            ->withErrors($validator)
-                            ->with('values', $values)
-                            ->with('project', $project);
-
+                } 
               }
+
+              // FIXME
+
+              // - - - PROJECT NAME
+
+              // - - 
+
+              Session::flash('success_message', 'Se han modificado las invitaciones del proyecto XXXXX'); 
+
+              return Redirect::to(URL::action('DashboardController@index'));
 
         }else{       
 
@@ -373,6 +392,27 @@ class ProjectController extends BaseController {
         return Redirect::to(URL::action('DashboardController@index'));  
 
     }
+
+  }
+
+  public function deleteUserOnProject($userId, $projectId){
+
+    if(User::deleteUserOnProject($userId, $projectId)){
+
+      $result = array(
+          'error'     => false
+      );
+
+    }else{
+
+      $result = array(
+          'error'     => true
+      );
+
+    }
+      header('Content-Type: application/json');
+      return Response::json($result);
+
 
   }
 
@@ -490,17 +530,22 @@ class ProjectController extends BaseController {
           // get project data
           $project = (array) Project::get($projectId);
           $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
+          $ownerProjects = Project::getOwnerProjects($user['id']);
+          $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
+          $activityCategories = (array) ActivityCategory::get($projectId);
 
           return View::make('frontend.project.detail')
                 ->with('projectDetail', TRUE) 
                 ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
                 ->with('project', $project)
-                ->with('projectArtefacts', $projectArtefacts);
+                ->with('projectArtefacts', $projectArtefacts)
+                ->with('activityCategories', $activityCategories)
+                ->with('ownerProjects', $ownerProjects); 
 
     }
 
-
   }
+
 
 function friendlyURL() {
   $str= 'Análisis de sistemas Existentes Evaluación';

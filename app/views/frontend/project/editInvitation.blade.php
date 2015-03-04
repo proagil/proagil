@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Editar Invitaciones
+        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Invitar a colaboradores
         							</div>
 
                       @if (Session::has('success_message'))
@@ -22,20 +22,20 @@
                       @endif    
 
         							<div class="section-title fc-blue-iii fs-big">
-        								Editar Invitaciones
+        								Invitar a colaboradores
         							</div>
 
                       <div class="form-content">
                         {{ Form::open(array('action' => array('ProjectController@editInvitation', $projectId), 'id' => 'form-send-invitations')) }}							
                           <div class="all-invitation-content">
                           @foreach($usersOnProject as $index => $userOnProject)
-                            <div class="invitation-content user-invitation-{{$index}}">
+                            <div class="invitation-content user-saved-invitation-{{$userOnProject->id}}">
                               <div class="form-group">
                                 <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
                                 <div class="col-md-8">
-                                  {{ Form::text('invitations[email][]', (isset($userOnProject->email))?$userOnProject->email:'', array('placeholder' => 'Correo electr&oacute;nico', 'class'=>'form-control app-input-invitation invitation-email app-input')) }}
-                                  {{ Form::select('invitations[role][]', $userRoles, $userOnProject->user_role_id , array('class'=>'form-control app-input-invitation app-input')) }}
-                                  <div data-invitation-id="{{$index}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">
+                                  <div class=" app-input-invitation app-input">{{$userOnProject->email}}</div>
+                                  {{ Form::select('invitations[role]['.$userOnProject->id.']', $userRoles, $userOnProject->user_role_id , array('class'=>'form-control app-input-invitation app-input')) }}
+                                  <div data-user-id="{{$userOnProject->id}}" data-project-id="{{$projectId}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">
                                     <i class="fa fa-minus fa-fw"></i>
                                   </div>
                                   <br><br>
@@ -101,7 +101,7 @@
                                           });
                                   
                       htmlInvitation += '</select>'+
-                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">'+
+                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-new-invitation circle activity-option txt-center fs-big fc-turquoise">'+
                                         '<i class="fa fa-minus fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
@@ -119,21 +119,35 @@
         // DELETE USER INVITATION FROM DB 
         $(document).on('click', '.btn-delete-invitation', function(){
 
-           var invitationId = $(this).data('invitationId'); 
+           var userId = $(this).data('userId'),
+               projectId = $(this).data('projectId');  
 
-          if(confirm('Realmente desea eliminar el usuario seleccionado del proyecto')){
+          if(confirm('Realmente desea eliminar al usuario asociado al proyecto')){
 
-           $(document).find('.user-invitation-'+invitationId).fadeOut('slow', 
-              function() { 
-                $(this).remove()
-              });            
+            $.ajax({
+                url: projectURL+'/proyecto/eliminar-usuario/'+userId+'/'+projectId,
+                type:'GET',
+                dataType: 'JSON',
+                success:function (response) {
+
+                    if(!response.error){
+
+                     $(document).find('.user-saved-invitation-'+userId).fadeOut('slow', 
+                        function() { 
+                          $(this).remove()
+                        });                      
+
+                    }
+                },
+                error: function(xhr, error) {
+
+                }
+            });
 
           }
          
-
         });
       
-
         // DELETE USER INVITATION FROM DOM 
         $(document).on('click', '.btn-delete-new-invitation', function(){
 

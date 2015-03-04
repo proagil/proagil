@@ -1,5 +1,8 @@
 $(function() {
 
+    //GENERIC: tooltip
+    $('[data-toggle="popover"]').popover();
+
     //GENERIC: remove all active classes on load
     var active = $('.active'); 
     
@@ -47,15 +50,6 @@ $(function() {
     $('.btn-edit-user-profile').on('click', function(){
 
         $('#form-edit-user-profile').submit();
-
-        return false;
-
-    });  
-
-    // CREATE PROJECT
-    $('.btn-create-project').on('click', function(){
-
-        $('#form-create-project').submit();
 
         return false;
 

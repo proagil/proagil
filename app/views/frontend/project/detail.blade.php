@@ -64,14 +64,16 @@
 								</div>							
 							
 								<div class="fs-med tags-list">
-									<span class="fs-big fc-pink fa fa-filter fa-fw"></span><span class="f-bold">Filtros </span>
-									
-									<a class="tags-list-off">Dise&ntilde;o</a>
-									<a class="tags-list-off">Bases de Datos</a>
-									<a class="tags-list-off">Administraci&oacute;n</a>
-									<a class="tags-list-off">Administraci&oacute;n</a>
+									<span class="fs-big fc-pink fa fa-filter fa-fw"></span><span class="f-bold">Categor&iacute;a </span>
+
+									@if(!empty($activityCategories))
+										@foreach($activityCategories as $activityCategory)
+											<a href="#" data-category-id="{{$activityCategory->id}}" class="tags-list-off">{{$activityCategory->name}}</a>
+										@endforeach
+									@endif
+
 									@if($projectOwner)
-									<a href="#"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar filtros</span></a>
+									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar categor&iacute;as</span></a>
 									@endif
 
 								</div>

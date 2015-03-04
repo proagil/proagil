@@ -36,8 +36,6 @@ class AdminProjectType extends Eloquent{
 
 		}
 
-		
-
 	}
 
 }

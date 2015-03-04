@@ -55,6 +55,31 @@ class User extends Eloquent{
 		return DB::table('user_belongs_to_project')->insertGetId($values);
 	}
 
+	public static function EditUserBelongsToProject($userId, $projectId, $values){
+		
+		return DB::table('user_belongs_to_project')
+					->where('user_id', $userId)
+					->where('project_id', $projectId)
+					->update($values);
+	}
+
+	public static function deleteUserOnProject($userId, $projectId){
+
+		try{
+
+			return DB::table('user_belongs_to_project')
+					->where('user_id', $userId)
+					->where('project_id', $projectId)
+					->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}	
+
 	public static function getRoles(){
 
 		$result =  DB::table('user_role')->where('enabled', TRUE)->get();

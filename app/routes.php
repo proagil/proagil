@@ -45,11 +45,17 @@ Route::any('proyecto/invitar', 'ProjectController@invitation');
 
 Route::any('proyecto/editar-invitaciones/{project_id}', 'ProjectController@editInvitation');
 
+Route::any('proyecto/eliminar-usuario/{user_id}/{project_id}', 'ProjectController@deleteUserOnProject');
+
 Route::any('proyecto/validar-invitacion/{token}', 'ProjectController@validateInvitation');
 
 Route::any('proyecto/detalle/{project_id}', 'ProjectController@detail');
 
 Route::any('proyecto/editar/{project_id}', 'ProjectController@edit');
+
+Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
+
+Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
 Route::any('inicio', 'DashboardController@index');
 
