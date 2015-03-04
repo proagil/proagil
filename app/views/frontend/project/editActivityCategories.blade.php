@@ -14,65 +14,28 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> Crear Proyecto
+        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Configurar categor&iacute;as
         							</div>
 
                       @if (Session::has('success_message'))
-                        <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-                      @endif                          
-        							
-                      <div class="section-title fc-blue-iii fs-big">
-        								Crear Proyecto
+                        <div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+                      @endif    
+
+        							<div class="section-title fc-blue-iii fs-big">
+        								Configurar categor&iacute;as
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('ProjectController@create'), 'id' => 'form-create-project')) }}							
-                          <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre</label>  
-                            <div class="col-md-4">
-                              {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input')) }}
-
-                              <label class="error fc-pink fs-min" style="display:none;"></label>
-                              <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n</label>  
-                            <div class="col-md-4">
-                              {{ Form::textarea('values[description]', (isset($values['description']))?$values['description']:'', array('class'=>'form-control app-input', 'rows' => '3')) }}
-                              <label class="error fc-pink fs-min" style="display:none;"></label>
-                              <span class="error fc-pink fs-min"><?= ($errors->has('description'))?$errors->first('description'):''?></span>  
-                            </div>
-                          </div>
-                          <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Tipo de proyecto</label>  
-                            <div class="col-md-4">
-                              {{ Form::select('values[project_type]', $projectTypes, NULL , array('class'=>'form-control app-input')) }}
-                              <label class="error fc-pink fs-min" style="display:none;"></label>
-                              <span class="error fc-pink fs-min"><?= ($errors->has('project_type'))?$errors->first('project_type'):''?></span>  
-                            </div>
-                          </div> 
-                          <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Artefacto a incluir</label>  
-                            <div class="col-md-4">
-                              @if (!is_null($artefacts))
-                                @foreach($artefacts as $artefact)
-
-                                  {{Form::checkbox('values[artefacts][]', $artefact->id, FALSE) }} 
-                                  <label> {{ $artefact->name }} </label> <br>
-
-                                @endforeach
-                              @endif                              
-                            </div>
-                          </div> 
+                        {{ Form::open(array('action' => array('ActivityCategoryController@edit', $projectId), 'id' => 'form-edit-categories')) }}							
+                         
                           <div class="categories-content">
-                            @if (isset($values['category']))
-                               @foreach($values['category'] as $index => $category)
-                              <div class="form-group project-category-{{$index}}">
+                            @if (isset($categories))
+                               @foreach($categories as $index => $category)
+                              <div class="form-group project-saved-category-{{$category->id}}">
                                 <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a </label>  
                                 <div class="col-md-4">
-                                    {{ Form::text('values[category][]', $category, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
-                                    <div data-category-id="{{$index}}" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">
+                                    {{ Form::text('values[category]['.$category->id. ']', $category->name, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
+                                    <div data-category-id="{{$category->id}}" data-project-id="{{$projectId}}" class="btn-delete-saved-invitation circle activity-option txt-center fs-big fc-turquoise">
                                       <i class="fa fa-minus fa-fw"></i>
                                     </div> 
                                     <br><br>
@@ -94,10 +57,10 @@
                               <span class="fc-turquoise fs-min">Hacer clic para agregar categor&iacute;a de actividades<i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="top" data-content="Las categor&iacute;as le permiten clasificar las actividades de su proyecto" class="fc-turquoise fa fa-info-circle fa-fw"></i></span> 
 
                             </div> 
-                          </div>                                                                                                           
+                          </div>   
 
                           <div class="form-group">
-                               <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-create-project">Guardar</div> 
+                               <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-edit-categories">Guardar</div> 
                           </div>
                          
                           {{Form::close()}}
@@ -112,7 +75,7 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.javascript')
+	 @include('frontend.includes.javascript')
 
     <script>
 
@@ -128,7 +91,7 @@
             htmlCategories +=  '<div class="form-group project-category-'+categoryCount+'" style="display:none">'+
                                   '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>'+
                                     '<div class="col-md-4">'+
-                                        '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[category][]" type="text">'+
+                                        '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[new_category][]" type="text">'+
                                       '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">'+
                                         '<i class="fa fa-minus fa-fw"></i>'+
                                       '</div>'+
@@ -143,6 +106,40 @@
 
           });
 
+
+        // DELETE SAVED CATEGORY FROM DB 
+        $(document).on('click', '.btn-delete-saved-invitation', function(){
+
+           var categoryId = $(this).data('categoryId'); 
+               projectId = $(this).data('projectId'); 
+
+          if(confirm('Realmente desea eliminar el usuario seleccionado del proyecto')){
+
+            $.ajax({
+                url: projectURL+'/proyecto/eliminar-categorias/'+categoryId+'/'+projectId,
+                type:'GET',
+                dataType: 'JSON',
+                success:function (response) {
+
+                    if(!response.error){
+
+                     $(document).find('.project-saved-category-'+categoryId).fadeOut('slow', 
+                        function() { 
+                          $(this).remove()
+                        });                        
+
+                    }
+                },
+                error: function(xhr, error) {
+
+                }
+            });
+
+          }
+         
+        });
+
+        // DELETE CATEGORIES ADDED TO DOM
         $(document).on('click','.btn-delete-category', function(){
 
           var categoryId = $(this).data('categoryId'); 
@@ -153,7 +150,7 @@
               });
         });
 
-        $('.btn-create-project').on('click', function(){
+        $('.btn-edit-categories').on('click', function(){
 
           var successValidation = false,
               totalCategories = 0;
@@ -173,14 +170,15 @@
 
               // success validation, all categories are valid
               if(successValidation==totalCategories){
-                $(document).find('#form-create-project').submit()
+                $(document).find('#form-edit-categories').submit()
               }              
 
-        });
+        });      
 
+     
     });
 
-    </script>  
+    </script>
 	</body>
 
 </html>

@@ -14,33 +14,36 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> Enviar Invitaci&oacute;n
+        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Invitar a colaboradores
         							</div>
 
                       @if (Session::has('success_message'))
-                        <div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+                        <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif    
 
         							<div class="section-title fc-blue-iii fs-big">
-        								Enviar Invitaci&oacute;n
+        								Invitar a colaboradores
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('ProjectController@invitation'), 'id' => 'form-send-invitations')) }}							
-                         
-                          <div class="invitation-content user-invitation-0">
-                            <div class="form-group">
-                              <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Invitar a</label>  
-                              <div class="col-md-8">
-                                {{ Form::text('invitations[email][]', (isset($values['email']))?$values['email']:'', array('placeholder' => 'Correo electr&oacute;nico', 'class'=>'form-control app-input-invitation invitation-email app-input')) }}
-                                {{ Form::select('invitations[role][]', $userRoles, Config::get('constant.project.member') , array('class'=>'form-control app-input-invitation app-input')) }}
-                                <div data-invitation-id="0" class="btn-delete-invitation  circle activity-option txt-center fs-big fc-turquoise">
-                                  <i class="fa fa-minus fa-fw"></i>
+                        {{ Form::open(array('action' => array('ProjectController@editInvitation', $projectId), 'id' => 'form-send-invitations')) }}							
+                          <div class="all-invitation-content">
+                          @foreach($usersOnProject as $index => $userOnProject)
+                            <div class="invitation-content user-saved-invitation-{{$userOnProject->id}}">
+                              <div class="form-group">
+                                <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
+                                <div class="col-md-8">
+                                  <div class=" app-input-invitation app-input">{{$userOnProject->email}}</div>
+                                  {{ Form::select('invitations[role]['.$userOnProject->id.']', $userRoles, $userOnProject->user_role_id , array('class'=>'form-control app-input-invitation app-input')) }}
+                                  <div data-user-id="{{$userOnProject->id}}" data-project-id="{{$projectId}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">
+                                    <i class="fa fa-minus fa-fw"></i>
+                                  </div>
+                                  <br><br>
+                                  <span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>
                                 </div>
-                                <br><br>
-                                <span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>
-                              </div>
-                            </div>                           
+                              </div>                           
+                            </div>
+                          @endforeach
                           </div>
 
                           <div class="form-group">
@@ -57,10 +60,6 @@
 
                           <div class="form-group">
                                <div class="col-md-8 btn-save-invitations common-btn btn-ii btn-turquoise txt-center btn-send-invitations">Guardar</div> 
-                          </div>
-
-                          <div class="form-group">
-                             <div class="col-md-8 fc-green"> <a href="#" >Ir al proyecto, deseo enviar invitaciones despu&eacute;s</a></div>
                           </div>
                          
                           {{Form::close()}}
@@ -86,6 +85,7 @@
           htmlInvitation = '',
           invitationCount = 0; 
 
+          // ADD USER INVITARION TO DOM
           $('.btn-add-invitation').on('click', function(){
 
             invitationCount++; 
@@ -93,15 +93,15 @@
             htmlInvitation +=  '<div class="form-group user-invitation-'+invitationCount+'" style="display:none">'+
                                   '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Invitar a</label>'+
                                     '<div class="col-md-8">'+
-                                        '<input placeholder="Correo electr&oacute;nico" class="form-control app-input-invitation app-input invitation-email" name="invitations[email][]" type="text">'+
-                                        '<select class="form-control app-input-invitation app-input" name="invitations[role][]">';
+                                        '<input placeholder="Correo electr&oacute;nico" class="form-control app-input-invitation app-input invitation-email" name="new_invitations[email][]" type="text">'+
+                                        '<select class="form-control app-input-invitation app-input" name="new_invitations[role][]">';
                                           $.each(userRoles, function(index, role) {
                                             var selected = (index==defaultRoleValue)?'selected':''; 
                                             htmlInvitation += '<option value="'+index+'"'+selected+'>'+role+'</option>';
                                           });
                                   
                       htmlInvitation += '</select>'+
-                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">'+
+                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-new-invitation circle activity-option txt-center fs-big fc-turquoise">'+
                                         '<i class="fa fa-minus fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
@@ -109,14 +109,47 @@
                                     '</div>'+
                                   '</div>';  
 
-                      $(htmlInvitation).appendTo('.invitation-content').fadeIn('slow');
+                      $(htmlInvitation).appendTo('.all-invitation-content').fadeIn('slow');
   
 
               htmlInvitation = '';
 
           });
 
-        $(document).on('click','.btn-delete-invitation', function(){
+        // DELETE USER INVITATION FROM DB 
+        $(document).on('click', '.btn-delete-invitation', function(){
+
+           var userId = $(this).data('userId'),
+               projectId = $(this).data('projectId');  
+
+          if(confirm('Realmente desea eliminar al usuario asociado al proyecto')){
+
+            $.ajax({
+                url: projectURL+'/proyecto/eliminar-usuario/'+userId+'/'+projectId,
+                type:'GET',
+                dataType: 'JSON',
+                success:function (response) {
+
+                    if(!response.error){
+
+                     $(document).find('.user-saved-invitation-'+userId).fadeOut('slow', 
+                        function() { 
+                          $(this).remove()
+                        });                      
+
+                    }
+                },
+                error: function(xhr, error) {
+
+                }
+            });
+
+          }
+         
+        });
+      
+        // DELETE USER INVITATION FROM DOM 
+        $(document).on('click', '.btn-delete-new-invitation', function(){
 
           var invitationId = $(this).data('invitationId'); 
 

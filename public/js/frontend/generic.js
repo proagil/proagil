@@ -1,5 +1,8 @@
 $(function() {
 
+    //GENERIC: tooltip
+    $('[data-toggle="popover"]').popover();
+
     //GENERIC: remove all active classes on load
     var active = $('.active'); 
     
@@ -52,15 +55,15 @@ $(function() {
 
     });  
 
-    // CREATE PROJECT
-    $('.btn-create-project').on('click', function(){
+    // EDIT PROJECT
+    $('.btn-edit-project').on('click', function(){
 
-        $('#form-create-project').submit();
+        $('#form-edit-project').submit();
 
         return false;
 
-    });      
-    
+    });           
+  
     
     // DASHBOARD: show/hide section (artefacts or activities)
     $('.section-arrow').on('click', function(){
