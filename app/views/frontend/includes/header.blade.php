@@ -16,6 +16,10 @@
 			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{$project['name']}}</span></div>
             @endif
 
+            <div class="loader" style="display:none;">
+                 <img class="img-circle user-profile" src="{{URL::to('/').'/images/loader.gif'}}"/>
+            </div>
+
             <ul class="nav navbar-top-links navbar-right">
 
                 <li class="dropdown hidden-xs">

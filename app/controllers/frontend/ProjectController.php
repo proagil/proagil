@@ -528,11 +528,33 @@ class ProjectController extends BaseController {
 
     }else{
           // get project data
-          $project = (array) Project::get($projectId);
+          $project =  (array) Project::get($projectId);
           $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
           $ownerProjects = Project::getOwnerProjects($user['id']);
           $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
           $activityCategories = (array) ActivityCategory::get($projectId);
+          $activities = Project::getProjectActivities($projectId);
+
+          foreach($activities as $index => $activity){
+
+             switch($activity['status']) {
+              case 1:
+                $activities[$index]['status_class'] = 'fc-grey-iv';
+              break;
+
+              case 2:
+                $activities[$index]['status_class'] = 'fc-yellow';
+              break;
+
+              case 3:
+                $activities[$index]['status_class'] = 'fc-green';
+              break;
+
+             }
+
+          }
+
+          //print_r($activities); die; 
 
           return View::make('frontend.project.detail')
                 ->with('projectDetail', TRUE) 
@@ -540,11 +562,37 @@ class ProjectController extends BaseController {
                 ->with('project', $project)
                 ->with('projectArtefacts', $projectArtefacts)
                 ->with('activityCategories', $activityCategories)
-                ->with('ownerProjects', $ownerProjects); 
+                ->with('ownerProjects', $ownerProjects)
+                ->with('activities', $activities); 
 
     }
 
   }
+
+  public function changeStatus($activityId, $statusId){
+
+    $values = array(
+      'status'    => $statusId
+    );
+
+    if(Project::updateActivity($activityId, $values)){
+
+      $result = array(
+          'error'       => false,
+          'new_status'  => $statusId
+      );
+
+    }else{
+
+      $result = array(
+          'error'     => true
+      );
+
+    }
+      header('Content-Type: application/json');
+      return Response::json($result);
+
+  }  
 
 
 function friendlyURL() {

@@ -81,6 +81,10 @@ body {
 	color: #aeb2b7;
 }
 
+.fc-grey-v {
+	color: #8F8F8F;
+}
+
 .fc-blue-i {
 	color: #4f5e70;
 }
@@ -113,6 +117,16 @@ body {
 	width: 100%; 
 }
 
+.loader {
+	width: 100%;
+	height: auto;
+	top: 18%;
+	position: absolute;
+	z-index: 9999;
+	text-align: center; 
+
+}
+
 /*-------------------------------------------
 	GENERIC: text decoration
  -------------------------------------------*/
@@ -122,6 +136,10 @@ body {
 
 .f-bold {
 	font-weight: bold;
+}
+
+.txt-strike {
+	text-decoration:line-through;
 }
 
 /*-------------------------------------------
@@ -182,6 +200,8 @@ body {
 	margin-left: 15%;
 }
 
+ .login-options,
+ .login-title,
  .proagil-logo,
  .btn-content,
  .form-content,
@@ -212,6 +232,12 @@ body {
  
 .login-logo {
 	margin-top: 30%; 
+}
+
+.login-title {
+	background-color: #f2f2f2;
+	padding: 7px;
+	margin-bottom: 3%; 
 }
 
 .login-panel {
@@ -375,7 +401,7 @@ a.login-link:hover  {
  
 .section-content,
 .activities-content {
-	margin: 6% 0 0 0;
+	margin: 6% 0 6% 0;
 	width: 100%;
 }
  
@@ -464,7 +490,7 @@ a.login-link:hover  {
 
 .artefact-name {
 	float: left;
-	width: 78%; 
+	width: 73%; 
 	padding: 4% 0 0 0; 
 	height: auto;
  	overflow: hidden;
@@ -499,7 +525,7 @@ a.tags-list-off {
 }
 
 a.tags-list-on {
-	background-color: #e3e2e2;
+	background-color: #aeb2b7;
 }
 
 a.unmade-off{

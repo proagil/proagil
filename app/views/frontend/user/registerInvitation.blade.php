@@ -21,7 +21,7 @@
 
                 	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::to('/')}}" class="login-link"> Volver</a>
 	                <div class="login-panel panel panel-default">
-	                    <div class="panel-body">
+	                    <div class="panel-body">                  	
                           {{ Form::open(array('action' => 'UserController@register', 'files' => true, 'id' => 'form-register'))}} 
 	                            <div class="form-group">
 	                                {{ Form::text('values[first_name]', (isset($values['first_name']))?$values['first_name']:'', array('class' => 'app-input form-control', 'placeholder' => 'Nombre'))}}

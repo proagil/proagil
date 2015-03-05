@@ -1,3 +1,9 @@
+// CONSTANST SECTION
+
+    var UNDONE_ACTIVITY = 1,
+        DOING_ACTIVITY = 2,
+        DONE_ACTIVITY = 3;
+
 $(function() {
 
     //GENERIC: tooltip
@@ -93,6 +99,137 @@ $(function() {
             
         }
         
+    });
+
+    // PROJECT DETAIL: show activity description
+    $('.btn-activity-description').on('click', function(){
+
+        var activityId = $(this).data('activityId');
+
+        if($(this).hasClass('close-activity')){           
+
+            // mark current circle as open
+            $(this).removeClass('close-activity').addClass('open-activity');
+
+            // change icon arrow
+            $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+
+            // show description content
+            $('#description-'+activityId).slideToggle('5000'); 
+                
+
+        }else{
+
+            //mark current circle as close
+            $(this).removeClass('open-activity').addClass('close-activity');
+
+            // change icon arrow
+            $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+
+            // hide description content
+            $('#description-'+activityId).slideToggle('5000'); 
+
+        }
+        
+    });
+
+    //ACTIVITY: change activity status
+    $('.btn-change-activity-status').on('click', function(){
+
+        var activityStatus = $(this).data('activityStatus'),
+            acitivityId = $(this).data('activityId'),
+            self = $(this); 
+
+        switch(activityStatus) {
+
+            case UNDONE_ACTIVITY:
+
+                $('.loader').show();
+
+                $.ajax({
+                    url: projectURL+'/actividad/cambiar-estado/'+acitivityId+'/'+DOING_ACTIVITY,
+                    type:'GET',
+                    dataType: 'JSON',
+                    success:function (response) {
+
+                        if(!response.error){
+
+                            self.removeClass('fc-grey-iv').addClass('fc-yellow');
+                            self.data('activity-status', response.new_status); 
+
+                            $('.activity-title-'+acitivityId).removeClass('txt-strike');   
+
+                             $('.loader').hide();             
+
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                         $('.loader').hide();  
+
+                    }
+                });            
+
+                break;
+
+            case DOING_ACTIVITY:
+
+                $.ajax({
+                    url: projectURL+'/actividad/cambiar-estado/'+acitivityId+'/'+DONE_ACTIVITY,
+                    type:'GET',
+                    dataType: 'JSON',
+                    success:function (response) {
+
+                        if(!response.error){
+
+                            self.removeClass('fc-yellow').addClass('fc-green');
+                            self.data('activity-status', response.new_status); 
+
+                             $('.activity-title-'+acitivityId).addClass('txt-strike');  
+
+                             $('.loader').hide();             
+
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                         $('.loader').hide();  
+
+                    }
+                });  
+
+                break;
+
+            case DONE_ACTIVITY:
+
+                $.ajax({
+                    url: projectURL+'/actividad/cambiar-estado/'+acitivityId+'/'+UNDONE_ACTIVITY,
+                    type:'GET',
+                    dataType: 'JSON',
+                    success:function (response) {
+
+                        if(!response.error){
+
+                            self.removeClass('fc-green').addClass('fc-grey-iv');
+                            self.data('activity-status', response.new_status); 
+
+                              $('.activity-title-'+acitivityId).removeClass('txt-strike');
+
+                             $('.loader').hide();             
+
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                         $('.loader').hide();  
+
+                    }
+                });  
+                
+                break;                
+
+        }
+
     })
 
 });

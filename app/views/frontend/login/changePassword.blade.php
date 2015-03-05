@@ -22,6 +22,9 @@
                 	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::to('/')}}" class="login-link"> Volver</a>
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
+	                    	  <div class="login-title txt-center fs-med">
+	                    	  		Cambiar contrase&ntilde;a
+	                    	  </div>		                    	
 	                          <?= Form::open(array('action' => array('LoginController@changePassword', $token), 'id' => 'form-change-password')) ?> 
 	                                <div class="form-group">
                                     	<?= Form::password('values[password]', array('class' => 'app-input form-control', 'placeholder' => 'Contrase&ntilde;a')) ?>
