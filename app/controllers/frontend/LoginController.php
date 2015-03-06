@@ -17,11 +17,10 @@ class LoginController extends BaseController {
           'email'              => 'required|email',
           'password'           => 'required'
         );
+        $values = Input::get('values');
+          $validator = Validator::make(Input::get('values'), $rules);
 
-            $validator = Validator::make(Input::get('values'), $rules);
-
-           // get data from post input
-            $values = Input::get('values');
+          // get data from post input
 
            if(!$validator->fails()){
 

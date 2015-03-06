@@ -16,7 +16,7 @@ $(function() {
 
     //LOGIN
     $('.btn-login').on('click', function(){
-
+        
         $('#form-login').submit();
 
         return false;
