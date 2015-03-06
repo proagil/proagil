@@ -22,6 +22,10 @@
 	margin-bottom: 1%; 
 }
 
+textarea {
+    resize: none;
+}
+
 #wrapper.toggled {
     padding-left: 250px;
 }

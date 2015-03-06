@@ -18,6 +18,14 @@ Route::any('/admin/tipo-de-proyecto/editar/{id}', 'AdminProjectTypeController@ed
 
 Route::any('/admin/tipo-de-proyecto/eliminar/{id}', 'AdminProjectTypeController@delete');
 
+Route::any('/admin/artefacto', 'AdminArtefactController@enumerate');
+
+Route::any('/admin/artefacto/agregar', 'AdminArtefactController@add');
+
+Route::any('/admin/artefacto/editar/{id}', 'AdminArtefactController@edit');
+
+Route::any('/admin/artefacto/eliminar/{id}', 'AdminArtefactController@delete');
+
 
 /*--------------------------------------------------*/
 /*-------------FRONTEND routes----------------------*/
@@ -61,7 +69,6 @@ Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ProjectControl
 
 Route::any('inicio', 'DashboardController@index');
 
-Route::any('furl', 'ProjectController@friendlyURL');
 
 
 

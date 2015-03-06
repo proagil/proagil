@@ -19,6 +19,7 @@ return array(
 
 	// admin entities
 	'admin.entity.project_type'			=> 'Tipo de Proyecto',
+	'admin.entity.artefact'				=> 'Artefacto',
 
 	// frontend constants
 	'ENABLED' 								=> 1,

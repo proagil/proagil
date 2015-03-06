@@ -1,6 +1,6 @@
 <?php
 
-class PaperProtoypeController extends BaseController {
+class PaperPrototypeController extends BaseController {
 
 	public function index(){
 

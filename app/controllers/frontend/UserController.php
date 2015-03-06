@@ -389,6 +389,6 @@ class UserController extends BaseController {
 			//Input::file('avatar')->guessClientExtension()
 			// Input::file('avatar')->getClientSize()		
 
-		}
+	}
 
 }
