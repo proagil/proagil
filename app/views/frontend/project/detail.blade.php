@@ -66,6 +66,8 @@
 								<div class="fs-med tags-list">
 									<span class="fs-big fc-pink fa fa-filter fa-fw"></span><span class="f-bold">Categor&iacute;a </span>
 
+									<a href="#" data-category-id="ALL" class="tags-list-off">Todas</a>
+
 									@if(!empty($activityCategories))
 										@foreach($activityCategories as $activityCategory)
 											<a href="#" data-category-id="{{$activityCategory->id}}" class="tags-list-off">{{$activityCategory->name}}</a>
@@ -93,256 +95,39 @@
 							</div>	
 							
 							<div class="list-activities-content">
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse faucibus nunc sed magna maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>						
-							
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Lorem ipsum dolor amet un net atret tid atret
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-down fa-fw"></i>
+								@if(!empty($activities))
+									@foreach($activities as $activity)
+									<div class="activity">
+										<div class="activity-info">
+											<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>
+											
+											<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </title>
+											
+											<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>{{$activity['first_name']}}</span>
+											
+											<div class="activity-options pull-right">
+												@if($projectOwner)
+												<div class="circle activity-option txt-center fs-big fc-turquoise">
+													<i class="fa fa-pencil fa-fw"></i>
+												</div>	
+												@endif								
+												<div class="circle activity-option txt-center fs-big fc-turquoise">
+													<i class="fa fa-comments fa-fw"></i>
+												</div>
+												<div class="circle activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
+													<i class="fa fa-caret-down fa-fw"></i>
+												</div>
 											</div>
 										</div>
-									</div>
-									<div class="activity-description fc-grey-iv">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>
-								
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse faucibus nunc sed magna maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>	
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse faucibus nunc sed magna maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										consectetur adipiscing elit
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>	
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse consectetur adipiscing elit auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											@if($projectOwner)
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>
-											@endif									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>	
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse faucibus nunc sed magna
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>	
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										Suspendisse faucibus nunc sed magna maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>	
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										consectetur adipiscing elit maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>								
-
-								<div class="activity">
-									<div class="activity-info">
-										<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-										consectetur adipiscing elit maximus, vel auctor nulla
-										
-										<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>Ma. Francis Malav&eacute;</span>
-										
-										<div class="activity-options pull-right">
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-pencil fa-fw"></i>
-											</div>									
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-comments fa-fw"></i>
-											</div>
-											<div class="circle activity-option txt-center fs-big fc-turquoise">
-												<i class="fa fa-caret-right fa-fw"></i>
-											</div>
-										</div>
-									</div>
-									<div class="activity-description fc-grey-iv hidden">
-										<i class="fa fs-big fc-yellow fa-file-o fa-fw"></i>
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at justo vitae ante fermentum pharetra. Aliquam blandit in magna quis dapibus. Morbi finibus eleifend nunc non lacinia. Nullam ultrices dolor vitae orci semper consectetur. Suspendisse faucibus nunc sed magna maximus, vel auctor nulla convallis.Pellentesque purus neque, maximus et ultricies vitae, aliquam a lorem. Phasellus pulvinar vulputate elementum. Cras dignissim augue sed maximus ultricies. Proin elit turpis, imperdiet a accumsan sed, ornare ac velit. 
-									</div>							
-								</div>							
+										<div class="activity-description fc-grey-v" style="display:none" id="description-{{$activity['id']}}">
+											<i class="fa fs-big fc-turquoise fa-file-o fa-fw"></i>
+											{{$activity['description']}}
+										</div>							
+									</div>	
+									@endforeach
+								@else
+								<div class="f-min">Aun no hay actividades asociadas a este proyecto</div>
+								@endif											
 							
 							</div>
 		

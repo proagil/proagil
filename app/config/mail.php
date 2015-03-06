@@ -12,9 +12,9 @@ return array(
  
     'encryption' => 'tls',
  
-    'username' => 'aldemarodiaz@gmail.com',
+    'username' => 'proagilwebapp@gmail.com',
  
-    'password' => '6817867kb',
+    'password' => '3l30n0r4',
  
     'sendmail' => '/usr/sbin/sendmail -bs',
  

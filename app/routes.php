@@ -57,6 +57,8 @@ Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryContr
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
+Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ProjectController@changeStatus');
+
 Route::any('inicio', 'DashboardController@index');
 
 Route::any('furl', 'ProjectController@friendlyURL');

@@ -21,6 +21,9 @@
 
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
+	                    	  <div class="login-title txt-center fs-med">
+	                    	  		Iniciar sesi&oacute;n
+	                    	  </div>
 	                          <?= Form::open(array('action' => 'LoginController@index', 'id' => 'form-login')) ?> 
 	                                <div class="form-group">
 	                                    <?= Form::text('values[email]', (isset($values->email))?$values->email:'' , array('class' => 'app-input form-control', 'placeholder' => 'Correo Electr&oacute;nico')) ?>
@@ -41,9 +44,11 @@
 	                                	<div class="common-btn btn-ii btn-turquoise txt-center btn-login">Entrar</div>
 	                                </div>
 	                        <?=  Form::close() ?>
+		                    <div class="login-options">
+		                   		<i class="fc-green glyphicon glyphicon-question-sign"></i> <a class="login-link" href="{{URL::action('LoginController@forgotPassword')}}"> Olvid&eacute; mi contrase&ntilde;a</a><br>
+		                    	<i class="fc-green glyphicon glyphicon-share-alt"></i> <a class="login-link" href="{{URL::action('UserController@register')}}"> Registrarme </a>
+		                    </div>	                        
 	                    </div>
-	                    <i class="fc-green glyphicon glyphicon-question-sign"></i> <a class="login-link" href="{{URL::action('LoginController@forgotPassword')}}"> Olvid&eacute; mi contrase&ntilde;a</a><br>
-	                    <i class="fc-green glyphicon glyphicon-share-alt"></i> <a class="login-link" href="{{URL::action('UserController@register')}}"> Registrarme </a>
 	                </div>
 	           
 	                
