@@ -34,7 +34,7 @@
 											@foreach($projectArtefacts as $projectArtefact)
 											<div class="artefact">
 												<div class="artefact-icon">
-													<img width="100%" src="{{URL::to('/').'/images/dummy-activity.png'}}"/>
+													<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 												</div>
 												
 												<div class="artefact-info">

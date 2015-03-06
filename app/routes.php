@@ -68,8 +68,3 @@ Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityC
 Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ProjectController@changeStatus');
 
 Route::any('inicio', 'DashboardController@index');
-
-
-
-
-

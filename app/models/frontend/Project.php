@@ -36,11 +36,13 @@ class Project extends Eloquent{
 
 		$consult = DB::table('artefact_belongs_to_project AS abtp')
 
-				->select('a.*')
+				->select('a.*', 'f.server_name AS icon_file')
 
 				->where('abtp.project_id', $projectId)
 
 				->leftJoin('artefact AS a', 'a.id', '=', 'abtp.artefact_id')
+
+				->leftJoin('file AS f', 'f.id', '=', 'a.icon')
 
 				->get();
 
