@@ -17,13 +17,13 @@ class Activity extends Eloquent{
 
 				->where('a.enabled', TRUE)
 
-				->join('activity_belogns_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
+				->leftJoin('activity_belogns_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
 
-				->join('project AS p', 'abtp.project_id', '=', 'p.id')
+				->leftJoin('project AS p', 'abtp.project_id', '=', 'p.id')
 
-				->join('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
+				->leftJoin('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
 
-				->join('user AS u', 'abtp.user_id', '=', 'u.id')
+				->leftJoin('user AS u', 'abtp.user_id', '=', 'u.id')
 			  	
 			  	->first();
 	}
@@ -33,13 +33,15 @@ class Activity extends Eloquent{
 		return DB::table('activity_comment')->insertGetId($values);
 	}
 
-	public static function getComments(){
+	public static function getComments($activityId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		return DB::table('activity_comment AS ac')
 
 				->select('ac.*', 'f.server_name AS avatar_file', 'u.first_name AS user_first_name', 'u.avatar AS user_avatar')
+
+				->where('ac.activity_id', $activityId)
 
 				->leftJoin('user AS u', 'u.id', '=', 'ac.user_id')
 

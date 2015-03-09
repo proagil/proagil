@@ -42,8 +42,7 @@ class ProjectController extends BaseController {
                 'name'      	        => $values['name'],
                 'description'         => $values['description'],
                 'project_type_id'     => $values['project_type'],
-                'enabled'             => Config::get('constant.ENABLED'),
-                'friendly_url'        => $this->friendlyURL($values['name'])                
+                'enabled'             => Config::get('constant.ENABLED')       
               );
 
               // insert project on DB
@@ -532,9 +531,15 @@ class ProjectController extends BaseController {
           // get project data
           $project =  (array) Project::get($projectId);
           $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
+
+          // project list on sidebar
           $ownerProjects = Project::getOwnerProjects($user['id']);
           $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
+
+          // get activity categories
           $activityCategories = (array) ActivityCategory::get($projectId);
+
+          // get activities
           $activities = Project::getProjectActivities($projectId);
 
           // add activity status class

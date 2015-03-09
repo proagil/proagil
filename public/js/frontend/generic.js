@@ -116,25 +116,22 @@ $(function() {
 
         var section = $(this).data('section'); 
         
-        if($('#'+section).hasClass('show')){
+        if($('#'+section).hasClass('showed')){
             
             $(this).find('i').removeClass('fa-caret-down');
             $(this).find('i').addClass('fa-caret-right');
         
-            $('#'+section).removeClass('show');
-            $('#'+section).addClass('hidden');
-            
-            $('.artefacts-content').animate({'height':'10px'}, 'slow'); 
+            $('#'+section).removeClass('showed');
+            $('#'+section).fadeOut('slow');
 
         }else{
         
             $(this).find('i').removeClass('fa-caret-right');
             $(this).find('i').addClass('fa-caret-down');
 
-            $('#'+section).removeClass('hidden');
-            $('#'+section).addClass('show');
-            
-            $('.artefacts-content').animate({'height':'215px'}, 'slow'); 
+            //$('#'+section).removeClass('hidden');
+            $('#'+section).addClass('showed');
+            $('#'+section).fadeIn('slow');
             
             
         }
@@ -148,7 +145,7 @@ $(function() {
 ----------------------------------------------------------------------*/        
 
     // PROJECT DETAIL: show activity description
-    $('.btn-activity-description').on('click', function(){
+    $('.btn-activity-description').on('click', function(e){
 
         var activityId = $(this).data('activityId');
 

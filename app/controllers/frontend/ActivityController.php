@@ -81,9 +81,26 @@ class ActivityController extends BaseController {
 		// get user on session
         $user = Session::get('user');
 
-        // get data
+        // get activity data
 		$activity = (array) Activity::get($activityId); 
-		$comments = Activity::getComments(); 
+		$activity['date'] = date('d/m/Y', strtotime($activity['date']));
+
+		switch($activity['status']){
+			case 1:
+				$activity['status_name'] = 'POR INICIAR';
+				break; 
+			case 2:
+				$activity['status_name'] = 'EN PROCESO';
+				break; 			
+			case 3:
+				$activity['status_name'] = 'TERMINADA';
+				break; 			
+		}
+
+		// get activity comments
+		$comments = Activity::getComments($activityId); 
+
+		//print_r($activity); die; 
 
 		//format comments date and add flag to know comment autor
 		foreach($comments as $index => $comment){
