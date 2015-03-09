@@ -65,6 +65,12 @@ Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryContr
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
-Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ProjectController@changeStatus');
+Route::any('proyecto/{project_id}/actividad/{activity_id}', 'ActivityController@detail');
+
+Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
+
+Route::any('actividad/comentar', 'ActivityController@commnet');
+
+Route::any('artefacto/{friendly_url}', 'ArtefactController@detail');
 
 Route::any('inicio', 'DashboardController@index');

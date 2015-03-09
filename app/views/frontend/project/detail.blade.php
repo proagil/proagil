@@ -24,25 +24,27 @@
 									<div data-section="section-artefatcs" class="section-arrow pull-right"><i class="fc-green fa fa-caret-down fa-fw"></i></div>
 								</div>
 								
-								<div id="section-artefatcs" class="show">
-									<div class="fc-grey-ii fs-xxbig arrow-left">
+								<div id="section-artefatcs" class="showed section-artefatcs">
+									<div class="fc-grey-ii fs-xxbig arrow-left prev">
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
 								
-									<div class="artefacts-list">
+									<div class="artefacts-list">								
 										@if(!empty($projectArtefacts))
 											@foreach($projectArtefacts as $projectArtefact)
-											<div class="artefact">
-												<div class="artefact-icon">
-													<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
-												</div>
-												
-												<div class="artefact-info">
-													<div class="artefact-status">
-														<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
+											<div class="slide">
+												<div class="artefact" data-friendly-url="{{$projectArtefact->friendly_url}}">
+													<div class="artefact-icon">
+														<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 													</div>
-													<div class="artefact-name">
-														{{$projectArtefact->name}}
+													
+													<div class="artefact-info">
+														<div class="artefact-status">
+															<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
+														</div>
+														<div class="artefact-name">
+															{{$projectArtefact->name}}
+														</div>
 													</div>
 												</div>
 											</div>
@@ -50,7 +52,7 @@
 										@endif								
 									</div>
 									
-									<div class="fc-grey-ii fs-xxbig arrow-left">
+									<div class="fc-grey-ii fs-xxbig arrow-left next">
 										<i class="fa fa-chevron-right fa-fw"></i>
 									</div>
 								</div>
@@ -97,7 +99,7 @@
 							<div class="list-activities-content">
 								@if(!empty($activities))
 									@foreach($activities as $activity)
-									<div class="activity">
+									<div class="activity" data-project-id="{{$project['id']}}" data-activity-id="{{$activity['id']}}">
 										<div class="activity-info">
 											<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>
 											
@@ -144,6 +146,24 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.javascript')
+
+		<script>
+
+	    $(function() {
+
+	      $('.activity').on('click', function(){
+
+	      	var projectId = $(this).data('projectId'),
+	      		activityId = $(this).data('activityId'), 
+
+	      		windowLocation = "<?= URL::to('/')?>" 
+
+	      	 	window.location.href = windowLocation+'/proyecto/'+projectId+'/actividad/'+activityId;
+
+	      })
+
+	  	});
+	</script>
 	</body>
 
 </html>

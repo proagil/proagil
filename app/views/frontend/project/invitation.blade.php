@@ -60,7 +60,7 @@
                           </div>
 
                           <div class="form-group">
-                             <div class="col-md-8 fc-green"> <a href="#" >Ir al proyecto, deseo enviar invitaciones despu&eacute;s</a></div>
+                             <div class="col-md-8 fc-green"> <a href="{{URL::action('ProjectController@detail', array($projectId))}}" >Ir al proyecto, deseo enviar invitaciones despu&eacute;s</a></div>
                           </div>
                          
                           {{Form::close()}}

@@ -3,6 +3,26 @@
  --*/
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .comment-list,
+ .emoticons-container,
+ .comment-action,
+ .user-avatar,
+ .comment-content,
+ .comment-textarea,
+ .comment-text,
+ .comments-content,
+ .section-artefatcs,
+ .login-options,
+ .login-title,
+ .proagil-logo,
+ .btn-content,
+ .form-content,
+ .form-group {
+ 	width: 100%;
+ 	height: auto;
+ 	float: left;
+ 	overflow: hidden;
+ } 
 
 
 a, a:hover  {
@@ -200,18 +220,6 @@ body {
 	margin-left: 15%;
 }
 
- .login-options,
- .login-title,
- .proagil-logo,
- .btn-content,
- .form-content,
- .form-group {
- 	width: 100%;
- 	height: auto;
- 	float: left;
- 	overflow: hidden;
- }
-
  .title-label {
  	text-align: left;
  	width: 20%;
@@ -398,6 +406,16 @@ a.login-link:hover  {
 /*-------------------------------------------
 	PROJECT DETAIL section
  -------------------------------------------*/
+
+ #artefacts-swiper {
+  	height: 189px !important; 
+}
+
+ #artefacts-swiper .swiper-slide{
+
+ 	margin: 2px; 
+ 	float: left;
+ }
  
 .section-content,
 .activities-content {
@@ -421,7 +439,10 @@ a.login-link:hover  {
 	padding: 5px 0 30px 9px; 
 	margin: 1% 0 1% 0; 
 	border-left: 5px solid #eecb44;
-	height: 19px
+	height: 19px;
+	width: 100%;
+ 	float: left;
+ 	overflow: hidden;
 }
 
 .section-title-green {
@@ -432,8 +453,9 @@ a.login-link:hover  {
 
 .artefacts-list {
 	width: 90%;
+	height: auto; 
 	float: left;
-	margin: 0 auto;
+	margin: 0;
 }
  
 .arrow-left,
@@ -451,14 +473,11 @@ a.login-link:hover  {
 }
 
 .artefact {
-	width: 16%;
+	width: 100%;
 	min-height: 155px;
 	max-height: 155px;
 	background-color: #f2f2f2; 
 	float: left; 
-	margin: 2px; 
-	height: auto;
- 	float: left;
  	overflow: hidden;
 }
 
@@ -570,6 +589,10 @@ a.made-on{
 	background-color: #e3e2e2; 
 }
 
+/*-------------------------------------------
+	ACTIVITY section
+ -------------------------------------------*/
+
 .list-activities-content {
 	width: 100%; 
 	margin: 55px 0 0 0; 
@@ -620,6 +643,45 @@ a.made-on{
 
 .activity-description {
 	padding: 10px 4px;	
+}
+
+.description-activity-content {
+	background-color: #f2f2f2;
+	width: 100%;
+ 	height: auto;
+ 	float: left;
+ 	overflow: hidden;
+ 	padding: 10px; 
+}
+
+.user-avatar {
+	width: 6%; 
+}
+
+.comment-text {
+	width: 88%; 
+}
+
+.comment-action {
+	width: 6%; 
+	cursor: pointer; 
+}
+
+.comment-user-avatar {
+	max-height: 50px;
+}
+
+.comment-textarea {
+	margin-bottom: 1%; 
+}
+
+.comment-content {
+	padding: 6px; 
+}
+
+.emoticons-container .emoticon {
+	cursor: pointer;
+
 }
 
 /*-------------------------------------------

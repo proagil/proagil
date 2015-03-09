@@ -25,6 +25,23 @@ class Artefact extends Eloquent{
 
 	}
 
+	public static function getByFriendlyUrl($friendlyUrl){
+
+		return DB::table('artefact')
+				  	->where('friendly_url', $friendlyUrl)
+					->where('enabled', TRUE)
+				  	->first();
+	}	
+
+	public static function getById($artefactId){
+
+		return DB::table('artefact')
+				  	->where('id', $artefactId)
+					->where('enabled', TRUE)
+				  	->first();
+	}
+
+
 }
 
 ?>

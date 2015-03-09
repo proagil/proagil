@@ -42,7 +42,8 @@ class ProjectController extends BaseController {
                 'name'      	        => $values['name'],
                 'description'         => $values['description'],
                 'project_type_id'     => $values['project_type'],
-                'enabled'             => Config::get('constant.ENABLED')                
+                'enabled'             => Config::get('constant.ENABLED'),
+                'friendly_url'        => $this->friendlyURL($values['name'])                
               );
 
               // insert project on DB
@@ -233,7 +234,8 @@ class ProjectController extends BaseController {
         }else{             
         // first time 
           return View::make('frontend.project.invitation')
-                       ->with('userRoles', $userRoles); 
+                       ->with('userRoles', $userRoles)
+                       ->with('projectId', Session::get('created_project_id'));
         }
       
 
@@ -535,6 +537,7 @@ class ProjectController extends BaseController {
           $activityCategories = (array) ActivityCategory::get($projectId);
           $activities = Project::getProjectActivities($projectId);
 
+          // add activity status class
           foreach($activities as $index => $activity){
 
              switch($activity['status']) {
@@ -554,8 +557,6 @@ class ProjectController extends BaseController {
 
           }
 
-          //print_r($activities); die; 
-
           return View::make('frontend.project.detail')
                 ->with('projectDetail', TRUE) 
                 ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -569,30 +570,23 @@ class ProjectController extends BaseController {
 
   }
 
-  public function changeStatus($activityId, $statusId){
+  public function friendlyURL($str) {
 
-    $values = array(
-      'status'    => $statusId
-    );
+    $delimiter='-'; 
 
-    if(Project::updateActivity($activityId, $values)){
-
-      $result = array(
-          'error'       => false,
-          'new_status'  => $statusId
-      );
-
-    }else{
-
-      $result = array(
-          'error'     => true
-      );
-
+    if( !empty($replace) ) {
+      $str = str_replace((array)$replace, ' ', $str);
     }
-      header('Content-Type: application/json');
-      return Response::json($result);
 
-  }  
+    $friendlyURL = iconv('UTF-8', 'ASCII//TRANSLIT', $str);
+    $friendlyURL = preg_replace("/[^a-zA-Z0-9\/_|+ -]/", '', $friendlyURL);
+    $friendlyURL = strtolower(trim($friendlyURL, '-'));
+    $friendlyURL = preg_replace("/[\/_|+ -]+/", $delimiter, $friendlyURL);
+
+    return $friendlyURL;
+
+  }
+  
 
 
 }

@@ -18,16 +18,13 @@
 	
 	<link href='http://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css'>-->
 
-    <!-- Bootstrap Core CSS -->
     {{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
-
-    <!-- Custom CSS -->
     {{ HTML::style('css/frontend/sb-admin-2.css') }}
-	
-    <!-- Custom Fonts -->
-    {{ HTML::style('bower_components/font-awesome/css/font-awesome.min.css') }}
-	
-	<!-- APP Css -->
+     {{ HTML::style('css/frontend/swiper.css') }}
+    {{ HTML::style('bower_components/font-awesome/css/font-awesome.min.css') }}    
+    {{ HTML::style('bower_components/sweet-alert/sweet-alert.css') }}
+    {{ HTML::style('css/frontend/owl.carousel.css') }}
+    {{ HTML::style('css/frontend/emoticons/emoticons.css') }}
 	{{ HTML::style('css/frontend/generic.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

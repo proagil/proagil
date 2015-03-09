@@ -25,6 +25,12 @@ return array(
 	'ENABLED' 								=> 1,
 	'NOT_ENABLED'							=> 0,
 	'project.owner'							=> 1,
-	'project.member'						=> 2
+	'project.member'						=> 2,
+	'artefact.heuristic_evaluation'			=> 'evaluacion-heuristica',
+	'artefact.storm_ideas'					=> 'tormenta-de-ideas',
+	'artefact.probe'						=> 'sondeo',
+	'artefact.style_guide'					=> 'guia-de-estilos',
+	'artefact.existing_system'				=> 'evaluacion-de-sistemas-existentes',
+	'artefact.checklist'					=> 'lista-de-comprobacion'
 
 ); 

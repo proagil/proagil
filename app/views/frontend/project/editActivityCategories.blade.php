@@ -35,8 +35,8 @@
                                 <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a </label>  
                                 <div class="col-md-4">
                                     {{ Form::text('values[category]['.$category->id. ']', $category->name, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
-                                    <div data-category-id="{{$category->id}}" data-project-id="{{$projectId}}" class="btn-delete-saved-invitation circle activity-option txt-center fs-big fc-turquoise">
-                                      <i class="fa fa-minus fa-fw"></i>
+                                    <div data-category-id="{{$category->id}}" data-category-name="{{$category->name}}" data-project-id="{{$projectId}}" class="btn-delete-saved-invitation circle activity-option txt-center fs-big fc-turquoise">
+                                      <i class="fa fa-times fa-fw"></i>
                                     </div> 
                                     <br><br>
                                     <span class="hidden error fc-pink fs-min">Debe indicar un nombre de categor&iacute;a </span>                          
@@ -77,108 +77,6 @@
 
 	 @include('frontend.includes.javascript')
 
-    <script>
-
-    $(function() {
-
-      var htmlCategories = '',
-          categoryCount = 0; 
-
-          $('.btn-add-category').on('click', function(){
-
-            categoryCount++; 
-
-            htmlCategories +=  '<div class="form-group project-category-'+categoryCount+'" style="display:none">'+
-                                  '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>'+
-                                    '<div class="col-md-4">'+
-                                        '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[new_category][]" type="text">'+
-                                      '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">'+
-                                        '<i class="fa fa-minus fa-fw"></i>'+
-                                      '</div>'+
-                                      '<br><br>'+
-                                      '<span class="error fc-pink fs-min hidden">Debe indicar un nombre de categor&iacute;a</span>'+
-                                    '</div>'+
-                                  '</div>';  
-
-                      $(htmlCategories).appendTo('.categories-content').fadeIn('slow');
-  
-                      htmlCategories = '';
-
-          });
-
-
-        // DELETE SAVED CATEGORY FROM DB 
-        $(document).on('click', '.btn-delete-saved-invitation', function(){
-
-           var categoryId = $(this).data('categoryId'); 
-               projectId = $(this).data('projectId'); 
-
-          if(confirm('Realmente desea eliminar el usuario seleccionado del proyecto')){
-
-            $.ajax({
-                url: projectURL+'/proyecto/eliminar-categorias/'+categoryId+'/'+projectId,
-                type:'GET',
-                dataType: 'JSON',
-                success:function (response) {
-
-                    if(!response.error){
-
-                     $(document).find('.project-saved-category-'+categoryId).fadeOut('slow', 
-                        function() { 
-                          $(this).remove()
-                        });                        
-
-                    }
-                },
-                error: function(xhr, error) {
-
-                }
-            });
-
-          }
-         
-        });
-
-        // DELETE CATEGORIES ADDED TO DOM
-        $(document).on('click','.btn-delete-category', function(){
-
-          var categoryId = $(this).data('categoryId'); 
-
-           $(document).find('.project-category-'+categoryId).fadeOut('slow', 
-              function() { 
-                $(this).remove()
-              });
-        });
-
-        $('.btn-edit-categories').on('click', function(){
-
-          var successValidation = false,
-              totalCategories = 0;
-
-              //validate categories
-              $('.category-input').each(function(){
-
-                totalCategories++; 
-
-                if($(this).val() == ''){
-                  $(this).siblings('.error').removeClass('hidden'); 
-                }else{
-                   $(this).siblings('.error').addClass('hidden');
-                    successValidation++; 
-                }
-              });
-
-              // success validation, all categories are valid
-              if(successValidation==totalCategories){
-                $(document).find('#form-edit-categories').submit()
-              }              
-
-        });      
-
-     
-    });
-
-    </script>
 	</body>
 
 </html>

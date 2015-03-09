@@ -10,6 +10,16 @@
 
 {{ HTML::script('js/frontend/sb-admin-2.js') }}
 
+{{ HTML::script('js/frontend/sb-admin-2.js') }}
+
+{{ HTML::script('js/frontend/sweet-alert.min.js') }}
+
+{{ HTML::script('js/frontend/owl.carousel.js') }}
+
+{{ HTML::script('js/frontend/swiper.min.js') }}
+
+{{ HTML::script('js/frontend/emoticons.js') }}
+
 {{ HTML::script('js/frontend/generic.js') }}
 
 <!--END JAVASCRIPT!-->

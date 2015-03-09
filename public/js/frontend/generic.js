@@ -1,4 +1,13 @@
-// CONSTANST SECTION
+/*======================================================================
+PROAGIL WEB APP - 2015
+Authors: AD, SJ, MM
+======================================================================*/
+
+/*----------------------------------------------------------------------
+
+        CONSTANST SECTION
+
+----------------------------------------------------------------------*/
 
     var UNDONE_ACTIVITY = 1,
         DOING_ACTIVITY = 2,
@@ -6,15 +15,31 @@
 
 $(function() {
 
-    //GENERIC: tooltip
+/*----------------------------------------------------------------------
+
+        GENERIC FUNCTIONS
+
+----------------------------------------------------------------------*/    
+
+    //GENERIC: generate popover
     $('[data-toggle="popover"]').popover();
 
     //GENERIC: remove all active classes on load
     var active = $('.active'); 
-    
+
+    // GENERIC: generate fileupload div
+    $('.file-upload').bootstrapFileInput();  
+
+    // GENERIC: remove all active classes
     $(document).find(active).removeClass('active'); 
 
-    //LOGIN
+/*----------------------------------------------------------------------
+
+        LOGIN FUNCTIONS
+
+----------------------------------------------------------------------*/        
+
+    //LOGIN: submit form
     $('.btn-login').on('click', function(){
         
         $('#form-login').submit();
@@ -23,7 +48,13 @@ $(function() {
 
     });
 
-    // FORGOT PASSWORD
+/*----------------------------------------------------------------------
+
+        FORGOT PASSWORD FUNCTIONS
+
+----------------------------------------------------------------------*/       
+
+    // FORGOT PASSWORD: submit form
     $('.btn-forgot-password').on('click', function(){
 
         $('#form-forgot-password').submit();
@@ -32,16 +63,22 @@ $(function() {
 
     });
 
-    // CHANGE PASSWORD
+    // CHANGE PASSWORD: submit form
     $('.btn-change-password').on('click', function(){
 
         $('#form-change-password').submit();
 
         return false;
 
-    });    
+    });  
 
-    //REGISTER
+/*----------------------------------------------------------------------
+
+        REGISTER FUNCTIONS
+
+----------------------------------------------------------------------*/        
+
+    //REGISTER: submit form
     $('.btn-register').on('click', function(){
 
         $('#form-register').submit();
@@ -49,8 +86,6 @@ $(function() {
         return false;
 
     });    
-
-    $('.file-upload').bootstrapFileInput();  
 
     // EDIT PROFILE
     $('.btn-edit-user-profile').on('click', function(){
@@ -68,9 +103,14 @@ $(function() {
 
         return false;
 
-    });           
+    }); 
+
+/*----------------------------------------------------------------------
+
+        DASHBOARD FUNCTIONS
+
+----------------------------------------------------------------------*/                 
   
-    
     // DASHBOARD: show/hide section (artefacts or activities)
     $('.section-arrow').on('click', function(){
 
@@ -100,6 +140,12 @@ $(function() {
         }
         
     });
+
+/*----------------------------------------------------------------------
+
+        PROJECT DETAIL FUNCTIONS
+
+----------------------------------------------------------------------*/        
 
     // PROJECT DETAIL: show activity description
     $('.btn-activity-description').on('click', function(){
@@ -132,6 +178,174 @@ $(function() {
         }
         
     });
+
+       var artefactsSlide = $('.artefacts-list').owlCarousel({
+            loop:true,
+            margin:10,
+            responsiveClass:true,
+            responsive:{
+                0:{
+                    items:1,
+                    nav:true
+                },
+                600:{
+                    items:3,
+                    nav:false
+                },
+                1000:{
+                    items:6,
+                    nav:false,
+                    loop:false
+                }
+            }
+        });
+
+      // Custom Navigation Events
+      $('.next').on('click', function(){
+        artefactsSlide.trigger('next.owl.carousel');
+      })
+      $('.prev').on('click', function(){
+        artefactsSlide.trigger('prev.owl.carousel');
+      }) 
+
+      // go to artefact detail
+      $('.artefact').on('click', function(){
+
+        var friendlyUrl = $(this).data('friendlyUrl');
+
+         window.location.href = projectURL+'/artefacto/'+friendlyUrl;
+
+      });  
+
+
+/*----------------------------------------------------------------------
+
+        EDIT ACTIVITY CATEGORIES FUNCTIONS
+
+----------------------------------------------------------------------*/
+
+      var htmlCategories = '',
+          categoryCount = 0; 
+
+          $('.btn-add-category').on('click', function(){
+
+            categoryCount++; 
+
+            htmlCategories +=  '<div class="form-group project-category-'+categoryCount+'" style="display:none">'+
+                                  '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>'+
+                                    '<div class="col-md-4">'+
+                                        '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[new_category][]" type="text">'+
+                                      '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">'+
+                                        '<i class="fa fa-minus fa-fw"></i>'+
+                                      '</div>'+
+                                      '<br><br>'+
+                                      '<span class="error fc-pink fs-min hidden">Debe indicar un nombre de categor&iacute;a</span>'+
+                                    '</div>'+
+                                  '</div>';  
+
+                      $(htmlCategories).appendTo('.categories-content').fadeIn('slow');
+  
+                      htmlCategories = '';
+
+          });
+
+
+        // DELETE SAVED CATEGORY FROM DB 
+        $(document).on('click', '.btn-delete-saved-invitation', function(){
+
+           var categoryId = $(this).data('categoryId'); 
+               projectId = $(this).data('projectId'); 
+               categoryName = $(this).data('categoryName'); 
+
+            var showAlert = swal({
+              title: 'Eliminar categoría',
+              text: 'Confirma que desea eliminar la categoría de actividad: '+categoryName,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#ef6f66',
+              confirmButtonText: 'Si, eliminar',
+              cancelButtonText: 'Cancelar',
+              cancelButtonColor: '#ef6f66',
+              closeOnConfirm: true
+            },
+            function(){
+
+                // show ajax loader
+                $('.loader').show();
+
+                 $.ajax({
+                    url: projectURL+'/proyecto/eliminar-categorias/'+categoryId+'/'+projectId,
+                    type:'GET',
+                    dataType: 'JSON',
+                    success:function (response) {
+
+                        if(!response.error){
+
+                         $(document).find('.project-saved-category-'+categoryId).fadeOut('slow', 
+                            function() { 
+                              $(this).remove()
+                            }); 
+
+                            // hide ajax loader
+                            $('.loader').hide();
+                       
+
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                    }
+                });
+
+            });               
+
+         
+        });
+
+        // DELETE CATEGORIES ADDED TO DOM
+        $(document).on('click','.btn-delete-category', function(){
+
+          var categoryId = $(this).data('categoryId'); 
+
+           $(document).find('.project-category-'+categoryId).fadeOut('slow', 
+              function() { 
+                $(this).remove()
+              });
+        });
+
+
+        // SEND EDITED CATEGORIES FORM
+        $('.btn-edit-categories').on('click', function(){
+
+          var successValidation = false,
+              totalCategories = 0;
+
+              //validate categories
+              $('.category-input').each(function(){
+
+                totalCategories++; 
+
+                if($(this).val() == ''){
+                  $(this).siblings('.error').removeClass('hidden'); 
+                }else{
+                   $(this).siblings('.error').addClass('hidden');
+                    successValidation++; 
+                }
+              });
+
+              // success validation, all categories are valid
+              if(successValidation==totalCategories){
+                $(document).find('#form-edit-categories').submit()
+              }              
+
+        }); 
+
+
+/*----------------------------------------------------------------------
+
+        ACTIVITY ENUMERATE FUNCTIONS
+
+----------------------------------------------------------------------*/             
 
     //ACTIVITY: change activity status
     $('.btn-change-activity-status').on('click', function(){
@@ -231,6 +445,81 @@ $(function() {
         }
 
     })
+
+/*----------------------------------------------------------------------
+
+        ACTIVITY DETAIL FUNCTIONS
+
+----------------------------------------------------------------------*/
+
+    $('.save-comment').on('click', function(){
+
+      if($('#comment-textarea').val()!=''){
+
+         $('.loader').show();
+
+        $('.comments-content').find('.error').addClass('hidden'); 
+
+          $.ajax({
+              url: projectURL+'/actividad/comentar/',
+              type:'POST',
+              data: $('#form-comment-activity').serialize(),
+              dataType: 'JSON',
+              success:function (response) {
+
+                  if(!response.error){
+
+                    var html = ''; 
+
+                          html += '<div class="comment-content" style="display:none;">'+
+                                    '<div class="user-avatar">';
+
+                                    if(response.comment.user_avatar>0){
+                                       html += '<img class="img-circle comment-user-avatar" src="'+projectURL+'/uploads/'+ response.comment.avatar_file+'"/>';
+                                    }else{
+                                       html += '<img class="img-circle comment-user-avatar" src="'+projectURL+'/images/dummy-user.png"/>';
+                                    }
+
+                                html += '</div>'+
+                                '<span class="fs-min fc-pink"></i>' + response.comment.user_first_name +'<i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> '+response.comment.date+ '</span>'+
+                                '<div class="comment-text">'+
+                                    response.comment.comment +
+                                '</div>';
+
+                                if(response.comment.editable){
+                                   html += '<div class="comment-action">'+
+                                              '<div  class="btn-delete-commen txt-center fs-big fc-grey-iii">'+
+                                                '<i class="fa fa-times fa-fw"></i>'+
+                                              '</div>'+
+                                            '</div>';  
+                                }
+                            html += '</div>'
+
+                      $('#comment-textarea').val(''); 
+                      $(html).prependTo('.comment-list').fadeIn('slow');
+
+                      html = ''; 
+
+                    $('.loader').hide();          
+
+                  }
+              },
+              error: function(xhr, error) {
+
+                   $('.loader').hide();  
+
+              }
+          });  
+
+
+      }else{
+
+        $('.comments-content').find('.error').removeClass('hidden'); 
+
+      }
+
+    });
+
 
 });
 
