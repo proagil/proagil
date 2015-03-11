@@ -20,6 +20,8 @@
 
 {{ HTML::script('js/frontend/emoticons.js') }}
 
+{{ HTML::script('js/frontend/underscore.js') }}
+
 {{ HTML::script('js/frontend/generic.js') }}
 
 <!--END JAVASCRIPT!-->

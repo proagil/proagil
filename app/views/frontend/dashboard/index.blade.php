@@ -31,7 +31,7 @@
 							<div class="list-content">
 							@if(!empty($ownerProjects))
 								@foreach($ownerProjects as $project)
-								<div class="activity">
+								<div class="project-item-content">
 									<div data-project-id="{{$project->id}}" class="list-item activity-info project-item">
 										<i class="fc-yellow fa fa-folder-open fa-fw"></i>
 											{{$project->name}}
@@ -55,7 +55,7 @@
 							<div class="list-content">
 							@if(!empty($memberProjects))
 								@foreach($memberProjects as $project)
-								<div class="activity">
+								<div class="project-item-content">
 									<div data-project-id="{{$project->id}}" class="project-item list-item activity-info">
 										<i class="fc-green fa fa-folder-open fa-fw"></i>
 										{{$project->name}}

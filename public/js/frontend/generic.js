@@ -33,6 +33,14 @@ $(function() {
     // GENERIC: remove all active classes
     $(document).find(active).removeClass('active'); 
 
+    // GENERIC: go back function
+    $('.btn-back').on('click', function(e){
+
+      e.preventDefault(); 
+
+      window.history.back(); 
+    })
+
 /*----------------------------------------------------------------------
 
         LOGIN FUNCTIONS
@@ -214,6 +222,40 @@ $(function() {
 
       });  
 
+/*----------------------------------------------------------------------
+
+        EDIT PROJECT FUNCTIONS
+
+----------------------------------------------------------------------*/   
+
+
+      $('.btn-delete-project').on('click', function(e){
+
+         e.preventDefault(); 
+
+         var projectId = $(this).data('projectId'); 
+
+
+          var showAlert = swal({
+            title: 'Eliminar proyecto',
+            text: 'Al eliminar un proyecto se eliminan las actividades, colaboradores y artefactos asociados. ¿Realmente desea eliminarlo?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'/proyecto/eliminar/'+projectId;
+
+          });               
+
+       
+      });     
+
 
 /*----------------------------------------------------------------------
 
@@ -233,7 +275,7 @@ $(function() {
                                     '<div class="col-md-4">'+
                                         '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[new_category][]" type="text">'+
                                       '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">'+
-                                        '<i class="fa fa-minus fa-fw"></i>'+
+                                        '<i class="fa fa-times fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
                                       '<span class="error fc-pink fs-min hidden">Debe indicar un nombre de categor&iacute;a</span>'+
@@ -245,6 +287,32 @@ $(function() {
                       htmlCategories = '';
 
           });
+
+        // CREATE PROJECT SEND FORM
+        $('.btn-create-project').on('click', function(){
+
+          var successValidation = false,
+              totalCategories = 0;
+
+              //validate categories
+              $('.category-input').each(function(){
+
+                totalCategories++; 
+
+                if($(this).val() == ''){
+                  $(this).siblings('.error').removeClass('hidden'); 
+                }else{
+                   $(this).siblings('.error').addClass('hidden');
+                    successValidation++; 
+                }
+              });
+
+              // success validation, all categories are valid
+              if(successValidation==totalCategories){
+                $(document).find('#form-create-project').submit()
+              }              
+
+        });
 
 
         // DELETE SAVED CATEGORY FROM DB 
@@ -449,6 +517,7 @@ $(function() {
 
 ----------------------------------------------------------------------*/
 
+    // function: save comment 
     $('.save-comment').on('click', function(){
 
       if($('#comment-textarea').val()!=''){
@@ -468,7 +537,7 @@ $(function() {
 
                     var html = ''; 
 
-                          html += '<div class="comment-content" style="display:none;">'+
+                          html += '<div class="comment-content" id="comment-'+response.comment.id+'" style="display:none;">'+
                                     '<div class="user-avatar">';
 
                                     if(response.comment.user_avatar>0){
@@ -485,7 +554,7 @@ $(function() {
 
                                 if(response.comment.editable){
                                    html += '<div class="comment-action">'+
-                                              '<div  class="btn-delete-commen txt-center fs-big fc-grey-iii">'+
+                                              '<div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="'+response.comment.id+'">'+
                                                 '<i class="fa fa-times fa-fw"></i>'+
                                               '</div>'+
                                             '</div>';  
@@ -514,6 +583,149 @@ $(function() {
         $('.comments-content').find('.error').removeClass('hidden'); 
 
       }
+
+    });
+
+      // function: delete comment
+      $(document).on('click', '.btn-delete-comment', function(){
+
+         var commentId = $(this).data('commentId'); 
+
+          var showAlert = swal({
+            title: 'Eliminar comentario',
+            text: 'Confirma que desea eliminar su comentario en esta actividad',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              // show ajax loader
+              $('.loader').show();
+
+               $.ajax({
+                  url: projectURL+'/actividad/eliminar-comentario/'+commentId,
+                  type:'GET',
+                  dataType: 'JSON',
+                  success:function (response) {
+
+                      if(!response.error){
+
+                       $(document).find('#comment-'+commentId).fadeOut('slow', 
+                          function() { 
+                            $(this).remove()
+                          }); 
+
+                          // hide ajax loader
+                          $('.loader').hide();
+                     
+
+                      }
+                  },
+                  error: function(xhr, error) {
+                      // hide ajax loader
+                      $('.loader').hide();
+
+                  }
+              });
+
+          });               
+
+       
+      });
+
+
+    // filter activities
+    $('.btn-filter').on('click', function(e){
+
+      e.preventDefault(); 
+
+      var categoryId = $(this).data('categoryId'),
+          filterString =  $('input[name="filters[category]"]').val();
+         
+
+          if($(this).hasClass('unselected-tag')){
+
+            $(this).addClass('selected-tag').removeClass('unselected-tag').removeClass('tags-list-off').addClass('tags-list-on'); 
+
+
+              if(filterString!=''){
+
+                filterString = filterString+','+categoryId;
+
+              }else{
+
+                filterString = categoryId; 
+
+              }
+
+              $('input[name="filters[category]"]').val(filterString);
+
+
+          }else{
+
+              $(this).addClass('unselected-tag').removeClass('selected-tag').addClass('tags-list-off').removeClass('tags-list-on'); 
+
+
+              filtersArray = filterString.split(',');
+              filtersArray = _.without(filtersArray, categoryId.toString());
+
+              $('input[name="filters[category]"]').val(filtersArray.toString());
+
+          }
+            
+             console.log($('input[name="filters[category]"]').val()); 
+
+          $('#form-filter-activity').submit();
+
+    })
+
+    $('.btn-status').on('click', function(e){
+
+      e.preventDefault(); 
+
+      var statusId = $(this).data('statusId'),
+          statusString =  $('input[name="filters[status]"]').val();
+         
+
+          if($(this).hasClass('unselected-tag')){
+
+            $(this).addClass('selected-tag').removeClass('unselected-tag').removeClass('tags-list-off').addClass('tags-list-on'); 
+
+
+              if(statusString!=''){
+
+                statusString = statusString+','+statusId;
+
+              }else{
+
+                statusString = statusId; 
+
+              }
+
+              $('input[name="filters[status]"]').val(statusString);
+
+
+          }else{
+
+
+              $(this).addClass('unselected-tag').removeClass('selected-tag').addClass('tags-list-off').removeClass('tags-list-on'); 
+
+
+              statusArray = statusString.split(',');
+              statusArray = _.without(statusArray, statusId.toString());
+
+              $('input[name="filters[status]"]').val(statusArray.toString());
+
+          }
+            
+             console.log($('input[name="filters[status]"]').val()); 
+
+          $('#form-filter-activity').submit();      
 
     });
 

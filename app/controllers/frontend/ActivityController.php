@@ -87,7 +87,7 @@ class ActivityController extends BaseController {
 
 		switch($activity['status']){
 			case 1:
-				$activity['status_name'] = 'POR INICIAR';
+				$activity['status_name'] = 'SIN EMPEZAR';
 				break; 
 			case 2:
 				$activity['status_name'] = 'EN PROCESO';
@@ -111,7 +111,7 @@ class ActivityController extends BaseController {
 
 		return View::make('frontend.activity.detail')
 					->with('activity', $activity)
-					->with('comments', $comments);
+					->with('comments', $comments); 
 
 	}
 
@@ -155,6 +155,26 @@ class ActivityController extends BaseController {
 
 	     header('Content-Type: application/json');
 	     return Response::json($result);
+
+	}
+
+	public function deleteComment($commentId){
+
+	    if(Activity::deleteComment($commentId)){
+
+	      $result = array(
+	          'error'       => false
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);
 
 	}
 

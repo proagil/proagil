@@ -61,6 +61,8 @@ Route::any('proyecto/detalle/{project_id}', 'ProjectController@detail');
 
 Route::any('proyecto/editar/{project_id}', 'ProjectController@edit');
 
+Route::any('proyecto/eliminar/{project_id}', 'ProjectController@delete');
+
 Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
@@ -70,6 +72,8 @@ Route::any('proyecto/{project_id}/actividad/{activity_id}', 'ActivityController@
 Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
 
 Route::any('actividad/comentar', 'ActivityController@commnet');
+
+Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
 
 Route::any('artefacto/{friendly_url}', 'ArtefactController@detail');
 

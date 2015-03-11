@@ -22,7 +22,7 @@
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-med">
-	                    	  		Iniciar sesi&oacute;n
+	                    	  		Iniciar sesi&oacute;n 
 	                    	  </div>
 	                          <?= Form::open(array('action' => 'LoginController@index', 'id' => 'form-login')) ?> 
 	                                <div class="form-group">

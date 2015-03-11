@@ -17,7 +17,7 @@ class Activity extends Eloquent{
 
 				->where('a.enabled', TRUE)
 
-				->leftJoin('activity_belogns_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
+				->leftJoin('activity_belongs_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
 
 				->leftJoin('project AS p', 'abtp.project_id', '=', 'p.id')
 
@@ -69,6 +69,21 @@ class Activity extends Eloquent{
 
 				->first();
 	}
+
+	public static function deleteComment($commentId){
+
+		try{
+
+			return DB::table('activity_comment')->where('id', $commentId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}
+
 
 }
 

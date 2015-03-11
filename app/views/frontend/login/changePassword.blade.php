@@ -23,7 +23,8 @@
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-med">
-	                    	  		Cambiar contrase&ntilde;a
+	                    	  		Cambiar contrase&ntilde;a<br>
+	                    	  		<span class="fs-min">Indique una nueva contrase&ntilde;a para su cuenta</span>
 	                    	  </div>		                    	
 	                          <?= Form::open(array('action' => array('LoginController@changePassword', $token), 'id' => 'form-change-password')) ?> 
 	                                <div class="form-group">
