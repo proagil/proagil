@@ -12,15 +12,112 @@ class ActivityController extends BaseController {
 		//
 	}
 
-
-	/**
-	 * Show the form for creating a new resource.
-	 *
-	 * @return Response
-	 */
-	public function create()
+	public function create($projectId)
 	{
-		//
+		//get user
+	    $user = Session::get('user');
+
+		if(Input::has('_token')){
+			
+			// validation rules
+	        $rules =  array(
+	        'title'											=> 'required',
+	        'closing_date'									=> 'required',
+            'description'									=> 'required',
+            'category_activity_belongs_to_project_id'		=> 'required'
+	        );
+
+	        // set validation rules to input values
+	        $validator = Validator::make(Input::get('values'), $rules);
+	        // get input valiues
+	        $values = Input::get('values');
+
+	        $projectId = $values['projectId'];
+
+        	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
+			
+			// get view data
+	    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId); 
+	    	$project = (array) Project::get($projectId);
+			
+			// project list on sidebar
+	        $ownerProjects = Project::getOwnerProjects($user['id']);
+	        $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
+
+	        if(!$validator->fails()){
+
+		        $nowDate= (array) new DateTime('today');
+
+		        $activity = array(
+	                'title'      	    						=> $values['title'],
+	                'description'       						=> $values['description'],
+					'enabled'           						=> Config::get('constant.ENABLED'),
+	                'status'   									=> 1,
+	                'category_activity_belongs_to_project_id'   => $values['category_activity_belongs_to_project_id'],
+	                'start_date'								=> $nowDate['date'],
+	                'closing_date'     							=> $values['closing_date']
+	            );
+
+	            // insert project on DB
+	            $activityId = Activity::insert($activity);
+
+	            if($activityId>0) {
+
+                //save project artefacts
+
+		        $projectActivity = array(
+		            'project_id'    => $projectId,
+		            'activity_id'   => $activityId,
+		            'user_id'		=> $user['id']
+		        );
+
+	            Activity::insertProjectActivity($projectActivity); 
+                
+                }
+
+				// return View::make('frontend.activity.create')
+		  //       		->with('categories', $categories)
+		  //       		->with('ownerProjects', $ownerProjects) 
+		  //       		->with('project', $project)
+		  //       		->with('projectDetail', TRUE)
+		  //       		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+		    return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+
+		    }else{
+
+              return View::make('frontend.activity.create')
+                        ->withErrors($validator)
+                        ->with('values', $values)
+                        ->with('categories', $categories)
+						->with('ownerProjects', $ownerProjects) 
+		        		->with('project', $project)
+		        		->with('projectDetail', TRUE)
+		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+		    }			
+
+		}else{
+			
+	    	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
+			
+			// get view data
+	    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId); 
+	    	$project = (array) Project::get($projectId);
+			
+			// project list on sidebar
+	        $ownerProjects = Project::getOwnerProjects($user['id']);
+	        $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
+
+	        // render view first time 
+
+	        return View::make('frontend.activity.create') 
+	        		->with('categories', $categories)
+	        		->with('ownerProjects', $ownerProjects) 
+	        		->with('project', $project)
+	        		->with('projectDetail', TRUE)
+	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+	    }
+		
+
 	}
 
 
@@ -76,7 +173,7 @@ class ActivityController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function detail($projectId, $activityId){
+	public function detail($ProjectectId, $activityId){
 
 		// get user on session
         $user = Session::get('user');

@@ -16,10 +16,9 @@ class ProjectController extends BaseController {
 
 	public function create(){
 
-      // get view data
-      $artefacts = (array) Artefact::enumerate(); 
-      $projectTypes = (array) Project::selectProjectTypes(); 
-
+    // get view data
+    $artefacts = (array) Artefact::enumerate(); 
+    $projectTypes = (array) Project::selectProjectTypes(); 
 
 		if(Input::has('_token')){
 
@@ -114,6 +113,7 @@ class ProjectController extends BaseController {
               }
 
            	}else{
+
 
               return View::make('frontend.project.create')
                           ->withErrors($validator)

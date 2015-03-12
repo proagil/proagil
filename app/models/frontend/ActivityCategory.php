@@ -20,6 +20,20 @@ class ActivityCategory extends Eloquent{
 				  	->get();
 	}
 
+	public static function getCategoriesByProjectId($projectId){
+
+		$result = DB::table('category_activity_belongs_to_project')
+				  	->where('project_id', $projectId)
+				  	->get();
+
+		$categories = array(); 
+		foreach($result as $index => $row){
+			$categories[$row->id] = $row->name;
+		}
+
+		return $categories; 
+	}
+
 	public static function _delete($categoryId){
 
 		try{

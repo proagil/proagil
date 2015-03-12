@@ -69,6 +69,8 @@ Route::any('proyecto/{project_id}/actividad/{activity_id}', 'ActivityController@
 
 Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
 
+Route::any('proyecto/actividad/crear/{project_id}', 'ActivityController@create');
+
 Route::any('actividad/comentar', 'ActivityController@commnet');
 
 Route::any('artefacto/{friendly_url}', 'ArtefactController@detail');

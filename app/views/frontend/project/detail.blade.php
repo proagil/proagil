@@ -91,7 +91,7 @@
 								</div>
 								@if($projectOwner)
 								<div class=" fs-med common-btn btn-i btn-turquoise pull-right">
-									<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
+									<a href="{{URL::action('ActivityController@create', array($project['id']))}}"><i class="fs-big fa fa-plus fa-fw " ></i>Agregar actividad</a>
 								</div>
 								@endif
 							</div>	
@@ -145,25 +145,26 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.javascript')
+		@include('frontend.includes.javascript')
 
 		<script>
 
-	    $(function() {
+		    $(function() {
 
-	      $('.activity').on('click', function(){
+		      $('.activity').on('click', function(){
 
-	      	var projectId = $(this).data('projectId'),
-	      		activityId = $(this).data('activityId'), 
+		      	var projectId = $(this).data('projectId'),
+		      		activityId = $(this).data('activityId'), 
 
-	      		windowLocation = "<?= URL::to('/')?>" 
+		      		windowLocation = "<?= URL::to('/')?>" 
 
-	      	 	window.location.href = windowLocation+'/proyecto/'+projectId+'/actividad/'+activityId;
+		      	 	window.location.href = windowLocation+'/proyecto/'+projectId+'/actividad/'+activityId;
 
-	      })
+		      })	     
+		  	});
 
-	  	});
-	</script>
+		</script>
+		
 	</body>
 
 </html>

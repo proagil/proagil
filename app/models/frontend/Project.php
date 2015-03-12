@@ -114,7 +114,7 @@ class Project extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('activity_belogns_to_project AS abtp')
+		return DB::table('activity_belongs_to_project AS abtp')
 
 			->select('u.id', 'u.first_name', 'a.*')
 

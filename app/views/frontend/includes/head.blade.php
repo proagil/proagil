@@ -21,6 +21,8 @@
     {{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
     {{ HTML::style('css/frontend/sb-admin-2.css') }}
      {{ HTML::style('css/frontend/swiper.css') }}
+     {{ HTML::style('css/frontend/datepicker3.css') }}
+     
     {{ HTML::style('bower_components/font-awesome/css/font-awesome.min.css') }}    
     {{ HTML::style('bower_components/sweet-alert/sweet-alert.css') }}
     {{ HTML::style('css/frontend/owl.carousel.css') }}

@@ -17,7 +17,7 @@ class Activity extends Eloquent{
 
 				->where('a.enabled', TRUE)
 
-				->leftJoin('activity_belogns_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
+				->leftJoin('activity_belongs_to_project AS abtp', 'abtp.activity_id', '=', 'a.id')
 
 				->leftJoin('project AS p', 'abtp.project_id', '=', 'p.id')
 
@@ -26,11 +26,6 @@ class Activity extends Eloquent{
 				->leftJoin('user AS u', 'abtp.user_id', '=', 'u.id')
 			  	
 			  	->first();
-	}
-
-	public static function saveComment($values){
-
-		return DB::table('activity_comment')->insertGetId($values);
 	}
 
 	public static function getComments($activityId){
@@ -52,7 +47,7 @@ class Activity extends Eloquent{
 				->get();
 	}
 
-		public static function getComment($commentId){
+	public static function getComment($commentId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
@@ -69,6 +64,21 @@ class Activity extends Eloquent{
 
 				->first();
 	}
+
+	public static function insert($values){
+
+		return DB::table('activity')->insertGetId($values);
+	}
+
+	public static function insertProjectActivity($values){
+
+		return DB::table('activity_belongs_to_project')->insertGetId($values);
+	}
+
+	public static function saveComment($values){
+
+		return DB::table('activity_comment')->insertGetId($values);
+	}	
 
 }
 
