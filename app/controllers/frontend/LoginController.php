@@ -171,7 +171,7 @@ class LoginController extends BaseController {
 
              }else{
 
-                return View::make('frontend.login.index')
+                return View::make('frontend.login.changePassword')
                           ->withErrors($validator)
                           ->with('values', $values)
                           ->with('token', $token);

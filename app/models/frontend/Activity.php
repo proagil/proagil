@@ -2,6 +2,20 @@
 
 class Activity extends Eloquent{
 
+	public static function deleteComment($commentId){
+
+		try{
+
+			return DB::table('activity_comment')->where('id', $commentId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}
+
 	public static function enumerate(){
 
 		return DB::table('activity')->where('enabled', TRUE)->get();

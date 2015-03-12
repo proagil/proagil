@@ -3,6 +3,9 @@
  --*/
  
  /* --- ELEMENT reset -------------------------------------------------*/
+
+ .btn-change-status,
+ .activity-options,
  .detail-activity-content,
  .artefacts-content,
  .activity,
@@ -29,6 +32,10 @@
  	float: left;
  	overflow: hidden;
  } 
+
+ a, a:hover {
+ 	color: #2a3542; 
+ }
 
 
 a, a:hover  {
@@ -267,6 +274,10 @@ body {
 	float: left;
 }
 
+.app-input-i {
+	width: 98%; 
+}
+
 .app-input:focus {
 	border-color: #ccc; 
 	box-shadow: none; 
@@ -278,12 +289,14 @@ body {
 
 }
 
+a.btn-back,
 a.login-link {
 	outline: none;
 	text-decoration: none;
 	color: #aeb2b7;
 }
 
+a.btn-back:hover,
 a.login-link:hover  {
 	outline: none;
 	text-decoration: underline;
@@ -404,6 +417,13 @@ a.login-link:hover  {
 	width: 100%;
 
 }
+
+.project-item-content {
+	width: 100%;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+}
+
 
 /*-------------------------------------------
 	PROJECT DETAIL section
@@ -536,7 +556,7 @@ a.tags-list-off {
 }
 
 a.tags-list-on {
-	background-color: #aeb2b7;
+	background-color: #e3e2e2;
 }
 
 a.unmade-off{
@@ -589,10 +609,18 @@ a.made-on{
 }
 
 .activity {
+	width: 80%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
-
 }
+
+.btn-change-status {
+	width: 5%; 
+	margin: 1% 0 0 0; 
+	padding: 7px 0px; 
+	cursor: pointer; 
+}
+
 
 .activity-info {
 	width: auto;
@@ -617,6 +645,10 @@ a.made-on{
 }
 
 .activity-options {
+	width: 15%;
+	margin: 1% 0 0 0;
+	background-color: #f2f2f2;
+	padding: 7px 0px; 
 
 }
 

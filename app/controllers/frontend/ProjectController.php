@@ -539,8 +539,29 @@ class ProjectController extends BaseController {
           // get activity categories
           $activityCategories = (array) ActivityCategory::get($projectId);
 
+
+          // get filters with categories and status
+          $filters = NULL;
+          $filtersArray = array();  
+          $status = NULL;
+          $statusArray = array(); 
+
+          if(Input::has('_token')){
+
+             $filters = Input::get('filters');
+
+             if($filters['category']!=''){
+                 $filtersArray =  explode(',', $filters['category']);
+             }
+
+            if($filters['status']!=''){
+                 $statusArray =  explode(',', $filters['status']);
+             }
+
+          }
+
           // get activities
-          $activities = Project::getProjectActivities($projectId);
+          $activities = Project::getProjectActivities($projectId, $filtersArray, $statusArray);
 
           // add activity status class
           foreach($activities as $index => $activity){
@@ -569,9 +590,37 @@ class ProjectController extends BaseController {
                 ->with('projectArtefacts', $projectArtefacts)
                 ->with('activityCategories', $activityCategories)
                 ->with('ownerProjects', $ownerProjects)
-                ->with('activities', $activities); 
+                ->with('activities', $activities)
+                ->with('filters', $filters)
+                ->with('filtersArray', $filtersArray)
+                ->with('statusArray', $statusArray);  
 
     }
+
+  }
+
+  public function delete($projectId){
+
+      // get user on session
+      $user = Session::get('user');   
+
+      $isOwner = Project::userIsOwner($user['id'], $projectId);
+
+      // verify if user on session is owner of project
+      if(empty($isOwner)) {
+
+      }else{
+
+        // delete artefacts on project
+
+        // delete users on project
+
+        // delete activity categories
+
+        // delete activity
+
+      }
+
 
   }
 

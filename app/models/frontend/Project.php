@@ -32,6 +32,20 @@ class Project extends Eloquent{
 				  	->first();
 	}
 
+	public function _delete($projectId){
+
+		try{
+
+			return DB::table('project')->where('id', $projectId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}		
+
 	public static function getProjectArtefacts($projectId, $mode=NULL){
 
 		$consult = DB::table('artefact_belongs_to_project AS abtp')
@@ -76,6 +90,25 @@ class Project extends Eloquent{
 
 	}
 
+	public static function userIsOwner($userId, $projectId){
+
+		return DB::table('user_belongs_to_project AS ubtp')
+
+			->select('p.id', 'p.name')
+
+			->where('ubtp.user_id', $userId)
+
+			->where('ubtp.project_id', $projectId)
+
+			->where('ubtp.user_role_id', Config::get('constant.project.owner'))
+
+			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
+
+			->get();
+
+
+	}	
+
 	public static function getMemberProjects($userId) {
 
 		return DB::table('user_belongs_to_project AS ubtp')
@@ -110,23 +143,33 @@ class Project extends Eloquent{
 
 	}
 
-	public static function getProjectActivities($projectId) {
+	public static function getProjectActivities($projectId, $filtersArray=NULL, $statusArray=NULL) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('activity_belongs_to_project AS abtp')
+		$query =  DB::table('activity_belongs_to_project AS abtp')
 
 			->select('u.id', 'u.first_name', 'a.*')
 
-			->where('abtp.project_id', $projectId)
+			->where('abtp.project_id', $projectId);
 
-			->join('user AS u', 'abtp.user_id', '=', 'u.id')
+			// filter by activity category
+			if(!empty($filtersArray) && $filtersArray!=NULL){
+				$query->whereIn('a.category_id', $filtersArray); 
+			}
 
-			->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+			// filter by  status
+			if(!empty($statusArray) && $statusArray!=NULL){
+				$query->whereIn('a.status', $statusArray); 
+			}
 
-			->orderBy('a.id', 'ASC')
+			$query->join('user AS u', 'abtp.user_id', '=', 'u.id')
 
-			->get();		
+				  ->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+
+				  ->orderBy('a.id', 'ASC');
+
+			return $query->get();		
 
 	}
 
@@ -134,6 +177,62 @@ class Project extends Eloquent{
 
 		return DB::table('activity')->where('id', $activityId)->update($values);
 	}
+
+	public function deleteArtefacts($projectId){
+
+		try{
+
+			return DB::table('artefact_belongs_to_project')->where('project_id', $projectId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+
+	}
+
+	public function deleteActivities($projectId){
+
+		try{
+
+			return DB::table('activity_belongs_to_project')->where('project_id', $projectId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}
+
+	public function deleteCategoriesActivity($projectId){
+
+		try{
+
+			return DB::table('category_activity_belongs_to_project')->where('project_id', $projectId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+
+	}
+
+	public function deleteUsers($projectId){
+
+		try{
+
+			return DB::table('user_belongs_to_project')->where('project_id', $projectId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}	
 
 
 }

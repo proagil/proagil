@@ -23,7 +23,8 @@
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-med">
-	                    	  		Recuperar contrase&ntilde;a
+	                    	  		Recuperar contrase&ntilde;a <br>
+	                    	  		<span class="fs-min">Indique su correo con el que se registr&oacute; en la aplicaci&oacute;n</span>
 	                    	  </div>	                    	
 	                          <?= Form::open(array('action' => 'LoginController@forgotPassword', 'id' => 'form-forgot-password')) ?> 
 	                                <div class="form-group">

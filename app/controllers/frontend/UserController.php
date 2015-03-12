@@ -131,17 +131,12 @@ class UserController extends BaseController {
 			        );
 
 			        // get project name
-
-			        // -- 
-
-			        // --
-
-			        // TODO
+			        $project = (array) Project::get($invitation['project_id']); 
 
 			        // save user as project member
 			        User::userBelongsToProject($userRole);    
 
-			        Session::flash('success_message', 'Ya eres parte del proyecto XXXX. Inicia sesi&oacute;n para acceder a &eacute;l'); 					
+			        Session::flash('success_message', 'Ya eres parte del proyecto: '. $project['name'].'.Inicia sesi&oacute;n para acceder a &eacute;l'); 					
 
 				}else{
 
@@ -313,7 +308,7 @@ class UserController extends BaseController {
                 'first_name'      	=> $values['first_name'],
                 'last_name'       	=> $values['last_name'],
                 'avatar'			=> (isset($imageId))?$imageId:$user['avatar'],
-                'password'        	=> isset($values['password'])?md5($values['password']):$user['password'],
+                'password'        	=> ($values['password']!=NULL)?md5($values['password']):$user['password'],
               );
 
               // update user on DB

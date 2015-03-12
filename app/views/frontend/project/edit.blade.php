@@ -28,7 +28,7 @@
                       <div class="form-content">
 						          {{ Form::open(array('action' => array('ProjectController@edit', $projectId), 'id' => 'form-edit-project'))}}
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label">Nombre</label>  
                             <div class="col-md-4">
                               {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input')) }}
 
@@ -37,7 +37,7 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label">Descripci&oacute;n</label>  
                             <div class="col-md-4">
                               {{ Form::textarea('values[description]', (isset($values['description']))?$values['description']:'', array('class'=>'form-control app-input', 'rows' => '3')) }}
                               <label class="error fc-pink fs-min" style="display:none;"></label>
@@ -45,7 +45,7 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Tipo de proyecto</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label">Tipo de proyecto</label>  
                             <div class="col-md-4">
                               {{ Form::select('values[project_type]', $projectTypes, NULL , array('class'=>'form-control app-input')) }}
                               <label class="error fc-pink fs-min" style="display:none;"></label>
@@ -53,7 +53,7 @@
                             </div>
                           </div> 
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Artefactos del proyecto</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label">Artefactos del proyecto</label>  
                             <div class="col-md-4">
                               @if (!is_null($artefacts))
                                 @foreach($artefacts as $artefact)
@@ -64,7 +64,10 @@
                                 @endforeach
                               @endif                              
                             </div>
-                          </div>                                                    
+                          </div> 
+                          <div class="form-group">
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput"><i class="fs-med fa fa-times fc-pink fa-fw"></i> <a href="#" class="txt-undrln btn-delete-project" data-project-id="{{$projectId}}"> Eliminar proyecto</a></label>  
+                          </div>                                                                              
 
                           <div class="form-group">
                                <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-edit-project">Guardar</div> 
