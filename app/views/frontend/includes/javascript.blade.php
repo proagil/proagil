@@ -24,4 +24,6 @@
 
 {{ HTML::script('js/frontend/generic.js') }}
 
+{{ HTML::script('js/frontend/bootstrap-datepicker.js') }}
+
 <!--END JAVASCRIPT!-->

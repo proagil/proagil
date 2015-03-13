@@ -2,6 +2,20 @@
 
 class Activity extends Eloquent{
 
+	public static function deleteComment($commentId){
+
+		try{
+
+			return DB::table('activity_comment')->where('id', $commentId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}
+
 	public static function enumerate(){
 
 		return DB::table('activity')->where('enabled', TRUE)->get();
@@ -28,11 +42,6 @@ class Activity extends Eloquent{
 			  	->first();
 	}
 
-	public static function saveComment($values){
-
-		return DB::table('activity_comment')->insertGetId($values);
-	}
-
 	public static function getComments($activityId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
@@ -52,7 +61,7 @@ class Activity extends Eloquent{
 				->get();
 	}
 
-		public static function getComment($commentId){
+	public static function getComment($commentId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
@@ -70,20 +79,20 @@ class Activity extends Eloquent{
 				->first();
 	}
 
-	public static function deleteComment($commentId){
+	public static function insert($values){
 
-		try{
-
-			return DB::table('activity_comment')->where('id', $commentId)->delete();
-		
-		}catch(\Exception $e){
-
-			return false; 
-
-		}
-
+		return DB::table('activity')->insertGetId($values);
 	}
 
+	public static function insertProjectActivity($values){
+
+		return DB::table('activity_belongs_to_project')->insertGetId($values);
+	}
+
+	public static function saveComment($values){
+
+		return DB::table('activity_comment')->insertGetId($values);
+	}	
 
 }
 
