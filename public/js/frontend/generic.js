@@ -25,13 +25,15 @@ $(function() {
     $('[data-toggle="popover"]').popover();
 
     //GENERIC: remove all active classes on load
-    var active = $('.active'); 
+    var active = $('.active'),
+        cIn = $('.in');
 
     // GENERIC: generate fileupload div
     $('.file-upload').bootstrapFileInput();  
 
     // GENERIC: remove all active classes
     $(document).find(active).removeClass('active'); 
+    $(document).find(cIn).removeClass('in'); 
 
     // GENERIC: go back function
     $('.btn-back').on('click', function(e){
@@ -216,9 +218,10 @@ $(function() {
       // go to artefact detail
       $('.artefact').on('click', function(){
 
-        var friendlyUrl = $(this).data('friendlyUrl');
+        var friendlyUrl = $(this).data('friendlyUrl'),
+            projectId = $(this).data('projectId');
 
-         window.location.href = projectURL+'/artefacto/'+friendlyUrl;
+         window.location.href = projectURL+'/artefacto/'+friendlyUrl+'/proyecto/'+projectId;
 
       });  
 

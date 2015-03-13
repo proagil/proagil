@@ -33,6 +33,8 @@ Route::any('/admin/artefacto/eliminar/{id}', 'AdminArtefactController@delete');
 
 Route::any('/', 'LoginController@index');
 
+Route::any('inicio', 'DashboardController@index');
+
 Route::any('/cerrar-sesion', 'LoginController@logout');
 
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
@@ -75,6 +77,10 @@ Route::any('actividad/comentar', 'ActivityController@commnet');
 
 Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
 
-Route::any('artefacto/{friendly_url}', 'ArtefactController@detail');
+Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
 
-Route::any('inicio', 'DashboardController@index');
+Route::any('sondeo/listado/{project_id}', 'ProbeController@index');
+
+Route::any('sondeo/crear/{project_id}', 'ProbeController@create');
+
+Route::any('sondeo/guardar/', 'ProbeController@save');

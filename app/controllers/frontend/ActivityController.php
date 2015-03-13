@@ -100,8 +100,6 @@ class ActivityController extends BaseController {
 		// get activity comments
 		$comments = Activity::getComments($activityId); 
 
-		//print_r($activity); die; 
-
 		//format comments date and add flag to know comment autor
 		foreach($comments as $index => $comment){
 			$comments[$index]['date'] = date('d/m/Y', strtotime($comments[$index]['date']));
