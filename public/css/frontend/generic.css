@@ -3,6 +3,8 @@
  --*/
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .error-alert,
+ .success-alert,
  .all-options-content,
  .probe-general-buttons,
  .show-quiestion-option,
@@ -341,11 +343,18 @@ a.login-link:hover  {
 	margin-bottom: 2%; 
 }
 
+.success-alert-dashboard,
+.error-alert-dashboard, 
 .success-alert {
 	background-color: #a8d76f;
 	padding: 10px 1px 10px 20px;
 	margin-bottom: 2px; 
 }
+
+.error-alert-dashboard {
+	background-color: #ef6f66;
+}
+
 
 /*-------------------------------------------
 	REGISTER section
@@ -634,12 +643,7 @@ a.made-on{
 /*-------------------------------------------
 	ACTIVITY section
  -------------------------------------------*/
-
-.list-activities-content {
-	width: 100%; 
-	margin: 55px 0 0 0; 
-}
-
+ 
 .activity {
 	width: 80%;
 	background-color: #f2f2f2;
@@ -804,17 +808,19 @@ textarea{
 .probe-label {
 	width: 12%; 
 	padding: 3px;
+	margin: 2px 2px 0 2px;
 }
 
+.probe-input-status,
 .probe-input-name {
-	padding: 16px; 
+	padding: 5px; 
 	margin: 4px; 
 }
 
 .probe-input-description {
-	padding: 6px; 
+	padding: 4px; 
 	margin: 4px; 
-	width: 73%;probe
+	width: 99%%;
 }
 
 .btn-add-question-option,

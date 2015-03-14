@@ -37,58 +37,32 @@
 							@endif
 							
 							<div class="list-content">
-								<div class="probe-item-content">
-									<i class="fc-yellow fa fa-th-list fa-fw"></i>
-										XXXXXXXx
-									<span class="fs-min"><i class="fs-med fa fa-unlock fc-turquoise fa-fw"></i>Abierto</span>						
-								</div>
-								<div class="probe-options txt-center">
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-eye fa-fw"></i>
+								@if(!empty($probes))
+									@foreach($probes as $probe)
+									<div class="probe-item-content">
+										<i class="fc-yellow fa fa-th-list fa-fw"></i>
+											{{$probe['title']}}
+										@if($probe['status']==1)
+											<span class="fs-min"><i class="fs-med fa fa-lock fc-turquoise fa-fw"></i>Cerrado</span>
+										@else
+											<span class="fs-min"><i class="fs-med fa fa-unlock fc-turquoise fa-fw"></i>Abierto</span>
+										@endif						
 									</div>
-									@if($projectOwner)								
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-pencil fa-fw"></i>
-									</div>
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-bar-chart-o fa-fw"></i>
-									</div>	
-									@endif								
-								</div>
-								<div class="probe-item-content">
-									<i class="fc-yellow fa fa-th-list fa-fw"></i>
-										XXXXXXXx
-									<span class="fs-min"><i class="fs-med fa fa-unlock fc-turquoise fa-fw"></i>Abierto</span>						
-								</div>
-								<div class="probe-options txt-center">
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-eye fa-fw"></i>
-									</div>								
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-pencil fa-fw"></i>
-									</div>
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-bar-chart-o fa-fw"></i>
+									<div class="probe-options txt-center">
+										<div class="circle activity-option txt-center fs-big fc-turquoise">
+											<i class="fa fa-eye fa-fw"></i>
+										</div>
+										@if($projectOwner)								
+										<div class="circle activity-option txt-center fs-big fc-turquoise">
+											<i class="fa fa-pencil fa-fw"></i>
+										</div>
+										<div class="circle activity-option txt-center fs-big fc-turquoise">
+											<i class="fa fa-bar-chart-o fa-fw"></i>
+										</div>	
+										@endif								
 									</div>									
-								</div>																												
-								<div class="probe-item-content">
-									<i class="fc-yellow fa fa-th-list fa-fw"></i>
-										XXXXXXXx
-									<span class="fs-min"><i class="fs-med fa fa-lock fc-turquoise fa-fw"></i>Cerrado</span>						
-								</div>
-								<div class="probe-options txt-center">
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-eye fa-fw"></i>
-									</div>		
-														
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-pencil fa-fw"></i>
-									</div>
-									<div class="circle activity-option txt-center fs-big fc-turquoise">
-										<i class="fa fa-bar-chart-o fa-fw"></i>
-									</div>	
-																	
-								</div>				
+									@endforeach
+								@endif				
 							</div>											
 						</div>
 					</div>
