@@ -228,7 +228,6 @@ $(function() {
 
 ----------------------------------------------------------------------*/   
 
-
       $('.btn-delete-project').on('click', function(e){
 
          e.preventDefault(); 
@@ -254,8 +253,20 @@ $(function() {
           });               
 
        
-      });     
+      }); 
+/*----------------------------------------------------------------------
 
+        ACTIVITY ADD NEW
+
+----------------------------------------------------------------------*/
+    
+    //ADD: new activity
+    $('.btn-add-activity').on('click', function(){
+      var projectId = $(this).data('projectId'); 
+
+      window.location.href = projectURL+'/proyecto/actividad/crear/'+projectId;
+
+    });       
 
 /*----------------------------------------------------------------------
 
@@ -418,7 +429,59 @@ $(function() {
 
         return false;
 
-    }); 
+    });
+    
+/*----------------------------------------------------------------------
+
+        ACTIVITY DELETE FUNCTIONS
+
+----------------------------------------------------------------------*/       
+
+      $('.btn-delete-activity').on('click', function(e){
+
+         e.preventDefault(); 
+
+         var activityId = $(this).data('activityId'); 
+
+          var showAlert = swal({
+            title: '¿Está seguro que desea eliminar la actividad?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'/proyecto/actividad/eliminar/'+activityId;
+
+          });  
+       
+      }); 
+
+/*----------------------------------------------------------------------
+
+        ACTIVITY EDIT FUNCTIONS
+
+----------------------------------------------------------------------*/
+     //EDIT: list btn
+    $('.btn-edit-activity-id').on('click', function(){
+      var activityId = $(this).data('activityId'); 
+
+      window.location.href = projectURL+'/proyecto/actividad/editar/'+activityId;
+
+    });       
+
+    //EDIT: submit form
+    $('.btn-edit-activity').on('click', function(){
+
+        $('#form-edit-activity').submit();
+
+        return false;
+
+    });     
 
 
 /*----------------------------------------------------------------------

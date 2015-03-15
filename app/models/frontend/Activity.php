@@ -2,6 +2,23 @@
 
 class Activity extends Eloquent{
 
+	public static function enumerate(){
+
+		return DB::table('activity')->where('enabled', TRUE)->get();
+	}
+
+	public static function deleteActivity($activityId){
+		try{
+			
+			return DB::table('activity')->where('id', $activityId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+	}
+
 	public static function deleteComment($commentId){
 
 		try{
@@ -14,11 +31,20 @@ class Activity extends Eloquent{
 
 		}
 
-	}
+	}	
 
-	public static function enumerate(){
+	public static function deleteProjectActivity($activityId, $projectId){
 
-		return DB::table('activity')->where('enabled', TRUE)->get();
+		try{
+			return DB::table('activity_belongs_to_project')
+					->where('activity_id', $activityId)
+					->where('project_id', $projectId)
+					->delete();
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
 	}
 
 	public static function get($activityId){
@@ -40,6 +66,19 @@ class Activity extends Eloquent{
 				->leftJoin('user AS u', 'abtp.user_id', '=', 'u.id')
 			  	
 			  	->first();
+	}
+
+	public static function getById($activityId){
+
+		return DB::table('activity_belongs_to_project AS abtp')
+
+				->select('a.*', 'abtp.id AS abtp_id','abtp.user_id', 'abtp.project_id' )
+
+				->where('abtp.activity_id', $activityId)
+								
+				->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+
+				->first();
 	}
 
 	public static function getComments($activityId){
@@ -94,6 +133,16 @@ class Activity extends Eloquent{
 		return DB::table('activity_comment')->insertGetId($values);
 	}	
 
+	public static function updateActivity($activityId, $values){
+
+		return DB::table('activity')->where('id', $activityId)->update($values);
+	}
+
+	public static function updateProjectActivity($abtpId, $values){
+
+		return DB::table('activity_belongs_to_project')->where('id', $abtpId)->update($values);
+	}	
+	
 }
 
 ?>

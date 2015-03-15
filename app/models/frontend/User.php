@@ -92,6 +92,13 @@ class User extends Eloquent{
 		return $roles; 
 	}
 
+	public static function getUsersByProjectId($projectId){
+		return DB::table('user_belongs_to_project')
+					->where('project_id', $projectId)
+					->where('user_role_id',2)
+					->get;
+	}	
+
 	public static function getUserRoleOnProject($projectId, $userId){
 		return DB::table('user_belongs_to_project')
 					->where('project_id', $projectId)

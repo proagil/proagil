@@ -13,6 +13,9 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 						<div class="activities-content">
+							@if (Session::has('success_message'))
+		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+		                	@endif	
 							<div class="breadcrumbs-content">
 								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}}
 							</div>
@@ -97,8 +100,8 @@
 
 								</div>
 								@if($projectOwner)
-								<div class=" fs-med common-btn btn-i btn-turquoise pull-right">
-									<a href="{{URL::action('ActivityController@create', array($project['id']))}}"><i class="fs-big fa fa-plus fa-fw " ></i>Agregar actividad</a>
+								<div class=" fs-med common-btn btn-i btn-turquoise pull-right btn-add-activity"  data-project-id="{{$project['id']}}">
+									<i class="fs-big fa fa-plus fa-fw " ></i>Agregar actividad
 								</div>
 								@endif
 							</div>	
@@ -124,13 +127,17 @@
 									</div>
 									<div class="activity-options txt-center">
 										@if($projectOwner)
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
+										<div class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
 											<i class="fa fa-pencil fa-fw"></i>
 										</div>	
+										<div class="circle activity-option txt-center fs-big fc-turquoise btn-delete-activity" data-activity-id="{{$activity['id']}}">
+											<i class="fa fa-times fa-fw"></i>
+										</div>											
 										@endif								
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-comments fa-fw"></i>
 										</div>
+
 										<div class="circle activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
 											<i class="fa fa-caret-down fa-fw"></i>
 										</div>

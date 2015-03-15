@@ -73,6 +73,10 @@ Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityContro
 
 Route::any('proyecto/actividad/crear/{project_id}', 'ActivityController@create');
 
+Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
+
+Route::any('proyecto/actividad/eliminar/{activity_id}', 'ActivityController@delete');
+
 Route::any('actividad/comentar', 'ActivityController@commnet');
 
 Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
