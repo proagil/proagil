@@ -16,7 +16,11 @@
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-		                	@endif							
+		                	@endif	
+
+							<div class="breadcrumbs-content">
+								Inicio 
+							</div>		                							
 
 							
 							<div class="filters-content">

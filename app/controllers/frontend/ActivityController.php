@@ -180,7 +180,7 @@ class ActivityController extends BaseController {
 
         // get activity data
 		$activity = (array) Activity::get($activityId); 
-		$activity['date'] = date('d/m/Y', strtotime($activity['date']));
+		$activity['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));
 
 		switch($activity['status']){
 			case 1:

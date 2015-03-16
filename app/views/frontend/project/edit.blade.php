@@ -14,12 +14,14 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> Editar Proyecto
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Editar 
         							</div>
 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-                      @endif                          
+                      @endif   
+
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>                       
         							
                       <div class="section-title fc-blue-iii fs-big">
         								Editar Proyecto

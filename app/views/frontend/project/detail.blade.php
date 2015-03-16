@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}}
+								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}
 							</div>
 							
 							<div class="artefacts-content">
@@ -38,13 +38,8 @@
 														<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 													</div>
 													
-													<div class="artefact-info">
-														<div class="artefact-status">
-															<i class="fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>
-														</div>
-														<div class="artefact-name">
-															{{$projectArtefact->name}}
-														</div>
+													<div class="artefact-info txt-center">
+														{{$projectArtefact->name}}
 													</div>
 												</div>
 											</div>

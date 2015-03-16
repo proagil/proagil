@@ -167,9 +167,16 @@ class ProjectController extends BaseController {
                       'token'         => md5($email.date('H:i:s'))
                   );
 
+                    // get user on session data
+                    $user = Session::get('user');
+
+                    // get project data
+                    $project = (array) Project::getName(Session::get('created_project_id'));            
+
                   if(User::saveInvitation($userInvitation)>0){
 
-                    // verify if users email already exist on DB
+
+                    // verify if user email already exist on DB
                     $savedUser = (array) User::getUserByEmail($email);
 
                       if(!empty($savedUser)){
@@ -177,7 +184,9 @@ class ProjectController extends BaseController {
                         // create email data
                         $emailData = array(
                           'user_name'     => $savedUser['first_name'],
-                          'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+                          'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token'],
+                          'user_name'     => $user['first_name'].' '.$user['last_name'],
+                          'project_name'  =>  $project['name']
 
                         );
 
@@ -195,10 +204,12 @@ class ProjectController extends BaseController {
                       
                         }else{
 
-                          // create email data
+                          // create email data for new user
                           $emailData = array(
                             'user_name'     => $email,
-                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
+                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token'],
+                            'user_name'     => $user['first_name'].' '.$user['last_name'],
+                            'project_name'  =>  $project['name']
 
                           );                          
 
@@ -278,6 +289,12 @@ class ProjectController extends BaseController {
                   'token'         => md5($email.date('H:i:s'))
               );
 
+                   // get user on session data
+                  $user = Session::get('user');
+
+                  // get project data
+                  $project = (array) Project::getName($projectId);         
+
               if(User::saveInvitation($userInvitation)>0){
 
                 // verify if users email already exist on DB
@@ -288,7 +305,9 @@ class ProjectController extends BaseController {
                     // create email data
                     $emailData = array(
                       'user_name'     => $savedUser['first_name'],
-                      'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token']
+                      'url_token'     => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token'],
+                      'user_name'     => $user['first_name'].' '.$user['last_name'],
+                      'project_name'  => $project['name']
 
                     );
 
@@ -308,8 +327,10 @@ class ProjectController extends BaseController {
 
                       // create email data
                       $emailData = array(
-                        'user_name'     => $email,
-                        'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token']
+                        'user_name'       => $email,
+                        'url_token'       => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token'],
+                        'user_name'       => $user['first_name'].' '.$user['last_name'],
+                        'project_name'    => $project['name']
 
                       );                          
 
@@ -331,13 +352,8 @@ class ProjectController extends BaseController {
                 } 
               }
 
-              // FIXME
 
-              // - - - PROJECT NAME
-
-              // - - 
-
-              Session::flash('success_message', 'Se han modificado las invitaciones del proyecto XXXXX'); 
+              Session::flash('success_message', 'Se han modificado las invitaciones del proyecto '.$project['name']); 
 
               return Redirect::to(URL::action('DashboardController@index'));
 
@@ -377,17 +393,15 @@ class ProjectController extends BaseController {
         );
 
         // get project name
-
-        // -- 
-
-        // --
-
-        // TODO
+        $project = (array) Project::getName($invitation['project_id']);
 
         // save user as project member
         User::userBelongsToProject($userRole);    
 
-        Session::flash('success_message', 'Ya eres parte del proyecto XXXX. Se ha agregado a tu lista'); 
+        Session::flash('success_message', 'Ya eres parte del proyecto '. $project['name']); 
+
+        // delete token on invitation
+        User::updateInvitation($invitation['id'], array('token'=>NULL)); 
 
 
         return Redirect::to(URL::action('DashboardController@index'));  
@@ -521,6 +535,7 @@ class ProjectController extends BaseController {
   public function detail($projectId){
 
     $user = Session::get('user'); 
+
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
     // save user role on session

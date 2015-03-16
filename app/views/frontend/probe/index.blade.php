@@ -50,7 +50,9 @@
 									</div>
 									<div class="probe-options txt-center">
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
-											<i class="fa fa-eye fa-fw"></i>
+											<a target="_blank" href="{{URL::action('PublicProbeController@show', array($probe['url']))}}">
+												<i class="fa fa-eye fa-fw"></i>
+											</a>
 										</div>
 										@if($projectOwner)								
 										<div class="circle activity-option txt-center fs-big fc-turquoise">

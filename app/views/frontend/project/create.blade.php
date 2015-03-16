@@ -14,13 +14,13 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> Crear Proyecto
+        								Inicio <span class="fc-green"> &raquo; </span> Crear Proyecto
         							</div>
 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif                          
-        							
+        							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
                       <div class="section-title fc-blue-iii fs-big">
         								Crear Proyecto
         							</div>
@@ -59,7 +59,9 @@
                                 @foreach($artefacts as $artefact)
 
                                   {{Form::checkbox('values[artefacts][]', $artefact->id, FALSE) }} 
-                                  <label> {{ $artefact->name }} </label> <br>
+                                  <label> {{ $artefact->name }} </label> 
+                                  <i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="{{$artefact->description}}" class="fc-turquoise fa fa-info-circle fa-fw"></i>
+                                  <br>
 
                                 @endforeach
                               @endif                              
@@ -91,7 +93,7 @@
                                   <i class="fa fa-plus fa-fw"></i>
                                 </div>
                               </div>
-                              <span class="fc-turquoise fs-min">Hacer clic para agregar categor&iacute;a de actividades<i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="top" data-content="Las categor&iacute;as le permiten clasificar las actividades de su proyecto" class="fc-turquoise fa fa-info-circle fa-fw"></i></span> 
+                              <span class="fc-turquoise fs-min">Hacer clic para agregar categor&iacute;a de actividades<i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Las categor&iacute;as le permiten clasificar las actividades de su proyecto" class="fc-turquoise fa fa-info-circle fa-fw"></i></span> 
 
                             </div> 
                           </div>                                                                                                           

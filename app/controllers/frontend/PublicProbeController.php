@@ -2,15 +2,13 @@
 
 class PublicProbeController extends BaseController {
 
-	public function index(){
+	public function show($probeUrl){
 
-	    if(!is_null(Session::get('user'))){
+		$probe = Probe::getProbeTemplate($probeUrl); 
 
-	          return Redirect::to(URL::action('DashboardController@index'));
-
-	    }else{
-
-	    }
+		return View::make('frontend.probe.show')
+					 ->with('probeId', $probe['id'])
+					 ->with('probe', $probe); 
 
 	}
 

@@ -7,7 +7,7 @@
 
 		<p>Hola {{$user_name}} !!!</p>
 
-		<p>YYY te ha invitado a colaborar en el proyecto XXXX, para formar parte del proyecto haz clic aqui <a href="{{$url_token}}"> aqui</a></p>
+		<p>{{$user_name}} te ha invitado a colaborar en el proyecto {{$project_name}} en ProAgil. Para formar parte del proyecto haz clic aqui <a href="{{$url_token}}"> aqui</a></p>
 
 		Si no puedes ver el enlace copia la siguiente dirección en la barra de URL <br>
 

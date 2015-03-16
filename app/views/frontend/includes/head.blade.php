@@ -14,9 +14,6 @@
 
     <title>PROAGIL - Apoyando la agilidad de los proyectos de software</title>
 	
-	<!--<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-	
-	<link href='http://fonts.googleapis.com/css?family=Exo' rel='stylesheet' type='text/css'>-->
 
     {{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
     {{ HTML::style('css/frontend/sb-admin-2.css') }}

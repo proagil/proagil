@@ -240,6 +240,9 @@ class UserController extends BaseController {
 
 
 		                Session::flash('success_register', 'Se ha registrado exitosamente, revise su correo para validar el registro'); 
+
+		                // delete token on invitation
+        				User::updateInvitation($invitation['id'], array('token'=>NULL)); 
 		                
 		                return Redirect::to(URL::action('LoginController@index'));
 

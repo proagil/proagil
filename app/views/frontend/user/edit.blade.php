@@ -16,6 +16,7 @@
         							<div class="breadcrumbs-content">
         								Inicio <span class="fc-green"> &raquo; </span> Editar perfil 
         							</div>
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
         							<div class="section-title fc-blue-iii fs-big">
         								Editar perfil
         							</div>

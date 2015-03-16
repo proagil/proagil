@@ -63,7 +63,8 @@ class ProbeController extends BaseController {
 		   		'title'				=> $values ['title'],
 		   		'description'		=> $values['description'],
 		   		'status'			=> $values['status'],
-		   		'project_id'		=> $values['project_id'],
+		   		'url'				=> md5($values['title'].date('H:i:s')),
+		   		'project_id'		=> $values['project_id']
 
 		   	);
 
@@ -128,6 +129,7 @@ class ProbeController extends BaseController {
 
 		   }
 	}
+
 
 
 }

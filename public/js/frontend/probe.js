@@ -42,7 +42,7 @@ $(function() {
                   html += '</select>'+
 
                   '<label class="probe-label txt-right">Pregunta obligatoria:</label>'+
-                  '<input name="probe[questions]['+questionCount+'][requerid]" type="checkbox">'+
+                  '<input name="probe[questions]['+questionCount+'][required]" type="checkbox">'+
 
                   '<div class="circle activity-option txt-center fs-big fc-turquoise pull-right delete-question-row" data-question-id="'+questionCount+'">'+
                     '<i class="fa fa-times fa-fw"></i>'+
