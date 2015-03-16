@@ -49,9 +49,9 @@
 	                          <div class="form-group">
 	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>  
 	                            <div class="col-md-4">
-	                              {{ Form::select('values[category_activity_belongs_to_project_id]', $categories, NULL , array('class'=>'form-control app-input')) }}
+	                              {{ Form::select('values[category_id]', $categories, NULL , array('class'=>'form-control app-input')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
-	                              <span class="error fc-pink fs-min"><?= ($errors->has('category_activity_belongs_to_project_id'))?$errors->first('category_activity_belongs_to_project_id'):''?></span>  
+	                              <span class="error fc-pink fs-min"><?= ($errors->has('category_id'))?$errors->first('category_id'):''?></span>  
 	                            </div>
 	                          </div>
 	                          
@@ -65,7 +65,7 @@
 	                          </div>
 
 	                          <div class="form-group">
-	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha de Creaci&oacute;n</label>  
+	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope</label>  
 	                            <div class="col-md-4  date">
 	                            {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
