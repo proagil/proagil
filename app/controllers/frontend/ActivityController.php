@@ -37,7 +37,7 @@ class ActivityController extends BaseController {
 	        'title'											=> 'required',
 	        'closing_date'									=> 'required',
             'description'									=> 'required',
-            'category_activity_belongs_to_project_id'		=> 'required',
+            'category_id'									=> 'required',
             'assigned_user_id'								=> 'required'
 	        );
 
@@ -56,7 +56,7 @@ class ActivityController extends BaseController {
 	                'description'       						=> $values['description'],
 					'enabled'           						=> Config::get('constant.ENABLED'),
 	                'status'   									=> 1,
-	                'category_activity_belongs_to_project_id'   => $values['category_activity_belongs_to_project_id'],
+	                'category_id'   							=> $values['category_id'],
 	                'start_date'								=> $nowDate['date'],
 	                'closing_date'     							=> $values['closing_date']
 	            );
@@ -161,7 +161,7 @@ class ActivityController extends BaseController {
 		        'title'											=> 'required',
 		        'closing_date'									=> 'required',
 	            'description'									=> 'required',
-	            'category_activity_belongs_to_project_id'		=> 'required',
+	            'category_id'									=> 'required',
 	            'assigned_user_id'								=> 'required'
 	        );
 
@@ -176,10 +176,10 @@ class ActivityController extends BaseController {
 		        $nowDate = (array) new DateTime('today');
 
 		        $updateActivity = array(
-	                'title'      	    						=> $values['title'],
-	                'description'       						=> $values['description'],
-	                'category_activity_belongs_to_project_id'   => $values['category_activity_belongs_to_project_id'],
-	                'closing_date'     							=> $values['closing_date']
+	                'title'      	    	=> $values['title'],
+	                'description'       	=> $values['description'],
+	                'category_id'   		=> $values['category_id'],
+	                'closing_date'     		=> $values['closing_date']
 	            );
 
 	            // insert activity on DB
@@ -288,14 +288,13 @@ class ActivityController extends BaseController {
 	 * @param  int  $id
 	 * @return Response
 	 */
-	public function detail($ProjectectId, $activityId){
-
+	public function detail($activityId){
 		// get user on session
         $user = Session::get('user');
 
         // get activity data
 		$activity = (array) Activity::get($activityId); 
-		$activity['date'] = date('d/m/Y', strtotime($activity['date']));
+		$activity['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));
 
 		switch($activity['status']){
 			case 1:

@@ -463,7 +463,17 @@ $(function() {
           });  
        
       }); 
+/*----------------------------------------------------------------------
 
+        ACTIVITY DETAIL FUNCTIONS
+
+----------------------------------------------------------------------*/     
+      $('.activity').on('click', function(){
+        var activityId = $(this).data('activityId'); 
+
+        window.location.href = projectURL+'/proyecto/actividad/detalle/'+activityId;
+
+      }); 
 /*----------------------------------------------------------------------
 
         ACTIVITY EDIT FUNCTIONS
@@ -484,8 +494,7 @@ $(function() {
 
         return false;
 
-    });     
-
+    }); 
 
 /*----------------------------------------------------------------------
 

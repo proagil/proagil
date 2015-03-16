@@ -113,7 +113,7 @@
 										<div class="btn-change-status">
 												<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 										</div>
-										<div class="activity" data-project-id="{{$project['id']}}" data-activity-id="{{$activity['id']}}">
+										<div class="activity" data-activity-id="{{$activity['id']}}">
 											<div class="activity-info">
 					
 												<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </span>
@@ -165,24 +165,6 @@
 	    <!-- /#wrapper -->
 
 		@include('frontend.includes.javascript')
-
-		<script>
-
-		    $(function() {
-
-		      $('.activity').on('click', function(){
-
-		      	var projectId = $(this).data('projectId'),
-		      		activityId = $(this).data('activityId'), 
-
-		      		windowLocation = "<?= URL::to('/')?>" 
-
-		      	 	window.location.href = windowLocation+'/proyecto/'+projectId+'/actividad/'+activityId;
-
-		      })	     
-		  	});
-
-		</script>
 		
 	</body>
 

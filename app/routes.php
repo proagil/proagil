@@ -69,17 +69,17 @@ Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryContr
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
-Route::any('proyecto/{project_id}/actividad/{activity_id}', 'ActivityController@detail');
-
 Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
+
+Route::any('actividad/comentar', 'ActivityController@commnet');
 
 Route::any('proyecto/actividad/crear/{project_id}', 'ActivityController@create');
 
-Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
-
 Route::any('proyecto/actividad/eliminar/{activity_id}', 'ActivityController@delete');
 
-Route::any('actividad/comentar', 'ActivityController@commnet');
+Route::any('proyecto/actividad/detalle/{activity_id}', 'ActivityController@detail');
+
+Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
 
 Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
 
