@@ -37,7 +37,7 @@
 							</div>	
 							{{ Form::open(array('action' => array('ProbeController@save'), 'id' => 'form-create-probe')) }}	
 
-								<label class="probe-label txt-right">Nombre:</label>
+								<label class="probe-label txt-right">Titulo:</label>
 							
 								<input type="hidden" name="probe[project_id]" value="{{$projectId}}">	
 								<input type="text" name="probe[title]"  class="probe-input-name probe-input form-control">	

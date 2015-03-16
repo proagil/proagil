@@ -30,7 +30,9 @@
                               </div>	
 
                               <div class="detail-activity-content">
-                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha de Cierre:</span> {{$activity['closing_date']}} <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
+
+                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
+
                               </div>                                 
 
                               <div class="section-title fc-blue-iii fs-big">

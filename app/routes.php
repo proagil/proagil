@@ -90,3 +90,7 @@ Route::any('sondeo/listado/{project_id}', 'ProbeController@index');
 Route::any('sondeo/crear/{project_id}', 'ProbeController@create');
 
 Route::any('sondeo/guardar/', 'ProbeController@save');
+
+Route::any('sondeo/guardar/', 'ProbeController@save');
+
+Route::any('sondeo/{probe_url}', 'PublicProbeController@show');

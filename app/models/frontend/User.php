@@ -125,6 +125,11 @@ class User extends Eloquent{
 
 	}
 
+	public static function updateInvitation($id, $values){
+
+		return DB::table('user_invitation')->where('id', $id)->update($values);
+	}
+
 }
 
 ?>

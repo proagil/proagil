@@ -30,11 +30,15 @@ return array(
 	'probe.question.not_required'			=> 0,	
 	'probe.question.closed'					=> 1,
 	'probe.question.open'					=> 2,	
+	'probe.element.input'					=> 1,
+	'probe.element.textarea'				=> 2,
+	'probe.element.radio'					=> 3,
+	'probe.element.checkbox'				=> 4,
 	'artefact.heuristic_evaluation'			=> 'evaluacion-heuristica',
 	'artefact.storm_ideas'					=> 'tormenta-de-ideas',
 	'artefact.probe'						=> 'sondeo',
 	'artefact.style_guide'					=> 'guia-de-estilos',
-	'artefact.existing_system'				=> 'evaluacion-de-sistemas-existentes',
+	'artefact.existing_system'				=> 'analisis-de-sistemas-existentes',
 	'artefact.checklist'					=> 'lista-de-comprobacion'
 
 ); 

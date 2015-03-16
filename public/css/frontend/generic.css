@@ -1,6 +1,20 @@
 /*--
 
  --*/
+
+  /* --- FONTS include -------------------------------------------------*/
+
+@font-face {
+    font-family: 'cabin_condensedregular';
+    src: url('/fonts/CabinCondensed-Regular-webfont.eot');
+    src: url('/fonts/CabinCondensed-Regular-webfont.eot?#iefix') format('embedded-opentype'),
+         url('/fonts/CabinCondensed-Regular-webfont.woff2') format('woff2'),
+         url('/fonts/CabinCondensed-Regular-webfont.woff') format('woff'),
+         url('/fonts/CabinCondensed-Regular-webfont.ttf') format('truetype'),
+         url('/fonts/CabinCondensed-Regular-webfont.svg#cabin_condensedregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
  
  /* --- ELEMENT reset -------------------------------------------------*/
  .error-alert,
@@ -75,18 +89,13 @@ body {
 	display: none; 
 }
 
- /* --- FONTS include -------------------------------------------------*/
 
-@font-face {
-    font-family: 'cabin_condensedregular';
-    src: url('/fonts/CabinCondensed-Regular-webfont.eot');
-    src: url('/fonts/CabinCondensed-Regular-webfont.eot?#iefix') format('embedded-opentype'),
-         url('/fonts/CabinCondensed-Regular-webfont.woff2') format('woff2'),
-         url('/fonts/CabinCondensed-Regular-webfont.woff') format('woff'),
-         url('/fonts/CabinCondensed-Regular-webfont.ttf') format('truetype'),
-         url('/fonts/CabinCondensed-Regular-webfont.svg#cabin_condensedregular') format('svg');
-    font-weight: normal;
-    font-style: normal;
+.popover {
+	font-family:  'cabin_condensedregular', sans-serif;
+	border-radius: 0px; 
+	-webkit-box-shadow: 0 0 0;
+	box-shadow: 0px;
+
 }
 
 /*-------------------------------------------
@@ -360,9 +369,10 @@ a.login-link:hover  {
 	REGISTER section
  -------------------------------------------*/
 
-.file-upload {
+.file-upload,
+.file-upload:hover {
 	border-radius: 0px;
-	background-color: #f2f2f2;
+	background-color: #a8d76f;
 	width: 100%;
 }
 
@@ -548,6 +558,7 @@ a.login-link:hover  {
 	margin: 0 auto; 
 	min-height: 94px;
 	max-height: 94px;
+	margin-top: 5px; 
 }
 
 .artefact-info {
@@ -678,6 +689,10 @@ a.made-on{
 	border-radius: 50%;
 	width: 30px;
 	height: 30px; 
+}
+
+.circle a {
+	color: #41cac0;
 }
 
 .activity-options {
@@ -831,3 +846,23 @@ textarea{
 
 .error-probe-input{
 	border: 2px solid #DB675E; 
+}
+
+.show-probe-container {
+	margin: 0 0 0 23%;
+}
+
+.show-probe-description {
+	margin-bottom: 30px; 
+
+}
+
+.show-probe-panel {
+	margin-top: 5%;
+	border-radius: 0px; 
+}
+
+.probe-option,
+.probe-question-title {
+	font-weight: 100;
+}

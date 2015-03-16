@@ -19,7 +19,9 @@
 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-                      @endif    
+                      @endif 
+
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>   
 
         							<div class="section-title fc-blue-iii fs-big">
         								Configurar categor&iacute;as

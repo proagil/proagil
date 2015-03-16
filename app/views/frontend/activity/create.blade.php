@@ -65,7 +65,7 @@
 	                          </div>	                          
 
 	                          <div class="form-group">
-	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha de Cierre</label>  
+	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope</label>  
 	                            <div class="col-md-4  date">
 	                              {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
