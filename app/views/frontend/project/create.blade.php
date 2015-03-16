@@ -66,12 +66,12 @@
                             </div>
                           </div> 
                           <div class="categories-content">
-                            @if (isset($values['category']))
-                               @foreach($values['category'] as $index => $category)
+                            @if (isset($values['new_category']))
+                               @foreach($values['new_category'] as $index => $category)
                               <div class="form-group project-category-{{$index}}">
                                 <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a </label>  
                                 <div class="col-md-4">
-                                    {{ Form::text('values[category][]', $category, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
+                                    {{ Form::text('values[new_category][]', $category, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
                                     <div data-category-id="{{$index}}" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">
                                       <i class="fa fa-minus fa-fw"></i>
                                     </div> 

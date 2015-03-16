@@ -22,6 +22,12 @@ class Project extends Eloquent{
 	public static function edit($projectId, $values){
 
 		return DB::table('project')->where('id', $projectId)->update($values);
+	}
+
+	public static function getName($projectId) {
+
+		return DB::table('project')->where('id', $projectId)->first();
+
 	}	
 
 	public static function get($projectId){

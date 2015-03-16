@@ -21,7 +21,7 @@
 							</div>
 							
 							<div class="artefacts-content">
-							
+								 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
 									<div data-section="section-artefatcs" class="section-arrow pull-right"><i class="fc-green fa fa-caret-down fa-fw"></i></div>
@@ -36,7 +36,7 @@
 										@if(!empty($projectArtefacts))
 											@foreach($projectArtefacts as $projectArtefact)
 											<div class="slide">
-												<div class="artefact" data-friendly-url="{{$projectArtefact->friendly_url}}">
+												<div class="artefact" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
 													<div class="artefact-icon">
 														<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 													</div>
@@ -109,39 +109,42 @@
 							<div class="list-activities-content">
 								@if(!empty($activities))
 									@foreach($activities as $activity)
-									<div class="btn-change-status">
-										<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
-									</div>
-									<div class="activity" data-project-id="{{$project['id']}}" data-activity-id="{{$activity['id']}}">
-										<div class="activity-info">
-				
-											<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </title>
-											
-											<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>{{$activity['first_name']}}</span>
-											
+									<div class="each-activity-content">
+										<div class="btn-change-status">
+												<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 										</div>
-										<div class="activity-description fc-grey-v" style="display:none" id="description-{{$activity['id']}}">
-											<i class="fa fs-big fc-turquoise fa-file-o fa-fw"></i>
-											{{$activity['description']}}
+										<div class="activity" data-project-id="{{$project['id']}}" data-activity-id="{{$activity['id']}}">
+											<div class="activity-info">
+					
+												<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </span>
+												
+												<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>{{$activity['first_name']}}</span>
+												
+											</div>
+											<div class="activity-description fc-grey-v" style="display:none;" id="description-{{$activity['id']}}">
+												<i class="fa fs-big fc-turquoise fa-file-o fa-fw"></i>
+												{{$activity['description']}}
+											</div>							
 										</div>							
-									</div>
-									<div class="activity-options txt-center">
-										@if($projectOwner)
-										<div class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
-											<i class="fa fa-pencil fa-fw"></i>
-										</div>	
-										<div class="circle activity-option txt-center fs-big fc-turquoise btn-delete-activity" data-activity-id="{{$activity['id']}}">
-											<i class="fa fa-times fa-fw"></i>
-										</div>											
-										@endif								
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
-											<i class="fa fa-comments fa-fw"></i>
-										</div>
+										
+										<div class="activity-options txt-center">
+											@if($projectOwner)
+											<div class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
+												<i class="fa fa-pencil fa-fw"></i>
+											</div>	
+											<div class="circle activity-option txt-center fs-big fc-turquoise btn-delete-activity" data-activity-id="{{$activity['id']}}">
+												<i class="fa fa-times fa-fw"></i>
+											</div>											
+											@endif								
+											<div class="circle activity-option txt-center fs-big fc-turquoise">
+												<i class="fa fa-comments fa-fw"></i>
+											</div>
 
-										<div class="circle activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
-											<i class="fa fa-caret-down fa-fw"></i>
+											<div class="circle activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
+												<i class="fa fa-caret-down fa-fw"></i>
+											</div>								
 										</div>
-									</div>										
+									</div>
 									@endforeach
 								@else
 								<div class="f-min">Aun no hay actividades asociadas a este proyecto</div>

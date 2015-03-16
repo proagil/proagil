@@ -3,19 +3,37 @@
  --*/
  
  /* --- ELEMENT reset -------------------------------------------------*/
-
+ .error-alert,
+ .success-alert,
+ .all-options-content,
+ .probe-general-buttons,
+ .show-quiestion-option,
+ .btn-add-question-option,
+ .question-option,
+ .activity-option,
+ .probe-options-question, 
+ .probe-label,
+ .probe-input, 
+ .probe-input-i,
+ .probe-question-content,
+ .probe-item-content, 
  .btn-change-status,
  .activity-options,
+ .probe-options,
  .detail-activity-content,
  .artefacts-content,
+ .list-activities-content,
  .activity,
+ .each-activity-content,
  .activities-content,
+ .activity-description,
  .filters-content,
  .list-content,
  .comment-list,
  .emoticons-container,
  .comment-action,
  .user-avatar,
+ .btn-iii,
  .comment-content,
  .comment-textarea,
  .comment-text,
@@ -24,6 +42,7 @@
  .login-options,
  .login-title,
  .proagil-logo,
+ .btn-mini,
  .btn-content,
  .form-content,
  .form-group {
@@ -179,12 +198,21 @@ body {
 	text-align: center;
 }
 
+.txt-right {
+	text-align: right;
+}
+
 /*-------------------------------------------
 	GENERIC: buttons
  -------------------------------------------*/
 
  .common-btn {
 	width: 141px;
+ }
+
+ .btn-mini {
+ 	width: 60px;
+ 	margin: 3px; 
  }
  
 .common-btn:hover{
@@ -203,6 +231,11 @@ body {
 	margin: 0 auto;
 }
 
+.btn-iii{
+	padding: 3px 0; 
+	margin: 4px;
+}
+
 .btn-pink {
 	background-color: #ef6f66; 
 }
@@ -217,7 +250,7 @@ body {
 }
 
 .btn-turquoise:hover {
-	background-color: #41cac0; 
+	background-color: #42C2B8; 
 }
 
 
@@ -278,6 +311,7 @@ body {
 	width: 98%; 
 }
 
+.probe-input-i,
 .app-input:focus {
 	border-color: #ccc; 
 	box-shadow: none; 
@@ -309,11 +343,18 @@ a.login-link:hover  {
 	margin-bottom: 2%; 
 }
 
+.success-alert-dashboard,
+.error-alert-dashboard, 
 .success-alert {
 	background-color: #a8d76f;
 	padding: 10px 1px 10px 20px;
 	margin-bottom: 2px; 
 }
+
+.error-alert-dashboard {
+	background-color: #ef6f66;
+}
+
 
 /*-------------------------------------------
 	REGISTER section
@@ -602,12 +643,7 @@ a.made-on{
 /*-------------------------------------------
 	ACTIVITY section
  -------------------------------------------*/
-
-.list-activities-content {
-	width: 100%; 
-	margin: 55px 0 0 0; 
-}
-
+ 
 .activity {
 	width: 80%;
 	background-color: #f2f2f2;
@@ -714,3 +750,84 @@ textarea{
 	resize: none;
 	width: 100%; 
 }
+
+.probe-question-content{
+	width: 100%;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+	padding: 10px 4px; 
+}
+
+.probe-options-question {
+	background-color: #f2f2f2;
+	border-top: 2px solid #e3e2e2; 
+}
+
+.probe-item-content {
+	width: 85%;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+	padding: 10px 4px; 
+}
+
+.probe-item-content:hover {
+	background-color: #e3e2e2;
+	cursor: pointer; 
+}
+
+.probe-options {
+	width: 15%;
+	margin: 1% 0 0 0;
+	background-color: #f2f2f2;
+	padding: 5px 4px; 
+}
+
+.probe-input-option,
+.probe-input{
+	width: 25%; 
+	border-radius: 0px; 
+	float: left;
+}
+
+.probe-input-i{
+	width: 17%; 
+	border-radius: 0px; 
+}
+
+.probe-input-i,
+.probe-input-option:focus,
+.probe-input:focus {
+	border-color: #ccc; 
+	box-shadow: none; 
+}
+
+.show-quiestion-option{
+	width: 25%; 
+}
+
+.probe-label {
+	width: 12%; 
+	padding: 3px;
+	margin: 2px 2px 0 2px;
+}
+
+.probe-input-status,
+.probe-input-name {
+	padding: 5px; 
+	margin: 4px; 
+}
+
+.probe-input-description {
+	padding: 4px; 
+	margin: 4px; 
+	width: 99%%;
+}
+
+.btn-add-question-option,
+.question-option {
+	padding: 5px;
+	margin: 1% auto auto 12%;;
+}
+
+.error-probe-input{
+	border: 2px solid #DB675E; 

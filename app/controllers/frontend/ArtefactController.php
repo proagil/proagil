@@ -14,9 +14,10 @@ class ArtefactController extends BaseController {
 
 	}
 
-	public function detail($friendlyUrl){
+	public function detail($friendlyUrl, $projectId){
 
 		$artefact = Artefact::getByFriendlyUrl($friendlyUrl);
+
 
 		if(!empty($artefact)){
 
@@ -33,7 +34,7 @@ class ArtefactController extends BaseController {
 	              break;	              
 	              case Config::get('constant.artefact.probe'):
 
-	              echo 'probe';
+	              return Redirect::to(URL::action('ProbeController@index', array($projectId)));
 
 	              break;
 	              case Config::get('constant.artefact.style_guide'):

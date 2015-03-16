@@ -65,9 +65,9 @@ class ProjectController extends BaseController {
                 }
 
                 //save project activity categories
-                if(isset($values['category'])) {
+                if(isset($values['new_category'])) {
 
-                  foreach($values['category'] as $index => $category){
+                  foreach($values['new_category'] as $index => $category){
 
                       $activityCategory = array(
                         'name'        => $category,
@@ -523,6 +523,10 @@ class ProjectController extends BaseController {
     $user = Session::get('user'); 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
+    // save user role on session
+    Session::put('user_role', $userRole);
+
+
     if(empty($userRole)){
 
       return Redirect::to(URL::action('DashboardController@index'));  
@@ -593,7 +597,8 @@ class ProjectController extends BaseController {
                 ->with('activities', $activities)
                 ->with('filters', $filters)
                 ->with('filtersArray', $filtersArray)
-                ->with('statusArray', $statusArray);  
+                ->with('statusArray', $statusArray)
+                ->with('projectId', $projectId);   
 
     }
 
