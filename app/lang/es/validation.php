@@ -47,7 +47,7 @@ return array(
 	),
 	"mimes"                => "The :attribute must be a file of type: :values.",
 	"min"                  => array(
-		"numeric" => "The :attribute must be at least :min.",
+		"numeric" => "Este campo es requerido",
 		"file"    => "The :attribute must be at least :min kilobytes.",
 		"string"  => "The :attribute must be at least :min characters.",
 		"array"   => "The :attribute must have at least :min items.",
