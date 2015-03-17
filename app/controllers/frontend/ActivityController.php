@@ -19,10 +19,15 @@ class ActivityController extends BaseController {
     	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
     	//get user On project
+    	$users =  array('0' => 'Seleccione un usuario'); 
 		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
+		$usersOnProject = array_merge($users, $usersOnProject);
 
 		// get view data
+		$typeCategories = array('0' => 'Seleccione una categoria');
     	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId); 
+		$categories = array_merge($typeCategories, $categories);
+
     	$project = (array) Project::get($projectId);
 		
 		// project list on sidebar
@@ -37,10 +42,14 @@ class ActivityController extends BaseController {
 	        'title'											=> 'required',
 	        'closing_date'									=> 'required',
             'description'									=> 'required',
-            'category_id'									=> 'required',
-            'assigned_user_id'								=> 'required'
+            'category_id'									=> 'different:cero',
+            'assigned_user_id'								=> 'different:cero'
 	        );
 
+	        echo "<pre>";
+	        print_r(Input::get('values'));
+	        echo "</pre>";	
+			
 	        // set validation rules to input values
 	        $validator = Validator::make(Input::get('values'), $rules);
 
