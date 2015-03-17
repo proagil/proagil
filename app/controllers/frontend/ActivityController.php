@@ -18,11 +18,21 @@ class ActivityController extends BaseController {
 	    $user = Session::get('user');
     	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-    	//get user On project
-		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
+    	//get view data
 
-		// get view data
-    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId); 
+    	//get user On project
+    	$users =  array('0' => 'Seleccione un usuario'); 
+		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
+		$usersOnProject = $users+$usersOnProject;
+
+		//get categories On project
+		$typeCategories = array('0' => 'Seleccione una categoria');
+    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
+
+    	if (!empty($categories)){
+    		$categories = $typeCategories+$categories;
+    	} 		
+
     	$project = (array) Project::get($projectId);
 		
 		// project list on sidebar
@@ -37,9 +47,9 @@ class ActivityController extends BaseController {
 	        'title'											=> 'required',
 	        'closing_date'									=> 'required',
             'description'									=> 'required',
-            'category_id'									=> 'required',
-            'assigned_user_id'								=> 'required'
+            'assigned_user_id'								=> 'integer|min:1'
 	        );
+
 
 	        // set validation rules to input values
 	        $validator = Validator::make(Input::get('values'), $rules);
@@ -55,8 +65,8 @@ class ActivityController extends BaseController {
 	                'title'      	    						=> $values['title'],
 	                'description'       						=> $values['description'],
 					'enabled'           						=> Config::get('constant.ENABLED'),
-	                'status'   									=> 1,
-	                'category_id'   							=> $values['category_id'],
+	                'status'   									=> Config::get('constant.activity.not_initiated'),
+	                'category_id'   							=> (isset($values['category_id']))?$values['category_id']:null,
 	                'start_date'								=> $nowDate['date'],
 	                'closing_date'     							=> $values['closing_date']
 	            );
@@ -132,21 +142,26 @@ class ActivityController extends BaseController {
 	public function edit($activityId)
 	{
 	    $activity = (array) Activity::getById($activityId);
-	    // echo "<pre>";
-    	// print_r($activity);
-    	// echo "<pre>";
-    	// die;
+
 		$projectId = $activity['project_id'];
 
 		//get user
 	    $user = Session::get('user');
     	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
+    	//get view data
+
     	//get user On project
 		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
 
-		// get view data
-    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId); 
+		//get categories On project
+		$typeCategories = array('0' => 'Seleccione una categoria');
+    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
+    	if (!empty($categories)){
+    		$categories = $typeCategories+$categories;
+    	} 
+
+		//get project information
     	$project = (array) Project::get($projectId);
 		
 		// project list on sidebar
@@ -161,8 +176,7 @@ class ActivityController extends BaseController {
 		        'title'											=> 'required',
 		        'closing_date'									=> 'required',
 	            'description'									=> 'required',
-	            'category_id'									=> 'required',
-	            'assigned_user_id'								=> 'required'
+	            'assigned_user_id'								=> 'integer|min:1'
 	        );
 
 	        // set validation rules to input values
@@ -178,7 +192,7 @@ class ActivityController extends BaseController {
 		        $updateActivity = array(
 	                'title'      	    	=> $values['title'],
 	                'description'       	=> $values['description'],
-	                'category_id'   		=> $values['category_id'],
+	                'category_id'   		=> (isset($values['category_id']))?$values['category_id']:null,
 	                'closing_date'     		=> $values['closing_date']
 	            );
 
@@ -219,7 +233,6 @@ class ActivityController extends BaseController {
 		                  $message->subject('PROAGIL: Notificación de actividad asignada');
 		                });  
 	            	}
-
 
 					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
                 
@@ -264,10 +277,7 @@ class ActivityController extends BaseController {
 	{
 		$activity = (array) Activity::getById($activityId);
 		$activityId = $activity['id'];
-	    // echo "<pre>";
-    	// print_r($activity);
-    	// echo "<pre>";
-    	// die;
+
 		$projectId = $activity['project_id'];
 
 		$deleteActivity = Activity::deleteActivity($activityId);

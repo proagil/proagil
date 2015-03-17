@@ -18,7 +18,9 @@ class ProjectController extends BaseController {
 
     // get view data
     $artefacts = (array) Artefact::enumerate(); 
+    $types =  array('0' => 'Seleccione un tipo de proyecto');
     $projectTypes = (array) Project::selectProjectTypes(); 
+    $projectTypes = $types + $projectTypes;
 
 		if(Input::has('_token')){
 
@@ -26,7 +28,7 @@ class ProjectController extends BaseController {
 	        $rules =  array(
 	          'name'         	       => 'required',
             'description'          => 'required',
-            'project_type'         => 'required'
+            'project_type'         => 'integer|min:1'
 	        );
 
 	        // set validation rules to input values
@@ -433,13 +435,12 @@ class ProjectController extends BaseController {
 
   public function edit($projectId){
 
-      // get view data
-      $artefacts = (array) Artefact::enumerate(); 
-      $projectTypes = (array) Project::selectProjectTypes(); 
-      $project = (array) Project::get($projectId); 
-      $projectArtefacts = (array) Project::getProjectArtefacts($projectId); 
-      $values =  (array) $project;
-
+    // get view data
+    $artefacts = (array) Artefact::enumerate(); 
+    $projectTypes = (array) Project::selectProjectTypes(); 
+    $project = (array) Project::get($projectId); 
+    $projectArtefacts = (array) Project::getProjectArtefacts($projectId); 
+    $values =  (array) $project;
 
     if(Input::has('_token')){
 

@@ -46,19 +46,21 @@
 	                            </div>
 	                          </div>
 
+	                          @if (!empty($categories))
 	                          <div class="form-group">
 	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>  
 	                            <div class="col-md-4">
-	                              {{ Form::select('values[category_id]', $categories, NULL , array('class'=>'form-control app-input')) }}
+	                              {{ Form::select('values[category_id]', $categories, (isset($values['category_id']))?$values['category_id']:'' , array('class'=>'form-control app-input')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
 	                              <span class="error fc-pink fs-min"><?= ($errors->has('category_id'))?$errors->first('category_id'):''?></span>  
 	                            </div>
 	                          </div>
+	                          @endif
 	                          
 	                          <div class="form-group">
 	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad</label>  
 	                            <div class="col-md-4">
-	                              {{ Form::select('values[assigned_user_id]', $usersOnProject, NULL , array('class'=>'form-control app-input')) }}
+	                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
 	                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
 	                            </div>
