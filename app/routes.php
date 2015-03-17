@@ -91,6 +91,10 @@ Route::any('sondeo/crear/{project_id}', 'ProbeController@create');
 
 Route::any('sondeo/guardar/', 'ProbeController@save');
 
-Route::any('sondeo/guardar/', 'ProbeController@save');
+Route::any('sondeo/editar/{probe_id}', 'ProbeController@edit');
 
-Route::any('sondeo/{probe_url}', 'PublicProbeController@show');
+Route::any('sondeo/generar/{probe_url}', 'PublicProbeController@show');
+
+Route::any('sondeo/obtener-pregunta/{question_id}', 'ProbeController@getProbeElement');
+
+Route::any('sondeo/guardar-pregunta', 'ProbeController@saveProbeElement');

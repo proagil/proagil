@@ -33,6 +33,20 @@ class Activity extends Eloquent{
 
 	}	
 
+	public static function deleteActivityComment($activityId){
+
+		try{
+
+			return DB::table('activity_comment')->where('activity_id', $activityId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}		
+
 	public static function deleteProjectActivity($activityId, $projectId){
 
 		try{

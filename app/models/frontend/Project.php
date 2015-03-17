@@ -174,6 +174,20 @@ class Project extends Eloquent{
 
 	}
 
+	public static function getActivitiesByProject($projectId) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		return DB::table('activity_belongs_to_project AS abtp')
+
+			->select('abtp.activity_id')
+
+			->where('abtp.project_id', $projectId)
+
+			->get(); 
+
+	}
+
 	public static function getProjectActivities($projectId, $filtersArray=NULL, $statusArray=NULL) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
@@ -209,7 +223,7 @@ class Project extends Eloquent{
 		return DB::table('activity')->where('id', $activityId)->update($values);
 	}
 
-	public function deleteArtefacts($projectId){
+	public static function deleteArtefacts($projectId){
 
 		try{
 
@@ -223,21 +237,7 @@ class Project extends Eloquent{
 
 	}
 
-	public function deleteActivities($projectId){
-
-		try{
-
-			return DB::table('activity_belongs_to_project')->where('project_id', $projectId)->delete();
-		
-		}catch(\Exception $e){
-
-			return false; 
-
-		}		
-	
-	}
-
-	public function deleteCategoriesActivity($projectId){
+	public static function deleteCategoriesActivity($projectId){
 
 		try{
 
@@ -251,7 +251,7 @@ class Project extends Eloquent{
 
 	}
 
-	public function deleteUsers($projectId){
+	public static function deleteUsers($projectId){
 
 		try{
 

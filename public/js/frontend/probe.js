@@ -166,10 +166,113 @@ $(function() {
           $('#form-create-probe').submit(); 
           $('.error-alert-text').parent().removeClass('hidden'); 
         }  
-    });    
+    });  
 
 
-    
+
+    /*edittt*/  
+
+    /*Al hacer clic en el editar de una pregunta*/
+
+    $(document).on('click', '.edit-question-element', function(e){
+
+      var questionId = $(this).data('questionId'); 
+
+      $('.question-options-default-'+questionId).addClass('hidden');
+      $('.question-options-edit-'+questionId).removeClass('hidden');
+
+       $.ajax({
+          url: projectURL+'/sondeo/obtener-pregunta/'+questionId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlQuestion = '<input type="text" name="values['+questionId+'][question]"  value="'+response.data.question+'"class="probe-input probe-input-edit form-control question-title-'+questionId+'">';
+                 $('.question-title-'+questionId).replaceWith(htmlQuestion);
+
+                var htmlTypeQuestion = '<select name="values['+questionId+'][form_element]" class="probe-input-i form-control type-answer-option question-type-'+questionId+'" data-question-id="'+questionId+'">';
+                  $.each(answerTypes, function(index, type) {
+                    if(index==response.data.form_element){
+                        htmlTypeQuestion += '<option value="'+index+'" selected>'+type+'</option>';
+                    }else{
+                        htmlTypeQuestion += '<option value="'+index+'">'+type+'</option>';
+                    }
+
+                  });
+                  htmlTypeQuestion += '</select>'      
+                  $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+
+                  var checkValue = (response.data.required)?'checked':'';      
+
+                  var htmlRequired = '<input class="question-required-'+questionId+'" name="values['+questionId+'][required]" type="checkbox" '+checkValue+'>'; 
+                  $('.question-required-'+questionId).replaceWith(htmlRequired);       
+          
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+
+    /*Al hacer clic en el guardar de una pregunta editada*/
+    $(document).on('click', '.save-edit-question', function(e){
+
+      var questionId = $(this).data('questionId'); 
+
+      if($('input[name="values['+questionId+'][question]"]').val() != ''){
+
+        var parameters = {
+            'values[question_id]'     : questionId,
+            'values[question]'        : $('input[name="values['+questionId+'][question]"]').val(), 
+            'values[form_element]'    : $('select[name="values['+questionId+'][form_element]"]').val(),
+            'values[required]'        : (($('input[name="values['+questionId+'][required]"]').is(':checked'))?1:0)
+        };
+
+
+         $.ajax({
+            url: projectURL+'/sondeo/guardar-pregunta/',
+            type:'POST',
+            data: parameters,
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                  console.log(response); 
+
+                   var htmlQuestion = '<div class="probe-label probe-label-value question-title-'+questionId+'">'+response.data.question+'</div>'; 
+                   $('.question-title-'+questionId).replaceWith(htmlQuestion);
+
+                   var htmlTypeQuestion = '<div class="probe-label probe-label-value question-type-'+questionId+'">'+response.data.form_element_name+'</div>'; 
+                   $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+
+                    var requiredValue = (response.data.required)?'Si':'No'; 
+                    var htmlRequired = '<div class="probe-label probe-label-value question-required-'+questionId+'">'+requiredValue+'</div>'; 
+                   $('.question-required-'+questionId).replaceWith(htmlRequired);     
+
+                  $('.question-options-default-'+questionId).removeClass('hidden');
+                  $('.question-options-edit-'+questionId).addClass('hidden');
+            
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+      }else{
+        alert('vaciooo'); 
+      }
+
+    })
+ 
+   
 });
 
 

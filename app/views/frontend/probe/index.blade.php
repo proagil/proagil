@@ -60,7 +60,10 @@
 										</div>
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
-										</div>	
+										</div>
+										<div class="circle activity-option txt-center fs-big fc-turquoise">
+											<i class="fa fa-times fa-fw"></i>
+										</div>												
 										@endif								
 									</div>									
 									@endforeach
