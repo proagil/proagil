@@ -8,7 +8,7 @@ return array(
  
     'port' => 587,
  
-    'from' => array('address' => 'aldemarodiaz@gmail.com', 'name' => 'APP NAME'),
+    'from' => array('address' => 'proagilwebapp@gmail.com', 'name' => 'PROAGIL'),
  
     'encryption' => 'tls',
  

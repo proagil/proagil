@@ -37,16 +37,21 @@
 							</div>	
 							{{ Form::open(array('action' => array('ProbeController@edit', $probeId), 'id' => 'form-create-probe')) }}	
 
-								<label class="probe-label txt-right">Titulo:</label>
-							
-                       			{{ Form::text('values[title]', $values['title'], array('class'=>'probe-input-name probe-input form-control')) }}								
+								<label class="probe-label txt-right">Titulo: <span class="probe-label-value"> {{$values['title']}}</span></label>
+								
 
-								<label class="probe-label txt-right">Estado:</label>
+								<label class="probe-label txt-right">Estado: <span class="probe-label-value"> {{($values['status']==1)?'Cerrado':'Abierto'}} </span></label>
 
-                              {{ Form::select('values[project_type]', $probeStatus, $values['status'] , array('class'=>'probe-input-status probe-input  form-control')) }}
+								<label class="probe-label-description">Descripci&oacute;n: <span class="probe-label-value"> {{$values['description']}}</span></label>
 
+								<div data-option-id="" class="hidden pull-right edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
+									<i class="fa fa-pencil fa-fw"></i>
+								</div>
 
-                              	{{ Form::textarea('values[description]', $values['description'], array('class'=>'probe-input-description probe-input form-control', 'rows' => '2')) }}
+								<div class="pull-right edit-btn-question-options">									
+									<div data-question-id="" class="cancel-edit-question common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-question-id=""  class="save-edit-question common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+								</div>									
 
 								<div class="list-content probe-questions-lists">
 									@if(!empty($values['elements']))
@@ -83,11 +88,21 @@
 							                  		@foreach($element['options'] as $elementOption)
 									                  	<div class="anwswer-option-content">
 					                  						<label class="probe-label txt-right">&nbsp;</label>
-					                  						<label class="probe-label probe-label-value">{{ $elementOption['name']}}</label>
+					                  						<label class="probe-label probe-label-value option-name-{{$elementOption['id']}}">{{ $elementOption['name']}}</label>
+					                  						
+					                  						<div class="edit-option-quiestion-content options-default-{{$elementOption['id']}}">
+											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                      <i class="fa fa-pencil fa-fw"></i>
+											                    </div> 
+											                   <div data-option-id="{{$elementOption['id']}}"class="delete-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                      <i class="fa fa-times fa-fw"></i>
+											                    </div> 											                    
+					                  						</div>
 
-										                   <div class="circle activity-option txt-center fs-big fc-turquoise">
-										                      <i class="fa fa-pencil fa-fw"></i>
-										                    </div> 	
+															<div class="hidden edit-option-quiestion-content options-edit-{{$elementOption['id']}}">
+																<div data-option-id="{{$elementOption['id']}}"  class="save-edit-option common-btn btn-mini txt-center btn-turquoise">Guardar</div>																
+																<div data-option-id="{{$elementOption['id']}}" class="cancel-edit-option common-btn btn-mini txt-center btn-pink">Cancelar</div>														
+															</div>					                  						
 									                  	</div>							                  		
 							                  		@endforeach
 							                  	@endif
@@ -106,15 +121,11 @@
 					            </div>
 							 {{Form::close()}}
 
-							<div class="probe-general-buttons">
-
-								<div class="save-probe txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-									Guardar sondeo
-								</div>									
+							<div class="probe-general-buttons">								
 								<div class="add-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
 									<a href="#">Agregar pregunta</a>
 								</div>							
-							</div>
+							</div>							 
 																	
 						</div>
 					</div>

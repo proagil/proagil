@@ -17,6 +17,13 @@ Authors: AD, SJ, MM
 
 $(function() {
 
+
+ /*----------------------------------------------------------------------
+
+        ADD PROBE FUNCTIONS
+
+----------------------------------------------------------------------*/ 
+
       var questionCount = 0,
           optionCount = 0; 
 
@@ -170,7 +177,11 @@ $(function() {
 
 
 
-    /*edittt*/  
+     /*----------------------------------------------------------------------
+
+          EDIT PROBE FUNCTIONS
+
+      ----------------------------------------------------------------------*/
 
     /*Al hacer clic en el editar de una pregunta*/
 
@@ -243,8 +254,6 @@ $(function() {
 
                 if(!response.error){
 
-                  console.log(response); 
-
                    var htmlQuestion = '<div class="probe-label probe-label-value question-title-'+questionId+'">'+response.data.question+'</div>'; 
                    $('.question-title-'+questionId).replaceWith(htmlQuestion);
 
@@ -271,6 +280,113 @@ $(function() {
       }
 
     })
+
+    $(document).on('click', '.cancel-edit-question', function(e){
+
+      var questionId = $(this).data('questionId'); 
+
+
+       $.ajax({
+          url: projectURL+'/sondeo/obtener-pregunta/'+questionId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                   var htmlQuestion = '<div class="probe-label probe-label-value question-title-'+questionId+'">'+response.data.question+'</div>'; 
+                   $('.question-title-'+questionId).replaceWith(htmlQuestion);
+
+                   var htmlTypeQuestion = '<div class="probe-label probe-label-value question-type-'+questionId+'">'+response.data.form_element_name+'</div>'; 
+                   $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+
+                    var requiredValue = (response.data.required)?'Si':'No'; 
+                    var htmlRequired = '<div class="probe-label probe-label-value question-required-'+questionId+'">'+requiredValue+'</div>'; 
+                   $('.question-required-'+questionId).replaceWith(htmlRequired);     
+
+                  $('.question-options-default-'+questionId).removeClass('hidden');
+                  $('.question-options-edit-'+questionId).addClass('hidden');   
+          
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+
+    $(document).on('click', '.edit-probe-option ', function(e){
+
+      var optionId = $(this).data('optionId'); 
+
+         $.ajax({
+          url: projectURL+'/sondeo/obtener-opcion/'+optionId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+              var htmlOption = '<input name="values['+optionId+'][name]" type="text" value="'+response.data.name+'" class="probe-input-option probe-input-option-edit form-control option-name-'+optionId+'">'
+               $('.option-name-'+optionId).replaceWith(htmlOption);   
+
+                    $('.options-default-'+optionId).addClass('hidden');
+                    $('.options-edit-'+optionId).removeClass('hidden'); 
+          
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });          
+
+    })
+
+    $(document).on('click', '.save-edit-option', function(e){
+
+      var optionId = $(this).data('optionId'); 
+
+      if($('input[name="values['+optionId+'][name]"]').val() != ''){
+
+        var parameters = {
+            'values[option_id]'       : optionId,
+            'values[name]'            : $('input[name="values['+optionId+'][name]"]').val(), 
+        };
+
+
+         $.ajax({
+            url: projectURL+'/sondeo/guardar-opcion/',
+            type:'POST',
+            data: parameters,
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                   var htmlOption = '<label class="probe-label probe-label-value option-name-'+optionId+'">'+response.data.name+'</label>';
+                  $('.option-name-'+optionId).replaceWith(htmlOption);     
+
+                    $('.options-default-'+optionId).removeClass('hidden');
+                    $('.options-edit-'+optionId).addClass('hidden'); 
+            
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+      }else{
+        alert('vaciooo'); 
+      }
+
+    })    
+
+
  
    
 });

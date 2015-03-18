@@ -146,10 +146,29 @@ class Probe extends Eloquent{
 
 	}
 
+	public static function getOptionData($optionId){
+
+		return DB::table('probe_template_option AS pto')
+
+		->select('pto.*')
+
+		->where('pto.id', $optionId)
+
+		->first();		
+
+	}	
+
 	public static function updateElement($id, $values){
 
 		return DB::table('probe_template_element')->where('id', $id)->update($values);
+	}	
+
+	public static function updateOption($id, $values){
+
+		return DB::table('probe_template_option')->where('id', $id)->update($values);
 	}		
+
+	
 
 }
 

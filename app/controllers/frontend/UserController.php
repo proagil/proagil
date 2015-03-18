@@ -363,7 +363,7 @@ class UserController extends BaseController {
 
 	}
 
-	public function uploadAndResizeFile($file, $width, $height){
+	public function uploadAndResizeFile($file, $width, $height) {
 
 		// get client name and generate server name
 		$clientName = $file->getClientOriginalName(); 

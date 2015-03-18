@@ -98,3 +98,8 @@ Route::any('sondeo/generar/{probe_url}', 'PublicProbeController@show');
 Route::any('sondeo/obtener-pregunta/{question_id}', 'ProbeController@getProbeElement');
 
 Route::any('sondeo/guardar-pregunta', 'ProbeController@saveProbeElement');
+
+Route::any('sondeo/obtener-opcion/{option_id}', 'ProbeController@getProbeOption');
+
+Route::any('sondeo/guardar-opcion', 'ProbeController@saveProbeOption');
+

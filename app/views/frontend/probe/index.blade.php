@@ -56,7 +56,9 @@
 										</div>
 										@if($projectOwner)								
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
-											<i class="fa fa-pencil fa-fw"></i>
+											<a href="{{URL::action('ProbeController@edit', array($probe['id']))}}">
+												<i class="fa fa-pencil fa-fw"></i>
+											</a>
 										</div>
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>

@@ -221,8 +221,60 @@ class ProbeController extends BaseController {
 	      header('Content-Type: application/json');
 	      return Response::json($result);			 
 
+	}
+
+	public function getProbeOption($optionId) {
+
+		$option = (array) Probe::getOptionData($optionId); 
+
+	    if(!empty($option)){
+
+	      $result = array(
+	          'error'   => false,
+	          'data'	=> $option
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);		
 
 	}
+
+	public function saveProbeOption() {
+
+		 $values = Input::get('values');
+
+		 $option = array(
+		 	'name'			=> $values['name'],
+		 );
+
+		 if(Probe::updateOption($values['option_id'], $option)){
+
+		 	$element = (array) Probe::getOptionData($values['option_id']); 
+
+		      $result = array(
+		          'error'   => false,
+		          'data'	=> $element
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}		
 
 
 
