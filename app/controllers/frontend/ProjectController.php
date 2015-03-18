@@ -630,18 +630,42 @@ class ProjectController extends BaseController {
       // verify if user on session is owner of project
       if(empty($isOwner)) {
 
+        return Redirect::to(URL::action('DashboardController@index'));
+
       }else{
 
-        // delete artefacts on project
+        // delete all project data
+        if(Project::deleteArtefacts($projectId) &&
+           Project::deleteUsers($projectId) &&
+           Project::deleteCategoriesActivity($projectId)){
 
-        // delete users on project
+              // delete project activities
+              $activities = Project::getActivitiesByProject($projectId); 
 
-        // delete activity categories
+              if(!empty($activities)){
 
-        // delete activity
+                foreach($activities as $activity){
+                  Activity::deleteActivity($activity['activity_id']); 
+                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
+                  Activity::deleteActivityComment($activity['activity_id']);
+                }
+
+              }
+
+
+              Session::flash('success_message', 'Se ha eliminado el proyecto correctamente'); 
+
+              return Redirect::to(URL::action('DashboardController@index'));
+
+        }else{
+
+              Session::flash('error_message', 'No se ha podido eliminar el proyecto del sistema'); 
+
+              return Redirect::to(URL::action('DashboardController@index'));
+
+        }
 
       }
-
 
   }
 

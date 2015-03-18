@@ -125,7 +125,9 @@
 										<div class="activity-options txt-center">
 											@if($projectOwner)
 											<div class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
-												<i class="fa fa-pencil fa-fw"></i>
+												<a href="{{URL::action('ActivityController@edit', array($activity['id']))}}">
+													<i class="fa fa-pencil fa-fw"></i>
+												</a>
 											</div>	
 											<div class="circle activity-option txt-center fs-big fc-turquoise btn-delete-activity" data-activity-id="{{$activity['id']}}">
 												<i class="fa fa-times fa-fw"></i>

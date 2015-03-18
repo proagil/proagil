@@ -68,6 +68,9 @@ class ProbeController extends BaseController {
 
 		   	);
 
+		   	// get project name
+		   $project = (array) Project::getName($values['project_id']);		   
+
 		  // save probe info
 		   $probeId = Probe::insert($probe); 
 
@@ -116,18 +119,109 @@ class ProbeController extends BaseController {
 		   			}
 		   		}
 
-		   		// get project name
-		   		$project = (array) Project::getName($values['project_id']);
-
 		   		Session::flash('success_message', 'Se ha creado el Sondeo exitosamente en su proyecto: '.$project['name']); 
 
-                // redirect to invitation view
+                // redirect to index probre view
                 return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
 		   	}
 
 		   }else{
 
+		   		Session::flash('error_message', 'No se ha podido crear el Sondeo en su proyecto: '.$project['name']); 
+
+		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+
 		   }
+	}
+
+	public function edit($probeId){
+
+		$probeData = Probe::getProbeElements($probeId); 
+
+		//print_r($probeData ); die; 
+
+
+		if(!empty($probeData)){
+
+			// get project data
+		   	$project = (array) Project::getName($probeData['project_id']);
+
+		   	//probe status
+		   	$probeStatus = array(
+		   		'1'			=> 'Cerrado',
+		   		'2'			=> 'Abierto'
+		   	);
+
+	    	 // get answer types
+	    	 $answerTypes = Probe::getAnswerTypes(); 	  	 
+
+			return View::make('frontend.probe.edit')
+						->with('projectName', $project['name'])
+						->with('probeId', $probeId)
+						->with('answerTypes', $answerTypes)
+						->with('values', $probeData)
+						->with('probeStatus', $probeStatus); 			
+
+		}else{
+
+		}
+
+	}
+
+	public function getProbeElement($elementId){
+
+		$element = (array) Probe::getElementData($elementId); 
+
+	    if(!empty($element)){
+
+	      $result = array(
+	          'error'   => false,
+	          'data'	=> $element
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);		
+
+	}
+
+	public function saveProbeElement() {
+
+		 $values = Input::get('values');
+
+		 $element = array(
+		 	'question'			=> $values['question'],
+		 	'form_element'		=> $values['form_element'],
+		 	'required'			=> $values['required']
+		 );
+
+		 if(Probe::updateElement($values['question_id'], $element)){
+
+		 	$element = (array) Probe::getElementData($values['question_id']); 
+
+		      $result = array(
+		          'error'   => false,
+		          'data'	=> $element
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+
 	}
 
 

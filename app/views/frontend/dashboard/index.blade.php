@@ -14,15 +14,19 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 
-		                	@if (Session::has('success_message'))
-		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-		                	@endif	
-
 							<div class="breadcrumbs-content">
 								Inicio 
-							</div>		                							
+							</div>								
 
-							
+		                	@if (Session::has('success_message'))
+		                		<div class="success-alert-dashboard"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
+		                	@endif	
+
+		                	@if (Session::has('error_message'))
+		                		<div class="error-alert-dashboard"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('error_message')}} 
+		                		</div>
+		                	@endif	
+		                	
 							<div class="filters-content">
 							
 								<div class="section-title fc-blue-iii fs-big">

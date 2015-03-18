@@ -17,6 +17,8 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .edit-btn-question-options, 
+ .anwswer-option-content,
  .error-alert,
  .success-alert,
  .all-options-content,
@@ -865,4 +867,13 @@ textarea{
 .probe-option,
 .probe-question-title {
 	font-weight: 100;
+}
+
+.probe-label-value {
+	font-weight: 100;
+	width: 18%; 
+}
+
+.probe-input-edit {
+	width: 18%; 
 }

@@ -49,7 +49,9 @@
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label">Tipo de proyecto</label>  
                             <div class="col-md-4">
+
                               {{ Form::select('values[project_type]', $projectTypes, (isset($values['project_type_id']))?$values['project_type_id']:'' , array('class'=>'form-control app-input')) }}
+                              
                               <label class="error fc-pink fs-min" style="display:none;"></label>
                               <span class="error fc-pink fs-min"><?= ($errors->has('project_type'))?$errors->first('project_type'):''?></span>  
                             </div>
