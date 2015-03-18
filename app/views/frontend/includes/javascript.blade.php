@@ -26,4 +26,6 @@
 
 {{ HTML::script('js/frontend/bootstrap-datepicker.js') }}
 
+{{ HTML::script('js/frontend/bootstrap-datepicker.es.min.js') }}
+
 <!--END JAVASCRIPT!-->

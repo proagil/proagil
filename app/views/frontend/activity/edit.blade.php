@@ -19,12 +19,13 @@
 							</div>
 							@if (Session::has('success_message'))
                         		<div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-                      		@endif                          
+                      		@endif 
+                      		<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>                         
         							
                       		<div class="section-title fc-blue-iii fs-big">Editar Actividad </div>
 
                        		<div class="form-content">
-	                        {{ Form::open(array('action' => array('ActivityController@edit', $values['id']), 'id' => 'form-edit-activity')) }}							
+	                        {{ Form::open(array('action' => array('ActivityController@edit', $activityId), 'id' => 'form-edit-activity')) }}							
 								                       
 
 	                         	<div class="form-group">
@@ -60,7 +61,7 @@
 	                          <div class="form-group">
 	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad</label>  
 	                            <div class="col-md-4">
-	                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
+	                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['user_id']))?$values['user_id']:'' , array('class'=>'form-control app-input')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
 	                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
 	                            </div>
@@ -96,12 +97,13 @@
 		@include('frontend.includes.javascript')
 		<script type="text/javascript">
 
-		$(document).ready(function() {
-		    $('#calendar').datepicker({
-				format: 'yyyy-mm-dd',
-				startDate: '0d'		
-		    });
-		} );
+			$(document).ready(function() {
+			    $('#calendar').datepicker({
+					format: 'dd-mm-yyyy',
+					language: 'es',
+					startDate: '0d'		
+			    });
+			});
 
 		</script>
 

@@ -97,12 +97,13 @@
 		@include('frontend.includes.javascript')
 		<script type="text/javascript">
 
-		$(document).ready(function() {
-		    $('#calendar').datepicker({
-				format: 'yyyy-mm-dd',
-				startDate: '0d'		
-		    });
-		} );
+			$(document).ready(function() {
+			    $('#calendar').datepicker({
+					format: 'dd-mm-yyyy',
+					language: 'es',
+					startDate: '0d'		
+			    });
+			});
 
 		</script>
 

@@ -91,9 +91,12 @@ class ActivityController extends BaseController {
 		            $assignedUser = (array) User::getUserById($assignedUserId);
 
 	                $emailData = array(
-	                  'user_name'     => $assignedUser['first_name'],
-	                  'url_token'     => URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId
-	                );
+	                	'user_name'     				=> $user['first_name'],
+		                'assigned_user_name'     		=> $assignedUser['first_name'],
+		                'activity_title'     			=> $values['title'],
+		                'url_token'     				=> URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId
+		            );
+
 					$email = $assignedUser['email'];
 
 	                // send email with assigned activity
@@ -173,10 +176,10 @@ class ActivityController extends BaseController {
 			
 			// validation rules
 	        $rules =  array(
-		        'title'											=> 'required',
-		        'closing_date'									=> 'required',
-	            'description'									=> 'required',
-	            'assigned_user_id'								=> 'integer|min:1'
+		        'title'									=> 'required',
+		        'closing_date'							=> 'required',
+	            'description'							=> 'required',
+	            'assigned_user_id'						=> 'integer|min:1'
 	        );
 
 	        // set validation rules to input values
@@ -216,9 +219,11 @@ class ActivityController extends BaseController {
 			            $assignedUser = (array) User::getUserById($assignedUserId);
 
 		                $emailData = array(
-		                  'user_name'     => $assignedUser['first_name'],
-		                  'url_token'     => URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId
-		                );
+			                'assigned_user_name'     		=> $assignedUser['first_name'],
+			                'activity_title'     			=> $values['title'],
+			                'url_token'     				=> URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId,
+			                'user_name'     				=> $user['first_name']
+			            );
 
 						$email = $assignedUser['email'];
 
@@ -239,8 +244,9 @@ class ActivityController extends BaseController {
                 }
 
 		    }else{
-
+				
               	return View::make('frontend.activity.edit')
+              			->with('activityId', $activityId)
                         ->with('categories', $categories)
 						->with('ownerProjects', $ownerProjects) 
 		        		->with('project', $project)
@@ -253,15 +259,20 @@ class ActivityController extends BaseController {
 
 		}else{
 			$values = $activity;
+
+			$date = new DateTime($values['closing_date']);
+			$values['closing_date']	= $date->format('d-m-Y');
+		        	
 	        // render view first time 
 	        return View::make('frontend.activity.edit') 
-	        		->with('values', $values)
+	        		->with('activityId', $activityId)	        		
 	        		->with('categories', $categories)
 	        		->with('ownerProjects', $ownerProjects) 
 	        		->with('project', $project)
 	        		->with('projectDetail', TRUE)
 	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	        		->with('usersOnProject',$usersOnProject);
+	        		->with('usersOnProject',$usersOnProject)
+	        		->with('values', $values);
 	    }
 		
 	}
