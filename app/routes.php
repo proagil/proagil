@@ -103,3 +103,10 @@ Route::any('sondeo/obtener-opcion/{option_id}', 'ProbeController@getProbeOption'
 
 Route::any('sondeo/guardar-opcion', 'ProbeController@saveProbeOption');
 
+Route::any('sondeo/eliminar-pregunta/{question_id}', 'ProbeController@deleteQuestion');
+
+Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption');
+
+Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getProbeInfo');
+
+Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@getProbeInfo');

@@ -38,7 +38,7 @@
                                   <div class=" app-input-invitation app-input">{{$userOnProject->email}}</div>
                                   {{ Form::select('invitations[role]['.$userOnProject->id.']', $userRoles, $userOnProject->user_role_id , array('class'=>'form-control app-input-invitation app-input')) }}
                                   <div data-user-id="{{$userOnProject->id}}" data-project-id="{{$projectId}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">
-                                    <i class="fa fa-minus fa-fw"></i>
+                                    <i class="fa fa-times fa-fw"></i>
                                   </div>
                                   <br><br>
                                   <span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>
@@ -104,7 +104,7 @@
                                   
                       htmlInvitation += '</select>'+
                                       '<div data-invitation-id="'+invitationCount+'" class="btn-delete-new-invitation circle activity-option txt-center fs-big fc-turquoise">'+
-                                        '<i class="fa fa-minus fa-fw"></i>'+
+                                        '<i class="fa fa-times fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
                                       '<span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>'+
@@ -124,31 +124,52 @@
            var userId = $(this).data('userId'),
                projectId = $(this).data('projectId');  
 
-          if(confirm('Realmente desea eliminar al usuario asociado al proyecto')){
+            var showAlert = swal({
+              title: 'Eliminar usuario',
+              text: 'Confirma que desea eliminar el usuario asociado al proyecto',
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#ef6f66',
+              confirmButtonText: 'Si, eliminar',
+              cancelButtonText: 'Cancelar',
+              cancelButtonColor: '#ef6f66',
+              closeOnConfirm: true
+            },
+            function(){
 
-            $.ajax({
-                url: projectURL+'/proyecto/eliminar-usuario/'+userId+'/'+projectId,
-                type:'GET',
-                dataType: 'JSON',
-                success:function (response) {
+                // show ajax loader
+                $('.loader').show();
 
-                    if(!response.error){
+                $.ajax({
+                    url: projectURL+'/proyecto/eliminar-usuario/'+userId+'/'+projectId,
+                    type:'GET',
+                    dataType: 'JSON',
+                    success:function (response) {
 
-                     $(document).find('.user-saved-invitation-'+userId).fadeOut('slow', 
-                        function() { 
-                          $(this).remove()
-                        });                      
+                        if(!response.error){
+
+                         $(document).find('.user-saved-invitation-'+userId).fadeOut('slow', 
+                            function() { 
+                              $(this).remove()
+                            });   
+
+                            // hide ajax loader
+                            $('.loader').hide();                   
+
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                      // hide ajax loader
+                      $('.loader').hide();
 
                     }
-                },
-                error: function(xhr, error) {
+                });
 
-                }
-            });
+            });   
 
-          }
-         
         });
+
       
         // DELETE USER INVITATION FROM DOM 
         $(document).on('click', '.btn-delete-new-invitation', function(){

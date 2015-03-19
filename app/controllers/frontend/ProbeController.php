@@ -168,6 +168,36 @@ class ProbeController extends BaseController {
 
 	}
 
+	public function getProbeInfo($probeInfo) {
+
+		$probe = (array) Probe::getProbeInfo($probeInfo); 
+
+		//probe status
+	   	$probeStatus = array(
+	   		'1'			=> 'Cerrado',
+	   		'2'			=> 'Abierto'
+	   	);
+
+	    if(!empty($probe)){
+
+	      $result = array(
+	          'error'  			=> false,
+	          'data'			=> $probe,
+	          'probe_status'	=> $probeStatus
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
+
+	}
+
 	public function getProbeElement($elementId){
 
 		$element = (array) Probe::getElementData($elementId); 
@@ -274,8 +304,49 @@ class ProbeController extends BaseController {
 	      header('Content-Type: application/json');
 	      return Response::json($result);			 
 
-	}		
+	}
 
+	public function deleteQuestion($questionId) {
+
+		 if(Probe::deleteQuestion($questionId)) {
+
+		      $result = array(
+		          'error'   => false
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}
+
+	public function deleteOption($optionId) {
+
+		 if(Probe::deleteOption($optionId)) {
+
+		      $result = array(
+		          'error'   => false
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}	
 
 
 }

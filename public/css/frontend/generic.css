@@ -17,6 +17,9 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .tags-list,
+ .detail-project-activities,
+ .probe-info-edit-content,
  .edit-btn-question-options, 
  .anwswer-option-content,
  .error-alert,
@@ -193,6 +196,13 @@ body {
 /*-------------------------------------------
 	GENERIC: text decoration
  -------------------------------------------*/
+
+a.txt-undrln,
+a.txt-undrln:hover {
+	text-decoration: underline; 
+}
+
+
 .txt-undrln {
 	text-decoration: underline; 
 }

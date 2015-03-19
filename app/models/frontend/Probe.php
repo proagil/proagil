@@ -2,11 +2,11 @@
 
 class Probe extends Eloquent{
 
-	public static function enumerate($probeId) {
+	public static function enumerate($projectId) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('probe')->get();
+		return DB::table('probe')->where('project_id', $projectId)->get();
 	}
 
 	public static function getAnswerTypes(){
@@ -82,6 +82,20 @@ class Probe extends Eloquent{
 
 
 		return $probeData;
+
+	}
+
+	public static function getProbeInfo($probeId){
+
+		 // get probe data
+		 return DB::table('probe AS p')
+
+		->select('p.*')
+
+		->where('p.id', $probeId)
+
+		->first();		
+
 
 	}
 
@@ -166,9 +180,46 @@ class Probe extends Eloquent{
 	public static function updateOption($id, $values){
 
 		return DB::table('probe_template_option')->where('id', $id)->update($values);
-	}		
+	}	
 
-	
+	public static function deleteQuestion($elementId) {
+
+		try{
+
+		$deletedOptions = DB::table('probe_template_option AS pto')
+			 					->where('pto.probe_template_element_id', $elementId)
+			 					->delete();
+
+		$deletedQuestion = DB::table('probe_template_element')
+							 	->where('id', $elementId)
+								->delete();
+
+		return $deletedQuestion;
+
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}	
+
+	public static function deleteOption($optionId) {
+
+		try{
+
+		return DB::table('probe_template_option AS pto')
+			 		->where('pto.probe_template_element_id', $optionId)
+			 		->delete();
+
+		}catch(\Exception $e) {
+
+			return false; 
+
+		}
+
+	}					
 
 }
 

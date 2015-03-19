@@ -26,18 +26,19 @@
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('ProjectController@create'), 'id' => 'form-create-project')) }}							
+                        {{ Form::open(array('action' => array('ProjectController@create'), 'id' => 'form-create-project')) }}				
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre <span class="fc-pink fs-med">*</span></label>  
                             <div class="col-md-4">
                               {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input')) }}
+
 
                               <label class="error fc-pink fs-min" style="display:none;"></label>
                               <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n <span class="fc-pink fs-med">*</span></label>  
                             <div class="col-md-4">
                               {{ Form::textarea('values[description]', (isset($values['description']))?$values['description']:'', array('class'=>'form-control app-input', 'rows' => '3')) }}
                               <label class="error fc-pink fs-min" style="display:none;"></label>
@@ -45,7 +46,7 @@
                             </div>
                           </div>
                           <div class="form-group">
-                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Tipo de proyecto</label>  
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Tipo de proyecto <span class="fc-pink fs-med">*</span></label>  
                             <div class="col-md-4">
                               {{ Form::select('values[project_type]', $projectTypes, (isset($values['project_type']))?$values['project_type']:'' , array('class'=>'form-control app-input')) }}
                               <label class="error fc-pink fs-min" style="display:none;"></label>

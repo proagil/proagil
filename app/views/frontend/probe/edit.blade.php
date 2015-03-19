@@ -18,7 +18,6 @@
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
-
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text">Error Alert</span> </div>	
 
 							<div class="success-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="success-alert-text"> Success Alert</span> </div>		
@@ -37,20 +36,25 @@
 							</div>	
 							{{ Form::open(array('action' => array('ProbeController@edit', $probeId), 'id' => 'form-create-probe')) }}	
 
-								<label class="probe-label txt-right">Titulo: <span class="probe-label-value"> {{$values['title']}}</span></label>
-								
+								<div class="probe-info-edit-content">
+									<div class="question-title-{{$probeId}} fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
+									</div>
+									
+									<div class="question-status-{{$probeId}} fc-turquoise">Estado: <span class="fc-blue-i probe-label-value"> {{($values['status']==1)?'Cerrado':'Abierto'}} </span>
+									</div>
 
-								<label class="probe-label txt-right">Estado: <span class="probe-label-value"> {{($values['status']==1)?'Cerrado':'Abierto'}} </span></label>
+									<div class="question-description-{{$probeId}} fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value"> {{$values['description']}}</span>
+									</div>
+								</div>
 
-								<label class="probe-label-description">Descripci&oacute;n: <span class="probe-label-value"> {{$values['description']}}</span></label>
 
-								<div data-option-id="" class="hidden pull-right edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
+								<div data-probe-id="{{$probeId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-turquoise">
 									<i class="fa fa-pencil fa-fw"></i>
 								</div>
 
-								<div class="pull-right edit-btn-question-options">									
-									<div data-question-id="" class="cancel-edit-question common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
-									<div data-question-id=""  class="save-edit-question common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+								<div class="hidden pull-right edit-probe-info-save">									
+									<div data-probe-id="{{$probeId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div class="save-edit-probe-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
 								</div>									
 
 								<div class="list-content probe-questions-lists">
@@ -67,7 +71,7 @@
 		                  						<div class="probe-label probe-label-value question-required-{{$element['id']}}">{{($element['required'])?'Si':'No'}}</div>
 			                						
 												<div class="pull-right edit-btn-question-options question-options-default-{{$element['id']}}">				
-			                  						<div class="pull-right circle activity-option txt-center fs-big fc-turquoise delete-question-element" data-question-id="{{$element['id']}}">
+			                  						<div class="pull-right circle activity-option txt-center fs-big fc-turquoise delete-saved-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-times fa-fw"></i>
 			                  						</div>  
 			                  						<div class=" pull-right circle activity-option txt-center fs-big fc-turquoise edit-question-element" data-question-id="{{$element['id']}}">
@@ -82,11 +86,11 @@
 		              
 		                					</div>
 
-							                <div class="{{(empty($element['options']))?'hidden':''}} probe-options-question question-options-content-1">  
-							                  <div class="all-options-content question-options-1">
+							                <div class="{{(empty($element['options']))?'hidden':''}} probe-options-question question-options-content-{{$element['id']}}">  
+							                  <div class="all-options-content question-options-{{$element['id']}}">
 							                  	@if(!empty($element['options']))
 							                  		@foreach($element['options'] as $elementOption)
-									                  	<div class="anwswer-option-content">
+									                  	<div class="anwswer-option-content saved-option-{{$elementOption['id']}}">
 					                  						<label class="probe-label txt-right">&nbsp;</label>
 					                  						<label class="probe-label probe-label-value option-name-{{$elementOption['id']}}">{{ $elementOption['name']}}</label>
 					                  						
@@ -94,7 +98,7 @@
 											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
 											                      <i class="fa fa-pencil fa-fw"></i>
 											                    </div> 
-											                   <div data-option-id="{{$elementOption['id']}}"class="delete-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                   <div data-option-id="{{$elementOption['id']}}"class="delete-saved-probe-option circle activity-option txt-center fs-big fc-turquoise">
 											                      <i class="fa fa-times fa-fw"></i>
 											                    </div> 											                    
 					                  						</div>

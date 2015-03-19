@@ -183,6 +183,94 @@ $(function() {
 
       ----------------------------------------------------------------------*/
 
+     $(document).on('click', '.edit-probe-info', function(e){
+
+      $('.edit-probe-info-save').removeClass('hidden');
+      $('.edit-probe-info-default').addClass('hidden');
+
+       var probeId = $(this).data('probeId'); 
+
+       $.ajax({
+          url: projectURL+'/sondeo/obtener-sondeo-informacion/'+probeId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                console.log(response); 
+
+                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+probeId+' probe-input-name probe-input form-control">'
+                $('.question-title-'+probeId).replaceWith(htmlTitle);
+
+
+                var htmlProbeType = '<select name="values[form_element]" class="probe-input-i form-control type-answer-option">';
+                  $.each(response.probe_status, function(index, type) {
+                    if(index==response.data.status){
+                        htmlProbeType += '<option value="'+index+'" selected>'+type+'</option>';
+                    }else{
+                        htmlProbeType += '<option value="'+index+'">'+type+'</option>';
+                    }
+                  }); 
+                  htmlProbeType += '</select>';      
+                  $('.question-status-'+probeId).replaceWith(htmlProbeType);   
+
+                  var htmlDescription = '<textarea values="probe[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
+                  $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+ 
+     $(document).on('click', '.save-edit-probe-info', function(e){
+
+      $('.edit-probe-info-save').addClass('hidden');
+      $('.edit-probe-info-default').removeClass('hidden');
+
+       var probeId = $(this).data('probeId'); 
+
+       $.ajax({
+          url: projectURL+'/sondeo/guardar-sondeo-informacion/',
+          type:'POST',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                console.log(response); 
+
+                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+probeId+' probe-input-name probe-input form-control">'
+                $('.question-title-'+probeId).replaceWith(htmlTitle);
+
+
+                var htmlProbeType = '<select name="values[form_element]" class="probe-input-i form-control type-answer-option">';
+                  $.each(response.probe_status, function(index, type) {
+                    if(index==response.data.status){
+                        htmlProbeType += '<option value="'+index+'" selected>'+type+'</option>';
+                    }else{
+                        htmlProbeType += '<option value="'+index+'">'+type+'</option>';
+                    }
+                  }); 
+                  htmlProbeType += '</select>';      
+                  $('.question-status-'+probeId).replaceWith(htmlProbeType);   
+
+                  var htmlDescription = '<textarea values="probe[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
+                  $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })       
+
     /*Al hacer clic en el editar de una pregunta*/
 
     $(document).on('click', '.edit-question-element', function(e){
@@ -384,11 +472,103 @@ $(function() {
         alert('vaciooo'); 
       }
 
-    })    
+    })
+      
 
+    // Delete question from DB
+    $(document).on('click','.delete-saved-question-element',function(e){
 
+       e.preventDefault(); 
+
+        var questionId = $(this).data('questionId'); 
+
+        var showAlert = swal({
+          title: 'Eliminar Pregunta',
+          text: 'Confirma que desea eliminar la pregunta del sondeo',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+         $.ajax({
+            url: projectURL+'/sondeo/eliminar-pregunta/'+questionId,
+            type:'GET',
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                   $(document).find('.saved-question-'+questionId).fadeOut('slow', 
+                      function() { 
+                        $(this).remove()
+                    });
+
+                   $(document).find('.question-options-content-'+questionId).fadeOut('slow', 
+                      function() { 
+                        $(this).remove()
+                    });                   
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+        });               
+
+     
+    });
+
+    // Delete question option from DB
+    $(document).on('click','.delete-saved-probe-option', function(e){
+
+       e.preventDefault(); 
+
+        var optionId = $(this).data('optionId'); 
+
+        var showAlert = swal({
+          title: 'Eliminar Pregunta',
+          text: 'Confirma que desea eliminar la opción',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+         $.ajax({
+            url: projectURL+'/sondeo/eliminar-opcion/'+optionId,
+            type:'GET',
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                   $(document).find('.saved-option-'+optionId).fadeOut('slow', 
+                      function() { 
+                        $(this).remove()
+                    });
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+        });               
+
+     
+    });      
  
    
 });
-
-

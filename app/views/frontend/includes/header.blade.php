@@ -24,7 +24,7 @@
 
                 <li class="dropdown hidden-xs">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
-                        @if(isset(Session::get('user')['avatar_file']) && Session::get('user')['avatar_file']>0)
+                        @if(isset(Session::get('user')['avatar_file']))
                             <img class="img-circle user-profile" src="{{URL::to('/').'/uploads/'.Session::get('user')['avatar_file']}}"/>
                         @else
                             <img class="img-circle user-profile" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
