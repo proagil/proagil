@@ -94,7 +94,7 @@ class ActivityController extends BaseController {
 	                	'user_name'     				=> $user['first_name'],
 		                'assigned_user_name'     		=> $assignedUser['first_name'],
 		                'activity_title'     			=> $values['title'],
-		                'url_token'     				=> URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId
+		                'url_token'     				=> URL::to('/'). '/proyecto/actividad/detalle/'. $activityId
 		            );
 
 					$email = $assignedUser['email'];
@@ -221,7 +221,7 @@ class ActivityController extends BaseController {
 		                $emailData = array(
 			                'assigned_user_name'     		=> $assignedUser['first_name'],
 			                'activity_title'     			=> $values['title'],
-			                'url_token'     				=> URL::to('/'). '/proyecto/'.$projectId.'/actividad/'. $activityId,
+			                'url_token'     				=> URL::to('/'). '/proyecto/actividad/detalle/'. $activityId,
 			                'user_name'     				=> $user['first_name']
 			            );
 
@@ -290,6 +290,8 @@ class ActivityController extends BaseController {
 		$activityId = $activity['id'];
 
 		$projectId = $activity['project_id'];
+
+		Activity::deleteActivityComment($activityId);
 
 		$deleteActivity = Activity::deleteActivity($activityId);
 
