@@ -32,7 +32,7 @@
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
 
-									@if(!empty($projectArtefacts))
+									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
 									<div class="fc-grey-ii fs-xxbig arrow-left prev">
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
@@ -60,7 +60,7 @@
 									</div>
 									@endif
 
-									@if(!empty($projectArtefacts))
+									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
 									<div class="fc-grey-ii fs-xxbig arrow-left next">
 										<i class="fa fa-chevron-right fa-fw"></i>
 									</div>
@@ -103,14 +103,14 @@
 									<div class="fs-med tags-list tags-list-i">
 										<span class="fs-big fc-pink fa fa-tasks fa-fw"></span><span class="f-bold">Estado </span>
 										
-										<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1"><i class="btn-change-activity-status fs-big fa fa-check-circle fc-grey-iv fa-fw"></i>Sin empezar</a>
-										<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2"><i class="btn-change-activity-status fs-big fa fa-check-circle fc-yellow fa-fw"></i>En proceso</a>
-										<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3"><i class="btn-change-activity-status fs-big fa fa-check-circle fc-green fa-fw"></i>Terminadas</a>
+										<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1">Sin empezar</a>
+										<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2">En proceso</a>
+										<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3">Terminadas</a>
 
 									</div>
 									@if($projectOwner)
 									<div class=" fs-med common-btn btn-i btn-turquoise pull-right btn-add-activity"  data-project-id="{{$project['id']}}">
-										<i class="fs-big fa fa-plus fa-fw " ></i>Agregar actividad
+										<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
 									</div>
 									@endif
 								</div>	
@@ -120,7 +120,7 @@
 										@foreach($activities as $activity)
 										<div class="each-activity-content">
 											<div class="btn-change-status">
-													<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
+												<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 											</div>
 											<div class="activity" data-activity-id="{{$activity['id']}}">
 												<div class="activity-info">
@@ -138,27 +138,29 @@
 											
 											<div class="activity-options txt-center">
 												@if($projectOwner)
-												<div class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
+												<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
 													<a href="{{URL::action('ActivityController@edit', array($activity['id']))}}">
 														<i class="fa fa-pencil fa-fw"></i>
 													</a>
 												</div>	
-												<div class="circle activity-option txt-center fs-big fc-turquoise btn-delete-activity" data-activity-id="{{$activity['id']}}">
+												<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink btn-delete-activity" data-activity-id="{{$activity['id']}}">
 													<i class="fa fa-times fa-fw"></i>
 												</div>											
 												@endif								
-												<div class="circle activity-option txt-center fs-big fc-turquoise">
-													<i class="fa fa-comments fa-fw"></i>
+												<div data-toggle="tooltip" data-placement="top" title="Comentar" class="circle {{(!$projectOwner)?'pull-right':''}} activity-option txt-center fs-big fc-turquoise">
+													<a href="{{URL::action('ActivityController@detail', array($activity['id']))}}">													
+														<i class="fa fa-comments fa-fw"></i>
+													</a>
 												</div>
 
-												<div class="circle activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
+												<div data-toggle="tooltip" data-placement="top" title="Ver descripción" class="circle {{(!$projectOwner)?'pull-right':''}} activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
 													<i class="fa fa-caret-down fa-fw"></i>
 												</div>								
 											</div>
 										</div>
 										@endforeach
 									@else
-									<div class="f-min">Aun no hay actividades asociadas a este proyecto</div>
+									<div class="f-min">No hay tareas para mostrar</div>
 									@endif											
 								
 								</div>

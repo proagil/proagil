@@ -39,7 +39,7 @@
 							<div class="list-content">
 								@if(!empty($probes))
 									@foreach($probes as $probe)
-									<div class="probe-item-content">
+									<div class="probe-item-content" data-probe-url="{{$probe['url']}}">
 										<i class="fc-yellow fa fa-th-list fa-fw"></i>
 											{{$probe['title']}}
 										@if($probe['status']==1)
@@ -49,11 +49,6 @@
 										@endif						
 									</div>
 									<div class="probe-options txt-center">
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
-											<a target="_blank" href="{{URL::action('PublicProbeController@show', array($probe['url']))}}">
-												<i class="fa fa-eye fa-fw"></i>
-											</a>
-										</div>
 										@if($projectOwner)								
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
 											<a href="{{URL::action('ProbeController@edit', array($probe['id']))}}">
@@ -63,7 +58,7 @@
 										<div class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
 										</div>
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
+										<div class="circle activity-option txt-center fs-big fc-pink">
 											<i class="fa fa-times fa-fw"></i>
 										</div>												
 										@endif								
@@ -87,11 +82,11 @@
 
     $(function() {
 
-      $('.project-item').on('click', function(){
+      $('.probe-item-content').on('click', function(){
 
-      	projectId = $(this).data('projectId');
+      	 probeUrl = $(this).data('probeUrl');
 
-      	 window.location.href = projectURL+'/proyecto/detalle/'+projectId;
+      	 window.location.href = projectURL+'/sondeo/generar/'+probeUrl;
 
       })
 

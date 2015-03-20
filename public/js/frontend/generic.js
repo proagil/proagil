@@ -24,6 +24,9 @@ $(function() {
     //GENERIC: generate popover
     $('[data-toggle="popover"]').popover();
 
+    //
+    $(document).find('[data-toggle="tooltip"]').tooltip(); 
+
     //GENERIC: remove all active classes on load
     var active = $('.active'),
         cIn = $('.in');
@@ -42,6 +45,12 @@ $(function() {
 
       window.history.back(); 
     })
+
+   $('#form-login input').keydown(function(e) {
+      if (e.keyCode == 13) {
+          $('#form-login').submit();
+      }
+  });   
 
 /*----------------------------------------------------------------------
 
@@ -288,7 +297,7 @@ $(function() {
                                   '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a</label>'+
                                     '<div class="col-md-4">'+
                                         '<input placeholder="Ej: Requisitos" class="form-control category-input app-input " name="values[new_category][]" type="text">'+
-                                      '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-turquoise">'+
+                                      '<div data-category-id="'+categoryCount+'" class="btn-delete-category circle activity-option txt-center fs-big fc-pink">'+
                                         '<i class="fa fa-times fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
@@ -505,11 +514,11 @@ $(function() {
     //ACTIVITY: change activity status
     $('.btn-change-activity-status').on('click', function(){
 
-        var activityStatus = $(this).data('activityStatus'),
-            acitivityId = $(this).data('activityId'),
+        var activityStatus = $(this).attr('data-activity-status'),
+            acitivityId = $(this).attr('data-activity-id'),
             self = $(this); 
 
-        switch(activityStatus) {
+        switch(parseInt(activityStatus)) {
 
             case UNDONE_ACTIVITY:
 
@@ -524,7 +533,7 @@ $(function() {
                         if(!response.error){
 
                             self.removeClass('fc-grey-iv').addClass('fc-yellow');
-                            self.data('activity-status', response.new_status); 
+                            self.attr('data-activity-status', response.new_status); 
 
                             $('.activity-title-'+acitivityId).removeClass('txt-strike');   
 
@@ -552,7 +561,7 @@ $(function() {
                         if(!response.error){
 
                             self.removeClass('fc-yellow').addClass('fc-green');
-                            self.data('activity-status', response.new_status); 
+                            self.attr('data-activity-status', response.new_status); 
 
                              $('.activity-title-'+acitivityId).addClass('txt-strike');  
 
@@ -580,7 +589,7 @@ $(function() {
                         if(!response.error){
 
                             self.removeClass('fc-green').addClass('fc-grey-iv');
-                            self.data('activity-status', response.new_status); 
+                            self.attr('data-activity-status', response.new_status); 
 
                               $('.activity-title-'+acitivityId).removeClass('txt-strike');
 

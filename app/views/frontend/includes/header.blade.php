@@ -12,8 +12,8 @@
             </div>
             <!-- /.navbar-header -->
 
-			@if(isset($project['name']))
-			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{$project['name']}}</span></div>
+			@if(isset(Session::get('project')['name']))
+			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{Session::get('project')['name']}}</span></div>
             @endif
 
             <div class="loader" style="display:none;">

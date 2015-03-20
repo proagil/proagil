@@ -51,7 +51,7 @@ $(function() {
                   '<label class="probe-label txt-right">Pregunta obligatoria:</label>'+
                   '<input name="probe[questions]['+questionCount+'][required]" type="checkbox">'+
 
-                  '<div class="circle activity-option txt-center fs-big fc-turquoise pull-right delete-question-row" data-question-id="'+questionCount+'">'+
+                  '<div class="circle activity-option txt-center fs-big fc-pink pull-right delete-question-row" data-question-id="'+questionCount+'">'+
                     '<i class="fa fa-times fa-fw"></i>'+
                   '</div>'+                  
                 '</div>'+
@@ -118,7 +118,7 @@ $(function() {
 
           htmlOptions += '<div class="question-option option-'+questionId+'-'+optionCount+'">'+
               '<input name="probe[questions]['+questionId+'][option]['+optionCount+'][name]" type="text" placeholder="Opción para la pregunta" class="probe-input-option form-control">'+
-                '<div class="circle activity-option txt-center fs-big fc-turquoise delete-question-option" data-option-id="'+optionCount+'" data-question-id="'+questionId+'">'+
+                '<div class="circle activity-option txt-center fs-big fc-pink delete-question-option" data-option-id="'+optionCount+'" data-question-id="'+questionId+'">'+
                     '<i class="fa fa-times fa-fw"></i>'+
                   '</div>'+                     
           '</div>';      

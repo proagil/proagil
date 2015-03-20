@@ -165,10 +165,10 @@ class LoginController extends BaseController {
                 //update user
                 User::_update($userValues->id, $userPassword);
 
-                return View::make('frontend.login.changePassword')
-                                ->with('success_message', 'Su contrase&ntilde;a ha sido actualizada correctamente')
-                                ->with('token', $token);
+                Session::flash('success_message', 'Su contrase&ntilde;a ha sido actualizada correctamente'); 
 
+                return View::make('frontend.login.index');
+                
              }else{
 
                 return View::make('frontend.login.changePassword')
