@@ -51,7 +51,14 @@ class ArtefactController extends BaseController {
 
 	              echo 'checklist'; 
 
-	              break;	              	              
+	              break;
+	              case Config::get('constant.artefact.use_case'):
+
+	     
+
+	              return Redirect::to(URL::action('UseCaseController@index', array($projectId)));
+
+	              break;	       	              	              
 	        }
 
 

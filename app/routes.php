@@ -110,3 +110,5 @@ Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption
 Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getProbeInfo');
 
 Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@getProbeInfo');
+
+Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');

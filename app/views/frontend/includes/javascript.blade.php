@@ -16,8 +16,6 @@
 
 {{ HTML::script('js/frontend/owl.carousel.js') }}
 
-{{ HTML::script('js/frontend/swiper.min.js') }}
-
 {{ HTML::script('js/frontend/emoticons.js') }}
 
 {{ HTML::script('js/frontend/underscore.js') }}

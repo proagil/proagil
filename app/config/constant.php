@@ -42,6 +42,10 @@ return array(
 	'artefact.probe'						=> 'sondeo',
 	'artefact.style_guide'					=> 'guia-de-estilos',
 	'artefact.existing_system'				=> 'analisis-de-sistemas-existentes',
-	'artefact.checklist'					=> 'lista-de-comprobacion'
+	'artefact.checklist'					=> 'lista-de-comprobacion',
+	'artefact.use_case'						=> 'diagrama-de-casos-de-uso',
+	'artefact.domain_object'				=> 'diagrama-de-objetos-de-dominio',
+	'artefact.prototype'					=> 'prototipo'
+
 
 ); 
