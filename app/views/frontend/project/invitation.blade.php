@@ -36,8 +36,8 @@
                               <div class="col-md-8">
                                 {{ Form::text('invitations[email][]', (isset($values['email']))?$values['email']:'', array('placeholder' => 'Correo electr&oacute;nico', 'class'=>'form-control app-input-invitation invitation-email app-input')) }}
                                 {{ Form::select('invitations[role][]', $userRoles, Config::get('constant.project.member') , array('class'=>'form-control app-input-invitation app-input')) }}
-                                <div data-invitation-id="0" class="btn-delete-invitation  circle activity-option txt-center fs-big fc-turquoise">
-                                  <i class="fa fa-minus fa-fw"></i>
+                                <div data-invitation-id="0" class="btn-delete-invitation  circle activity-option txt-center fs-big fc-pink">
+                                  <i class="fa fa-times fa-fw"></i>
                                 </div>
                                 <br><br>
                                 <span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>
@@ -62,7 +62,10 @@
                           </div>
 
                           <div class="form-group">
-                             <div class="col-md-8 fc-green"> <a href="{{URL::action('ProjectController@detail', array($projectId))}}" >Ir al proyecto, deseo enviar invitaciones despu&eacute;s</a></div>
+                             <div class="col-md-8 fc-blue-ii"> 
+                              Deseo enviar invitaciones despu&eacute;s. Para ir al proyecto hacer clic
+                                <a class="txt-undrln" href="{{URL::action('ProjectController@detail', array($projectId))}}">aqu&iacute;</a>
+                              </div>
                           </div>
                          
                           {{Form::close()}}

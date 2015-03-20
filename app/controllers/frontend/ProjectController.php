@@ -549,7 +549,9 @@ class ProjectController extends BaseController {
 
     }else{
           // get project data
-          $project =  (array) Project::get($projectId);
+          $project =  (array) Project::get($projectId); 
+
+          Session::put('project', $project); 
           $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
 
           // project list on sidebar

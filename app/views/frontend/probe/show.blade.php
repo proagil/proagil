@@ -15,7 +15,9 @@
 	                    	  		<span class="fc-turquoise f-bold fs-med">{{$probe['title']}}</span>                 	  		
 	                    	  </div>	 
 
-                        	  <label class="show-probe-description f-bold fc-blue-ii">{{$probe['description']}}</label> 
+                        	  <label class="show-probe-description f-bold fc-blue-ii">{{$probe['description']}}</label> <br>
+
+                        	  <label class="show-probe-description f-bold fc-pink">Obligatorio (*)</label> 
 
                         	  {{ Form::open(array('action' => array('PublicProbeController@show', $probeId), 'id' => 'form-save-probe'))}}
 

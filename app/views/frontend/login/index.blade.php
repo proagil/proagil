@@ -19,6 +19,10 @@
                 		<div class="success-alert"><i class="fc-green glyphicon glyphicon-alert"></i> {{Session::get('success_register')}}</div>
                 	@endif
 
+                	@if (Session::has('success_message'))
+                		<div class="success-alert"><i class="fc-green glyphicon glyphicon-alert"></i> {{Session::get('success_message')}}</div>
+                	@endif                	
+
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-med">

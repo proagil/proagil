@@ -71,10 +71,10 @@
 		                  						<div class="probe-label probe-label-value question-required-{{$element['id']}}">{{($element['required'])?'Si':'No'}}</div>
 			                						
 												<div class="pull-right edit-btn-question-options question-options-default-{{$element['id']}}">				
-			                  						<div class="pull-right circle activity-option txt-center fs-big fc-turquoise delete-saved-question-element" data-question-id="{{$element['id']}}">
+			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-times fa-fw"></i>
 			                  						</div>  
-			                  						<div class=" pull-right circle activity-option txt-center fs-big fc-turquoise edit-question-element" data-question-id="{{$element['id']}}">
+			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-turquoise edit-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-pencil fa-fw"></i>
 			                  						</div>  
 												</div>
@@ -98,7 +98,7 @@
 											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
 											                      <i class="fa fa-pencil fa-fw"></i>
 											                    </div> 
-											                   <div data-option-id="{{$elementOption['id']}}"class="delete-saved-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                   <div data-option-id="{{$elementOption['id']}}"class="delete-saved-probe-option circle activity-option txt-center fs-big fc-pink">
 											                      <i class="fa fa-times fa-fw"></i>
 											                    </div> 											                    
 					                  						</div>
