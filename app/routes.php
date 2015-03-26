@@ -95,6 +95,10 @@ Route::any('sondeo/editar/{probe_id}', 'ProbeController@edit');
 
 Route::any('sondeo/generar/{probe_url}', 'PublicProbeController@show');
 
+Route::any('sondeo/guardar/{probe_url}', 'PublicProbeController@save');
+
+Route::any('sondeo/enviado/{probe_url}', 'PublicProbeController@send');
+
 Route::any('sondeo/obtener-pregunta/{question_id}', 'ProbeController@getProbeElement');
 
 Route::any('sondeo/guardar-pregunta', 'ProbeController@saveProbeElement');
@@ -109,6 +113,6 @@ Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption
 
 Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getProbeInfo');
 
-Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@getProbeInfo');
+Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@saveProbeInfo');
 
 Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');

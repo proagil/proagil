@@ -194,7 +194,7 @@ class Project extends Eloquent{
 
 		$query =  DB::table('activity_belongs_to_project AS abtp')
 
-			->select('u.id', 'u.first_name', 'a.*')
+			->select('u.id', 'u.first_name', 'a.*', 'cabtp.name AS category_name')
 
 			->where('abtp.project_id', $projectId);
 
@@ -211,6 +211,8 @@ class Project extends Eloquent{
 			$query->join('user AS u', 'abtp.user_id', '=', 'u.id')
 
 				  ->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+
+				  ->leftJoin('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
 
 				  ->orderBy('a.id', 'ASC');
 

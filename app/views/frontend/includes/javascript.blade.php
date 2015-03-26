@@ -10,8 +10,6 @@
 
 {{ HTML::script('js/frontend/sb-admin-2.js') }}
 
-{{ HTML::script('js/frontend/sb-admin-2.js') }}
-
 {{ HTML::script('js/frontend/sweet-alert.min.js') }}
 
 {{ HTML::script('js/frontend/owl.carousel.js') }}

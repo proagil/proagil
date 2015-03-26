@@ -174,7 +174,7 @@ $(function() {
             $(this).removeClass('close-activity').addClass('open-activity');
 
             // change icon arrow
-            $(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
+            //$(this).find('i').removeClass('fa-caret-down').addClass('fa-caret-right');
 
             // show description content
             $('#description-'+activityId).slideToggle('5000'); 
@@ -186,7 +186,7 @@ $(function() {
             $(this).removeClass('open-activity').addClass('close-activity');
 
             // change icon arrow
-            $(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
+            //$(this).find('i').removeClass('fa-caret-right').addClass('fa-caret-down');
 
             // hide description content
             $('#description-'+activityId).slideToggle('5000'); 
@@ -232,7 +232,14 @@ $(function() {
 
          window.location.href = projectURL+'/artefacto/'+friendlyUrl+'/proyecto/'+projectId;
 
-      });  
+      }); 
+
+    $('.emojis-popover').popover({ 
+        html : true, 
+        content: function() {
+          return $('.emoticons-container').html();
+        }
+    });       
 
 /*----------------------------------------------------------------------
 
@@ -472,17 +479,7 @@ $(function() {
           });  
        
       }); 
-/*----------------------------------------------------------------------
 
-        ACTIVITY DETAIL FUNCTIONS
-
-----------------------------------------------------------------------*/     
-      $('.activity').on('click', function(){
-        var activityId = $(this).data('activityId'); 
-
-        window.location.href = projectURL+'/proyecto/actividad/detalle/'+activityId;
-
-      }); 
 /*----------------------------------------------------------------------
 
         ACTIVITY EDIT FUNCTIONS
@@ -619,7 +616,9 @@ $(function() {
     // function: save comment 
     $('.save-comment').on('click', function(){
 
-      if($('#comment-textarea').val()!=''){
+      var activityId = $(this).data('activityId'); 
+
+      if($('#comment-textarea-'+activityId).val()!=''){
 
          $('.loader').show();
 
@@ -628,7 +627,7 @@ $(function() {
           $.ajax({
               url: projectURL+'/actividad/comentar/',
               type:'POST',
-              data: $('#form-comment-activity').serialize(),
+              data: $('#form-comment-activity-'+activityId).serialize(),
               dataType: 'JSON',
               success:function (response) {
 
@@ -646,22 +645,22 @@ $(function() {
                                     }
 
                                 html += '</div>'+
-                                '<span class="fs-min fc-pink"></i>' + response.comment.user_first_name +'<i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> '+response.comment.date+ '</span>'+
+                                '<span class="fs-min f-bold"></i>' + response.comment.user_first_name +'<i class="fs-med fa fa-calendar fc-green fa-fw"></i> '+response.comment.date+ '</span>'+
                                 '<div class="comment-text">'+
                                     response.comment.comment +
                                 '</div>';
 
                                 if(response.comment.editable){
                                    html += '<div class="comment-action">'+
-                                              '<div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="'+response.comment.id+'">'+
+                                              '<div  class="btn-delete-comment txt-center fs-big fc-pink" data-comment-id="'+response.comment.id+'">'+
                                                 '<i class="fa fa-times fa-fw"></i>'+
                                               '</div>'+
                                             '</div>';  
                                 }
-                            html += '</div>'
+                            html += '</div>';
 
-                      $('#comment-textarea').val(''); 
-                      $(html).prependTo('.comment-list').fadeIn('slow');
+                      $('#comment-textarea-'+activityId).val(''); 
+                      $(html).prependTo('.comment-list-'+activityId).fadeIn('slow');
 
                       html = ''; 
 
@@ -679,7 +678,7 @@ $(function() {
 
       }else{
 
-        $('.comments-content').find('.error').removeClass('hidden'); 
+        $('#comment-textarea-'+activityId).addClass('error-input'); 
 
       }
 
@@ -830,5 +829,18 @@ $(function() {
 
 
 });
+
+
+
+    //PUBLIC PROBE: submit form
+    $('.btn-send-public-probe').on('click', function(){
+
+      console.log('dddd'); 
+        
+        $('#form-save-probe-results').submit();
+
+        return false;
+
+    });
 
 

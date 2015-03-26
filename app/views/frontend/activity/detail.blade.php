@@ -52,8 +52,8 @@
                         <div class="save-comment txt-center fs-med common-btn btn-i btn-turquoise pull-right">
                           Comentar
                         </div>
-                        <div class="comment-list">
                         @if(!empty($comments)) 
+                        <div class="comment-list">
                             @foreach($comments as $comment)                       
                             <div class="comment-content" id="comment-{{$comment['id']}}">
                                 <div class="user-avatar">
