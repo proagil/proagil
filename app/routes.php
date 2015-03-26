@@ -33,21 +33,25 @@ Route::any('/admin/artefacto/eliminar/{id}', 'AdminArtefactController@delete');
 
 Route::any('/', 'LoginController@index');
 
-Route::any('inicio', 'DashboardController@index');
+Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
+
+Route::any('actividad/comentar', 'ActivityController@commnet');
+
+Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
+
+Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
 
 Route::any('/cerrar-sesion', 'LoginController@logout');
 
+Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
+
+Route::any('inicio', 'DashboardController@index');
+
+Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
+
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
 
-Route::any('recuperar-contrasena/{token}', 'LoginController@changePassword');
-
-Route::any('registro', 'UserController@register');
-
 Route::any('perfil/{id}', 'UserController@edit');
-
-Route::any('registro/validar/{token}', 'UserController@validateRegister');
-
-Route::any('registro/validar-invitacion/{token}', 'UserController@validateRegisterInvitation');
 
 Route::any('proyecto/crear', 'ProjectController@create');
 
@@ -69,10 +73,6 @@ Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryContr
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
-Route::any('actividad/cambiar-estado/{activity_id}/{status_id}', 'ActivityController@changeStatus');
-
-Route::any('actividad/comentar', 'ActivityController@commnet');
-
 Route::any('proyecto/actividad/crear/{project_id}', 'ActivityController@create');
 
 Route::any('proyecto/actividad/eliminar/{activity_id}', 'ActivityController@delete');
@@ -81,9 +81,13 @@ Route::any('proyecto/actividad/detalle/{activity_id}', 'ActivityController@detai
 
 Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
 
-Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
+Route::any('recuperar-contrasena/{token}', 'LoginController@changePassword');
 
-Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
+Route::any('registro', 'UserController@register');
+
+Route::any('registro/validar/{token}', 'UserController@validateRegister');
+
+Route::any('registro/validar-invitacion/{token}', 'UserController@validateRegisterInvitation');
 
 Route::any('sondeo/listado/{project_id}', 'ProbeController@index');
 
@@ -110,5 +114,3 @@ Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption
 Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getProbeInfo');
 
 Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@getProbeInfo');
-
-Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');

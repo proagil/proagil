@@ -178,6 +178,9 @@ body {
 .fc-yellow {
 	color: #eecb44; 
 }
+.fc-white {
+	color: #ffffff;
+}
 
 .fc-pink {
 	color: #ef6f66; 
@@ -235,14 +238,22 @@ a.txt-undrln:hover {
 	width: 141px;
  }
 
+.common-btn:hover{
+	cursor: pointer; 
+}
+
+.common-btn-i {
+	width: 200px;
+}
+
+.common-btn-i:hover{
+	cursor: pointer; 
+}
+
  .btn-mini {
  	width: 60px;
  	margin: 3px; 
  }
- 
-.common-btn:hover{
-	cursor: pointer; 
-}
 
 .btn-i{
 	padding: 3px 0; 
@@ -269,13 +280,27 @@ a.txt-undrln:hover {
 	background-color: #DB675E; 
 }
 
-
 .btn-turquoise {
 	background-color: #41cac0; 
 }
 
 .btn-turquoise:hover {
 	background-color: #42C2B8; 
+}
+
+.btn-green {
+	background-color: #a8d76f; 
+}
+
+.btn-green:hover {
+	background-color: #8DB45C; 
+}
+
+.btn-yellow {
+	background-color: #eecb44; 
+}
+.btn-yellow:hover {
+	background-color: #D6B63A; 
 }
 
 
