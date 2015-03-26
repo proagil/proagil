@@ -103,13 +103,13 @@
 									<div class="fs-med tags-list tags-list-i">
 										<span class="fs-big fc-pink fa fa-tasks fa-fw"></span><span class="f-bold">Estado </span>
 										
-										<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1">Sin empezar</a>
-										<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2">En proceso</a>
+										<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1">Asignadas</a>
+										<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2">Iniciadas</a>
 										<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3">Terminadas</a>
 
 									</div>
 									@if($projectOwner)
-									<div class=" fs-med common-btn btn-i btn-turquoise pull-right btn-add-activity"  data-project-id="{{$project['id']}}">
+									<div class=" fs-med common-btn btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
 										<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
 									</div>
 									@endif
@@ -118,27 +118,81 @@
 								<div class="list-activities-content">
 									@if(!empty($activities))
 										@foreach($activities as $activity)
-										<div class="each-activity-content">
+										<div class="each-activity-content activity-{{$activity['id']}}">
 											<div class="btn-change-status">
 												<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 											</div>
-											<div class="activity" data-activity-id="{{$activity['id']}}">
-												<div class="activity-info">
+											<div style="width:{{($projectOwner)?'88%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
+												<div data-activity-id="{{$activity['id']}}" class="activity-info btn-activity-description">
 						
 													<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </span>
 													
 													<span class="fs-min"><i class="fs-med fa fa-user fc-turquoise fa-fw"></i>{{$activity['first_name']}}</span>
 													
 												</div>
+
 												<div class="activity-description fc-grey-v" style="display:none;" id="description-{{$activity['id']}}">
-													<i class="fa fs-big fc-turquoise fa-file-o fa-fw"></i>
-													{{$activity['description']}}
+
+													<div class="activity-info-ii">
+
+						                              <div class="detail-activity-content">
+
+						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} <i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i> Reasignar <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
+						                              </div>  
+
+						                              <div class="description-activity-content">
+						                                  {{$activity['description']}}
+						                              </div>
+
+								                      
+								                       <div class="comment-textarea">
+								                        {{ Form::open(array('action' => array('ActivityController@commnet'), 'id' => 'form-comment-activity-'.$activity['id'])) }}                           
+								                          {{ Form::textarea('values[comment]', (isset($values['comment']))?$values['comment']:'', array('id' => 'comment-textarea-'.$activity['id'], 'class'=>'form-control app-input', 'rows' => '2')) }}
+								                          {{ Form::hidden('values[activity_id]', $activity['id']) }}
+								                        {{Form::close()}}
+								                        </div>
+								                        <span class="hidden error fc-pink fs-min">Debe especificar un comentario</span>                          
+														<i class="fs-med fa fa-smile-o cur-point fc-turquoise fa-fw emojis-popover"></i>
+								                        <div style="display:none;" class="emoticons-container"></div>
+
+								                        <div data-activity-id="{{$activity['id']}}" class="save-comment txt-center fs-med common-btn btn-i btn-turquoise pull-right">
+								                          Comentar
+								                        </div>													
+
+													</div>													
+
+							                         @if(!empty($activity['comments']))			                         
+							                        <div class="comment-list comment-list-{{$activity['id']}}">
+							                            @foreach($activity['comments'] as $comment)                       
+							                            <div class="comment-content" id="comment-{{$comment['id']}}">
+							                                <div class="user-avatar">
+							                                    @if($comment['user_avatar']>0)
+							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/uploads/'. $comment['avatar_file']}}"/>
+							                                    @else
+							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
+							                                    @endif
+							                                </div>
+							                                <span class="f-bold fs-min"> {{$comment['user_first_name']}} <i class="fs-med fa fa-calendar-o fc-green fa-fw"></i> {{$comment['date']}}</span>
+							                                <div class="comment-text">
+							                                    {{$comment['comment']}}
+							                                </div>
+							                                @if($comment['editable'])
+							                                <div class="comment-action">
+							                                  <div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="{{$comment['id']}}">
+							                                    <i class="fa fa-times fc-pink fa-fw"></i>
+							                                  </div>                               
+							                                </div>
+							                                @endif
+							                            </div> 
+							                            @endforeach
+							                        </div> 
+							                        @endif  					                              	
+
 												</div>							
 											</div>							
-											
+											@if($projectOwner)
 											<div class="activity-options txt-center">
-												@if($projectOwner)
-												<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
+												<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
 													<a href="{{URL::action('ActivityController@edit', array($activity['id']))}}">
 														<i class="fa fa-pencil fa-fw"></i>
 													</a>
@@ -146,17 +200,9 @@
 												<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink btn-delete-activity" data-activity-id="{{$activity['id']}}">
 													<i class="fa fa-times fa-fw"></i>
 												</div>											
-												@endif								
-												<div data-toggle="tooltip" data-placement="top" title="Comentar" class="circle {{(!$projectOwner)?'pull-right':''}} activity-option txt-center fs-big fc-turquoise">
-													<a href="{{URL::action('ActivityController@detail', array($activity['id']))}}">													
-														<i class="fa fa-comments fa-fw"></i>
-													</a>
-												</div>
-
-												<div data-toggle="tooltip" data-placement="top" title="Ver descripción" class="circle {{(!$projectOwner)?'pull-right':''}} activity-option txt-center fs-big fc-turquoise close-activity btn-activity-description" data-activity-id="{{$activity['id']}}">
-													<i class="fa fa-caret-down fa-fw"></i>
-												</div>								
+																											
 											</div>
+											@endif
 										</div>
 										@endforeach
 									@else
@@ -181,6 +227,155 @@
 	    <!-- /#wrapper -->
 
 		@include('frontend.includes.javascript')
+  <script>
+      (function() {
+        var definition = {
+            "smile": {
+                "title": "Smile",
+                "codes": [":)", ":=)", ":-)"]
+            },
+            "sad-smile": {
+                "title": "Sad Smile",
+                "codes": [":(", ":=(", ":-("]
+            },
+            "big-smile": {
+                "title": "Big Smile",
+                "codes": [":D", ":=D", ":-D", ":d", ":=d", ":-d"]
+            },
+            "heart": {
+                "title": "Heart",
+                "codes": ["<3"]
+            },            
+            "cool": {
+                "title": "Cool",
+                "codes": ["8)", "8=)", "8-)", "B)", "B=)", "B-)"]
+            },
+            "wink": {
+                "title": "Wink",
+                "codes": [":o", ":=o", ":-o", ":O", ":=O", ":-O"]
+            },
+            "crying": {
+                "title": "Crying",
+                "codes": [";(", ";-(", ";=("]
+            },
+            "sweating": {
+                "title": "Sweating",
+                "codes": ["(:|"]
+            },
+            "speechless": {
+                "title": "Speechless",
+                "codes": [":|", ":=|", ":-|"]
+            },
+            "kiss": {
+                "title": "Kiss",
+                "codes": [":*", ":=*", ":-*"]
+            },
+            "tongue-out": {
+                "title": "Tongue Out",
+                "codes": [":P", ":=P", ":-P", ":p", ":=p", ":-p"]
+            },
+            "blush": {
+                "title": "Blush",
+                "codes": [":$", ":-$", ":=$"]
+            },
+            "wondering": {
+                "title": "Wondering",
+                "codes": [":^)"]
+            },
+            "sleepy": {
+                "title": "Sleepy",
+                "codes": ["|-)", "I-)", "I=)", "(snooze)"]
+            },
+            "dull": {
+                "title": "Dull",
+                "codes": ["|(", "|-(", "|=("]
+            },
+            "in-love": {
+                "title": "In love",
+                "codes": ["(inlove)"]
+            },
+            "evil-grin": {
+                "title": "Evil grin",
+                "codes": ["]:)", ">:)", "(grin)"]
+            },
+            "yawn": {
+                "title": "Yawn",
+                "codes": ["(yawn)", "|-()"]
+            },
+            "puke": {
+                "title": "Puke",
+                "codes": [":&", ":-&", ":=&"]
+            },
+            "angry": {
+                "title": "Angry",
+                "codes": [":@", ":-@", ":=@", "x(", "x-(", "x=(", "X(", "X-(", "X=("]
+            },
+            "party": {
+                "title": "Party!!!",
+                "codes": ["(party)"]
+            },
+            "worried": {
+                "title": "Worried",
+                "codes": [":S", ":-S", ":=S", ":s", ":-s", ":=s"]
+            },
+            "mmm": {
+                "title": "Mmm...",
+                "codes": ["(mm)"]
+            },
+            "nerd": {
+                "title": "Nerd",
+                "codes": ["8-|", "B-|", "8|", "B|", "8=|", "B=|", "(nerd)"]
+            },
+            "lips-sealed": {
+                "title": "Lips Sealed",
+                "codes": [":x", ":-x", ":X", ":-X", ":#", ":-#", ":=x", ":=X", ":=#"]
+            },
+            "hi": {
+                "title": "Hi",
+                "codes": ["(hi)"]
+            },
+            "angel": {
+                "title": "Angel",
+                "codes": ["(angel)"]
+            },
+            "wait": {
+                "title": "Wait",
+                "codes": ["(wait)"]
+            },
+            "thinking": {
+                "title": "Thinking",
+                "codes": ["(think)", ":?", ":-?", ":=?"]
+            },
+            "whew": {
+                "title": "Whew",
+                "codes": ["(?)"]
+            },
+            
+        };
+
+          $.emoticons.define(definition);
+
+          $('.emoticons-container').html($.emoticons.toString());
+
+           $('.comment-text').each(function(){
+
+            $(this).html($.emoticons.replace($(this).text()));
+
+           });
+
+           $(document).on('click','.emoticon', function(){
+
+                var icon = $(this).text();
+
+                console.log(icon); 
+
+                //$('#comment-textarea').val($('#comment-textarea').val() + ' '+icon); 
+
+           })
+
+      }());
+  </script>   
+
 		
 	</body>
 

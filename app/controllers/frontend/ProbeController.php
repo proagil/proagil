@@ -168,9 +168,9 @@ class ProbeController extends BaseController {
 
 	}
 
-	public function getProbeInfo($probeInfo) {
+	public function getProbeInfo($probeId) {
 
-		$probe = (array) Probe::getProbeInfo($probeInfo); 
+		$probe = (array) Probe::getProbeInfo($probeId); 
 
 		//probe status
 	   	$probeStatus = array(
@@ -196,6 +196,37 @@ class ProbeController extends BaseController {
 	      header('Content-Type: application/json');
 	      return Response::json($result);			
 
+	}
+
+	public function saveProbeInfo(){
+
+		// get probe values
+		$values = Input::get('values');
+
+		$probeInfoData = array(
+			'title'				=> $values['title'],
+			'description'		=> $values['description'],
+			'status'			=> $values['status']
+		);
+
+	    if(Probe::_update($values['probe_id'], $probeInfoData)){
+
+	    	$probe = (array) Probe::getProbeInfo($values['probe_id']); 
+
+	      $result = array(
+	          'error'   => false,
+	          'data'	=> $probe
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);	
 	}
 
 	public function getProbeElement($elementId){

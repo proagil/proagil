@@ -31,7 +31,7 @@
 
 							</div>	
 							@if($projectOwner)
-							<div class=" fs-med common-btn btn-i btn-turquoise pull-right">
+							<div class=" fs-med common-btn btn-i btn-green pull-right">
 								<a href="{{URL::action('ProbeController@create', array($projectId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear sondeo</a>
 							</div>
 							@endif
@@ -50,15 +50,15 @@
 									</div>
 									<div class="probe-options txt-center">
 										@if($projectOwner)								
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
+										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise">
 											<a href="{{URL::action('ProbeController@edit', array($probe['id']))}}">
 												<i class="fa fa-pencil fa-fw"></i>
 											</a>
 										</div>
-										<div class="circle activity-option txt-center fs-big fc-turquoise">
+										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
 										</div>
-										<div class="circle activity-option txt-center fs-big fc-pink">
+										<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink">
 											<i class="fa fa-times fa-fw"></i>
 										</div>												
 										@endif								

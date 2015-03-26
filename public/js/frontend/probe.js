@@ -198,13 +198,11 @@ $(function() {
 
               if(!response.error){
 
-                console.log(response); 
-
                 var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+probeId+' probe-input-name probe-input form-control">'
                 $('.question-title-'+probeId).replaceWith(htmlTitle);
 
 
-                var htmlProbeType = '<select name="values[form_element]" class="probe-input-i form-control type-answer-option">';
+                var htmlProbeType = '<select name="values[status]" class="question-status-'+probeId+' probe-input-i form-control type-answer-option">';
                   $.each(response.probe_status, function(index, type) {
                     if(index==response.data.status){
                         htmlProbeType += '<option value="'+index+'" selected>'+type+'</option>';
@@ -215,7 +213,7 @@ $(function() {
                   htmlProbeType += '</select>';      
                   $('.question-status-'+probeId).replaceWith(htmlProbeType);   
 
-                  var htmlDescription = '<textarea values="probe[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
+                  var htmlDescription = '<textarea name="values[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
                   $('.question-description-'+probeId).replaceWith(htmlDescription); 
 
               }
@@ -227,40 +225,44 @@ $(function() {
 
     })
  
+    // alde
      $(document).on('click', '.save-edit-probe-info', function(e){
 
-      $('.edit-probe-info-save').addClass('hidden');
-      $('.edit-probe-info-default').removeClass('hidden');
-
        var probeId = $(this).data('probeId'); 
+
+        var parameters = {
+            'values[probe_id]'    : probeId,
+            'values[title]'       : $('input[name="values[title]').val(),
+            'values[status]'      : $('select[name="values[status]').val(), 
+            'values[description]' : $('textarea[name="values[description]').val(),
+        };
+
 
        $.ajax({
           url: projectURL+'/sondeo/guardar-sondeo-informacion/',
           type:'POST',
           dataType: 'JSON',
+          data: parameters,
           success:function (response) {
 
               if(!response.error){
 
                 console.log(response); 
 
-                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+probeId+' probe-input-name probe-input form-control">'
+                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                 $('.question-title-'+probeId).replaceWith(htmlTitle);
 
+                var statusText = (response.data.status==1)?'Cerrado':'Abierto';
+                var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
+                  $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
 
-                var htmlProbeType = '<select name="values[form_element]" class="probe-input-i form-control type-answer-option">';
-                  $.each(response.probe_status, function(index, type) {
-                    if(index==response.data.status){
-                        htmlProbeType += '<option value="'+index+'" selected>'+type+'</option>';
-                    }else{
-                        htmlProbeType += '<option value="'+index+'">'+type+'</option>';
-                    }
-                  }); 
-                  htmlProbeType += '</select>';      
-                  $('.question-status-'+probeId).replaceWith(htmlProbeType);   
-
-                  var htmlDescription = '<textarea values="probe[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
+                var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
                   $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+
+                  $('.edit-probe-info-save').addClass('hidden');
+                  $('.edit-probe-info-default').removeClass('hidden');
+
 
               }
           },
@@ -441,7 +443,7 @@ $(function() {
 
         var parameters = {
             'values[option_id]'       : optionId,
-            'values[name]'            : $('input[name="values['+optionId+'][name]"]').val(), 
+            'values[name]'            : $('input[name="values['+optionId+'][name]"]').val() 
         };
 
 
