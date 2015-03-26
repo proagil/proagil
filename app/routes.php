@@ -49,6 +49,8 @@ Route::any('inicio', 'DashboardController@index');
 
 Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
 
+Route::any('listas-de-comprobacion/editar/{checklist_id}', 'ChecklistController@edit');
+
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
 
 Route::any('perfil/{id}', 'UserController@edit');

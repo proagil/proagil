@@ -76,7 +76,7 @@
 								</div> 
 
 	                          	<div class="form-group">
-	                               	<div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-turquoise txt-center btn-create-activity">Guardar</div> 
+	                               	<div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-green txt-center btn-create-activity">Crear</div> 
 	                          	</div>
 	                         
 	                        {{Form::close()}}
