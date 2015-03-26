@@ -28,6 +28,12 @@ class Probe extends Eloquent{
 		return DB::table('probe')->insertGetId($values);
 	}
 
+	public static function _update($id, $values){
+
+		return DB::table('probe')->where('id', $id)->update($values);
+	}
+
+
 	public static function saveQuestion($values){
 
 		return DB::table('probe_template_element')->insertGetId($values);
@@ -219,7 +225,13 @@ class Probe extends Eloquent{
 
 		}
 
-	}					
+	}	
+
+	public static function saveResponse($values) {
+
+		return DB::table('probe_template_element_value')->insertGetId($values);
+
+	} 				
 
 }
 

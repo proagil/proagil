@@ -2,18 +2,20 @@
 
 class ActivityController extends BaseController {
 
-	/**
-	 * Display a listing of the resource.
-	 *
-	 * @return Response
-	 */
-	public function index()
-	{
-		//
-	}
+	public function __construct(){
 
-	public function create($projectId)
-	{
+	      //not user on session
+	      $this->beforeFilter(function(){
+
+	        if(is_null(Session::get('user'))){
+	          return Redirect::to(URL::action('LoginController@index'));
+	        }
+
+	      });
+	}	
+
+
+	public function create($projectId) {
 		//get user
 	    $user = Session::get('user');
     	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
@@ -278,12 +280,6 @@ class ActivityController extends BaseController {
 	}
 
 
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function delete($activityId)
 	{
 		$activity = (array) Activity::getById($activityId);
@@ -305,12 +301,6 @@ class ActivityController extends BaseController {
 
 	}
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
 	public function detail($activityId){
 		// get user on session
         $user = Session::get('user');

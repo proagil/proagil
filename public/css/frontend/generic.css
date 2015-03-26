@@ -17,6 +17,7 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .activity-info-ii,
  .tags-list,
  .detail-project-activities,
  .probe-info-edit-content,
@@ -94,6 +95,7 @@ body {
 	display: none; 
 }
 
+.popover-content .emoticon,
 .cur-point {
 	cursor: pointer;
 }
@@ -178,6 +180,9 @@ body {
 .fc-yellow {
 	color: #eecb44; 
 }
+.fc-white {
+	color: #ffffff;
+}
 
 .fc-pink {
 	color: #ef6f66; 
@@ -233,15 +238,29 @@ a.txt-undrln:hover {
 
  .common-btn {
 	width: 141px;
+	font-weight: bold;
  }
 
- .btn-mini {
- 	width: 60px;
- 	margin: 3px; 
+ .common-btn a {
+ 	color: #FFFFFF;
  }
- 
+
 .common-btn:hover{
 	cursor: pointer; 
+}
+
+.common-btn-i {
+	width: 200px;
+	font-weight: bold;
+}
+
+.common-btn-i:hover{
+	cursor: pointer; 
+}
+
+.btn-mini {
+	width: 60px;
+	margin: 3px; 
 }
 
 .btn-i{
@@ -263,20 +282,47 @@ a.txt-undrln:hover {
 
 .btn-pink {
 	background-color: #ef6f66; 
+	color: #FFFFFF;
 }
 
 .btn-pink:hover {
 	background-color: #DB675E; 
 }
 
-
 .btn-turquoise {
 	background-color: #41cac0; 
+	color: #f2f2f2;
 }
 
 .btn-turquoise:hover {
 	background-color: #42C2B8; 
 }
+
+.btn-green {
+	background-color: #a8d76f; 
+	color: #FFFFFF;
+}
+
+.btn-green:hover {
+	background-color: #8DB45C; 
+}
+
+.btn-yellow {
+	background-color: #eecb44; 
+	color: #FFFFFF;
+}
+.btn-yellow:hover {
+	background-color: #D6B63A; 
+}
+
+.btn-grey {
+	background-color: #e3e2e2; 
+}
+
+.btn-grey:hover {
+	background-color: #e3e2e2; 
+}
+
 
 
 /*-------------------------------------------
@@ -379,7 +425,6 @@ a.login-link:hover  {
 .error-alert-dashboard {
 	background-color: #ef6f66;
 }
-
 
 /*-------------------------------------------
 	REGISTER section
@@ -500,7 +545,7 @@ a.login-link:hover  {
   	height: 189px !important; 
 }
 
- #artefacts-swiper .swiper-slide{
+ #artefacts-swiper .swiper-slide {
 
  	margin: 2px; 
  	float: left;
@@ -532,7 +577,6 @@ a.login-link:hover  {
 	border-left: 5px solid #a8d76f;
 
 }
-
 
 .artefacts-list {
 	width: 90%;
@@ -624,7 +668,7 @@ a.tags-list-off {
 }
 
 a.tags-list-on {
-	background-color: #42C2B8;
+	background-color: #DADADA;
 }
 
 a.unmade-off{
@@ -672,7 +716,7 @@ a.made-on{
  -------------------------------------------*/
  
 .activity {
-	width: 80%;
+	width: 88%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
 }
@@ -712,7 +756,7 @@ a.made-on{
 }
 
 .activity-options {
-	width: 15%;
+	width: 7%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 5px 0px; 
@@ -720,12 +764,12 @@ a.made-on{
 }
 
 .activity-option {
-	background-color: #35404d; 
+	background-color: #E0E0E0; 
 	margin: 0 2px 0 2px;
 }
 
 .activity-option:hover {
-	background-color: #4f5e70;
+	background-color: #E0E0E0;
 	cursor: pointer;	
 	
 }
@@ -741,6 +785,7 @@ a.made-on{
  	float: left;
  	overflow: hidden;
  	padding: 10px; 
+ 	border-bottom: 2px solid #e3e2e2; 
 }
 
 .user-avatar {
@@ -757,20 +802,32 @@ a.made-on{
 }
 
 .comment-user-avatar {
-	max-height: 50px;
+	max-height: 35px;
 }
 
 .comment-textarea {
 	margin-bottom: 1%; 
+	margin-top: 1%; 
 }
 
 .comment-content {
-	padding: 6px; 
+	padding: 6px;
+	background-color: #E0E0E0;
+	margin: 3px;  
+}
+
+.comment-list {
+	padding: 15px; 
 }
 
 .emoticons-container .emoticon {
 	cursor: pointer;
 
+}
+
+.activity-info-ii {
+	color: #8F8F8F;
+	padding: 15px; 
 }
 
 /*-------------------------------------------
@@ -795,7 +852,7 @@ textarea{
 }
 
 .probe-item-content {
-	width: 85%;
+	width: 88%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
 	padding: 10px 4px; 
@@ -807,7 +864,7 @@ textarea{
 }
 
 .probe-options {
-	width: 15%;
+	width: 12%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 5px 4px; 
@@ -864,7 +921,8 @@ textarea{
 	margin: 1% auto auto 12%;;
 }
 
-.error-probe-input{
+.error-input,
+.error-probe-input {
 	border: 2px solid #DB675E; 
 }
 

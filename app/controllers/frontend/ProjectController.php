@@ -585,26 +585,51 @@ class ProjectController extends BaseController {
           // get activities
           $activities = Project::getProjectActivities($projectId, $filtersArray, $statusArray);
 
-          // add activity status class
+
+          // add activity status class and name
           foreach($activities as $index => $activity){
 
              switch($activity['status']) {
               case 1:
                 $activities[$index]['status_class'] = 'fc-grey-iv';
+                $activities[$index]['status_name'] = 'Asignada';
               break;
 
               case 2:
                 $activities[$index]['status_class'] = 'fc-yellow';
+                $activities[$index]['status_name'] = 'Iniciada';
               break;
 
               case 3:
                 $activities[$index]['status_class'] = 'fc-green';
+                $activities[$index]['status_name'] = 'Terminada';
               break;
 
              }
 
+             // format activities date
+            $activities[$index]['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));  
+
+            // get activity comments
+            $activityComments = array();
+            $activityComments = Activity::getComments($activity['id']); 
+
+            //print_r($activityComments); die;
+
+            if(!empty($activityComments)) {
+               foreach($activityComments as $indexS => $comment){
+                  $activityComments[$indexS]['editable'] = ($user['id']==$comment['user_id'])?TRUE:FALSE; 
+                   $activityComments[$indexS]['date'] = date('d/m/Y', strtotime($comment['date']));  
+              }
+            }
+
+            // save activity comments
+            $activities[$index]['comments'] = $activityComments;           
+
           }
 
+          //print_r($activities); die; 
+          
           return View::make('frontend.project.detail')
                 ->with('projectDetail', TRUE) 
                 ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)

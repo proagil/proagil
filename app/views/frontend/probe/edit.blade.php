@@ -18,7 +18,7 @@
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
-							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text">Error Alert</span> </div>	
+							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text"></span> </div>	
 
 							<div class="success-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="success-alert-text"> Success Alert</span> </div>		
 
@@ -54,7 +54,7 @@
 
 								<div class="hidden pull-right edit-probe-info-save">									
 									<div data-probe-id="{{$probeId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
-									<div class="save-edit-probe-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+									<div data-probe-id="{{$probeId}}" class="save-edit-probe-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
 								</div>									
 
 								<div class="list-content probe-questions-lists">
