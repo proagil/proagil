@@ -24,22 +24,22 @@ class ArtefactController extends BaseController {
 			switch($friendlyUrl) {
 	              case Config::get('constant.artefact.heuristic_evaluation'):
 
-	              echo 'heuristic_evaluation';
+	              	echo 'heuristic_evaluation';
 
 	              break;
 	              case Config::get('constant.artefact.storm_ideas'):
 
-	              echo 'storm_ideas';
+	              	echo 'storm_ideas';
 
 	              break;	              
 	              case Config::get('constant.artefact.probe'):
 
-	              return Redirect::to(URL::action('ProbeController@index', array($projectId)));
+	              	return Redirect::to(URL::action('ProbeController@index', array($projectId)));
 
 	              break;
 	              case Config::get('constant.artefact.style_guide'):
 
-	              echo 'style_guide'; 
+	              	echo 'style_guide'; 
 
 	              break;
 	              case Config::get('constant.artefact.existing_system'):
@@ -49,14 +49,12 @@ class ArtefactController extends BaseController {
 	              break;
 	              case Config::get('constant.artefact.checklist'):
 
-	              echo 'checklist'; 
+	              	return Redirect::to(URL::action('ChecklistController@index', array($projectId)));
 
 	              break;
 	              case Config::get('constant.artefact.use_case'):
 
-	     
-
-	              return Redirect::to(URL::action('UseCaseController@index', array($projectId)));
+	              	return Redirect::to(URL::action('UseCaseController@index', array($projectId)));
 
 	              break;	       	              	              
 	        }

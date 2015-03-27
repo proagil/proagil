@@ -33,7 +33,16 @@
 							
 							
 							<div class="list-content">
+								<!-- Menu top con elementos para grandar, borrar, exportar-->
+								<div class="toolbar_container" ></div>
 
+								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
+								<div class="stencil_container" ></div>
+								<div class="paper"> 
+
+
+
+								</div>
 									Por ahora nada
 											
 							</div>											

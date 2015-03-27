@@ -187,6 +187,9 @@ body {
 .fc-yellow {
 	color: #eecb44; 
 }
+.fc-white {
+	color: #ffffff;
+}
 
 .fc-pink {
 	color: #ef6f66; 
@@ -249,13 +252,22 @@ a.txt-undrln:hover {
  	color: #FFFFFF;
  }
 
- .btn-mini {
- 	width: 60px;
- 	margin: 3px; 
- }
- 
 .common-btn:hover{
 	cursor: pointer; 
+}
+
+.common-btn-i {
+	width: 200px;
+	font-weight: bold;
+}
+
+.common-btn-i:hover{
+	cursor: pointer; 
+}
+
+.btn-mini {
+	width: 60px;
+	margin: 3px; 
 }
 
 .btn-i{
@@ -293,6 +305,23 @@ a.txt-undrln:hover {
 	background-color: #42C2B8; 
 }
 
+.btn-green {
+	background-color: #a8d76f; 
+	color: #FFFFFF;
+}
+
+.btn-green:hover {
+	background-color: #8DB45C; 
+}
+
+.btn-yellow {
+	background-color: #eecb44; 
+	color: #FFFFFF;
+}
+.btn-yellow:hover {
+	background-color: #D6B63A; 
+}
+
 .btn-grey {
 	background-color: #e3e2e2; 
 }
@@ -301,10 +330,7 @@ a.txt-undrln:hover {
 	background-color: #e3e2e2; 
 }
 
-.btn-green {
-	background-color: #a8d76f; 
-	color: #FFFFFF;
-}
+
 
 /*-------------------------------------------
 	GENERIC: internal forms
