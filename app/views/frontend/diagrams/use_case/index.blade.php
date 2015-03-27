@@ -56,7 +56,7 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.javascript')
+	@include('frontend.includes.js_diagramas')
 
 	<script>
 
