@@ -48,7 +48,7 @@
 								</div>
 
 
-								<div data-probe-id="{{$probeId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-turquoise">
+								<div data-probe-id="{{$probeId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-yellow">
 									<i class="fa fa-pencil fa-fw"></i>
 								</div>
 
@@ -74,7 +74,7 @@
 			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-times fa-fw"></i>
 			                  						</div>  
-			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-turquoise edit-question-element" data-question-id="{{$element['id']}}">
+			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-yellow edit-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-pencil fa-fw"></i>
 			                  						</div>  
 												</div>
@@ -95,7 +95,7 @@
 					                  						<label class="probe-label probe-label-value option-name-{{$elementOption['id']}}">{{ $elementOption['name']}}</label>
 					                  						
 					                  						<div class="edit-option-quiestion-content options-default-{{$elementOption['id']}}">
-											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-yellow">
 											                      <i class="fa fa-pencil fa-fw"></i>
 											                    </div> 
 											                   <div data-option-id="{{$elementOption['id']}}"class="delete-saved-probe-option circle activity-option txt-center fs-big fc-pink">
@@ -145,7 +145,8 @@
 
 	<script type="text/javascript">
 
-	var answerTypes = <?= json_encode($answerTypes) ?>; 
+	var answerTypesOpen = <?= json_encode($answerTypesOpen) ?>; 
+	var answerTypesClose = <?= json_encode($answerTypesClose) ?>; 
 
 	</script>	
 

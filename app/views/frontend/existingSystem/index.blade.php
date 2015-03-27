@@ -47,7 +47,7 @@
 									<div class="probe-options txt-center" style="width:8%;">
 																		
 										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-yellow">
-											<a href="{{URL::action('ProbeController@edit', array($system['id']))}}">
+											<a href="{{URL::action('ExistingSystemController@edit', array($system['id']))}}">
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>

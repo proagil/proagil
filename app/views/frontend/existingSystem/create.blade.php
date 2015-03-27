@@ -30,7 +30,7 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									Crear An&aacute;lisis de sistema existente
+									Crear an&aacute;lisis de sistema existente
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
@@ -48,7 +48,7 @@
 
 								<div class="list-content esystem-lists">
 					 																				
-							</div>
+								</div>
 							 {{Form::close()}}
 
 							<div class="probe-general-buttons">

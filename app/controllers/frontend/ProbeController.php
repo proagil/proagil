@@ -38,8 +38,8 @@ class ProbeController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 // get answer types
-	    	 $types = Probe::getAnswerTypes(); 
+	    	 // get answer types 
+	    	 $types = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open'))); 
 
 	    	return View::make('frontend.probe.create')
 	    		    	->with('projectName', $project['name'])
@@ -150,12 +150,14 @@ class ProbeController extends BaseController {
 		   	);
 
 	    	 // get answer types
-	    	 $answerTypes = Probe::getAnswerTypes(); 	  	 
+	    	 $answerTypesOpen = Probe::getAnswerTypes(array((Config::get('constant.probe.question.open')))); 
+	    	 $answerTypesClose = Probe::getAnswerTypes(array((Config::get('constant.probe.question.closed'))));	  	 
 
 			return View::make('frontend.probe.edit')
 						->with('projectName', $project['name'])
 						->with('probeId', $probeId)
-						->with('answerTypes', $answerTypes)
+						->with('answerTypesOpen', $answerTypesOpen)
+						->with('answerTypesClose', $answerTypesClose)
 						->with('values', $probeData)
 						->with('probeStatus', $probeStatus); 			
 

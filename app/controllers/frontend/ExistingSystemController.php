@@ -39,7 +39,7 @@ class ExistingSystemController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 // get answer types
+	    	 // get existing system types
 	    	 $topics = ExistingSystem::getExistingSystemTopics(); 
 
 
@@ -129,6 +129,86 @@ class ExistingSystemController extends BaseController {
 		}
 
 
+	}
+
+	public function edit($existingSystemId) {
+
+
+		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
+
+		if(!empty($existingSystem)){
+
+			// get project data
+			 $project = (array) Project::getName($existingSystem['project_id']); 
+
+			 // get existing system types
+	    	 $topics = ExistingSystem::getExistingSystemTopics(); 
+
+			return View::make('frontend.existingSystem.edit')
+						->with('existingSystem', $existingSystem)
+						->with('projectName', $project['name'])
+						->with('topics', $topics)
+						->with('existingSystemId', $existingSystemId);   			
+
+		}else{
+
+			return Redirect::to(URL::action('DashboardController@index'));
+
+		}		
+
+	}
+
+	public function getElement($elementId) {
+
+		$element = (array) ExistingSystem::getElementData($elementId); 
+
+	    if(!empty($element)){
+
+	      $result = array(
+	          'error'   => false,
+	          'data'	=> $element
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
+	}
+
+	public function saveElement() {
+
+		$values = Input::get('values');
+
+
+		 $element = array(
+		 	'existing_system_topic_id'			=> $values['topic_id'],
+		 	'observation'						=> $values['observation'],
+		 );
+
+		 if(ExistingSystem::updateElement($values['element_id'], $element)){
+
+		 	$element = (array) ExistingSystem::getElementData($values['element_id']); 
+
+		      $result = array(
+		          'error'   => false,
+		          'data'	=> $element
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
 	}
 
 	public function uploadAndResizeFile($file, $width, $height) {

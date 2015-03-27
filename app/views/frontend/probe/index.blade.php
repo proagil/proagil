@@ -40,14 +40,14 @@
 								@if(!empty($probes))
 									@foreach($probes as $probe)
 									<div class="probe-item-content" data-probe-url="{{$probe['url']}}">
-										<i class="fc-yellow fa fa-th-list fa-fw"></i>
+										<i class="fc-green fa fa-th-list fa-fw"></i>
 											{{$probe['title']}}						
 									</div>
 									<div class="probe-options txt-center">
 										@if($projectOwner)								
-										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise">
+										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big ">
 											<a href="{{URL::action('ProbeController@edit', array($probe['id']))}}">
-												<i class="fa fa-pencil fa-fw"></i>
+												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
 										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">

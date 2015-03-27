@@ -40,9 +40,11 @@ class ExistingSystem extends Eloquent{
 		 // get existing system data
 		 $existingSystem = DB::table('existing_system AS es')
 
-		->select('es.*')
+		->select('es.*', 'f.server_name AS interface_image')
 
 		->where('es.id', $systemId)
+
+		->leftJoin('file AS f', 'f.id', '=', 'es.interface')
 
 		->first();
 
@@ -55,7 +57,7 @@ class ExistingSystem extends Eloquent{
 
 			->join('existing_system_topic AS est', 'estbtes.existing_system_topic_id', '=', 'est.id')
 
-			->orderBy('estbtes.id', 'ASC')
+			->orderBy('estbtes.id', 'DESC')
 
 			->get();
 
@@ -65,11 +67,24 @@ class ExistingSystem extends Eloquent{
 
 	}	
 
+	public static function getElementData($elementId){
 
-	public static function _update($id, $values){
+		return DB::table('existing_system_topic_belogns_to_existing_system AS estbtes')
 
-		return DB::table('probe')->where('id', $id)->update($values);
-	}
+		->select('estbtes.*','est.name as topic_name')
+
+		->where('estbtes.id', $elementId)
+
+		->join('existing_system_topic AS est', 'estbtes.existing_system_topic_id', '=', 'est.id')
+
+		->first();		
+
+	}	
+
+	public static function updateElement($id, $values){
+
+		return DB::table('existing_system_topic_belogns_to_existing_system')->where('id', $id)->update($values);
+	}		
 
 
 	

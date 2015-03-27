@@ -9,11 +9,11 @@ class Probe extends Eloquent{
 		return DB::table('probe')->where('project_id', $projectId)->get();
 	}
 
-	public static function getAnswerTypes(){
+	public static function getAnswerTypes($type){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		$result =  DB::table('probe_answer_type')->where('enabled', TRUE)->get();
+		$result =  DB::table('probe_answer_type')->where('enabled', TRUE)->whereIn('type', $type)->get();
 
 		$types = array(); 
 

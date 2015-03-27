@@ -290,6 +290,18 @@ $(function() {
 
               if(!response.error){
 
+                var answerTypes; 
+
+                if(response.data.form_element==TYPE_INPUT || response.data.form_element == TYPE_TEXTAREA){
+
+                  answerTypes = answerTypesOpen;
+
+                }else{
+
+                  answerTypes = answerTypesClose;
+
+                }
+
                 var htmlQuestion = '<input type="text" name="values['+questionId+'][question]"  value="'+response.data.question+'"class="probe-input probe-input-edit form-control question-title-'+questionId+'">';
                  $('.question-title-'+questionId).replaceWith(htmlQuestion);
 

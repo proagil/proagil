@@ -78,41 +78,6 @@ $(function() {
 
     });
 
-    // on change answer type
-    $(document).on('change', '.type-answer-option', function(e){
-
-        var AnswerType = $(this).val(),
-            questionId = $(this).data('questionId');       
-
-            if(AnswerType == TYPE_RADIO || AnswerType == TYPE_CHECKBOX ){
-
-              $(document).find('.question-options-content-'+questionId).removeClass('hidden').fadeIn('slow');               
-
-            }else{
-
-              $(document).find('.question-options-content-'+questionId).addClass('hidden').fadeOut('slow'); 
-            }
-
-    });
-
-        // on change answer type
-    $(document).on('click', '.btn-add-question-option', function(e){
-
-        var questionId = $(this).data('questionId'),
-            htmlOptions = '';    
-
-        optionCount++; 
-
-          htmlOptions += '<div class="question-option option-'+questionId+'-'+optionCount+'">'+
-              '<input name="probe[questions]['+questionId+'][option]['+optionCount+'][name]" type="text" placeholder="Opción para la pregunta" class="probe-input-option form-control">'+
-                '<div class="circle activity-option txt-center fs-big fc-pink delete-question-option" data-option-id="'+optionCount+'" data-question-id="'+questionId+'">'+
-                    '<i class="fa fa-times fa-fw"></i>'+
-                  '</div>'+                     
-          '</div>';      
-
-          $(htmlOptions).appendTo('.question-options-'+questionId).fadeIn('slow');
-
-    });
 
     // delete question option from DOM
     $(document).on('click', '.delete-question-option', function(e){
@@ -130,7 +95,7 @@ $(function() {
     });
 
 
-
+    // Validate and Save existing system on CREATE
     $(document).on('click', '.save-esystem', function(e){
 
         var successValidation = 0,
@@ -164,7 +129,7 @@ $(function() {
 
      /*----------------------------------------------------------------------
 
-          EDIT PROBE FUNCTIONS
+          EDIT EXISTING SYSTEM FUNCTIONS
 
       ----------------------------------------------------------------------*/
 
@@ -210,7 +175,6 @@ $(function() {
 
     })
  
-    // alde
      $(document).on('click', '.save-edit-probe-info', function(e){
 
        var probeId = $(this).data('probeId'); 
@@ -258,44 +222,41 @@ $(function() {
 
     })       
 
-    /*Al hacer clic en el editar de una pregunta*/
+    /*Al hacer clic en el editar de una caracteristica*/
 
-    $(document).on('click', '.edit-question-element', function(e){
+    $(document).on('click', '.edit-element', function(e){
 
-      var questionId = $(this).data('questionId'); 
+      var elementId = $(this).data('elementId'); 
 
-      $('.question-options-default-'+questionId).addClass('hidden');
-      $('.question-options-edit-'+questionId).removeClass('hidden');
+      $('.element-options-default-'+elementId).addClass('hidden');
+      $('.element-options-edit-'+elementId).removeClass('hidden');
 
        $.ajax({
-          url: projectURL+'/sondeo/obtener-pregunta/'+questionId,
+          url: projectURL+'/analisis-sistemas-existente/obtener-caracteristica/'+elementId,
           type:'GET',
           dataType: 'JSON',
           success:function (response) {
 
               if(!response.error){
 
-                var htmlQuestion = '<input type="text" name="values['+questionId+'][question]"  value="'+response.data.question+'"class="probe-input probe-input-edit form-control question-title-'+questionId+'">';
-                 $('.question-title-'+questionId).replaceWith(htmlQuestion);
+                console.log(response); 
 
-                var htmlTypeQuestion = '<select name="values['+questionId+'][form_element]" class="probe-input-i form-control type-answer-option question-type-'+questionId+'" data-question-id="'+questionId+'">';
-                  $.each(answerTypes, function(index, type) {
-                    if(index==response.data.form_element){
-                        htmlTypeQuestion += '<option value="'+index+'" selected>'+type+'</option>';
+                var htmlSelectElement = '<select name="values['+elementId+'][topic]" class="probe-input-i form-control type-answer-option element-topic-'+elementId+'" data-element-id="'+elementId+'">';
+                  $.each(topics, function(index, topic) {
+                    if(index==response.data.existing_system_topic_id){
+                        htmlSelectElement += '<option value="'+index+'" selected>'+topic+'</option>';
                     }else{
-                        htmlTypeQuestion += '<option value="'+index+'">'+type+'</option>';
+                        htmlSelectElement += '<option value="'+index+'">'+topic+'</option>';
                     }
 
                   });
-                  htmlTypeQuestion += '</select>'      
-                  $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+                  htmlSelectElement += '</select>'      
+                  $('.element-topic-'+elementId).replaceWith(htmlSelectElement);   
 
-                  var checkValue = (response.data.required)?'checked':'';      
 
-                  var htmlRequired = '<input class="question-required-'+questionId+'" name="values['+questionId+'][required]" type="checkbox" '+checkValue+'>'; 
-                  $('.question-required-'+questionId).replaceWith(htmlRequired);       
+                var htmlTextareaElement = '<textarea type="text" name="values['+elementId+'][observation]" class="element-obs-'+elementId+' probe-input esystem-textarea form-control">'+response.data.observation+'</textarea>';    
+                 $('.element-obs-'+elementId).replaceWith(htmlTextareaElement); 
           
-
               }
           },
           error: function(xhr, error) {
@@ -306,22 +267,25 @@ $(function() {
     })
 
     /*Al hacer clic en el guardar de una pregunta editada*/
-    $(document).on('click', '.save-edit-question', function(e){
+    $(document).on('click', '.save-edit-element', function(e){
 
-      var questionId = $(this).data('questionId'); 
+      var elementId = $(this).data('elementId');
 
-      if($('input[name="values['+questionId+'][question]"]').val() != ''){
+      if($('textarea[name="values['+elementId+'][observation]"]').val() != ''){
+
+        $('textarea[name="values['+elementId+'][observation]"]').removeClass('error-probe-input');
+        $('.error-alert-text').html('').parent().addClass('hidden');
 
         var parameters = {
-            'values[question_id]'     : questionId,
-            'values[question]'        : $('input[name="values['+questionId+'][question]"]').val(), 
-            'values[form_element]'    : $('select[name="values['+questionId+'][form_element]"]').val(),
-            'values[required]'        : (($('input[name="values['+questionId+'][required]"]').is(':checked'))?1:0)
+            'values[element_id]'         : elementId,
+            'values[observation]'        : $('textarea[name="values['+elementId+'][observation]"]').val(), 
+            'values[topic_id]'           : $('select[name="values['+elementId+'][topic]"]').val(),
+
         };
 
 
          $.ajax({
-            url: projectURL+'/sondeo/guardar-pregunta/',
+            url: projectURL+'/analisis-sistemas-existente/guardar-elemento/',
             type:'POST',
             data: parameters,
             dataType: 'JSON',
@@ -329,18 +293,14 @@ $(function() {
 
                 if(!response.error){
 
-                   var htmlQuestion = '<div class="probe-label probe-label-value question-title-'+questionId+'">'+response.data.question+'</div>'; 
-                   $('.question-title-'+questionId).replaceWith(htmlQuestion);
+                   var htmlTopicData = '<div class="probe-label probe-label-value element-topic-'+elementId+'">'+response.data.topic_name+'</div>'; 
+                   $('.element-topic-'+elementId).replaceWith(htmlTopicData);
 
-                   var htmlTypeQuestion = '<div class="probe-label probe-label-value question-type-'+questionId+'">'+response.data.form_element_name+'</div>'; 
-                   $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+                   var htmlObsData = '<div class="probe-label probe-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
+                   $('.element-obs-'+elementId).replaceWith(htmlObsData);
 
-                    var requiredValue = (response.data.required)?'Si':'No'; 
-                    var htmlRequired = '<div class="probe-label probe-label-value question-required-'+questionId+'">'+requiredValue+'</div>'; 
-                   $('.question-required-'+questionId).replaceWith(htmlRequired);     
-
-                  $('.question-options-default-'+questionId).removeClass('hidden');
-                  $('.question-options-edit-'+questionId).addClass('hidden');
+                  $('.element-options-default-'+elementId).removeClass('hidden');
+                  $('.element-options-edit-'+elementId).addClass('hidden');
             
 
                 }
@@ -351,36 +311,32 @@ $(function() {
           });     
 
       }else{
-        alert('vaciooo'); 
+       $('textarea[name="values['+elementId+'][observation]"]').addClass('error-probe-input');
+       $('.error-alert-text').html('Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
       }
 
     })
 
-    $(document).on('click', '.cancel-edit-question', function(e){
+    $(document).on('click', '.cancel-edit-element', function(e){
 
-      var questionId = $(this).data('questionId'); 
-
+      var elementId = $(this).data('elementId'); 
 
        $.ajax({
-          url: projectURL+'/sondeo/obtener-pregunta/'+questionId,
+          url: projectURL+'/analisis-sistemas-existente/obtener-caracteristica/'+elementId,
           type:'GET',
           dataType: 'JSON',
           success:function (response) {
 
               if(!response.error){
 
-                   var htmlQuestion = '<div class="probe-label probe-label-value question-title-'+questionId+'">'+response.data.question+'</div>'; 
-                   $('.question-title-'+questionId).replaceWith(htmlQuestion);
+                   var htmlTopicData = '<div class="probe-label probe-label-value element-topic-'+elementId+'">'+response.data.topic_name+'</div>'; 
+                   $('.element-topic-'+elementId).replaceWith(htmlTopicData);
 
-                   var htmlTypeQuestion = '<div class="probe-label probe-label-value question-type-'+questionId+'">'+response.data.form_element_name+'</div>'; 
-                   $('.question-type-'+questionId).replaceWith(htmlTypeQuestion);  
+                   var htmlObsData = '<div class="probe-label probe-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
+                   $('.element-obs-'+elementId).replaceWith(htmlObsData);
 
-                    var requiredValue = (response.data.required)?'Si':'No'; 
-                    var htmlRequired = '<div class="probe-label probe-label-value question-required-'+questionId+'">'+requiredValue+'</div>'; 
-                   $('.question-required-'+questionId).replaceWith(htmlRequired);     
-
-                  $('.question-options-default-'+questionId).removeClass('hidden');
-                  $('.question-options-edit-'+questionId).addClass('hidden');   
+                  $('.element-options-default-'+elementId).removeClass('hidden');
+                  $('.element-options-edit-'+elementId).addClass('hidden');
           
 
               }

@@ -194,7 +194,7 @@
 											<div class="activity-options txt-center">
 												<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big btn-edit-activity-id" data-activity-id="{{$activity['id']}}">
 													<a href="{{URL::action('ActivityController@edit', array($activity['id']))}}">
-														<i class="fa fa-pencil fa-fw"></i>
+														<i class="fa fa-pencil fc-yellow fa-fw"></i>
 													</a>
 												</div>	
 												<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink btn-delete-activity" data-activity-id="{{$activity['id']}}">

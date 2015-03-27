@@ -35,41 +35,33 @@
 								</div>							
 
 							</div>	
-
+							@if($existingSystem['interface']!='')
 							<div class="e-system-table-head">
-								<div class="system-name fs-big fc-green txt-center">
-									Nombre del Sistema
-								</div>
 								<div class="system-interface txt-center">
- 								<img  src="{{URL::to('/').'/uploads/'.Session::get('user')['avatar_file']}}"/>
+ 									<img  src="{{URL::to('/').'/uploads/'.$existingSystem['interface_image']}}"/>
 								</div>
 							</div>
+							@endif
 
 							<div class="e-system-table-content">
 								<div class="e-system-row">
-									<div class="txt-center e-system-topic txt-center row-head">
+									<div class="txt-center f-bold f-med e-system-topic row-head">
 										Caracter&iacute;stica
 									</div>
-									<div class="e-system-obs txt-center row-head">
+									<div class="e-system-obs f-bold f-med txt-center row-head">
 										Observaci&oacute;n
 									</div>
-								</div>								
+								</div>	
+								@foreach($existingSystem['elements'] as $existingSystem)							
 								<div class="e-system-row">
 									<div class="txt-center e-system-topic">
-										Opinion como usuario
+										{{$existingSystem['topic_name']}}
 									</div>
 									<div class="e-system-obs">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut dolor nunc. Nulla facilisi. Fusce at lectus et urna commodo pharetra ac eget felis. Nullam in consequat libero. Sed et tristique libero. Etiam sapien velit, dictum et tristique eu, rutrum at tortor. Aenean nisi magna, vestibulum nec iaculis ut, finibus sit amet purus. Vestibulum fringilla commodo justo, eu sollicitudin tortor varius consequat. Donec condimentum gravida mattis.
+										{{$existingSystem['observation']}}
 									</div>
 								</div>
-								<div class="e-system-row">
-									<div class="txt-center e-system-topic">
-										Opinion como usuario
-									</div>
-									<div class="e-system-obs">
-										Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ut dolor nunc. Nulla facilisi. a, vestibulum nec 
-									</div>
-								</div>								
+								@endforeach							
 							</div>															
 
 																	
