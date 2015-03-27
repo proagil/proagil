@@ -138,9 +138,6 @@ class ProbeController extends BaseController {
 
 		$probeData = Probe::getProbeElements($probeId); 
 
-		//print_r($probeData ); die; 
-
-
 		if(!empty($probeData)){
 
 			// get project data

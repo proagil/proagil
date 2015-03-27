@@ -17,6 +17,12 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .system-interface,
+ .e-system-table-head,
+ .e-system-row,
+ .e-system-topic,
+ .e-system-obs,
+ .e-system-table-content,
  .activity-info-ii,
  .tags-list,
  .detail-project-activities,
@@ -35,6 +41,7 @@
  .probe-label,
  .probe-input, 
  .probe-input-i,
+ .probe-input-ii,
  .probe-question-content,
  .probe-item-content, 
  .btn-change-status,
@@ -409,6 +416,8 @@ a.login-link:hover  {
 	border-radius: 0px;
 	background-color: #a8d76f;
 	width: 100%;
+	color: #ffffff;
+	font-weight: bold;
 }
 
 .file-upload-edit {
@@ -854,17 +863,22 @@ textarea{
 .probe-input-option-edit {
 	width: 18%; 
 }
-
+.probe-input-ii,
 .probe-input-i{
 	width: 17%; 
 	border-radius: 0px; 
 }
 
+.probe-input-ii,
 .probe-input-i,
 .probe-input-option:focus,
 .probe-input:focus {
 	border-color: #ccc; 
 	box-shadow: none; 
+}
+
+.probe-input-ii {
+	width: 25%; 
 }
 
 .show-quiestion-option{
@@ -931,4 +945,47 @@ textarea{
 .probe-label-description {
 	margin: 2px 2px 0 2px; 
 	padding: 3px; 
+}
+
+/*-------------------------------------------
+	EXISTING SYSTEM section
+ -------------------------------------------*/
+
+.file-upload-e-system,
+.file-upload-e-system:hover {
+	width: 20%; 
+	cursor: pointer; 
+}
+
+.esystem-textarea {
+	width: 38%;
+}
+
+.e-system-table-head,
+.e-system-table-content {
+	background-color: #f2f2f2; 
+}
+
+.e-system-row {
+	border-bottom: 10px solid #ffffff; 
+}
+
+.e-system-topic {
+	width: 30%;
+	padding: 2%; 
+}
+
+.e-system-obs {
+	width: 70%;
+	padding: 2%; 
+	border-left: 10px solid #ffffff; 
+}
+
+.row-head {
+	background-color: #e3e2e2; 
+}
+
+.e-system-table-head {
+	padding: 2%; 
+	border-bottom: 10px solid #ffffff; 
 }

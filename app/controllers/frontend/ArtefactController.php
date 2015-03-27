@@ -44,7 +44,7 @@ class ArtefactController extends BaseController {
 	              break;
 	              case Config::get('constant.artefact.existing_system'):
 
-	              echo 'existing_system';
+	              return Redirect::to(URL::action('ExistingSystemController@index', array($projectId)));
 
 	              break;
 	              case Config::get('constant.artefact.checklist'):

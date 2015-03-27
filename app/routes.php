@@ -115,4 +115,13 @@ Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getP
 
 Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@saveProbeInfo');
 
+Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
+
+Route::any('analisis-sistemas-existentes/crear/{project_id}', 'ExistingSystemController@create');
+
+Route::any('analisis-sistemas-existentes/guardar/', 'ExistingSystemController@save');
+
+Route::any('analisis-sistemas-existentes/detalle/{system_id}', 'ExistingSystemController@getExistingSystem');
+
+
 Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
