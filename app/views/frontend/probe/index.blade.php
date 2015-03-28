@@ -19,8 +19,12 @@
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-		                	@endif							
+		                	@endif	
 
+
+		                	@if (Session::has('error_message'))
+		                		<div class="error-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('error_message')}} </div>
+		                	@endif	
 							
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
@@ -41,7 +45,13 @@
 									@foreach($probes as $probe)
 									<div class="probe-item-content" data-probe-url="{{$probe['url']}}">
 										<i class="fc-green fa fa-th-list fa-fw"></i>
-											{{$probe['title']}}						
+											{{$probe['title']}}		
+
+											@if($probe['status']==1)
+												<i class="fc-turquoise fa fa-lock fa-fw"></i> Cerrado
+											@else
+												<i class="fc-turquoise fa fa-unlock fa-fw"></i> Abierto
+											@endif				
 									</div>
 									<div class="probe-options txt-center">
 										@if($projectOwner)								
@@ -53,8 +63,8 @@
 										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
 										</div>
-										<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink">
-											<i class="fa fa-times fa-fw"></i>
+										<div data-probe-title="{{$probe['title']}}" data-probe-id="{{$probe['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-probe circle activity-option txt-center fs-big ">
+											<i class="fa fa-times fc-pink fa-fw"></i>
 										</div>												
 										@endif								
 									</div>									
@@ -82,6 +92,30 @@
       	 probeUrl = $(this).data('probeUrl');
 
       	 window.location.href = projectURL+'/sondeo/generar/'+probeUrl;
+
+      })
+
+      $('.delete-probe').on('click', function(){
+
+      		var probeId = $(this).data('probeId'),
+      			probeTitle = $(this).data('probeTitle');
+
+          var showAlert = swal({
+            title: 'Eliminar Sondeo: '+probeTitle,
+            text: 'Al eliminar un sondeo se elimina toda su información asociada. ¿Realmente desea eliminarlo?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'/sondeo/eliminar/'+probeId;
+
+          });               
 
       })
 

@@ -34,6 +34,7 @@
  .all-options-content,
  .probe-general-buttons,
  .show-quiestion-option,
+ .btn-add-question-option-edit,
  .btn-add-question-option,
  .question-option,
  .activity-option,
@@ -934,6 +935,7 @@ textarea{
 	width: 99%%;
 }
 
+.btn-add-question-option-edit,
 .btn-add-question-option,
 .question-option {
 	padding: 5px;

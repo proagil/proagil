@@ -33,6 +33,22 @@ class Probe extends Eloquent{
 		return DB::table('probe')->where('id', $id)->update($values);
 	}
 
+	public static function _delete($probeId) {
+
+		try{
+
+		return DB::table('probe AS p')
+			 		->where('p.id', $probeId)
+			 		->delete();
+
+		}catch(\Exception $e) {
+
+			return false; 
+
+		}
+
+	}	
+
 
 	public static function saveQuestion($values){
 
@@ -192,6 +208,10 @@ class Probe extends Eloquent{
 
 		try{
 
+		$deletedResponses = DB::table('probe_template_element_value AS ptev')
+			 		->where('ptev.probe_template_element_id', $elementId)
+			 		->delete();			
+
 		$deletedOptions = DB::table('probe_template_option AS pto')
 			 					->where('pto.probe_template_element_id', $elementId)
 			 					->delete();
@@ -215,8 +235,12 @@ class Probe extends Eloquent{
 
 		try{
 
+		$options = DB::table('probe_template_element_value AS ptev')
+			 		->where('ptev.probe_template_option_id', $optionId)
+			 		->delete();	
+
 		return DB::table('probe_template_option AS pto')
-			 		->where('pto.probe_template_element_id', $optionId)
+			 		->where('pto.id', $optionId)
 			 		->delete();
 
 		}catch(\Exception $e) {
@@ -225,7 +249,23 @@ class Probe extends Eloquent{
 
 		}
 
-	}	
+	}
+
+	public static function deleteProbeResponse($elementId) {
+
+		try{
+
+		return DB::table('probe_template_element_value AS ptev')
+			 		->where('ptev.probe_template_element_id', $elementId)
+			 		->delete();
+
+		}catch(\Exception $e) {
+
+			return false; 
+
+		}
+
+	}			
 
 	public static function saveResponse($values) {
 

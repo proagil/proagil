@@ -1,6 +1,6 @@
 /*======================================================================
 PROAGIL WEB APP - 2015
-Authors: AD, SJ, MM
+Authors: AD, SJ
 ======================================================================*/
 
 /*----------------------------------------------------------------------
@@ -49,7 +49,7 @@ $(function() {
                   '<label class="probe-label txt-right">Observaci&oacute;n:</label>'+
                   '<textarea type="text" name="esystem[values]['+observationCount+'][observation]" placeholder="Especifique una descripción para la característica seleccionada" class="probe-input esystem-textarea form-control"></textarea>'+   
 
-                  '<div class="circle activity-option txt-center fs-big fc-pink pull-right delete-question-row" data-observation-id="'+observationCount+'">'+
+                  '<div class="circle activity-option txt-center fs-big fc-pink pull-right delete-element-row" data-observation-id="'+observationCount+'">'+
                     '<i class="fa fa-times fa-fw"></i>'+
                   '</div>'+                  
                 '</div>';
@@ -60,21 +60,17 @@ $(function() {
     });
 
     // delete question row from DOM
-    $(document).on('click', '.delete-question-row', function(e){
+    $(document).on('click', '.delete-element-row', function(e){
 
         e.preventDefault();
 
-        var questionId = $(this).data('questionId');
+        var observationId = $(this).data('observationId');
 
-          $(document).find('.question-'+questionId).fadeOut('slow', 
+          $(document).find('.observation-'+observationId).fadeOut('slow', 
               function() { 
                 $(this).remove()
           });
-
-          $(document).find('.question-options-content-'+questionId).fadeOut('slow', 
-              function() { 
-                $(this).remove()
-          });          
+  
 
     });
 

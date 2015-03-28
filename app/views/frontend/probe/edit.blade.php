@@ -33,8 +33,7 @@
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
-							</div>	
-							{{ Form::open(array('action' => array('ProbeController@edit', $probeId), 'id' => 'form-create-probe')) }}	
+							</div>
 
 								<div class="probe-info-edit-content">
 									<div class="question-title-{{$probeId}} fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
@@ -113,21 +112,21 @@
 							                 					                 
 							                  </div>
 
-							                  <div class="btn-add-question-option" data-question-id="'+questionCount+'">
+							                  <div class="btn-add-question-option-edit" data-question-id="{{$element['id']}}">
 							                   <div class="circle activity-option txt-center fs-big fc-turquoise">
 							                      <i class="fa fa-plus fa-fw"></i>
 							                    </div>                                         
 							                    <span class="probe-label"> Agregar opci&oacute;n</span>   
 							                  </div>
 							                </div> 
+							            	</form>
 							               @endforeach
 							            @endif
 					            </div>
-							 {{Form::close()}}
 
 							<div class="probe-general-buttons">								
-								<div class="add-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-									<a href="#">Agregar pregunta</a>
+								<div class="add-new-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+									<a href="#">Nueva pregunta</a>
 								</div>							
 							</div>							 
 																	
@@ -147,6 +146,9 @@
 
 	var answerTypesOpen = <?= json_encode($answerTypesOpen) ?>; 
 	var answerTypesClose = <?= json_encode($answerTypesClose) ?>; 
+	var answerTypes = <?= json_encode($answerTypes) ?>; 
+	var probeId = '<?=$probeId?>'; 
+	
 
 	</script>	
 

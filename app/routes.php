@@ -113,6 +113,8 @@ Route::any('sondeo/obtener-opcion/{option_id}', 'ProbeController@getProbeOption'
 
 Route::any('sondeo/guardar-opcion', 'ProbeController@saveProbeOption');
 
+Route::any('sondeo/guardar-nueva-opcion', 'ProbeController@saveNewProbeOption');
+
 Route::any('sondeo/eliminar-pregunta/{question_id}', 'ProbeController@deleteQuestion');
 
 Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption');
@@ -120,6 +122,10 @@ Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption
 Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getProbeInfo');
 
 Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@saveProbeInfo');
+
+Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
+
+Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
 Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
 
