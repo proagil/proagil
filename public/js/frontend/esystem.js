@@ -47,7 +47,7 @@ $(function() {
                   html += '</select>'+
 
                   '<label class="probe-label txt-right">Observaci&oacute;n:</label>'+
-                  '<textarea type="text" name="esystem[values]['+observationCount+'][observation]" placeholder="Especifique una descripción para la característica seleccionada" class="probe-input esystem-textarea form-control"></textarea>'+   
+                  '<textarea type="text" style="height:150px" name="esystem[values]['+observationCount+'][observation]" placeholder="Especifique una descripción para la característica seleccionada" class="probe-input esystem-textarea form-control"></textarea>'+   
 
                   '<div class="circle activity-option txt-center fs-big fc-pink pull-right delete-element-row" data-observation-id="'+observationCount+'">'+
                     '<i class="fa fa-times fa-fw"></i>'+
@@ -250,7 +250,7 @@ $(function() {
                   $('.element-topic-'+elementId).replaceWith(htmlSelectElement);   
 
 
-                var htmlTextareaElement = '<textarea type="text" name="values['+elementId+'][observation]" class="element-obs-'+elementId+' probe-input esystem-textarea form-control">'+response.data.observation+'</textarea>';    
+                var htmlTextareaElement = '<textarea style="height:150px" type="text" name="values['+elementId+'][observation]" class="element-obs-'+elementId+' probe-input esystem-textarea form-control">'+response.data.observation+'</textarea>';    
                  $('.element-obs-'+elementId).replaceWith(htmlTextareaElement); 
           
               }
@@ -292,7 +292,7 @@ $(function() {
                    var htmlTopicData = '<div class="probe-label probe-label-value element-topic-'+elementId+'">'+response.data.topic_name+'</div>'; 
                    $('.element-topic-'+elementId).replaceWith(htmlTopicData);
 
-                   var htmlObsData = '<div class="probe-label probe-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
+                   var htmlObsData = '<div class="probe-label esystem-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
                    $('.element-obs-'+elementId).replaceWith(htmlObsData);
 
                   $('.element-options-default-'+elementId).removeClass('hidden');
@@ -328,7 +328,7 @@ $(function() {
                    var htmlTopicData = '<div class="probe-label probe-label-value element-topic-'+elementId+'">'+response.data.topic_name+'</div>'; 
                    $('.element-topic-'+elementId).replaceWith(htmlTopicData);
 
-                   var htmlObsData = '<div class="probe-label probe-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
+                   var htmlObsData = '<div class="probe-label esystem-label-value element-obs-'+elementId+'">'+response.data.observation+'</div>'; 
                    $('.element-obs-'+elementId).replaceWith(htmlObsData);
 
                   $('.element-options-default-'+elementId).removeClass('hidden');

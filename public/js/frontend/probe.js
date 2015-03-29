@@ -223,6 +223,42 @@ $(function() {
       });      
 
     })
+
+     $(document).on('click', '.cancel-edit-question-info', function(e){
+
+
+       var probeId = $(this).data('probeId'); 
+
+       $.ajax({
+          url: projectURL+'/sondeo/obtener-sondeo-informacion/'+probeId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
+                $('.question-title-'+probeId).replaceWith(htmlTitle);
+
+                var probeStatus = (response.data.status==1)?'Cerrado':'Abierto'; 
+                var htmlProbeType = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+probeStatus+'</span>';
+   
+                $('.question-status-'+probeId).replaceWith(htmlProbeType);   
+
+                var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
+                $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+                 $('.edit-probe-info-save').addClass('hidden');
+                 $('.edit-probe-info-default').removeClass('hidden');
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
  
     // alde
      $(document).on('click', '.save-edit-probe-info', function(e){
@@ -445,6 +481,35 @@ $(function() {
       });          
 
     })
+
+    $(document).on('click', '.cancel-edit-option ', function(e){
+
+      var optionId = $(this).data('optionId'); 
+
+         $.ajax({
+          url: projectURL+'/sondeo/obtener-opcion/'+optionId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+              var htmlOption = ' <label class="probe-label probe-label-value option-name-'+optionId+'">'+response.data.name+'</label>'
+               $('.option-name-'+optionId).replaceWith(htmlOption);   
+
+                    $('.options-default-'+optionId).removeClass('hidden');
+                    $('.options-edit-'+optionId).addClass('hidden'); 
+          
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });          
+
+    })
+
 
     $(document).on('click', '.save-edit-option', function(e){
 
@@ -758,6 +823,16 @@ $(function() {
         }  
 
     })
+
+
+    // share probe
+    $('.share-probe-popover').popover({ 
+        html : true, 
+        placement: 'top',
+        content: function() {
+          return $('.social-icons-container').html();
+        }
+    });  
 
  
    

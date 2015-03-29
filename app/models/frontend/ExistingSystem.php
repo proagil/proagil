@@ -84,7 +84,43 @@ class ExistingSystem extends Eloquent{
 	public static function updateElement($id, $values){
 
 		return DB::table('existing_system_topic_belogns_to_existing_system')->where('id', $id)->update($values);
-	}		
+	}
+
+	public static function deleteElement($elementId) {
+
+		try{
+
+		$deletedElement = DB::table('existing_system_topic_belogns_to_existing_system AS estbtes')
+			 		->where('estbtes.id', $elementId)
+			 		->delete();			
+
+		return $deletedElement;
+
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}
+
+
+	public static function _delete($existingSystemId) {
+
+		try{
+
+		return DB::table('existing_system AS es')
+			 		->where('es.id', $existingSystemId)
+			 		->delete();
+
+		}catch(\Exception $e) {
+
+			return false; 
+
+		}
+
+	}						
 
 
 	

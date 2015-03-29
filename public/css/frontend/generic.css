@@ -867,7 +867,7 @@ textarea{
 }
 
 .probe-item-content {
-	width: 88%;
+	width: 85%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
 	padding: 10px 4px; 
@@ -879,7 +879,7 @@ textarea{
 }
 
 .probe-options {
-	width: 12%;
+	width: 15%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 5px 4px; 
@@ -971,6 +971,7 @@ textarea{
 	width: 18%; 
 }
 
+
 .probe-input-edit {
 	width: 18%; 
 }
@@ -978,6 +979,10 @@ textarea{
 .probe-label-description {
 	margin: 2px 2px 0 2px; 
 	padding: 3px; 
+}
+
+.probe-share-modal-content {
+	border-radius: 0px;
 }
 
 /*-------------------------------------------
@@ -1022,3 +1027,9 @@ textarea{
 	padding: 2%; 
 	border-bottom: 10px solid #ffffff; 
 }
+
+.esystem-label-value {
+	font-weight: 100;
+	width: 50%; 
+}
+

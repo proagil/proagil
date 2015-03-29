@@ -52,7 +52,7 @@
 											</a>
 										</div>
 										@if($projectOwner)
-										<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink">
+										<div data-existing-system-id="{{$system['id']}}" data-system-name="{{$system['name']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink delete-esystem">
 											<i class="fa fa-times fa-fw"></i>
 										</div>												
 										@endif								
@@ -78,11 +78,35 @@
 
       $('.e-system').on('click', function(){
 
-      	existingSystemId = $(this).data('existingSystemId');
+      	var existingSystemId = $(this).data('existingSystemId');
 
       	 window.location.href = projectURL+'/analisis-sistemas-existentes/detalle/'+existingSystemId;
 
       })
+
+      $('.delete-esystem').on('click', function(){
+
+      		var existingSystemId = $(this).data('existingSystemId'),
+      			systemName = $(this).data('systemName');
+
+          var showAlert = swal({
+            title: 'Eliminar sistema existente: '+systemName,
+            text: 'Al eliminar un sistema existente se elimina toda su información asociada. ¿Realmente desea eliminarlo?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Si, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'/analisis-sistemas-existente/eliminar/'+existingSystemId;
+
+          });               
+
+      })      
 
   	});
 	</script>

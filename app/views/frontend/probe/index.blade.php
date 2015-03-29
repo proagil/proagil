@@ -9,6 +9,27 @@
 
 	    	@include('frontend.includes.header')
 
+			<!-- Social media odal -->
+			<div class="modal fade" id="modal-share-probe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content probe-share-modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fs-big" aria-hidden="true">&times;</span></button>
+			      </div>
+			      <div class="modal-body">
+			        <a class="share" href="#">share me</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>	
+
+			<div style="display:none" class="social-icons-container">
+				<i style="color:#3b5998" class="fs-xbig fa fa-facebook cur-point fa-fw"></i>
+				<i style="color:#55acee" class="fs-xbig fa fa-twitter cur-point  fa-fw"></i>
+				<i style="color:#2672ae" class="fs-xbig fa fa-linkedin cur-point fa-fw"></i>
+			</div>				
+
+
 	        <div id="page-wrapper">
 	            <div class="row">
 	                <div class="col-lg-12">
@@ -63,6 +84,10 @@
 										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
 										</div>
+										<div  class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+											<i class="fa fa-share-alt fa-fw"></i>
+										</div>
+																			
 										<div data-probe-title="{{$probe['title']}}" data-probe-id="{{$probe['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-probe circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>
 										</div>												
@@ -82,6 +107,8 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.javascript')
+
+	{{ HTML::script('js/frontend/probe.js') }}
 
 	<script>
 
@@ -118,6 +145,7 @@
           });               
 
       })
+
 
   	});
 	</script>

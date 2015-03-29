@@ -152,8 +152,8 @@
 								                        {{Form::close()}}
 								                        </div>
 								                        <span class="hidden error fc-pink fs-min">Debe especificar un comentario</span>                          
-														<i class="fs-med fa fa-smile-o cur-point fc-turquoise fa-fw emojis-popover"></i>
-								                        <div style="display:none;" class="emoticons-container"></div>
+														<i class="fs-med fa fa-smile-o cur-point fc-turquoise fa-fw emojis-popover" data-activity-id="{{$activity['id']}}"></i>
+								                        <div style="display:none;" class="emoticons-container-{{$activity['id']}} emoticons-container"></div>
 
 								                        <div data-activity-id="{{$activity['id']}}" class="save-comment txt-center fs-med common-btn btn-i btn-turquoise pull-right">
 								                          Comentar
@@ -367,9 +367,11 @@
 
                 var icon = $(this).text();
 
-                console.log(icon); 
+                activityId = $(this).parent().attr('data-activity-id');
 
-                //$('#comment-textarea').val($('#comment-textarea').val() + ' '+icon); 
+                $('#comment-textarea-'+activityId).val($('#comment-textarea-'+activityId).val() + ' '+icon); 
+
+                $('.emojis-popover').popover('hide'); 
 
            })
 

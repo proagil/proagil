@@ -57,7 +57,7 @@
 		                 						<div class="probe-label probe-label-value element-topic-{{$element['id']}}">{{$element['topic_name']}}</div>
 		  
 		                  						<label class="probe-label txt-right">Observaci&oacute;n:</label>
-		                 						<div class="probe-label probe-label-value element-obs-{{$element['id']}}"> {{$element['observation']}} </div>
+		                 						<div class="probe-label esystem-label-value element-obs-{{$element['id']}}"> {{$element['observation']}} </div>
 			                						
 												<div class="pull-right edit-btn-esystem-options element-options-default-{{$element['id']}}">				
 			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element" data-esystem-obs-id="{{$element['id']}}">

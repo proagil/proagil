@@ -141,6 +141,8 @@ Route::any('/analisis-sistemas-existente/obtener-caracteristica/{element_id}', '
 
 Route::any('/analisis-sistemas-existente/guardar-elemento/', 'ExistingSystemController@saveElement');
 
+Route::any('/analisis-sistemas-existente/eliminar/{system_id}', 'ExistingSystemController@deleteExistingSystem');
+
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 

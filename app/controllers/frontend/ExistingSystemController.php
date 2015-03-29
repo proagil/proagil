@@ -158,6 +158,32 @@ class ExistingSystemController extends BaseController {
 
 	}
 
+	public function deleteExistingSystem($systemId){
+
+		$values = ExistingSystem::getExistingSystemData($systemId); 
+		
+		// delete all existing system values for each existing system element
+		foreach($values['elements'] as $element){
+
+			ExistingSystem::deleteElement($element['id']); 
+		}
+
+		if(ExistingSystem::_delete($systemId)){
+
+			Session::flash('success_message', 'Se ha eliminado el sistema existente correctamente'); 
+
+		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));
+
+		}else{
+		   	
+		   	Session::flash('error_message', 'No se ha podido eliminar el sistema existente'); 
+
+		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
+		} 
+
+	}
+
+
 	public function getElement($elementId) {
 
 		$element = (array) ExistingSystem::getElementData($elementId); 
