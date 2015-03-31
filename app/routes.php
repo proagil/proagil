@@ -143,6 +143,14 @@ Route::any('/analisis-sistemas-existente/guardar-elemento/', 'ExistingSystemCont
 
 Route::any('/analisis-sistemas-existente/eliminar/{system_id}', 'ExistingSystemController@deleteExistingSystem');
 
+Route::any('/analisis-sistemas-existente/eliminar-observacion/{element_id}', 'ExistingSystemController@deleteElement');
+
+Route::any('/analisis-sistemas-existente/editar-informacion/{system_id}', 'ExistingSystemController@getSystemInfo');
+
+Route::any('/analisis-sistemas-existente/guardar-informacion/{system_id}', 'ExistingSystemController@saveSystemInfo');
+
+Route::any('/analisis-sistemas-existente/guardar-nueva-observacion/', 'ExistingSystemController@saveNewElement');
+
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 

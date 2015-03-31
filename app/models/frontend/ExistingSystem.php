@@ -28,6 +28,11 @@ class ExistingSystem extends Eloquent{
 		return DB::table('existing_system')->insertGetId($values);
 	}
 
+	public static function edit($systemId, $values){
+
+		return DB::table('existing_system')->where('id', $systemId)->update($values);
+	}	
+
 	public static function saveObservation($values){
 
 		return DB::table('existing_system_topic_belogns_to_existing_system')->insertGetId($values);
@@ -57,7 +62,7 @@ class ExistingSystem extends Eloquent{
 
 			->join('existing_system_topic AS est', 'estbtes.existing_system_topic_id', '=', 'est.id')
 
-			->orderBy('estbtes.id', 'DESC')
+			->orderBy('estbtes.id', 'ASC')
 
 			->get();
 
@@ -104,7 +109,6 @@ class ExistingSystem extends Eloquent{
 		}
 
 	}
-
 
 	public static function _delete($existingSystemId) {
 

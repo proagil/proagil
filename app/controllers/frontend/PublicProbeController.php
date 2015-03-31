@@ -6,10 +6,18 @@ class PublicProbeController extends BaseController {
 
 		$probe = Probe::getProbeTemplate($probeUrl); 
 
-		return View::make('frontend.probe.show')
-					 ->with('probeId', $probe['id'])
-					 ->with('probeUrl', $probeUrl)
-					 ->with('probe', $probe); 
+		if(!empty($probe['elements'])){
+
+			return View::make('frontend.probe.show')
+			 ->with('probeId', $probe['id'])
+			 ->with('probeUrl', $probeUrl)
+			 ->with('probe', $probe); 
+
+		}else{
+
+			return Redirect::to(URL::action('DashboardController@index'));
+
+		}
 
 	}
 

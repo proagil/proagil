@@ -113,11 +113,17 @@
 	                <div class="show-probe-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-big">
-								El sondeo que solicita ya no recibe m&aacute;s respuestas. Si necesita m&aacute;s informaci&oacute;n p&oacute;ngase en contacto con su autor. Gracias        	  		
+								El sondeo que solicita se encuentra cerrado. Si necesita m&aacute;s informaci&oacute;n p&oacute;ngase en contacto con su autor. Gracias        	  		
 	                    	  </div>
 	                   	</div>
 	                </div>
 	                @endif
+	                <div class="brand-img pull-right">
+	                	 <span class="login-title txt-center fs-min"> Sondeo generado con: 
+							<img  style="width:10%" src="{{URL::to('/').'/images/logo-sm.png'}}"/>
+	                	 </span>
+	                	 
+	                </div>	                
 	            </div>
 	        </div>
 	    </div>	
@@ -128,7 +134,6 @@
 
 		<script>
 
-
    		 $(function() {
 
    		 	 var probeElements = <?= json_encode($probe['elements']) ?>,
@@ -137,7 +142,7 @@
    		 	 	 rulesArray,
    		 	 	 elementName = '';  
 
-
+   		 	 // create array rules for probe elements
    		 	 $.each(probeElements, function(index, element) {
    		 	 	if(element.required){
 	   		 	 	if(element.form_element == <?= Config::get('constant.probe.element.radio') ?>) {

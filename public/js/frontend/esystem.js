@@ -36,7 +36,7 @@ $(function() {
 
         observationCount++; 
 
-               html +=    '<div class="probe-question-content observation-'+observationCount+'" style="display:none;">'+
+               html +='<div class="probe-question-content observation-'+observationCount+'" style="display:none;">'+
 
                '<label class="probe-label txt-right">Caracter&iacute;stica: </label>'+
                   '<select name="esystem[values]['+observationCount+'][topic]" class="probe-input-ii form-control type-answer-option" data-observation-id="'+observationCount+'">';
@@ -59,7 +59,7 @@ $(function() {
    
     });
 
-    // delete question row from DOM
+    // delete element row from DOM
     $(document).on('click', '.delete-element-row', function(e){
 
         e.preventDefault();
@@ -71,22 +71,6 @@ $(function() {
                 $(this).remove()
           });
   
-
-    });
-
-
-    // delete question option from DOM
-    $(document).on('click', '.delete-question-option', function(e){
-
-        e.preventDefault();
-
-        var questionId = $(this).data('questionId'),
-            optionId = $(this).data('optionId')
-
-          $(document).find('.option-'+questionId+'-'+optionId).fadeOut('slow', 
-              function() { 
-                $(this).remove()
-          });
 
     });
 
@@ -103,6 +87,7 @@ $(function() {
           totalInputs++; 
 
           if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
             $(this).addClass('error-probe-input');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
@@ -114,6 +99,7 @@ $(function() {
 
         // success validation, all inputs are valid
         if(successValidation==1){
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
           $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-esystem').submit(); 
@@ -129,38 +115,83 @@ $(function() {
 
       ----------------------------------------------------------------------*/
 
-     $(document).on('click', '.edit-probe-info', function(e){
+     $(document).on('click', '.edit-element-info', function(e){
 
-      $('.edit-probe-info-save').removeClass('hidden');
-      $('.edit-probe-info-default').addClass('hidden');
-
-       var probeId = $(this).data('probeId'); 
+       var systemId = $(this).data('systemId'),
+           projectId = $(this).data('projectId'),
+           html = ''; 
 
        $.ajax({
-          url: projectURL+'/sondeo/obtener-sondeo-informacion/'+probeId,
+          url: projectURL+'/analisis-sistemas-existente/editar-informacion/'+systemId,
           type:'GET',
           dataType: 'JSON',
           success:function (response) {
 
               if(!response.error){
 
-                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+probeId+' probe-input-name probe-input form-control">'
-                $('.question-title-'+probeId).replaceWith(htmlTitle);
+                var interfaceValue = (response.data.interface!=null)?response.data.interface:''; 
+                html += '<div class="probe-info-edit-content system-info-content">'+
+                '<form method="POST" action="'+projectURL+'/analisis-sistemas-existente/guardar-informacion/'+systemId+'" accept-charset="UTF-8" id="form-save-esystem-info" enctype="multipart/form-data">'+
+
+                  '<label class="probe-label txt-right">Nombre:</label>'+
+                  '<input type="hidden" name="esystem[project_id]" value="'+projectId+'">'+ 
+                   '<input type="hidden" name="esystem[iterface_id]" value="'+interfaceValue+'">'+ 
+                  '<input type="text" name="esystem[name]" value="'+response.data.name+'" class="probe-input-name probe-input form-control">'+  
+
+                  '<label class="probe-label txt-right">Interfaz:</label>'+
+
+                  '<input id="interface" class="file-upload file-upload-e-system" title="Subir imagen" data-filename-placement="inside" name="interface" type="file">'+                             
+
+               '</form>'+
+               '</div>'; 
+
+               $('.system-info-content').replaceWith(html); 
+
+               $(document).find('.file-upload-e-system').bootstrapFileInput();  
 
 
-                var htmlProbeType = '<select name="values[status]" class="question-status-'+probeId+' probe-input-i form-control type-answer-option">';
-                  $.each(response.probe_status, function(index, type) {
-                    if(index==response.data.status){
-                        htmlProbeType += '<option value="'+index+'" selected>'+type+'</option>';
-                    }else{
-                        htmlProbeType += '<option value="'+index+'">'+type+'</option>';
-                    }
-                  }); 
-                  htmlProbeType += '</select>';      
-                  $('.question-status-'+probeId).replaceWith(htmlProbeType);   
+                $('.edit-element-info-save').removeClass('hidden');
+                $('.edit-element-info-default').addClass('hidden');              
 
-                  var htmlDescription = '<textarea name="values[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
-                  $('.question-description-'+probeId).replaceWith(htmlDescription); 
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+
+
+     $(document).on('click', '.cancel-edit-element-info', function(e){
+
+       var systemId = $(this).data('systemId'),
+           projectId = $(this).data('projectId'),
+           html = ''; 
+
+       $.ajax({
+          url: projectURL+'/analisis-sistemas-existente/editar-informacion/'+systemId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                html += '<div class="probe-info-edit-content system-info-content">'+
+                  '<div class="element-name-'+response.data.id+' fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value">'+response.data.name+'</span>'+
+                  '</div>';  
+
+                  if(response.data.interface_image!=null){
+                  html +=  '<div class="txt-center interface-preview">'+
+                    '<img style="width:35%" src="'+projectURL+'/uploads/'+response.data.interface_image+'"/>'+
+                  '</div>'; 
+                  }
+                html += '</div>'; 
+
+               $('.system-info-content').replaceWith(html); 
+
+                $('.edit-element-info-save').addClass('hidden');
+                $('.edit-element-info-default').removeClass('hidden');              
 
               }
           },
@@ -171,50 +202,9 @@ $(function() {
 
     })
  
-     $(document).on('click', '.save-edit-probe-info', function(e){
+     $(document).on('click', '.save-edit-element-info', function(e){
 
-       var probeId = $(this).data('probeId'); 
-
-        var parameters = {
-            'values[probe_id]'    : probeId,
-            'values[title]'       : $('input[name="values[title]').val(),
-            'values[status]'      : $('select[name="values[status]').val(), 
-            'values[description]' : $('textarea[name="values[description]').val(),
-        };
-
-
-       $.ajax({
-          url: projectURL+'/sondeo/guardar-sondeo-informacion/',
-          type:'POST',
-          dataType: 'JSON',
-          data: parameters,
-          success:function (response) {
-
-              if(!response.error){
-
-                console.log(response); 
-
-                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
-                $('.question-title-'+probeId).replaceWith(htmlTitle);
-
-                var statusText = (response.data.status==1)?'Cerrado':'Abierto';
-                var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
-                  $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
-
-                var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
-                  $('.question-description-'+probeId).replaceWith(htmlDescription); 
-
-
-                  $('.edit-probe-info-save').addClass('hidden');
-                  $('.edit-probe-info-default').removeClass('hidden');
-
-
-              }
-          },
-          error: function(xhr, error) {
-
-          }
-      });      
+        $('#form-save-esystem-info').submit();
 
     })       
 
@@ -234,8 +224,6 @@ $(function() {
           success:function (response) {
 
               if(!response.error){
-
-                console.log(response); 
 
                 var htmlSelectElement = '<select name="values['+elementId+'][topic]" class="probe-input-i form-control type-answer-option element-topic-'+elementId+'" data-element-id="'+elementId+'">';
                   $.each(topics, function(index, topic) {
@@ -262,7 +250,6 @@ $(function() {
 
     })
 
-    /*Al hacer clic en el guardar de una pregunta editada*/
     $(document).on('click', '.save-edit-element', function(e){
 
       var elementId = $(this).data('elementId');
@@ -344,136 +331,82 @@ $(function() {
 
     })
 
-    $(document).on('click', '.edit-probe-option ', function(e){
+    $(document).on('click','.add-new-element-row', function(e){
 
-      var optionId = $(this).data('optionId'); 
+        e.preventDefault(); 
 
-         $.ajax({
-          url: projectURL+'/sondeo/obtener-opcion/'+optionId,
-          type:'GET',
-          dataType: 'JSON',
-          success:function (response) {
-
-              if(!response.error){
-
-              var htmlOption = '<input name="values['+optionId+'][name]" type="text" value="'+response.data.name+'" class="probe-input-option probe-input-option-edit form-control option-name-'+optionId+'">'
-               $('.option-name-'+optionId).replaceWith(htmlOption);   
-
-                    $('.options-default-'+optionId).addClass('hidden');
-                    $('.options-edit-'+optionId).removeClass('hidden'); 
-          
-
-              }
-          },
-          error: function(xhr, error) {
-
-          }
-      });          
-
-    })
-
-    $(document).on('click', '.save-edit-option', function(e){
-
-      var optionId = $(this).data('optionId'); 
-
-      if($('input[name="values['+optionId+'][name]"]').val() != ''){
-
-        var parameters = {
-            'values[option_id]'       : optionId,
-            'values[name]'            : $('input[name="values['+optionId+'][name]"]').val() 
-        };
+        var html = '',
+            projectId =  $(this).data('projectId'),
+            systemId =  $(this).data('systemId');
 
 
-         $.ajax({
-            url: projectURL+'/sondeo/guardar-opcion/',
-            type:'POST',
-            data: parameters,
-            dataType: 'JSON',
-            success:function (response) {
+        observationCount++; 
 
-                if(!response.error){
+               html +='<div class="probe-question-content observation-'+observationCount+'" style="display:none;">'+
+              '<form method="POST" accept-charset="UTF-8" action="'+projectURL+'/analisis-sistemas-existente/guardar-nueva-observacion/" id="form-new-element-'+observationCount+'">'+
+               '<label class="probe-label txt-right">Caracter&iacute;stica: </label>'+
+                  '<select name="esystem[topic]" class="probe-input-i form-control type-answer-option" data-observation-id="'+observationCount+'">';
+                  $.each(topics, function(index, topic) {
+                      html += '<option value="'+index+'">'+topic+'</option>';
 
-                   var htmlOption = '<label class="probe-label probe-label-value option-name-'+optionId+'">'+response.data.name+'</label>';
-                  $('.option-name-'+optionId).replaceWith(htmlOption);     
+                  });
+                  html += '</select>'+
 
-                    $('.options-default-'+optionId).removeClass('hidden');
-                    $('.options-edit-'+optionId).addClass('hidden'); 
-            
+                  '<label class="probe-label txt-right">Observaci&oacute;n:</label>'+
+                  '<textarea type="text" style="height:150px" name="esystem[observation]" placeholder="Especifique una descripción para la característica seleccionada" class="probe-input esystem-textarea form-control"></textarea>'+   
 
-                }
-            },
-            error: function(xhr, error) {
+                  '<div class="pull-right edit-btn-esystem-options element-options-edit-'+observationCount+'">'+                  
+                    '<div data-element-id="'+observationCount+'" class="cancel-edit-new-element common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>'+                           
+                    '<div data-element-id="'+observationCount+'" class="save-edit-new-element common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>'+          
+                   '<input type="hidden" name="esystem[project_id]" value="'+projectId+'">'+
+                    '<input type="hidden" name="esystem[system_id]" value="'+systemId+'">'+
+                  '</form>'+
+                  '</div>';  
 
-            }
-          });     
+                 $(html).appendTo('.elements-list').fadeIn('slow');
 
-      }else{
-        alert('vaciooo'); 
-      }
-
-    })
-      
-
-    // Delete question from DB
-    $(document).on('click','.delete-saved-question-element',function(e){
-
-       e.preventDefault(); 
-
-        var questionId = $(this).data('questionId'); 
-
-        var showAlert = swal({
-          title: 'Eliminar Pregunta',
-          text: 'Confirma que desea eliminar la pregunta del sondeo',
-          type: 'warning',
-          showCancelButton: true,
-          confirmButtonColor: '#ef6f66',
-          confirmButtonText: 'Si, eliminar',
-          cancelButtonText: 'Cancelar',
-          cancelButtonColor: '#ef6f66',
-          closeOnConfirm: true
-        },
-        function(){
-
-         $.ajax({
-            url: projectURL+'/sondeo/eliminar-pregunta/'+questionId,
-            type:'GET',
-            dataType: 'JSON',
-            success:function (response) {
-
-                if(!response.error){
-
-                   $(document).find('.saved-question-'+questionId).fadeOut('slow', 
-                      function() { 
-                        $(this).remove()
-                    });
-
-                   $(document).find('.question-options-content-'+questionId).fadeOut('slow', 
-                      function() { 
-                        $(this).remove()
-                    });                   
-
-                }
-            },
-            error: function(xhr, error) {
-
-            }
-          });     
-
-        });               
-
-     
     });
 
-    // Delete question option from DB
-    $(document).on('click','.delete-saved-probe-option', function(e){
+    $(document).on('click', '.save-edit-new-element', function(e){
+
+        var successValidation = 0,
+            totalInputs = 0,
+            elementId = $(this).data('elementId'); 
+
+        //validate categories
+        $('input[type="text"], textarea').each(function(){
+
+          totalInputs++; 
+
+          if($(this).val() == ''){
+            $(this).addClass('error-probe-input');
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+          }else{
+             $(this).removeClass('error-probe-input');
+             $('.error-alert-text').parent().removeClass('hidden'); 
+              successValidation++; 
+          }
+        });
+
+        // success validation, all inputs are valid
+      if(successValidation==totalInputs){
+          $('#form-new-element-'+elementId).submit(); 
+          $('.error-alert-text').parent().removeClass('hidden'); 
+        }  
+
+    })
+
+    // Delete question from DB
+    $(document).on('click','.delete-saved-element',function(e){
 
        e.preventDefault(); 
 
-        var optionId = $(this).data('optionId'); 
+        var elementId = $(this).data('elementId'); 
 
         var showAlert = swal({
-          title: 'Eliminar Pregunta',
-          text: 'Confirma que desea eliminar la opción',
+          title: 'Eliminar Observación',
+          text: 'Confirma que desea eliminar la observación del sistema existente',
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ef6f66',
@@ -485,17 +418,18 @@ $(function() {
         function(){
 
          $.ajax({
-            url: projectURL+'/sondeo/eliminar-opcion/'+optionId,
+            url: projectURL+'/analisis-sistemas-existente/eliminar-observacion/'+elementId,
             type:'GET',
             dataType: 'JSON',
             success:function (response) {
 
                 if(!response.error){
 
-                   $(document).find('.saved-option-'+optionId).fadeOut('slow', 
+                   $(document).find('.saved-element-'+elementId).fadeOut('slow', 
                       function() { 
-                        $(this).remove()
+                        $(this).remove();
                     });
+                 
 
                 }
             },
@@ -506,8 +440,6 @@ $(function() {
 
         });               
 
-     
-    });      
- 
+    });
    
 });

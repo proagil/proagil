@@ -34,25 +34,30 @@
 								</div>							
 
 							</div>	
-								<div class="probe-info-edit-content">
-									<div class="esystem-name-{{$existingSystemId}} fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value"> {{$existingSystem['name']}}</span>
+								<div class="probe-info-edit-content system-info-content">
+									<div class="element-name-{{$existingSystemId}} fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value"> {{$existingSystem['name']}}</span>
 									</div>
+									@if($existingSystem['interface_image']!=NULL)
+									<div class="txt-center interface-preview">
+										<img style="width:35%" src="{{URL::to('/').'/uploads/'.$existingSystem['interface_image']}}"/>
+									</div>
+									@endif
 								</div>
 
 
-								<div data-esystem-id="{{$existingSystemId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-yellow">
+								<div data-system-id="{{$existingSystemId}}" data-project-id="{{$projectId}}" class="pull-right edit-element-info edit-element-info-default circle activity-option txt-center fs-big fc-yellow">
 									<i class="fa fa-pencil fa-fw"></i>
 								</div>
 
-								<div class="hidden pull-right edit-probe-info-save">									
-									<div data-esystem-id="{{$existingSystemId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
-									<div data-esystem-id="{{$existingSystemId}}" class="save-edit-probe-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+								<div class="hidden pull-right edit-element-info-save">									
+									<div data-project-id="{{$projectId}}" data-system-id="{{$existingSystemId}}" class="cancel-edit-element-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-system-id="{{$existingSystemId}}" class="save-edit-element-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
 								</div>									
 
-								<div class="list-content probe-questions-lists">
+								<div class="list-content elements-list">
 									@if(!empty($existingSystem['elements']))
 										@foreach($existingSystem['elements'] as $element)
-											<div class="probe-question-content saved-question-{{$element['id']}}">
+											<div class="probe-question-content saved-element-{{$element['id']}}">
 		                 						<label class="probe-label txt-right">Caracter&iacute;stica:</label>
 		                 						<div class="probe-label probe-label-value element-topic-{{$element['id']}}">{{$element['topic_name']}}</div>
 		  
@@ -60,7 +65,7 @@
 		                 						<div class="probe-label esystem-label-value element-obs-{{$element['id']}}"> {{$element['observation']}} </div>
 			                						
 												<div class="pull-right edit-btn-esystem-options element-options-default-{{$element['id']}}">				
-			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element" data-esystem-obs-id="{{$element['id']}}">
+			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-element" data-element-id="{{$element['id']}}">
 			                    						<i class="fa fa-times fa-fw"></i>
 			                  						</div>  
 			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-yellow edit-element" data-element-id="{{$element['id']}}">
@@ -79,8 +84,8 @@
 					            </div>
 
 							<div class="probe-general-buttons">								
-								<div class="add-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-									<a href="#">Agregar pregunta</a>
+								<div data-project-id="{{$projectId}}" data-system-id="{{$existingSystemId}}" class="add-new-element-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+									<a href="#">Nueva observaci&oacute;n</a>
 								</div>							
 							</div>							 
 																	

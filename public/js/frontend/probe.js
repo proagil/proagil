@@ -154,6 +154,7 @@ $(function() {
           totalInputs++; 
 
           if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
             $(this).addClass('error-probe-input');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
@@ -167,6 +168,7 @@ $(function() {
 
         // success validation, all inputs are valid
         if(successValidation==2){
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
           $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-probe').submit(); 
@@ -547,7 +549,7 @@ $(function() {
           });     
 
       }else{
-        $('html,body').animate({ scrollTop: 0 }, 'slow');
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
         $('input[name="values['+optionId+'][name]"]').addClass('error-probe-input');
         $('.error-alert-text').html('Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
       }
@@ -602,7 +604,6 @@ $(function() {
 
         });               
 
-     
     });
 
     // Delete question option from DB
@@ -804,7 +805,7 @@ $(function() {
 
           if($(this).val() == ''){
             $(this).addClass('error-probe-input');
-            $('html,body').animate({ scrollTop: 0 }, 'slow');
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
              $(this).removeClass('error-probe-input');
@@ -825,7 +826,7 @@ $(function() {
     })
 
 
-    // share probe
+    // share probe popover
     $('.share-probe-popover').popover({ 
         html : true, 
         placement: 'top',
@@ -833,6 +834,140 @@ $(function() {
           return $('.social-icons-container').html();
         }
     });  
+
+
+    $('.share-probe-popover').on('shown.bs.popover', function () {
+
+      var probeTitle = $(this).data('probeTitle'),
+          probeUrl = $(this).data('probeUrl'),
+          popOverId = $(this).attr('aria-describedby');
+
+      $('#'+popOverId).find('.popover-content').find('.share-option')
+                      .attr('data-probe-title', probeTitle)
+                      .attr('data-probe-url', probeUrl);    
+  
+    });     
+
+
+  $(document).on('click','.share-probe-twitter', function(e){
+      e.preventDefault();
+   
+      var probeTitle = $(this).data('probeTitle'),
+          probeUrl = $(this).data('probeUrl'),
+          longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+          bitLyUrl = '';  
+
+          $.ajax({
+            url:'http://api.bit.ly/v3/shorten',
+            data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+            dataType:"jsonp",
+            success:function(response){
+
+              if(response.status_text == 'OK'){
+
+                bitLyUrl = response.data.url; 
+
+              }else{
+
+                bitLyUrl = longUrl; 
+
+              }
+
+              var urlToShare = 'http://twitter.com/share?url='+bitLyUrl,
+              message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+              window.open(urlToShare + '&text=' + message, 'twitterwindow', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+            },
+            error: function(xhr, error) {
+
+            }            
+          });        
+     
+    });    
+
+
+    $(document).on('click','.share-probe-facebook', function(e){
+        e.preventDefault();
+     
+        var probeTitle = $(this).data('probeTitle'),
+            probeUrl = $(this).data('probeUrl'),
+            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+            bitLyUrl = '';  
+
+            $.ajax({
+              url:'http://api.bit.ly/v3/shorten',
+              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+              dataType:"jsonp",
+              success:function(response){
+
+                if(response.status_text == 'OK'){
+
+                  bitLyUrl = response.data.url; 
+
+                }else{
+
+                  bitLyUrl = longUrl; 
+
+                }
+
+                var urlToShare = bitLyUrl,
+                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+                message = message.replace(/\s/g,'+');
+      
+                var urlFacebook = 'http://www.facebook.com/sharer.php?s=100&p[url]='+urlToShare+'&p[title]=Compartir Sondeo&p[summary]='+message+'+madresquenosunen.com';
+      
+                window.open(urlFacebook, 'facebook-share-dialog', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+              },
+              error: function(xhr, error) {
+
+              }            
+            });        
+       
+      });  
+
+    $(document).on('click','.share-probe-linkedin', function(e){
+        e.preventDefault();
+     
+        var probeTitle = $(this).data('probeTitle'),
+            probeUrl = $(this).data('probeUrl'),
+            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+            bitLyUrl = '';  
+
+            $.ajax({
+              url:'http://api.bit.ly/v3/shorten',
+              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+              dataType:"jsonp",
+              success:function(response){
+
+                if(response.status_text == 'OK'){
+
+                  bitLyUrl = response.data.url; 
+
+                }else{
+
+                  bitLyUrl = longUrl; 
+
+                }
+
+                var urlToShare = bitLyUrl,
+                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+                message = message.replace(/\s/g,'+');
+      
+                var urlFacebook = 'http://www.linkedin.com/shareArticle?mini=true&url='+urlToShare+'&title='+message+'&summary='+message+'&source='+message; 
+      
+                window.open(urlFacebook, 'facebook-share-dialog', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+              },
+              error: function(xhr, error) {
+
+              }            
+            });        
+       
+      });  
 
  
    

@@ -128,11 +128,9 @@ class ExistingSystemController extends BaseController {
 
 		}
 
-
 	}
 
 	public function edit($existingSystemId) {
-
 
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
@@ -147,6 +145,7 @@ class ExistingSystemController extends BaseController {
 			return View::make('frontend.existingSystem.edit')
 						->with('existingSystem', $existingSystem)
 						->with('projectName', $project['name'])
+						->with('projectId', $project['id'])
 						->with('topics', $topics)
 						->with('existingSystemId', $existingSystemId);   			
 
@@ -157,6 +156,86 @@ class ExistingSystemController extends BaseController {
 		}		
 
 	}
+
+	public function saveSystemInfo($systemId) {
+
+		$values = Input::get('esystem');
+
+	   	// get system interface
+	   	$interfaceFile = Input::file('interface');
+
+	   	if($interfaceFile!=NULL){
+
+	   		// save user avatar
+	   		$imageId = $this->uploadAndResizeFile($interfaceFile, 500, 300); 
+	   	}
+
+	   	$values['iterface_id'] = ($values['iterface_id']==NULL)? NULL: $values['iterface_id']; 		
+
+		$exystingSystem = array(
+			'name'			=> 	$values['name'],
+			'interface'		=> (isset($imageId))?$imageId:$values['iterface_id'],
+		);
+
+		if(ExistingSystem::edit($systemId, $exystingSystem)){
+
+		 	//Session::flash('success_message', 'Se ha creado el analisis de sistema existente exitosamente en su proyecto: '.$project['name']); 
+ 
+            // redirect to edit existing system view
+            return Redirect::to(URL::action('ExistingSystemController@edit', $systemId));				
+
+		}else{
+
+            // redirect to edit existing system view
+            return Redirect::to(URL::action('ExistingSystemController@edit', $systemId));				
+
+		}
+
+	}
+
+	public function saveNewElement(){
+
+		$values = Input::get('esystem');
+
+		$observation = array(
+			'observation'				=> $values['observation'],
+			'existing_system_topic_id' 	=> $values['topic'],
+			'existing_system_id'		=> $values['system_id'],
+			'project_id'				=> $values['project_id']
+
+		);
+
+		 if(ExistingSystem::saveObservation($observation)) {
+
+			return Redirect::to(URL::action('ExistingSystemController@edit', $values['system_id']));		 	
+
+		 }else{
+
+				return Redirect::to(URL::action('ExistingSystemController@edit', $values['system_id']));	
+		 } 
+
+	}
+
+	public function deleteElement($elementId) {
+
+		 if(ExistingSystem::deleteElement($elementId)) {
+
+		      $result = array(
+		          'error'   => false
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}	
 
 	public function deleteExistingSystem($systemId){
 
@@ -182,6 +261,29 @@ class ExistingSystemController extends BaseController {
 		} 
 
 	}
+
+
+	public function getSystemInfo($systemId) {
+
+		$element = (array) ExistingSystem::getExistingSystemData($systemId); 
+
+	    if(!empty($element)){
+
+	      $result = array(
+	          'error'   => false,
+	          'data'	=> $element
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
+	}	
 
 
 	public function getElement($elementId) {

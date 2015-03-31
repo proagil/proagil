@@ -24,9 +24,9 @@
 			</div>	
 
 			<div style="display:none" class="social-icons-container">
-				<i style="color:#3b5998" class="fs-xbig fa fa-facebook cur-point fa-fw"></i>
-				<i style="color:#55acee" class="fs-xbig fa fa-twitter cur-point  fa-fw"></i>
-				<i style="color:#2672ae" class="fs-xbig fa fa-linkedin cur-point fa-fw"></i>
+				<i style="color:#3b5998" class="share-option share-probe-facebook fs-xbig fa fa-facebook cur-point fa-fw"></i>
+				<i style="color:#55acee" class="share-option share-probe-twitter fs-xbig fa fa-twitter cur-point  fa-fw"></i>
+				<i style="color:#2672ae" class="share-option share-probe-linkedin fs-xbig fa fa-linkedin cur-point fa-fw"></i>
 			</div>				
 
 
@@ -64,7 +64,7 @@
 							<div class="list-content">
 								@if(!empty($probes))
 									@foreach($probes as $probe)
-									<div class="probe-item-content" data-probe-url="{{$probe['url']}}">
+									<div class="probe-item-content" {{(!$projectOwner)?'style=width:100%':''}} data-probe-url="{{$probe['url']}}">
 										<i class="fc-green fa fa-th-list fa-fw"></i>
 											{{$probe['title']}}		
 
@@ -74,8 +74,9 @@
 												<i class="fc-turquoise fa fa-unlock fa-fw"></i> Abierto
 											@endif				
 									</div>
+									@if($projectOwner)	
 									<div class="probe-options txt-center">
-										@if($projectOwner)								
+																	
 										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big ">
 											<a href="{{URL::action('ProbeController@edit', array($probe['id']))}}">
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
@@ -84,15 +85,15 @@
 										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">
 											<i class="fa fa-bar-chart-o fa-fw"></i>
 										</div>
-										<div  class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+										<div  data-probe-title="{{$probe['title']}}" data-probe-url="{{$probe['url']}}" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
 											<i class="fa fa-share-alt fa-fw"></i>
 										</div>
 																			
 										<div data-probe-title="{{$probe['title']}}" data-probe-id="{{$probe['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-probe circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>
-										</div>												
-										@endif								
-									</div>									
+										</div>																				
+									</div>
+									@endif									
 									@endforeach
 								@endif				
 							</div>											
@@ -106,8 +107,9 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.javascript')
 
+
+	@include('frontend.includes.javascript')
 	{{ HTML::script('js/frontend/probe.js') }}
 
 	<script>
@@ -148,6 +150,23 @@
 
 
   	});
+
+      window.fbAsyncInit = function() {
+        FB.init({
+          appId      : 'your-app-id',
+          xfbml      : true,
+          version    : 'v2.3'
+        });
+      };
+
+      (function(d, s, id){
+         var js, fjs = d.getElementsByTagName(s)[0];
+         if (d.getElementById(id)) {return;}
+         js = d.createElement(s); js.id = id;
+         js.src = "//connect.facebook.net/en_US/sdk.js";
+         fjs.parentNode.insertBefore(js, fjs);
+       }(document, 'script', 'facebook-jssdk'));
+
 	</script>
 	</body>
 
