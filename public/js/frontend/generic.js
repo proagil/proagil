@@ -853,4 +853,121 @@ $(function() {
 
     });
 
+/*----------------------------------------------------------------------
+
+        CHECKLIST ADD NEW
+
+----------------------------------------------------------------------*/
+    
+    //ADD: new activity
+    $('.btn-add-checklist').on('click', function(){
+
+      var projectId = $(this).data('projectId'); 
+      console.log(projectId); 
+      window.location.href = projectURL+'/listas-de-comprobacion/crear/'+projectId;
+
+    });   
+
+   //CREATE: submit form
+    $('.btn-create-checklist').on('click', function(){
+
+        var successValidation = false,
+              totalPrinciples = 0;
+
+              //validate categories
+              $('.principle-input').each(function(){
+
+                totalPrinciples++; 
+
+                if($(this).val() == ''){
+                  $(this).siblings('.error').removeClass('hidden'); 
+                }else{
+                   $(this).siblings('.error').addClass('hidden');
+                    successValidation++; 
+                }
+              });
+
+              // success validation, all categories are valid
+              if(successValidation==totalPrinciples){
+                $(document).find('#form-create-checklist').submit()
+              }
+
+    });
+    
+    //Add Principle
+    var htmlPrinciples = '',
+    principleCount = 0; 
+
+    $('.btn-add-principle').on('click', function(){
+
+      principleCount++; 
+
+      htmlPrinciples +=  '<div class="form-group checklist-principle-'+principleCount+'" style="display:none">'+
+                            '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Principio</label>'+
+                              '<div class="col-md-4">'+
+                                  '<input class="form-control principle-input app-input" name="values[new_principle]['+principleCount+'][rule]" type="text">'+
+                                  '<br><br>'+
+                                  '<span class="error fc-pink fs-min hidden">Debe indicar el principio </span>'+
+                              '</div>'+                                  
+                          '</div>'+
+
+                          '<div class="form-group checklist-principle-'+principleCount+'" style="display:none">'+
+                            '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n</label>'+
+                              '<div class="col-md-4">'+
+                                  '<textarea class="form-control principle-input app-input" name="values[new_principle]['+principleCount+'][description]" type="text"></textarea>'+
+                                '<br><br>'+
+                                '<span class="error fc-pink fs-min hidden">Debe indicar una descripcici&oacute;n del principio</span>'+
+                              '</div>'+
+                          '</div>'+
+
+                          '<div class="form-group checklist-principle-'+principleCount+'">'+
+                            '<label class="col-md-4 title-label control-label"></label>'+
+                            '<div class="col-md-4">'+
+                              '<div data-principle-id="'+principleCount+'" class="form-group btn-delete-principle circle activity-option txt-center fs-big fc-pink pull-right">'+
+                                '<i class="fa fa-times fa-fw"></i>'+
+                              '</div>'
+                            '</div>'+
+                          '</div>';
+      ;  
+
+      $(htmlPrinciples).appendTo('.principles-content').fadeIn('slow');
+
+      htmlPrinciples = '';
+
+    });
+
+    $(document).on('click','.btn-delete-principle', function(){
+
+      var principleId = $(this).data('principleId'); 
+    
+       $(document).find('.checklist-principle-'+principleId).fadeOut('slow', 
+          function() { 
+            $(this).remove()
+          });
+    })
+
+    $('.btn-edit-checklist').on('click', function(){
+
+      var successValidation = false,
+          totalPrinciples = 0;
+
+          //validate categories
+          $('.principle-input').each(function(){
+
+            totalPrinciples++; 
+
+            if($(this).val() == ''){
+              $(this).siblings('.error').removeClass('hidden'); 
+            }else{
+               $(this).siblings('.error').addClass('hidden');
+                successValidation++; 
+            }
+          });
+
+          // success validation, all categories are valid
+          if(successValidation==totalPrinciples){
+            $(document).find('#form-edit-checklist').submit()
+          }
+
+      });
 

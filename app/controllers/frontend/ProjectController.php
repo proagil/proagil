@@ -116,7 +116,6 @@ class ProjectController extends BaseController {
 
            	}else{
 
-
               return View::make('frontend.project.create')
                           ->withErrors($validator)
                           ->with('values', $values)

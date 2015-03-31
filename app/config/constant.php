@@ -22,18 +22,6 @@ return array(
 	'admin.entity.artefact'				=> 'Artefacto',
 
 	// frontend constants
-	'ENABLED' 								=> 1,
-	'NOT_ENABLED'							=> 0,
-	'project.owner'							=> 1,
-	'project.member'						=> 2,
-	'probe.question.required'				=> 1,
-	'probe.question.not_required'			=> 0,	
-	'probe.question.closed'					=> 1,
-	'probe.question.open'					=> 2,	
-	'probe.element.input'					=> 1,
-	'probe.element.textarea'				=> 2,
-	'probe.element.radio'					=> 3,
-	'probe.element.checkbox'				=> 4,
 	'activity.not_initiated'				=> 1,
 	'activity.initiated'					=> 2,
 	'activity.finished'						=> 3,
@@ -45,7 +33,21 @@ return array(
 	'artefact.checklist'					=> 'lista-de-comprobacion',
 	'artefact.use_case'						=> 'diagrama-de-casos-de-uso',
 	'artefact.domain_object'				=> 'diagrama-de-objetos-de-dominio',
-	'artefact.prototype'					=> 'prototipo'
+	'artefact.prototype'					=> 'prototipo',
+	'checklist.checked'						=> 2,
+	'checklist.not_checked'					=> 1,
+	'ENABLED' 								=> 1,
+	'NOT_ENABLED'							=> 0,
+	'project.owner'							=> 1,
+	'project.member'						=> 2,
+	'probe.question.required'				=> 1,
+	'probe.question.not_required'			=> 0,	
+	'probe.question.closed'					=> 1,
+	'probe.question.open'					=> 2,	
+	'probe.element.input'					=> 1,
+	'probe.element.textarea'				=> 2,
+	'probe.element.radio'					=> 3,
+	'probe.element.checkbox'				=> 4
 
 
 ); 

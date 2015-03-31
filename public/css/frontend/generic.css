@@ -49,6 +49,9 @@
  .btn-change-status,
  .activity-options,
  .probe-options,
+ .checklist-options,
+ .checklist-status,
+ .checklist-item-content,
  .detail-activity-content,
  .artefacts-content,
  .list-activities-content,
@@ -844,6 +847,35 @@ a.made-on{
 .activity-info-ii {
 	color: #8F8F8F;
 	padding: 15px; 
+}
+/*-------------------------------------------
+	CHECKLIST section
+ -------------------------------------------*/
+
+.checklist-status {
+	width: 10%;
+	margin: 1% 0 0 0;
+	background-color: #f2f2f2;
+	padding: 10px 4px; 
+}
+
+.checklist-status:hover {
+	background-color: #e3e2e2;
+	cursor: pointer; 
+}
+
+.checklist-item-content {
+	width: 82%;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+	padding: 9px 4px;
+}
+
+.checklist-options {
+	width: 8%;
+	margin: 1% 0 0 0;
+	background-color: #f2f2f2;
+	padding: 4px 4px; 
 }
 
 /*-------------------------------------------
