@@ -825,6 +825,24 @@ $(function() {
 
     })
 
+    $(document).on('click', '.cancel-new-question', function(e){
+
+        e.preventDefault();
+
+        var questionId = $(this).data('questionId');
+
+          $(document).find('.question-'+questionId).fadeOut('slow', 
+              function() { 
+                $(this).remove()
+          });
+
+          $(document).find('.question-options-content-'+questionId).fadeOut('slow', 
+              function() { 
+                $(this).remove()
+          });          
+
+    });
+
 
     // share probe popover
     $('.share-probe-popover').popover({ 
@@ -915,10 +933,14 @@ $(function() {
                 message = 'Les comparto este sondeo, me gustaría que lo respondieran';
 
                 message = message.replace(/\s/g,'+');
-      
-                var urlFacebook = 'http://www.facebook.com/sharer.php?s=100&p[url]='+urlToShare+'&p[title]=Compartir Sondeo&p[summary]='+message+'+madresquenosunen.com';
-      
-                window.open(urlFacebook, 'facebook-share-dialog', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+            
+                FB.ui(
+                {
+                  method: 'share',
+                  href: 'www.google.com',
+
+                });
+
 
               },
               error: function(xhr, error) {
