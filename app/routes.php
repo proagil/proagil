@@ -47,9 +47,11 @@ Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
 
 Route::any('inicio', 'DashboardController@index');
 
-Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
+Route::any('listas-de-comprobacion/crear/{project_id}', 'ChecklistController@create');
 
 Route::any('listas-de-comprobacion/editar/{checklist_id}', 'ChecklistController@edit');
+
+Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
 
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
 

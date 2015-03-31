@@ -95,7 +95,6 @@
                                 </div>
                               </div>
                               <span class="fc-turquoise fs-min">Hacer clic para agregar categor&iacute;a de actividades<i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Las categor&iacute;as le permiten clasificar las actividades de su proyecto" class="fc-turquoise fa fa-info-circle fa-fw"></i></span> 
-
                             </div> 
                           </div>                                                                                                           
 
