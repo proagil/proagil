@@ -17,6 +17,13 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .brand-img, 
+ .system-interface,
+ .e-system-table-head,
+ .e-system-row,
+ .e-system-topic,
+ .e-system-obs,
+ .e-system-table-content,
  .activity-info-ii,
  .tags-list,
  .detail-project-activities,
@@ -28,6 +35,7 @@
  .all-options-content,
  .probe-general-buttons,
  .show-quiestion-option,
+ .btn-add-question-option-edit,
  .btn-add-question-option,
  .question-option,
  .activity-option,
@@ -35,6 +43,7 @@
  .probe-label,
  .probe-input, 
  .probe-input-i,
+ .probe-input-ii,
  .probe-question-content,
  .probe-item-content, 
  .btn-change-status,
@@ -103,13 +112,18 @@ body {
 	cursor: pointer;
 }
 
-
 .popover {
 	font-family:  'cabin_condensedregular', sans-serif;
 	border-radius: 0px; 
 	-webkit-box-shadow: 0 0 0;
 	box-shadow: 0px;
 
+}
+
+.form-control:focus{
+	box-shadow: inset 0 0px 0px rgba(0,0,0,.075),0 0 0px rgba(102,175,233,.6);
+	-webkit-box-shadow: inset 0 0px 0px rgba(0,0,0,.075),0 0 0px rgba(102,175,233,.6);
+	border-color: #ccc;
 }
 
 /*-------------------------------------------
@@ -438,6 +452,8 @@ a.login-link:hover  {
 	border-radius: 0px;
 	background-color: #a8d76f;
 	width: 100%;
+	color: #ffffff;
+	font-weight: bold;
 }
 
 .file-upload-edit {
@@ -884,7 +900,7 @@ textarea{
 }
 
 .probe-item-content {
-	width: 88%;
+	width: 85%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
 	padding: 10px 4px; 
@@ -896,7 +912,7 @@ textarea{
 }
 
 .probe-options {
-	width: 12%;
+	width: 15%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 5px 4px; 
@@ -912,17 +928,22 @@ textarea{
 .probe-input-option-edit {
 	width: 18%; 
 }
-
+.probe-input-ii,
 .probe-input-i{
 	width: 17%; 
 	border-radius: 0px; 
 }
 
+.probe-input-ii,
 .probe-input-i,
 .probe-input-option:focus,
 .probe-input:focus {
 	border-color: #ccc; 
 	box-shadow: none; 
+}
+
+.probe-input-ii {
+	width: 25%; 
 }
 
 .show-quiestion-option{
@@ -947,6 +968,7 @@ textarea{
 	width: 99%%;
 }
 
+.btn-add-question-option-edit,
 .btn-add-question-option,
 .question-option {
 	padding: 5px;
@@ -982,6 +1004,7 @@ textarea{
 	width: 18%; 
 }
 
+
 .probe-input-edit {
 	width: 18%; 
 }
@@ -990,3 +1013,56 @@ textarea{
 	margin: 2px 2px 0 2px; 
 	padding: 3px; 
 }
+
+.probe-share-modal-content {
+	border-radius: 0px;
+}
+
+/*-------------------------------------------
+	EXISTING SYSTEM section
+ -------------------------------------------*/
+
+.file-upload-e-system,
+.file-upload-e-system:hover {
+	width: 20%; 
+	cursor: pointer; 
+}
+
+.esystem-textarea {
+	width: 38%;
+}
+
+.e-system-table-head,
+.e-system-table-content {
+	background-color: #f2f2f2; 
+}
+
+.e-system-row {
+	border-bottom: 10px solid #ffffff; 
+}
+
+.e-system-topic {
+	width: 30%;
+	padding: 2%; 
+}
+
+.e-system-obs {
+	width: 70%;
+	padding: 2%; 
+	border-left: 10px solid #ffffff; 
+}
+
+.row-head {
+	background-color: #e3e2e2; 
+}
+
+.e-system-table-head {
+	padding: 2%; 
+	border-bottom: 10px solid #ffffff; 
+}
+
+.esystem-label-value {
+	font-weight: 100;
+	width: 50%; 
+}
+

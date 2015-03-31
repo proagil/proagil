@@ -24,6 +24,7 @@
     {{ HTML::style('css/frontend/owl.carousel.css') }}
     {{ HTML::style('css/frontend/emoticons/emoticons.css') }}
 	{{ HTML::style('css/frontend/generic.css') }}
+    {{ HTML::style('css/frontend/style_diagram.css') }}
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->

@@ -38,8 +38,8 @@ class ProbeController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 // get answer types
-	    	 $types = Probe::getAnswerTypes(); 
+	    	 // get answer types 
+	    	 $types = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open'))); 
 
 	    	return View::make('frontend.probe.create')
 	    		    	->with('projectName', $project['name'])
@@ -138,9 +138,6 @@ class ProbeController extends BaseController {
 
 		$probeData = Probe::getProbeElements($probeId); 
 
-		//print_r($probeData ); die; 
-
-
 		if(!empty($probeData)){
 
 			// get project data
@@ -153,11 +150,15 @@ class ProbeController extends BaseController {
 		   	);
 
 	    	 // get answer types
-	    	 $answerTypes = Probe::getAnswerTypes(); 	  	 
+	    	 $answerTypesOpen = Probe::getAnswerTypes(array((Config::get('constant.probe.question.open')))); 
+	    	 $answerTypesClose = Probe::getAnswerTypes(array((Config::get('constant.probe.question.closed'))));	
+	    	 $answerTypes = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open')));   	 
 
 			return View::make('frontend.probe.edit')
 						->with('projectName', $project['name'])
 						->with('probeId', $probeId)
+						->with('answerTypesOpen', $answerTypesOpen)
+						->with('answerTypesClose', $answerTypesClose)
 						->with('answerTypes', $answerTypes)
 						->with('values', $probeData)
 						->with('probeStatus', $probeStatus); 			
@@ -165,6 +166,87 @@ class ProbeController extends BaseController {
 		}else{
 
 		}
+
+	}
+
+	public function saveNewQuestion(){
+
+		// get probe values
+		 $values = Input::get('probe');
+
+		   	// save probe questions
+		   	if(isset($values['questions'])){
+
+		   		$questions = $values['questions']; 
+
+		   		foreach($questions as $index => $questionValue){
+
+		   			$question = array( 
+
+		   				'question'			=> $questionValue['question'],
+		   				'required'			=> (isset($questionValue['required']))?Config::get('constant.probe.question.required'):Config::get('constant.probe.question.not_required'),
+		   				'form_element'		=> $questionValue['form_element'],
+		   				'enabled'			=> Config::get('constant.ENABLED'),
+		   				'probe_id'			=> $values['probe_id']
+
+		   			);
+
+		   			$probeQuestionId = Probe::saveQuestion($question); 
+
+		   			if($probeQuestionId>0){
+
+		   				// save question options (radio buttons and checkboxes)
+		   				if(isset($questionValue['option'])){
+
+		   					$questionOptions = $questionValue['option'];
+
+		   					foreach($questionOptions as $optionValue){
+
+			   					$questionOption = array(
+
+			   						'name'							=> $optionValue['name'],
+			   						'probe_template_element_id'		=> $probeQuestionId
+
+			   					);
+
+			   					$optionQuestionId = Probe::saveQuestionOption($questionOption); 		   						
+
+		   					}
+
+		   				}
+		   			}
+		   		}
+
+		   		Session::flash('success_message', 'Se ha agregado la pregunta al sondeo'); 
+
+                // redirect to index probre view
+                return Redirect::to(URL::action('ProbeController@edit', array($values['probe_id'])));
+		   	}
+
+	}
+
+	public function deleteProbe($probeId){
+
+		$values = Probe::getProbeElements($probeId); 
+
+		// delete all probe values for each probe element
+		foreach($values['elements'] as $element){
+
+			Probe::deleteQuestion($element['id']); 
+		}
+
+		if(Probe::_delete($probeId)){
+
+			Session::flash('success_message', 'Se ha eliminado el sondeo correctamente'); 
+
+		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+
+		}else{
+		   	
+		   	Session::flash('error_message', 'No se ha podido eliminar el sondeo'); 
+
+		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));			
+		} 
 
 	}
 
@@ -337,6 +419,39 @@ class ProbeController extends BaseController {
 
 	}
 
+	public function saveNewProbeOption(){
+
+
+		 $values = Input::get('values');
+
+		 $option = array(
+		 	'name'						=> $values['name'],
+		 	'probe_template_element_id'	=> $values['question_id']
+		 );
+
+		 $insertedOptionId = Probe::saveQuestionOption($option);
+		 if($insertedOptionId>0){
+
+		 	$element = (array) Probe::getOptionData($insertedOptionId); 
+
+		      $result = array(
+		          'error'   => false,
+		          'data'	=> $element
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);					
+
+	}
+
 	public function deleteQuestion($questionId) {
 
 		 if(Probe::deleteQuestion($questionId)) {
@@ -360,7 +475,7 @@ class ProbeController extends BaseController {
 
 	public function deleteOption($optionId) {
 
-		 if(Probe::deleteOption($optionId)) {
+		 if(Probe::deleteOptionResponses($optionId) && Probe::deleteOption($optionId)) {
 
 		      $result = array(
 		          'error'   => false

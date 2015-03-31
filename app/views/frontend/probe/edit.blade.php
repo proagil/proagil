@@ -33,8 +33,7 @@
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
-							</div>	
-							{{ Form::open(array('action' => array('ProbeController@edit', $probeId), 'id' => 'form-create-probe')) }}	
+							</div>
 
 								<div class="probe-info-edit-content">
 									<div class="question-title-{{$probeId}} fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
@@ -48,7 +47,7 @@
 								</div>
 
 
-								<div data-probe-id="{{$probeId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-turquoise">
+								<div data-probe-id="{{$probeId}}" class="pull-right edit-probe-info edit-probe-info-default circle activity-option txt-center fs-big fc-yellow">
 									<i class="fa fa-pencil fa-fw"></i>
 								</div>
 
@@ -74,7 +73,7 @@
 			                  						<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-times fa-fw"></i>
 			                  						</div>  
-			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-turquoise edit-question-element" data-question-id="{{$element['id']}}">
+			                  						<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-yellow edit-question-element" data-question-id="{{$element['id']}}">
 			                    						<i class="fa fa-pencil fa-fw"></i>
 			                  						</div>  
 												</div>
@@ -95,7 +94,7 @@
 					                  						<label class="probe-label probe-label-value option-name-{{$elementOption['id']}}">{{ $elementOption['name']}}</label>
 					                  						
 					                  						<div class="edit-option-quiestion-content options-default-{{$elementOption['id']}}">
-											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-turquoise">
+											                   <div data-option-id="{{$elementOption['id']}}"class="edit-probe-option circle activity-option txt-center fs-big fc-yellow">
 											                      <i class="fa fa-pencil fa-fw"></i>
 											                    </div> 
 											                   <div data-option-id="{{$elementOption['id']}}"class="delete-saved-probe-option circle activity-option txt-center fs-big fc-pink">
@@ -113,21 +112,21 @@
 							                 					                 
 							                  </div>
 
-							                  <div class="btn-add-question-option" data-question-id="'+questionCount+'">
+							                  <div class="btn-add-question-option-edit" data-question-id="{{$element['id']}}">
 							                   <div class="circle activity-option txt-center fs-big fc-turquoise">
 							                      <i class="fa fa-plus fa-fw"></i>
 							                    </div>                                         
 							                    <span class="probe-label"> Agregar opci&oacute;n</span>   
 							                  </div>
 							                </div> 
+							            	</form>
 							               @endforeach
 							            @endif
 					            </div>
-							 {{Form::close()}}
 
 							<div class="probe-general-buttons">								
-								<div class="add-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-									<a href="#">Agregar pregunta</a>
+								<div class="add-new-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+									<a href="#">Nueva pregunta</a>
 								</div>							
 							</div>							 
 																	
@@ -145,7 +144,11 @@
 
 	<script type="text/javascript">
 
+	var answerTypesOpen = <?= json_encode($answerTypesOpen) ?>; 
+	var answerTypesClose = <?= json_encode($answerTypesClose) ?>; 
 	var answerTypes = <?= json_encode($answerTypes) ?>; 
+	var probeId = '<?=$probeId?>'; 
+	
 
 	</script>	
 

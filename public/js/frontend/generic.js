@@ -1,6 +1,6 @@
 /*======================================================================
 PROAGIL WEB APP - 2015
-Authors: AD, SJ, MM
+Authors: AD, SJ
 ======================================================================*/
 
 /*----------------------------------------------------------------------
@@ -239,7 +239,17 @@ $(function() {
         content: function() {
           return $('.emoticons-container').html();
         }
-    });       
+    });  
+
+    $('.emojis-popover').on('shown.bs.popover', function () {
+
+      var activityId = $(this).data('activityId'); 
+
+      var popOverId = $(this).attr('aria-describedby');
+
+      $('#'+popOverId).find('.popover-content').attr('data-activity-id', activityId);  
+  
+    });     
 
 /*----------------------------------------------------------------------
 

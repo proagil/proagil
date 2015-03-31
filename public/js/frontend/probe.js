@@ -1,6 +1,6 @@
 /*======================================================================
 PROAGIL WEB APP - 2015
-Authors: AD, SJ, MM
+Authors: AD, SJ
 ======================================================================*/
 
 /*----------------------------------------------------------------------
@@ -108,7 +108,6 @@ $(function() {
 
     });
 
-        // on change answer type
     $(document).on('click', '.btn-add-question-option', function(e){
 
         var questionId = $(this).data('questionId'),
@@ -155,6 +154,7 @@ $(function() {
           totalInputs++; 
 
           if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
             $(this).addClass('error-probe-input');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
@@ -168,6 +168,7 @@ $(function() {
 
         // success validation, all inputs are valid
         if(successValidation==2){
+          $('html, body').animate({ scrollTop: 0 }, 'slow');
           $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-probe').submit(); 
@@ -215,6 +216,42 @@ $(function() {
 
                   var htmlDescription = '<textarea name="values[description]" class="question-description-'+probeId+' probe-input-description probe-input form-control">'+response.data.description+'</textarea>';              
                   $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+
+     $(document).on('click', '.cancel-edit-question-info', function(e){
+
+
+       var probeId = $(this).data('probeId'); 
+
+       $.ajax({
+          url: projectURL+'/sondeo/obtener-sondeo-informacion/'+probeId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
+                $('.question-title-'+probeId).replaceWith(htmlTitle);
+
+                var probeStatus = (response.data.status==1)?'Cerrado':'Abierto'; 
+                var htmlProbeType = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+probeStatus+'</span>';
+   
+                $('.question-status-'+probeId).replaceWith(htmlProbeType);   
+
+                var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
+                $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+                 $('.edit-probe-info-save').addClass('hidden');
+                 $('.edit-probe-info-default').removeClass('hidden');
 
               }
           },
@@ -289,6 +326,18 @@ $(function() {
           success:function (response) {
 
               if(!response.error){
+
+                var answerTypes; 
+
+                if(response.data.form_element==TYPE_INPUT || response.data.form_element == TYPE_TEXTAREA){
+
+                  answerTypes = answerTypesOpen;
+
+                }else{
+
+                  answerTypes = answerTypesClose;
+
+                }
 
                 var htmlQuestion = '<input type="text" name="values['+questionId+'][question]"  value="'+response.data.question+'"class="probe-input probe-input-edit form-control question-title-'+questionId+'">';
                  $('.question-title-'+questionId).replaceWith(htmlQuestion);
@@ -435,6 +484,35 @@ $(function() {
 
     })
 
+    $(document).on('click', '.cancel-edit-option ', function(e){
+
+      var optionId = $(this).data('optionId'); 
+
+         $.ajax({
+          url: projectURL+'/sondeo/obtener-opcion/'+optionId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+              var htmlOption = ' <label class="probe-label probe-label-value option-name-'+optionId+'">'+response.data.name+'</label>'
+               $('.option-name-'+optionId).replaceWith(htmlOption);   
+
+                    $('.options-default-'+optionId).removeClass('hidden');
+                    $('.options-edit-'+optionId).addClass('hidden'); 
+          
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });          
+
+    })
+
+
     $(document).on('click', '.save-edit-option', function(e){
 
       var optionId = $(this).data('optionId'); 
@@ -471,7 +549,9 @@ $(function() {
           });     
 
       }else{
-        alert('vaciooo'); 
+        $('html, body').animate({ scrollTop: 0 }, 'slow');
+        $('input[name="values['+optionId+'][name]"]').addClass('error-probe-input');
+        $('.error-alert-text').html('Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
       }
 
     })
@@ -524,7 +604,6 @@ $(function() {
 
         });               
 
-     
     });
 
     // Delete question option from DB
@@ -568,9 +647,328 @@ $(function() {
           });     
 
         });               
-
      
-    });      
+    });  
+
+    $(document).on('click', '.btn-add-question-option-edit', function(e){
+
+        var questionId = $(this).data('questionId'),
+            htmlOptions = '';    
+
+        optionCount++; 
+
+          htmlOptions += '<div style="display:none" class="question-option option-'+questionId+'-'+optionCount+'">'+
+              '<input name="probe['+questionId+']['+optionCount+'][name]" type="text" placeholder="Opción para la pregunta" class="probe-input-option form-control">'+
+              '<div class="edit-option-quiestion-content options-edit-'+optionCount+'">'+
+                  '<div data-question-id="'+questionId+'" data-option-id="'+optionCount+'"  class="save-new-option common-btn btn-mini txt-center btn-turquoise">Guardar</div>'+                               
+                      '<div data-question-id="'+questionId+'" data-option-id="'+optionCount+'" class="delete-question-option common-btn btn-mini txt-center btn-pink">Cancelar</div>'+                            
+                      '</div>'+                       
+               '</div>';      
+
+          $(htmlOptions).appendTo('.question-options-'+questionId).fadeIn('slow');
+
+    });
+
+
+    // save added question option
+    $(document).on('click', '.save-new-option', function(e){
+
+      var optionId = $(this).data('optionId'),
+          questionId = $(this).data('questionId')
+
+
+      if($('input[name="probe['+questionId+']['+optionId+'][name]"]').val() != ''){
+
+        var parameters = {
+            'values[question_id]'     : questionId,
+            'values[name]'            : $('input[name="probe['+questionId+']['+optionId+'][name]"]').val()
+        };
+
+
+         $.ajax({
+            url: projectURL+'/sondeo/guardar-nueva-opcion/',
+            type:'POST',
+            data: parameters,
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                  var dataId = response.data.id; 
+
+                  var htmlOption = '<div class="anwswer-option-content saved-option-'+dataId+'">'+
+                                        '<label class="probe-label txt-right">&nbsp;</label>'+
+                                        '<label class="probe-label probe-label-value option-name-'+dataId+'">'+response.data.name+'</label>'+
+                                        
+                                        '<div class="edit-option-quiestion-content options-default-'+dataId+'">'+
+                                         '<div data-option-id="'+dataId+'"class="edit-probe-option circle activity-option txt-center fs-big fc-yellow">'+
+                                            '<i class="fa fa-pencil fa-fw"></i>'+
+                                          '</div>'+ 
+                                         '<div data-option-id="'+dataId+'" class="delete-saved-probe-option circle activity-option txt-center fs-big fc-pink">'+
+                                            '<i class="fa fa-times fa-fw"></i>'+
+                                          '</div>'+                                         
+                                        '</div>'
+
+                              '<div class="hidden edit-option-quiestion-content options-edit-'+dataId+'">'+
+                                '<div data-option-id="'+dataId+'" class="save-edit-option common-btn btn-mini txt-center btn-turquoise">Guardar</div>'+                               
+                                '<div data-option-id="'+dataId+'" class="cancel-edit-option common-btn btn-mini txt-center btn-pink">Cancelar</div>'+                            
+                              '</div>'+                                        
+                            '</div>';
+                      
+                    $('.option-'+questionId+'-'+optionId).replaceWith(htmlOption);     
+            
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+      }else{
+       $('input[name="probe['+questionId+']['+optionId+'][name]"]').addClass('error-probe-input');
+        $('.error-alert-text').html('Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
+      }
+
+    })
+
+
+      // add question row to DOM on edit
+      $(document).on('click','.add-new-question-row', function(e){
+
+        e.preventDefault(); 
+
+        var html = ''; 
+
+        questionCount++; 
+
+               html += '<form method="POST" accept-charset="UTF-8" action="'+projectURL+'/sondeo/guardar-nueva-pregunta/" id="form-new-question-'+questionCount+'">'+
+                  '<div class="probe-question-content question-'+questionCount+'">'+
+                  '<label class="probe-label txt-right">Pregunta:</label>'+
+                  '<input type="text" name="probe[questions]['+questionCount+'][question]" placeholder="Especifique una pregunta para el sondeo" class="probe-input form-control">'+   
+                  '<input type="hidden" name="probe[probe_id]" value="'+probeId+'" class="probe-input form-control">'+   
+
+                  '<label class="probe-label txt-right">Tipo de pregunta:</label>'+
+                  '<select name="probe[questions]['+questionCount+'][form_element]" class="probe-input-i form-control type-answer-option" data-question-id="'+questionCount+'">';
+                  $.each(answerTypes, function(index, type) {
+                      html += '<option value="'+index+'">'+type+'</option>';
+
+                  });
+                  html += '</select>'+
+
+                  '<label class="probe-label txt-right">Pregunta obligatoria:</label>'+
+                  '<input name="probe[questions]['+questionCount+'][required]" type="checkbox">'+
+
+                    '<div class="hidden pull-right edit-btn-question-options question-options-default-x">'+        
+                        '<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink delete-saved-question-element">'+
+                          '<i class="fa fa-times fa-fw"></i>'+
+                        '</div>'+  
+                        '<div data-toggle="tooltip" data-placement="top" title="Editar" class="pull-right circle activity-option txt-center fs-big fc-yellow edit-question-element>'+
+                          '<i class="fa fa-pencil fa-fw"></i>'+
+                        '</div>'+  
+                    '</div>'+
+
+                    '<div class="pull-right edit-btn-question-options question-options-edit-x">'+                  
+                      '<div data-question-id="'+questionCount+'" class="cancel-new-question common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>'+                           
+                      '<div data-probe-id="'+probeId+'" data-question-id="'+questionCount+'"  class="save-new-question common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>'+          
+                    '</div>'+                   
+                '</div>'+
+
+                '<div class=" hidden probe-options-question question-options-content-'+questionCount+'">'+  
+                  '<div class="all-options-content question-options-'+questionCount+'">'+
+                  '</div>'+ 
+                  '</form>'+
+                  '<div class="btn-add-question-option" data-question-id="'+questionCount+'">'+
+                    '<div class="circle activity-option txt-center fs-big fc-turquoise">'+
+                      '<i class="fa fa-plus fa-fw"></i>'+
+                    '</div>'+                                          
+                    '<span class="probe-label"> Agregar opci&oacute;n</span>'+   
+                  '</div>'+
+                '</div>';
+                
+                  
+                 $(html).appendTo('.probe-questions-lists').fadeIn('slow');
+
+   
+    });
+
+    $(document).on('click', '.save-new-question', function(e){
+
+        var successValidation = 0,
+            totalInputs = 0,
+            questionId = $(this).data('questionId'); 
+
+        //validate categories
+        $('input[type="text"], textarea').each(function(){
+
+          totalInputs++; 
+
+          if($(this).val() == ''){
+            $(this).addClass('error-probe-input');
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+          }else{
+             $(this).removeClass('error-probe-input');
+             $('.error-alert-text').parent().removeClass('hidden'); 
+              successValidation++; 
+          }
+        });
+
+        // success validation, all inputs are valid
+        if(successValidation==2){
+          $('html,body').animate({ scrollTop: 0 }, 'slow');
+          $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
+        }else if(successValidation==totalInputs){
+          $('#form-new-question-'+questionId).submit(); 
+          $('.error-alert-text').parent().removeClass('hidden'); 
+        }  
+
+    })
+
+
+    // share probe popover
+    $('.share-probe-popover').popover({ 
+        html : true, 
+        placement: 'top',
+        content: function() {
+          return $('.social-icons-container').html();
+        }
+    });  
+
+
+    $('.share-probe-popover').on('shown.bs.popover', function () {
+
+      var probeTitle = $(this).data('probeTitle'),
+          probeUrl = $(this).data('probeUrl'),
+          popOverId = $(this).attr('aria-describedby');
+
+      $('#'+popOverId).find('.popover-content').find('.share-option')
+                      .attr('data-probe-title', probeTitle)
+                      .attr('data-probe-url', probeUrl);    
+  
+    });     
+
+
+  $(document).on('click','.share-probe-twitter', function(e){
+      e.preventDefault();
+   
+      var probeTitle = $(this).data('probeTitle'),
+          probeUrl = $(this).data('probeUrl'),
+          longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+          bitLyUrl = '';  
+
+          $.ajax({
+            url:'http://api.bit.ly/v3/shorten',
+            data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+            dataType:"jsonp",
+            success:function(response){
+
+              if(response.status_text == 'OK'){
+
+                bitLyUrl = response.data.url; 
+
+              }else{
+
+                bitLyUrl = longUrl; 
+
+              }
+
+              var urlToShare = 'http://twitter.com/share?url='+bitLyUrl,
+              message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+              window.open(urlToShare + '&text=' + message, 'twitterwindow', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+            },
+            error: function(xhr, error) {
+
+            }            
+          });        
+     
+    });    
+
+
+    $(document).on('click','.share-probe-facebook', function(e){
+        e.preventDefault();
+     
+        var probeTitle = $(this).data('probeTitle'),
+            probeUrl = $(this).data('probeUrl'),
+            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+            bitLyUrl = '';  
+
+            $.ajax({
+              url:'http://api.bit.ly/v3/shorten',
+              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+              dataType:"jsonp",
+              success:function(response){
+
+                if(response.status_text == 'OK'){
+
+                  bitLyUrl = response.data.url; 
+
+                }else{
+
+                  bitLyUrl = longUrl; 
+
+                }
+
+                var urlToShare = bitLyUrl,
+                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+                message = message.replace(/\s/g,'+');
+      
+                var urlFacebook = 'http://www.facebook.com/sharer.php?s=100&p[url]='+urlToShare+'&p[title]=Compartir Sondeo&p[summary]='+message+'+madresquenosunen.com';
+      
+                window.open(urlFacebook, 'facebook-share-dialog', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+              },
+              error: function(xhr, error) {
+
+              }            
+            });        
+       
+      });  
+
+    $(document).on('click','.share-probe-linkedin', function(e){
+        e.preventDefault();
+     
+        var probeTitle = $(this).data('probeTitle'),
+            probeUrl = $(this).data('probeUrl'),
+            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+            bitLyUrl = '';  
+
+            $.ajax({
+              url:'http://api.bit.ly/v3/shorten',
+              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+              dataType:"jsonp",
+              success:function(response){
+
+                if(response.status_text == 'OK'){
+
+                  bitLyUrl = response.data.url; 
+
+                }else{
+
+                  bitLyUrl = longUrl; 
+
+                }
+
+                var urlToShare = bitLyUrl,
+                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+                message = message.replace(/\s/g,'+');
+      
+                var urlFacebook = 'http://www.linkedin.com/shareArticle?mini=true&url='+urlToShare+'&title='+message+'&summary='+message+'&source='+message; 
+      
+                window.open(urlFacebook, 'facebook-share-dialog', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+              },
+              error: function(xhr, error) {
+
+              }            
+            });        
+       
+      });  
+
  
    
 });

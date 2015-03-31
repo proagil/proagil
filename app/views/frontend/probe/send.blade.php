@@ -11,7 +11,13 @@
 	                    	  <div class="login-title txt-center fs-big">
 	                    	  		Sondeo enviado <br>
 	                    	  		<span class="fc-turquoise f-bold fs-med">Su sondeo se ha enviado correctamente </span>                 	  		
-	                    	  </div>	 
+	                    	  </div>
+				                <div class="brand-img pull-right">
+				                	 <span class="login-title txt-center fs-min"> Sondeo generado con: 
+										<img  style="width:10%" src="{{URL::to('/').'/images/logo-sm.png'}}"/>
+				                	 </span>
+				                	 
+				                </div>		                    	  	 
 	                    </div>
 	                </div>
 

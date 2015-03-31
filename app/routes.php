@@ -115,6 +115,8 @@ Route::any('sondeo/obtener-opcion/{option_id}', 'ProbeController@getProbeOption'
 
 Route::any('sondeo/guardar-opcion', 'ProbeController@saveProbeOption');
 
+Route::any('sondeo/guardar-nueva-opcion', 'ProbeController@saveNewProbeOption');
+
 Route::any('sondeo/eliminar-pregunta/{question_id}', 'ProbeController@deleteQuestion');
 
 Route::any('sondeo/eliminar-opcion/{question_id}', 'ProbeController@deleteOption');
@@ -123,5 +125,36 @@ Route::any('sondeo/obtener-sondeo-informacion/{probe_id}', 'ProbeController@getP
 
 Route::any('sondeo/guardar-sondeo-informacion', 'ProbeController@saveProbeInfo');
 
+Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
 
+Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
+
+Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
+
+Route::any('analisis-sistemas-existentes/crear/{project_id}', 'ExistingSystemController@create');
+
+Route::any('analisis-sistemas-existentes/guardar/', 'ExistingSystemController@save');
+
+Route::any('analisis-sistemas-existentes/detalle/{system_id}', 'ExistingSystemController@getExistingSystem');
+
+Route::any('analisis-sistemas-existentes/editar/{system_id}', 'ExistingSystemController@edit');
+
+Route::any('/analisis-sistemas-existente/obtener-caracteristica/{element_id}', 'ExistingSystemController@getElement');
+
+Route::any('/analisis-sistemas-existente/guardar-elemento/', 'ExistingSystemController@saveElement');
+
+Route::any('/analisis-sistemas-existente/eliminar/{system_id}', 'ExistingSystemController@deleteExistingSystem');
+
+Route::any('/analisis-sistemas-existente/eliminar-observacion/{element_id}', 'ExistingSystemController@deleteElement');
+
+Route::any('/analisis-sistemas-existente/editar-informacion/{system_id}', 'ExistingSystemController@getSystemInfo');
+
+Route::any('/analisis-sistemas-existente/guardar-informacion/{system_id}', 'ExistingSystemController@saveSystemInfo');
+
+Route::any('/analisis-sistemas-existente/guardar-nueva-observacion/', 'ExistingSystemController@saveNewElement');
+
+
+/*---------------ROUTES: Diagrams & Prototype---------------------*/
+
+Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
 
