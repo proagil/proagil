@@ -39,6 +39,8 @@ Route::any('actividad/comentar', 'ActivityController@commnet');
 
 Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@deleteComment');
 
+Route::any('actividad/reasignar/{activity_id}', 'ActivityController@reassign');
+
 Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
 
 Route::any('/cerrar-sesion', 'LoginController@logout');
@@ -49,9 +51,15 @@ Route::any('inicio', 'DashboardController@index');
 
 Route::any('listas-de-comprobacion/crear/{project_id}', 'ChecklistController@create');
 
+Route::any('listas-de-comprobacion/eliminar/{checklist_id}', 'ChecklistController@delete');
+
 Route::any('listas-de-comprobacion/editar/{checklist_id}', 'ChecklistController@edit');
 
 Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
+
+Route::any('listas-de-comprobacion/mostrar/{checklist_id}', 'ChecklistController@show');
+
+Route::any('listas-de-comprobacion/verificar/{checklist_id}', 'ChecklistController@verify');
 
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
 

@@ -66,6 +66,8 @@
  .comment-action,
  .user-avatar,
  .btn-iii,
+ .btn-modal-i,
+ .btn-modal-ii,
  .comment-content,
  .comment-textarea,
  .comment-text,
@@ -76,11 +78,17 @@
  .proagil-logo,
  .btn-mini,
  .btn-content,
+ .form-group-modal,
  .form-content,
  .form-group {
  	width: 100%;
  	height: auto;
  	float: left;
+ 	overflow: hidden;
+ } 
+
+  .form-group-modal {
+  	float: inherit;
  	overflow: hidden;
  } 
 
@@ -280,6 +288,18 @@ a.txt-undrln:hover {
 	margin: 3px; 
 }
 
+.btn-modal-i{
+	padding: 3px 0; 
+	display: block; 
+	margin: 0 0 0 25%;
+}
+
+.btn-modal-ii{
+	padding: 3px 0; 
+	display: block; 
+	margin: 0 0 0 4%;
+}
+
 .btn-i{
 	padding: 3px 0; 
 	display: inline-block; 
@@ -397,6 +417,10 @@ a.txt-undrln:hover {
 
 .app-input-i {
 	width: 98%; 
+}
+.app-input-modal {
+	border-radius: 0px;
+	width: 70%; 
 }
 
 .probe-input-i,
@@ -848,6 +872,11 @@ a.made-on{
 	color: #8F8F8F;
 	padding: 15px; 
 }
+
+.center-footer {
+	 width: 200px;
+	 margin: 0 auto;
+}
 /*-------------------------------------------
 	CHECKLIST section
  -------------------------------------------*/
@@ -871,11 +900,20 @@ a.made-on{
 	padding: 9px 4px;
 }
 
+.checklist-option {
+	font-weight: 100;
+}
+
 .checklist-options {
 	width: 8%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 4px 4px; 
+}
+
+.checklist-verify-content {
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
 }
 
 /*-------------------------------------------

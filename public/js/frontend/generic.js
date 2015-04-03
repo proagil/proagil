@@ -936,6 +936,15 @@ $(function() {
 
     });
 
+    //DELETE: checklist
+    $('.btn-checklist-delete').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/eliminar/'+checklistId;
+
+    }); 
+
+    //DELETE: principle
     $(document).on('click','.btn-delete-principle', function(){
 
       var principleId = $(this).data('principleId'); 
@@ -946,6 +955,7 @@ $(function() {
           });
     })
 
+    //EDIT: checklist
     $('.btn-edit-checklist').on('click', function(){
 
       var successValidation = false,
@@ -969,5 +979,53 @@ $(function() {
             $(document).find('#form-edit-checklist').submit()
           }
 
-      });
+    });
+
+    //VERIFY: checklist
+    $('.btn-checklist-show').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/mostrar/'+checklistId;
+
+    });
+
+    //VERIFY: checklist
+    $('.btn-checklist-verify').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/verificar/'+checklistId;
+
+    }); 
+
+       //VERIFY: submit form
+    $('.btn-verify-checklist').on('click', function(){
+
+        
+        $('#form-verify-checklist').submit();
+
+        return false;
+
+    });
+
+    //Reassign: activity
+    $('.btn-reassign-activity').on('click', function(){
+      var activityId = $(this).data('activityId'),
+          successValidation = false;
+      
+      if($('#assigned_user_id').val() == 0){
+        console.log('entro');
+        $('#assigned_user_id').siblings('.error-modal').removeClass('hidden'); 
+      }else{
+        
+        $('#assigned_user_id').siblings('.error-modal').addClass('hidden');
+          successValidation=true; 
+      }
+      if(successValidation){
+        $('#form-reassign-activity-'+activityId).submit();
+      }
+
+      return false;
+
+    });
+
 

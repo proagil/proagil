@@ -423,6 +423,88 @@ class ActivityController extends BaseController {
 	      header('Content-Type: application/json');
 	      return Response::json($result);
 
+	}
+
+	public function reassign($activityId) {
+
+		$user = Session::get('user');
+
+		$activityInformation = (array) Activity::getActivityUserAndProject($activityId);
+
+		$projectId = $activityInformation['project_id'];
+
+		$abtpId = $activityInformation['abtp_id'];
+
+		if(Input::has('_token')){
+		
+			// validation rules
+	        $rules =  array(
+	            'assigned_user_id'		=> 'integer|min:1'
+	        );
+
+	        // set validation rules to input values
+	        $validator = Validator::make(Input::get('values'), $rules);
+
+	        // get input valiues
+	        $values = Input::get('values');
+
+	        if(!$validator->fails()){
+
+	        	$assignedUserId = $values['assigned_user_id'];
+
+		        $updateProjectActivity = array(
+		            'user_id'		=> $assignedUserId 
+		        );
+
+				if($assignedUserId != $activityInformation['user_id']){
+					//save project activity
+
+		        	Activity::updateProjectActivity($abtpId, $updateProjectActivity);
+		        	$assignedUser = (array) User::getUserById($assignedUserId);
+				}else{
+					$assignedUser = $activityInformation;
+				}
+
+
+		        $emailData = array(
+		            'assigned_user_name'     		=> $assignedUser['first_name'],
+		            'activity_title'     			=> $activityInformation['title'],
+		            'url_token'     				=> URL::to('/'). '/proyecto/detalle/'.$projectId,
+		            'user_name'     				=> $user['first_name']
+		        );
+
+				$email = $assignedUser['email'];
+
+		        // send email with assigned activity
+		        Mail::send('frontend.email_templates.assignedUserActivity', 
+
+		        $emailData, 
+
+		        function($message) use ($email){
+
+		          $message->to($email);
+		          $message->subject('PROAGIL: Notificación de actividad asignada');
+		        });  
+
+		        Session::flash('success_message', 'Se reasignó la actividad exitosamente'); 
+
+		        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+			}else{
+				Session::flash('error_message', 'Ocurrió un problema al reasignar la actividad'); 
+
+                // redirect to detail view
+                return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+
+			}
+		
+		}else{
+			Session::flash('error_message', 'Ocurrió un problema al reasignar la actividad'); 
+
+            // redirect to detail
+            return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+
+		}
+
 	}	
 
 

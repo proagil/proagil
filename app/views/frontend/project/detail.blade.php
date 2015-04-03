@@ -16,6 +16,11 @@
 							@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
 		                	@endif	
+
+		                	@if (Session::has('error_message'))
+		                		<div class="error-alert-dashboard"><i class="fc-pink glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
+		                	@endif	
+		                	
 							<div class="breadcrumbs-content">
 								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}
 							</div>
@@ -136,8 +141,42 @@
 													<div class="activity-info-ii">
 
 						                              <div class="detail-activity-content">
-
-						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} <i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i> Reasignar <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
+						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} 
+						                                  <a href="#" data-toggle="modal" data-target="#reassignModal"><i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i></a> Reasignar
+						                                  <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
+						                                  <div class="modal fade" id="reassignModal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+															    <div class="modal-dialog">
+															        <div class="modal-content">
+															            <div class="modal-header">
+																            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
+																            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasinar Actividad</h4>
+															            </div>
+															            <div class="modal-body">
+															            	<div class="form-group-modal">
+															            	{{ Form::open(array('action' => array('ActivityController@reassign', $activity['id'] ), 'id' => 'form-reassign-activity-'.$activity['id'])) }}
+																            	<label for="recipient-name" class=" col-md-4 control-label">Reasignar actividad</label>
+																            	<div class="col-md-8">
+																           		{{ Form::select('values[assigned_user_id]', $usersOnProject, '' , array('class'=>'form-control app-input', 'id'=> 'assigned_user_id')) }}
+																           		<span class="error-modal fc-pink fs-min hidden">Debe seleccionar el usuario</span>
+															                	</div>
+															                {{Form::close()}}
+															                </div>
+															            </div>
+															            <div class="modal-footer">
+															            	<div class="save-comment txt-center fs-med common-btn btn-modal-i btn-pink" data-dismiss="modal">
+									                          					Cerrar
+									                        				</div>
+															            	<div data-activity-id="{{$activity['id']}}" class="btn-reassign-activity txt-center fs-med common-btn btn-modal-ii btn-yellow">
+									                          					Reasignar
+									                        				</div>	
+															        	</div>
+															    	</div>
+															  	</div>
+														  </div>
+														  <!-- END MODAL HTML TO REASSIGN ACTIVITY -->
+						                                  <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} 
+						                                  <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} 
+						                                  <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
 						                              </div>  
 
 						                              <div class="description-activity-content">
