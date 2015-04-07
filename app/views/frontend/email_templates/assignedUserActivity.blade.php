@@ -75,7 +75,7 @@
 																	font-weight: bold;
 																	margin-right: 10px;
 																	text-align: center;
-																	cursor: pointer;" >Ir a la página
+																	cursor: pointer;" >Ver Actividad
 									</a>
 								</i>
 

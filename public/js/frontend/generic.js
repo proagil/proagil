@@ -454,9 +454,11 @@ $(function() {
     //CREATE: submit form
     $('.btn-create-activity').on('click', function(){
 
-        $('#form-create-activity').submit();
-
-        return false;
+      $("#submit-btn").off("click");
+      $('#submit-btn').removeClass("btn-green");
+      $('#submit-btn').addClass("btn-green-disable");
+        
+      $('#form-create-activity').submit();
 
     });
     
@@ -506,9 +508,13 @@ $(function() {
     //EDIT: submit form
     $('.btn-edit-activity').on('click', function(){
 
-        $('#form-edit-activity').submit();
+        $(".btn-edit-activity").off("click");
+        $('.btn-edit-activity').removeClass("btn-yellow");
+        $('.btn-edit-activity').addClass("btn-yellow-disable");
 
-        return false;
+      $('#form-edit-activity').submit();
+
+      return false;
 
     }); 
 
@@ -874,23 +880,29 @@ $(function() {
         var successValidation = false,
               totalPrinciples = 0;
 
-              //validate categories
-              $('.principle-input').each(function(){
+        //validate categories
+        $('.principle-input').each(function(){
 
-                totalPrinciples++; 
+          totalPrinciples++; 
 
-                if($(this).val() == ''){
-                  $(this).siblings('.error').removeClass('hidden'); 
-                }else{
-                   $(this).siblings('.error').addClass('hidden');
-                    successValidation++; 
-                }
-              });
+          if($(this).val() == ''){
+            $(this).siblings('.error').removeClass('hidden'); 
+          }else{
+             $(this).siblings('.error').addClass('hidden');
+              successValidation++; 
+          }
+        
+        });
 
-              // success validation, all categories are valid
-              if(successValidation==totalPrinciples){
-                $(document).find('#form-create-checklist').submit()
-              }
+        // success validation, all categories are valid
+        if(successValidation==totalPrinciples){
+
+          $(".btn-create-checklist").off("click");
+          $('.btn-create-checklist').removeClass("btn-green");
+          $('.btn-create-checklist').addClass("btn-green-disable");
+
+          $(document).find('#form-create-checklist').submit();
+        }
 
     });
     
@@ -976,7 +988,12 @@ $(function() {
 
           // success validation, all categories are valid
           if(successValidation==totalPrinciples){
-            $(document).find('#form-edit-checklist').submit()
+
+            $(".btn-edit-checklist").off("click");
+            $('.btn-edit-checklist').removeClass("btn-yellow");
+            $('.btn-edit-checklist').addClass("btn-yellow-disable");
+
+            $(document).find('#form-edit-checklist').submit();
           }
 
     });
@@ -1000,6 +1017,9 @@ $(function() {
        //VERIFY: submit form
     $('.btn-verify-checklist').on('click', function(){
 
+        $(".btn-verify-checklist").off("click");
+        $('.btn-verify-checklist').removeClass("btn-green");
+        $('.btn-verify-checklist').addClass("btn-green-disable");
         
         $('#form-verify-checklist').submit();
 
@@ -1012,15 +1032,20 @@ $(function() {
       var activityId = $(this).data('activityId'),
           successValidation = false;
       
-      if($('#assigned_user_id').val() == 0){
-        console.log('entro');
-        $('#assigned_user_id').siblings('.error-modal').removeClass('hidden'); 
+      if($('#assigned-user-'+activityId).val() == 0){
+        
+        $('#assigned-user-'+activityId).siblings('.error-modal-'+activityId).removeClass('hidden'); 
       }else{
         
-        $('#assigned_user_id').siblings('.error-modal').addClass('hidden');
+        $('#assigned-user-'+activityId).siblings('.error-modal-'+activityId).addClass('hidden');
           successValidation=true; 
       }
       if(successValidation){
+
+        $(".btn-reassign-activity").off("click");
+        $('.btn-reassign-activity').removeClass("btn-yellow");
+        $('.btn-reassign-activity').addClass("btn-yellow-disable");
+
         $('#form-reassign-activity-'+activityId).submit();
       }
 

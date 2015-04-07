@@ -36,11 +36,6 @@ class ActivityController extends BaseController {
     	} 		
 
     	$project = (array) Project::get($projectId);
-		
-		// project list on sidebar
-        $ownerProjects = Project::getOwnerProjects($user['id']);
-        $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
-
 
 		if(Input::has('_token')){
 			
@@ -96,7 +91,7 @@ class ActivityController extends BaseController {
 	                	'user_name'     				=> $user['first_name'],
 		                'assigned_user_name'     		=> $assignedUser['first_name'],
 		                'activity_title'     			=> $values['title'],
-		                'url_token'     				=> URL::to('/'). '/proyecto/actividad/detalle/'. $activityId
+		                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId
 		            );
 
 					$email = $assignedUser['email'];
@@ -120,7 +115,6 @@ class ActivityController extends BaseController {
 
               	return View::make('frontend.activity.create')
                         ->with('categories', $categories)
-						->with('ownerProjects', $ownerProjects) 
 		        		->with('project', $project)
 		        		->with('projectDetail', TRUE)
 		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -134,7 +128,6 @@ class ActivityController extends BaseController {
 	        // render view first time 
 	        return View::make('frontend.activity.create') 
 	        		->with('categories', $categories)
-	        		->with('ownerProjects', $ownerProjects) 
 	        		->with('project', $project)
 	        		->with('projectDetail', TRUE)
 	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -168,11 +161,6 @@ class ActivityController extends BaseController {
 
 		//get project information
     	$project = (array) Project::get($projectId);
-		
-		// project list on sidebar
-        $ownerProjects = Project::getOwnerProjects($user['id']);
-        $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
-
 
 		if(Input::has('_token')){
 			
@@ -223,7 +211,7 @@ class ActivityController extends BaseController {
 		                $emailData = array(
 			                'assigned_user_name'     		=> $assignedUser['first_name'],
 			                'activity_title'     			=> $values['title'],
-			                'url_token'     				=> URL::to('/'). '/proyecto/actividad/detalle/'. $activityId,
+			                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId,
 			                'user_name'     				=> $user['first_name']
 			            );
 
@@ -250,7 +238,6 @@ class ActivityController extends BaseController {
               	return View::make('frontend.activity.edit')
               			->with('activityId', $activityId)
                         ->with('categories', $categories)
-						->with('ownerProjects', $ownerProjects) 
 		        		->with('project', $project)
 		        		->with('projectDetail', TRUE)
 		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -269,7 +256,6 @@ class ActivityController extends BaseController {
 	        return View::make('frontend.activity.edit') 
 	        		->with('activityId', $activityId)	        		
 	        		->with('categories', $categories)
-	        		->with('ownerProjects', $ownerProjects) 
 	        		->with('project', $project)
 	        		->with('projectDetail', TRUE)
 	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -283,21 +269,37 @@ class ActivityController extends BaseController {
 	public function delete($activityId)
 	{
 		$activity = (array) Activity::getById($activityId);
+
 		$activityId = $activity['id'];
 
 		$projectId = $activity['project_id'];
 
-		Activity::deleteActivityComment($activityId);
+		$deleteCommets = Activity::deleteActivityComment($activityId);
 
-		$deleteActivity = Activity::deleteActivity($activityId);
+		$deleteProjectActivity = Activity::deleteProjectActivity($activityId, $projectId);
+/*		echo "<pre>";	
+		print_r($deleteProjectActivity);
+		echo "</pre>";
+		die;*/	
+		if($deleteProjectActivity){
 
-		if($deleteActivity){
-			$deleteProjectActivity = Activity::deleteProjectActivity($activityId, $projectId);	
-			if($deleteProjectActivity){
+			$deleteActivity = (array) Activity::deleteActivity($activityId);
+			if($deleteActivity){
+
 				Session::flash('success_message', 'Se ha eliminado la actividad: '.$activity['title']); 
 				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+			}else{
+				
+				Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
+				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
 			}
+
+		}else{
+				
+			Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
+			return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
 		}
+	
 
 	}
 

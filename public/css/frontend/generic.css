@@ -344,12 +344,31 @@ a.txt-undrln:hover {
 	background-color: #8DB45C; 
 }
 
+.btn-green-disable {
+	background-color: #CAE0AD; 
+	color: #FFFFFF;
+}
+
+.btn-green-disable:hover{
+	cursor: wait; 
+}
+
 .btn-yellow {
 	background-color: #eecb44; 
 	color: #FFFFFF;
 }
+
 .btn-yellow:hover {
 	background-color: #D6B63A; 
+}
+
+.btn-yellow-disable {
+	background-color: #E9DA9F; 
+	color: #FFFFFF;
+}
+
+.btn-yellow-disable:hover{
+	cursor: wait; 
 }
 
 .btn-grey {
