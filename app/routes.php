@@ -129,6 +129,8 @@ Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
 
 Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
+Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
+
 Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
 
 Route::any('analisis-sistemas-existentes/crear/{project_id}', 'ExistingSystemController@create');

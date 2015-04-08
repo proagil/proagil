@@ -60,7 +60,7 @@ class Probe extends Eloquent{
 		return DB::table('probe_template_option')->insertGetId($values);
 	}
 
-	public static function getProbeTemplate($probeUrl){
+	public static function getProbeTemplate($probeUrl) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
@@ -106,6 +106,83 @@ class Probe extends Eloquent{
 		return $probeData;
 
 	}
+
+
+	public static function getProbeResults($probeId) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get probe data
+		 $probeData = DB::table('probe AS p')
+
+		->select('p.*')
+
+		->where('p.id', $probeId)
+
+		->first();
+
+			// get probe form elements
+			$probeElements = DB::table('probe_template_element AS pte')
+
+			->select('pte.*','pat.name as form_element_name')
+
+			->where('pte.probe_id', $probeData['id'])
+
+			->join('probe_answer_type AS pat', 'pte.form_element', '=', 'pat.id')
+
+			->orderBy('pte.id', 'ASC')
+
+			->get();
+
+			foreach($probeElements as $index => $probeElement){
+
+				if($probeElement['form_element']==3 || $probeElement['form_element']==4){
+
+					$probeResults = DB::table('probe_template_element_value AS ptev')
+
+					->select(array('pto.name', 'ptev.probe_template_option_id', DB::raw('COUNT(ptev.probe_template_option_id) AS result_count')))
+
+					->where('ptev.probe_template_element_id', $probeElement['id'])
+
+					->join('probe_template_option AS pto', 'pto.id' ,'=', 'ptev.probe_template_option_id')
+
+					->groupBy('ptev.probe_template_option_id', 'pto.name')
+
+					->get();
+
+					$probeOptions = DB::table('probe_template_option AS pto')
+
+					->select('pto.*')
+
+					->where('pto.probe_template_element_id', $probeElement['id'])
+
+					->get();
+
+					$probeElements[$index]['options'] = $probeOptions; 							
+
+				}else{
+
+					$probeResults = DB::table('probe_template_element_value AS ptev')
+
+					->select('ptev.id', 'ptev.value', 'ptev.probe_template_element_id')
+
+					->where('ptev.probe_template_element_id', $probeElement['id'])
+
+					->get();		
+				}
+
+				$probeElements[$index]['results'] = $probeResults; 
+				
+
+			}
+
+			$probeData['elements'] = $probeElements; 
+
+
+		return $probeData;
+
+	}
+
 
 	public static function getProbeInfo($probeId){
 
