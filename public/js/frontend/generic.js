@@ -454,9 +454,11 @@ $(function() {
     //CREATE: submit form
     $('.btn-create-activity').on('click', function(){
 
-        $('#form-create-activity').submit();
-
-        return false;
+      $("#submit-btn").off("click");
+      $('#submit-btn').removeClass("btn-green");
+      $('#submit-btn').addClass("btn-green-disable");
+        
+      $('#form-create-activity').submit();
 
     });
     
@@ -506,9 +508,13 @@ $(function() {
     //EDIT: submit form
     $('.btn-edit-activity').on('click', function(){
 
-        $('#form-edit-activity').submit();
+        $(".btn-edit-activity").off("click");
+        $('.btn-edit-activity').removeClass("btn-yellow");
+        $('.btn-edit-activity').addClass("btn-yellow-disable");
 
-        return false;
+      $('#form-edit-activity').submit();
+
+      return false;
 
     }); 
 
@@ -874,23 +880,29 @@ $(function() {
         var successValidation = false,
               totalPrinciples = 0;
 
-              //validate categories
-              $('.principle-input').each(function(){
+        //validate categories
+        $('.principle-input').each(function(){
 
-                totalPrinciples++; 
+          totalPrinciples++; 
 
-                if($(this).val() == ''){
-                  $(this).siblings('.error').removeClass('hidden'); 
-                }else{
-                   $(this).siblings('.error').addClass('hidden');
-                    successValidation++; 
-                }
-              });
+          if($(this).val() == ''){
+            $(this).siblings('.error').removeClass('hidden'); 
+          }else{
+             $(this).siblings('.error').addClass('hidden');
+              successValidation++; 
+          }
+        
+        });
 
-              // success validation, all categories are valid
-              if(successValidation==totalPrinciples){
-                $(document).find('#form-create-checklist').submit()
-              }
+        // success validation, all categories are valid
+        if(successValidation==totalPrinciples){
+
+          $(".btn-create-checklist").off("click");
+          $('.btn-create-checklist').removeClass("btn-green");
+          $('.btn-create-checklist').addClass("btn-green-disable");
+
+          $(document).find('#form-create-checklist').submit();
+        }
 
     });
     
@@ -936,6 +948,15 @@ $(function() {
 
     });
 
+    //DELETE: checklist
+    $('.btn-checklist-delete').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/eliminar/'+checklistId;
+
+    }); 
+
+    //DELETE: principle
     $(document).on('click','.btn-delete-principle', function(){
 
       var principleId = $(this).data('principleId'); 
@@ -946,6 +967,7 @@ $(function() {
           });
     })
 
+    //EDIT: checklist
     $('.btn-edit-checklist').on('click', function(){
 
       var successValidation = false,
@@ -966,8 +988,69 @@ $(function() {
 
           // success validation, all categories are valid
           if(successValidation==totalPrinciples){
-            $(document).find('#form-edit-checklist').submit()
+
+            $(".btn-edit-checklist").off("click");
+            $('.btn-edit-checklist').removeClass("btn-yellow");
+            $('.btn-edit-checklist').addClass("btn-yellow-disable");
+
+            $(document).find('#form-edit-checklist').submit();
           }
 
-      });
+    });
+
+    //VERIFY: checklist
+    $('.btn-checklist-show').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/mostrar/'+checklistId;
+
+    });
+
+    //VERIFY: checklist
+    $('.btn-checklist-verify').on('click', function(){
+      var checklistId = $(this).data('checklistId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/verificar/'+checklistId;
+
+    }); 
+
+       //VERIFY: submit form
+    $('.btn-verify-checklist').on('click', function(){
+
+        $(".btn-verify-checklist").off("click");
+        $('.btn-verify-checklist').removeClass("btn-green");
+        $('.btn-verify-checklist').addClass("btn-green-disable");
+        
+        $('#form-verify-checklist').submit();
+
+        return false;
+
+    });
+
+    //Reassign: activity
+    $('.btn-reassign-activity').on('click', function(){
+      var activityId = $(this).data('activityId'),
+          successValidation = false;
+      
+      if($('#assigned-user-'+activityId).val() == 0){
+        
+        $('#assigned-user-'+activityId).siblings('.error-modal-'+activityId).removeClass('hidden'); 
+      }else{
+        
+        $('#assigned-user-'+activityId).siblings('.error-modal-'+activityId).addClass('hidden');
+          successValidation=true; 
+      }
+      if(successValidation){
+
+        $(".btn-reassign-activity").off("click");
+        $('.btn-reassign-activity').removeClass("btn-yellow");
+        $('.btn-reassign-activity').addClass("btn-yellow-disable");
+
+        $('#form-reassign-activity-'+activityId).submit();
+      }
+
+      return false;
+
+    });
+
 

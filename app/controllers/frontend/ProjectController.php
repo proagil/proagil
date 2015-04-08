@@ -538,6 +538,11 @@ class ProjectController extends BaseController {
 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
+          //get user On project
+    $users =  array('0' => 'Seleccione un usuario'); 
+    $usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
+    $usersOnProject = $users+$usersOnProject;
+
     // save user role on session
     Session::put('user_role', $userRole);
 
@@ -640,6 +645,7 @@ class ProjectController extends BaseController {
                 ->with('filters', $filters)
                 ->with('filtersArray', $filtersArray)
                 ->with('statusArray', $statusArray)
+                ->with('usersOnProject', $usersOnProject)
                 ->with('projectId', $projectId);   
 
     }

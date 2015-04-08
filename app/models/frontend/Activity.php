@@ -114,6 +114,21 @@ class Activity extends Eloquent{
 				->get();
 	}
 
+	public static function getActivityUserAndProject($activityId){
+
+		return DB::table('activity_belongs_to_project AS abtp')
+
+				->select('abtp.*', 'abtp.id AS abtp_id','u.*', 'a.title' )
+
+				->where('abtp.activity_id', $activityId)
+
+				->join('user AS u', 'u.id', '=', 'abtp.user_id')
+
+				->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+								
+				->first();
+	}
+
 	public static function getComment($commentId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);

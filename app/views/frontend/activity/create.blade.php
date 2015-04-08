@@ -29,7 +29,7 @@
 								{{ Form::hidden('values[projectId]', $project['id'])}}	                          
 
 	                         	<div class="form-group">
-	                            	<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">T&iacute;tulo</label>  
+	                            	<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">T&iacute;tulo <span class="fc-pink fs-med">*</span></label>  
 		                            <div class="col-md-4">
 		                              {{ Form::text('values[title]', (isset($values['title']))?$values['title']:'', array('class'=>'form-control app-input')) }}
 		                              <label class="error fc-pink fs-min" style="display:none;"></label>
@@ -38,13 +38,31 @@
 	                          	</div>
 
 		                        <div class="form-group">
-		                        	<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n</label>  
+		                        	<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Descripci&oacute;n <span class="fc-pink fs-med">*</span></label>  
 		                            <div class="col-md-4">
 		                              {{ Form::textarea('values[description]', (isset($values['description']))?$values['description']:'', array('class'=>'form-control app-input', 'rows' => '3')) }}
 		                              <label class="error fc-pink fs-min" style="display:none;"></label>
 		                              <span class="error fc-pink fs-min"><?= ($errors->has('description'))?$errors->first('description'):''?></span>  
 		                            </div>
 		                        </div>
+
+	                          	<div class="form-group">
+		                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad <span class="fc-pink fs-med">*</span></label>  
+		                            <div class="col-md-4">
+		                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
+		                              <label class="error fc-pink fs-min" style="display:none;"></label>
+		                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
+		                            </div>
+	                          	</div>	                          
+
+								<div class="form-group">
+									<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope <span class="fc-pink fs-med">*</span></label>  
+									<div class="col-md-4  date">
+									  {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
+									  <label class="error fc-pink fs-min" style="display:none;"></label>
+									  <span class="error fc-pink fs-min"><?= ($errors->has('closing_date'))?$errors->first('closing_date'):''?></span>  
+									</div>
+								</div> 
 
 								@if (!empty($categories))
 								<div class="form-group">
@@ -55,28 +73,10 @@
 									  <span class="error fc-pink fs-min"><?= ($errors->has('category_id'))?$errors->first('category_id'):''?></span>  
 									</div>
 								</div>
-								@endif 
-	                          
-	                          	<div class="form-group">
-		                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad</label>  
-		                            <div class="col-md-4">
-		                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
-		                              <label class="error fc-pink fs-min" style="display:none;"></label>
-		                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
-		                            </div>
-	                          	</div>	                          
-
-								<div class="form-group">
-									<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope</label>  
-									<div class="col-md-4  date">
-									  {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
-									  <label class="error fc-pink fs-min" style="display:none;"></label>
-									  <span class="error fc-pink fs-min"><?= ($errors->has('closing_date'))?$errors->first('closing_date'):''?></span>  
-									</div>
-								</div> 
+								@endif 								
 
 	                          	<div class="form-group">
-	                               	<div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-green txt-center btn-create-activity">Crear</div> 
+	                               	<div id="submit-btn" class="col-md-4 btn-save-dashboard common-btn btn-ii btn-green txt-center btn-create-activity">Crear</div> 
 	                          	</div>
 	                         
 	                        {{Form::close()}}
