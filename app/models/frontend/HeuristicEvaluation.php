@@ -126,12 +126,12 @@ class HeuristicEvaluation extends Eloquent{
 
 	}
 
-	public static function _delete($existingSystemId) {
+	public static function _delete($evaluetionId) {
 
 		try{
 
-		return DB::table('existing_system AS es')
-			 		->where('es.id', $existingSystemId)
+		return DB::table('heuristic_evaluation AS he')
+			 		->where('he.id', $evaluetionId)
 			 		->delete();
 
 		}catch(\Exception $e) {

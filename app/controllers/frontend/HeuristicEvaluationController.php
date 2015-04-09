@@ -232,27 +232,27 @@ class HeuristicEvaluationController extends BaseController {
 
 	}	
 
-	public function deleteExistingSystem($systemId){
+	public function deleteEvaluation($evaluationId){
 
-		$values = ExistingSystem::getExistingSystemData($systemId); 
+		$values = HeuristicEvaluation::getEvaluationData($evaluationId); 
 		
-		// delete all existing system values for each existing system element
+		// delete all heuristic evaluation values for each heuristic evaluation
 		foreach($values['elements'] as $element){
 
-			ExistingSystem::deleteElement($element['id']); 
+			HeuristicEvaluation::deleteElement($element['id']); 
 		}
 
-		if(ExistingSystem::_delete($systemId)){
+		if(HeuristicEvaluation::_delete($evaluationId)){
 
-			Session::flash('success_message', 'Se ha eliminado el sistema existente correctamente'); 
+			Session::flash('success_message', 'Se ha eliminado la evaluaci&oacute;n heur&iacute;stica correctamente'); 
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));
+		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));
 
 		}else{
 		   	
-		   	Session::flash('error_message', 'No se ha podido eliminar el sistema existente'); 
+		   	Session::flash('error_message', 'No se ha podido eliminar el evaluaci&oacute;n heur&iacute;stica'); 
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
+		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));			
 		} 
 
 	}
