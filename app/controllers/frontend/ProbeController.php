@@ -508,9 +508,59 @@ class ProbeController extends BaseController {
 
 	public function getProbeResults($probeId){
 
-		$results = Probe::getProbeResults($probeId); 
+		// get probe results 
+		$probeResults = Probe::getProbeResults($probeId); 
 
-		print_r($results); die; 
+		$graphicsArray = array(); 
+
+		foreach($probeResults['elements'] as $index => $element){
+
+			if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+
+				// create table with results for closed questions
+				$tableResults = Lava::DataTable();
+
+				$tableResults->addStringColumn('Opcion')
+		       				 ->addNumberColumn('Resultados');
+
+				foreach($element['results'] as $result){
+
+					// add rows to table with data
+					$tableResults->addRow(array($result['name'], $result['result_count'])); 
+
+				}
+
+				// create graphic for each question
+				$piechart = Lava::PieChart('graphic-'.$index)
+				                 ->setOptions(array(
+				                   'datatable' => $tableResults,
+				                   'title' => $element['question'],
+				                   'is3D' => true,
+				                   'colors' => array(
+				                         '#41cac0',
+				                         '#ec8f6e',
+				                         '#a8d76f',
+				                         '#eecb44',
+				                         '#ef6f66',
+				                         '#9E71A8',
+				                         '#B5D6EB',
+				                         '#CD3B71',
+				                         '#EC7143',
+				                         '#ECD943',
+				                         '#EC4843',
+				                         '#EC8443'
+
+				                      )
+				                  ));	
+
+				// save each graphic on global array
+				$graphicsArray[$index] = $piechart; 
+
+			}
+
+		}
+
+		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray);             	
 	}	
 
 

@@ -82,8 +82,10 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										<div data-toggle="tooltip" data-placement="top" title="Estadisticas" class="circle activity-option txt-center fs-big fc-turquoise">
-											<i class="fa fa-bar-chart-o fa-fw"></i>
+										<div data-toggle="tooltip" data-placement="top" title="Resultados" class="circle activity-option txt-center fs-big fc-turquoise">
+											<a href="{{URL::action('ProbeController@getProbeResults', array($probe['id']))}}">
+												<i class="fa fa-bar-chart-o fa-fw"></i>
+											</a>
 										</div>
 										<div  data-probe-title="{{$probe['title']}}" data-probe-url="{{$probe['url']}}" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
 											<i class="fa fa-share-alt fa-fw"></i>

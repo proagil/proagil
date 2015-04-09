@@ -24,7 +24,7 @@ class ArtefactController extends BaseController {
 			switch($friendlyUrl) {
 	              case Config::get('constant.artefact.heuristic_evaluation'):
 
-	              	echo 'heuristic_evaluation';
+	              	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($projectId)));
 
 	              break;
 	              case Config::get('constant.artefact.storm_ideas'):

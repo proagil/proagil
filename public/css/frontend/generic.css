@@ -17,6 +17,9 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .heuristic-evaluation-value,
+ .heuristic-evaluation-table-content,
+ .heuristic-evaluation-row,
  .brand-img, 
  .system-interface,
  .e-system-table-head,
@@ -1061,7 +1064,6 @@ textarea{
 	width: 18%; 
 }
 
-
 .probe-input-edit {
 	width: 18%; 
 }
@@ -1123,3 +1125,41 @@ textarea{
 	width: 50%; 
 }
 
+/*-------------------------------------------
+	HEURISTIC EVALUATION section
+ -------------------------------------------*/
+
+ .evaluation-textarea {
+	width: 38%;
+	margin: 5px;
+}
+
+.evaluation-title {
+	width: 38%; 
+}
+
+.evaluation-label-value {
+	width: 34%; 
+}
+
+ .heuristic-evaluation-head {
+	padding: 2%; 
+	border-bottom: 5px solid #ffffff; 
+	border-left: 5px solid #ffffff; 
+}
+
+ .heuristic-evaluation-row{
+
+ 	min-height: 50px; 
+ 	background-color: #f2f2f2; 
+ 	border-bottom: 5px solid #ffffff; 
+
+ }
+
+ .heuristic-evaluation-value {
+ 	width: 25%; 
+ 	 	padding: 2%;
+
+
+
+ }
