@@ -37,15 +37,34 @@
 							</div>	
 															
 
-							<div class="list-content probe-questions-lists">
+							<div class="list-content">
 								@foreach($graphicsArray as $index => $graphic)
 
 								<div id="graphic-{{$index}}"></div>
 								@piechart('graphic-'.$index, 'graphic-'.$index)	
 
 								@endforeach
-								
-					 																	
+																						
+							</div>
+
+							<div class="list-content">
+								@if(!empty($openQuestions))
+									@foreach($openQuestions as $question)
+									<div class="probe-result-question-row">
+										<div class="result-question f-bold">
+											{{$question['question']}}
+										</div>
+										@if(!empty($question['results']))
+											@foreach($question['results'] as $answer)
+											<div class="result-answer">
+												{{$answer}}
+											</div>
+											@endforeach
+										@endif																	
+									</div>
+									@endforeach
+								@endif
+
 							</div>
 
 																	

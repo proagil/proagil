@@ -538,7 +538,7 @@ class ProjectController extends BaseController {
 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-          //get user On project
+    //get user On project
     $users =  array('0' => 'Seleccione un usuario'); 
     $usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
     $usersOnProject = $users+$usersOnProject;
@@ -646,7 +646,8 @@ class ProjectController extends BaseController {
                 ->with('filtersArray', $filtersArray)
                 ->with('statusArray', $statusArray)
                 ->with('usersOnProject', $usersOnProject)
-                ->with('projectId', $projectId);   
+                ->with('projectId', $projectId)
+                ->with('projectArrows', count($projectArtefacts)>6);    
 
     }
 

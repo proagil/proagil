@@ -40,11 +40,9 @@
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
 
-									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
-									<div class="fc-grey-ii fs-xxbig arrow-left prev">
+									<div class="fc-grey-ii fs-xxbig arrow-left prev"  {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
-									@endif
 
 									@if(!empty($projectArtefacts))
 									<div class="artefacts-list">								
@@ -68,11 +66,9 @@
 									</div>
 									@endif
 
-									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
-									<div class="fc-grey-ii fs-xxbig arrow-left next">
+									<div class="fc-grey-ii fs-xxbig arrow-left next" {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-right fa-fw"></i>
 									</div>
-									@endif
 								</div>
 							</div>
 

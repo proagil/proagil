@@ -17,6 +17,9 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .result-answer,
+ .result-question,
+ .probe-result-question-row,
  .heuristic-evaluation-value,
  .heuristic-evaluation-table-content,
  .heuristic-evaluation-row,
@@ -798,6 +801,7 @@ a.made-on{
 
 a.btn-reassign {
 	color: #8F8F8F;
+	text-decoration: underline;
 }
 
 a.btn-reassign:hover {
@@ -1087,6 +1091,10 @@ textarea{
 
 .probe-share-modal-content {
 	border-radius: 0px;
+}
+
+.probe-result-question-row {
+	margin-left: 11%; 
 }
 
 /*-------------------------------------------

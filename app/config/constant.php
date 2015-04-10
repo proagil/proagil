@@ -52,7 +52,8 @@ return array(
 	'probe.element.input'					=> 1,
 	'probe.element.textarea'				=> 2,
 	'probe.element.radio'					=> 3,
-	'probe.element.checkbox'				=> 4
+	'probe.element.checkbox'				=> 4,
+	'probe.colors'							=> array('#41cac0','#ec8f6e','#a8d76f','#eecb44','#ef6f66', '#9E71A8','#B5D6EB','#CD3B71','#EC7143','#ECD943','#EC4843','#EC8443')
 
 
 ); 
