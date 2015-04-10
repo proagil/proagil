@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> PROYECTO  <span class="fc-green"> &raquo; </span> Sondeos <span class="fc-green"> &raquo; </span> Crear
+								Inicio  <span class="fc-green"> &raquo; </span> {{Session::get('project')['name']}}  <span class="fc-green"> &raquo; </span> {{$probeTitle}} <span class="fc-green"> &raquo; </span> Resultados
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,7 +30,7 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									Resultados de sondeo
+									Resultados
 									<div class="section-arrow pull-right"></div>
 								</div>							
 

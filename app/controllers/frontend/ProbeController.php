@@ -511,6 +511,8 @@ class ProbeController extends BaseController {
 		// get probe results 
 		$probeResults = Probe::getProbeResults($probeId); 
 
+		//print_r($probeResults); die; 
+
 		$graphicsArray = array(); 
 
 		foreach($probeResults['elements'] as $index => $element){
@@ -560,7 +562,8 @@ class ProbeController extends BaseController {
 
 		}
 
-		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray);             	
+		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray)
+												 	->with('probeTitle', $probeResults['title']);             	
 	}	
 
 
