@@ -81,6 +81,9 @@
  .proagil-logo,
  .btn-mini,
  .btn-content,
+ .storm-ideas-item-content,
+ .storm-ideas-options,
+ .wordcloud,
  .form-group-modal,
  .form-content,
  .form-group {
@@ -793,6 +796,15 @@ a.made-on{
 	cursor: pointer; 
 }
 
+a.btn-reassign {
+	color: #8F8F8F;
+}
+
+a.btn-reassign:hover {
+	color: #8F8F8F;
+	cursor: pointer; 
+}
+
 
 .activity-info {
 	width: auto;
@@ -1126,6 +1138,42 @@ textarea{
 }
 
 /*-------------------------------------------
+	STORM IDEAS	section
+ -------------------------------------------*/
+
+.storm-ideas-item-content {
+	width: 100%;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+	padding: 9px 4px;
+}
+
+.storm-ideas-options {
+	width: 8%;
+	margin: 1% 0 0 0;
+	background-color: #f2f2f2;
+	padding: 4px 4px; 
+}
+
+.storm-ideas{
+	border: 2px solid #41cac0;
+	height: 4in;
+	width: 7in;
+	margin: 0.6in auto;
+}
+
+.btn-back-storm-ideas{
+	margin-left: 35%;
+}
+
+.btn-download-storm-ideas{
+	margin-left: 3%;
+}
+
+.btn-storm-ideas-edit{
+	margin-left: 3%;
+}
+/*-------------------------------------------
 	HEURISTIC EVALUATION section
  -------------------------------------------*/
 
@@ -1160,6 +1208,5 @@ textarea{
  	width: 25%; 
  	 	padding: 2%;
 
-
-
  }
+

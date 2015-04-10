@@ -32,7 +32,6 @@
                             <div class="col-md-4">
                               {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input')) }}
 
-
                               <label class="error fc-pink fs-min" style="display:none;"></label>
                               <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
                             </div>

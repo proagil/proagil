@@ -1053,4 +1053,45 @@ $(function() {
 
     });
 
+/*----------------------------------------------------------------------
+
+        STORM IDEAS ADD NEW
+
+----------------------------------------------------------------------*/
+
+    //ADD: new activity
+    $('.btn-add-storm-ideas').on('click', function(){
+
+      var projectId = $(this).data('projectId'); 
+       
+      window.location.href = projectURL+'/tormenta-de-ideas/crear/'+projectId;
+
+    }); 
+
+
+   //CREATE: submit form
+    $('.btn-create-storm-ideas').on('click', function(){
+
+
+      $(".btn-create-storm-ideas").off("click");
+      $('.btn-create-storm-ideas').removeClass("btn-green");
+      $('.btn-create-storm-ideas').addClass("btn-green-disable");
+
+      $(document).find('#form-create-storm-ideas').submit();
+      
+
+    });
+
+   //EDIT: submit form
+    $('.btn-edit-storm-ideas').on('click', function(){
+
+
+      $(".btn-edit-storm-ideas").off("click");
+      $('.btn-edit-storm-ideas').removeClass("btn-yellow");
+      $('.btn-edit-storm-ideas').addClass("btn-yellow-disable");
+
+      $(document).find('#form-edit-storm-ideas').submit();
+      
+
+    });
 

@@ -29,7 +29,7 @@ class ArtefactController extends BaseController {
 	              break;
 	              case Config::get('constant.artefact.storm_ideas'):
 
-	              	echo 'storm_ideas';
+	              	return Redirect::to(URL::action('StormIdeasController@index', array($projectId)));
 
 	              break;	              
 	              case Config::get('constant.artefact.probe'):

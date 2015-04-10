@@ -146,7 +146,7 @@
 						                              <div class="detail-activity-content">
 						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} 
 						                                  @if($projectOwner)
-							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}"><i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i></a> Reasignar
+							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}" class="btn-reassign"><i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i> Reasignar</a>
 							                                  <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
 							                                  <div class="modal fade" id="reassignModal-{{$activity['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 																    <div class="modal-dialog">
