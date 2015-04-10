@@ -137,6 +137,14 @@ Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
 
 Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
+Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
+
+Route::any('tormenta-de-ideas/editar/{storm_ideas_id}', 'StormIdeasController@edit');
+
+Route::any('tormenta-de-ideas/listado/{project_id}', 'StormIdeasController@index');
+
+Route::any('tormenta-de-ideas/guardar-imagen/{storm_ideas_id}/{storm_ideas_name}', 'StormIdeasController@saveStormIdeasImage');
+
 Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
 
 Route::any('analisis-sistemas-existentes/crear/{project_id}', 'ExistingSystemController@create');

@@ -126,7 +126,7 @@ class ChecklistController extends BaseController {
                  		return View::make('frontend.project.create')
                               	->with('error_message', 'No se pudo crear la lista de comprobación')
                               	->with('values', $values)
-                              	->with('artefacts', $checklistItems)
+                              	->with('checklistItems', $checklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);

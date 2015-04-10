@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$project['name']}}  <span class="fc-green"> &raquo; </span> Lista de Comprobación
+								Inicio  <span class="fc-green"> &raquo; </span> {{$project['name']}}  <span class="fc-green"> &raquo; </span> Tormenta de Ideas
 							</div>							
 
 		                	@if (Session::has('error_message'))
@@ -28,58 +28,43 @@
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Lista de Comprobación
+									Tormenta de Ideas
 									<div class="section-arrow pull-right"></div>
 								</div>							
-							</div>	
+							</div>
+
 
 							@if($projectOwner)
-								<div class=" fs-med common-btn-i btn-iii btn-green pull-right btn-add-checklist" data-project-id="{{$project['id']}}">
-									<i class="fs-big fa fa-plus fa-fw"></i>Crear lista de comprobación
+								<div class=" fs-med common-btn-i btn-iii btn-green pull-right btn-add-storm-ideas" data-project-id="{{$project['id']}}">
+									<i class="fs-big fa fa-plus fa-fw"></i> Crear Tormenta de Ideas
 								</div>
 							@endif
 
 							<div class="list-content">
-							@if(!empty($checklists))
-								@foreach($checklists as $checklist)
+							@if(!empty($stormsIdeas))
+								@foreach($stormsIdeas as $stormIdeas)
 									
-										@if($checklist['status']==2)
-										<div data-checklist-id="{{$checklist['id']}}" class="checklist-status txt-center btn-checklist-show">
-											<span class="fs-min pull-left"><i class="fs-med fa fa-check-square-o fc-green fa-fw"></i>Verificada</span>
-										</div>
-										@else
-										<div data-checklist-id="{{$checklist['id']}}" class="checklist-status txt-center btn-checklist-verify">
-											<span class="fs-min pull-left"><i class="fs-med fa fa-square-o fc-yellow fa-fw"></i>Por Verificar</span>
-										</div>
-										@endif	
-									
-									<div style="width:{{($projectOwner)?'82%':'90%'}}" class="checklist-item-content">
-										<i class="fc-turquoise fa fa-list-ul fa-fw"></i>
-											{{$checklist['title']}}					
+									<div style="width:{{($projectOwner)?'90%':'100%'}}" class="storm-ideas-item-content">
+										<i class="fc-turquoise fa fa-cloud fa-fw"></i>
+											{{$stormIdeas['name']}}					
 									</div>
 									
 									@if($projectOwner)								
-										<div class="checklist-options txt-center">
-										@if($checklist['status']!=2)
+										<div class="storm-ideas-options txt-center">
 											<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise">
-												<a href="{{URL::action('ChecklistController@edit', array($checklist['id']))}}">
+												<a href="{{URL::action('StormIdeasController@edit', array($stormIdeas['id']))}}">
 													<i class="fa fa-pencil fc-yellow fa-fw"></i>
 												</a>
 											</div>
-											<div data-checklist-id="{{$checklist['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-checklist-delete" >
+											<div data-storm-ideas-id="{{$stormIdeas['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-storm-ideas-delete" >
 												<i class="fa fa-times fa-fw"></i>
 											</div>
-										@else
-											<div data-checklist-id="{{$checklist['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" style="margin: 0px 5px 0 2px" class="circle activity-option txt-center fs-big fc-pink pull-right btn-checklist-delete">
-												<i class="fa fa-times fa-fw"></i>
-											</div>
-										@endif
 										</div>												
 									@endif								
 																		
 								@endforeach
 							@else
-								<div class="f-min">Aún no  han creado listas de comprobación</div>
+								<div class="f-min">Aún no han creado tormentas de ideas</div>
 							@endif
 											
 							</div>											

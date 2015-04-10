@@ -24,6 +24,8 @@
 
 {{ HTML::script('js/frontend/bootstrap-datepicker.es.min.js') }}
 
+{{ HTML::script('js/frontend/jquery.awesomeCloud-0.2.js') }}
+
 
 
 <!--END JAVASCRIPT!-->
