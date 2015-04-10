@@ -137,6 +137,8 @@ Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
 
 Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
+Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
+
 Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
 
 Route::any('tormenta-de-ideas/editar/{storm_ideas_id}', 'StormIdeasController@edit');
@@ -168,6 +170,30 @@ Route::any('/analisis-sistemas-existente/editar-informacion/{system_id}', 'Exist
 Route::any('/analisis-sistemas-existente/guardar-informacion/{system_id}', 'ExistingSystemController@saveSystemInfo');
 
 Route::any('/analisis-sistemas-existente/guardar-nueva-observacion/', 'ExistingSystemController@saveNewElement');
+
+Route::any('/evaluacion-heuristica/listado/{project_id}', 'HeuristicEvaluationController@index');
+
+Route::any('/evaluacion-heuristica/crear/{project_id}', 'HeuristicEvaluationController@create');
+
+Route::any('/evaluacion-heuristica/guardar/', 'HeuristicEvaluationController@save');
+
+Route::any('/evaluacion-heuristica/detalle/{evaluation_id}', 'HeuristicEvaluationController@getEvaluation');
+
+Route::any('/evaluacion-heuristica/editar/{evaluation_id}', 'HeuristicEvaluationController@edit');
+
+Route::any('/evaluacion-heuristica/obtener-problema/{element_id}', 'HeuristicEvaluationController@getElement');
+
+Route::any('/evaluacion-heuristica/guardar-elemento/', 'HeuristicEvaluationController@saveElement');
+
+Route::any('/evaluacion-heuristica/eliminar/{evaluation_id}', 'HeuristicEvaluationController@deleteEvaluation');
+
+Route::any('/evaluacion-heuristica/eliminar-problema/{element_id}', 'HeuristicEvaluationController@deleteElement');
+
+Route::any('/evaluacion-heuristica/editar-informacion/{evaluation_id}', 'HeuristicEvaluationController@getEvaluationInfo');
+
+Route::any('/evaluacion-heuristica/guardar-informacion/', 'HeuristicEvaluationController@saveEvaluationInfo');
+
+Route::any('/evaluacion-heuristica/guardar-nuevo-problema/', 'HeuristicEvaluationController@saveNewElement');
 
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/

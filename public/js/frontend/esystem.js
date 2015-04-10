@@ -20,7 +20,7 @@ $(function() {
 
  /*----------------------------------------------------------------------
 
-        ADD PROBE FUNCTIONS
+        ADD EXISTING SYSTEM FUNCTIONS
 
 ----------------------------------------------------------------------*/ 
 
@@ -89,7 +89,7 @@ $(function() {
           if($(this).val() == ''){
             $('html, body').animate({ scrollTop: 0 }, 'slow');
             $(this).addClass('error-probe-input');
-            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de texto indicados').parent().removeClass('hidden'); 
           }else{
              $(this).removeClass('error-probe-input');
              $('.error-alert-text').parent().addClass('hidden'); 
@@ -381,10 +381,10 @@ $(function() {
           if($(this).val() == ''){
             $(this).addClass('error-probe-input');
             $('html, body').animate({ scrollTop: 0 }, 'slow');
-            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de texto indicados').parent().removeClass('hidden'); 
           }else{
              $(this).removeClass('error-probe-input');
-             $('.error-alert-text').parent().removeClass('hidden'); 
+             $('.error-alert-text').parent().addClass('hidden'); 
               successValidation++; 
           }
         });

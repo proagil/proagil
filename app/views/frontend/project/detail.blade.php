@@ -13,20 +13,23 @@
 	            <div class="row">
 	                <div class="col-lg-12">
 						<div class="activities-content">
+		                	
+							<div class="breadcrumbs-content">
+								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}
+							</div>
+
+							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>	
+
 							@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
 		                	@endif	
 
 		                	@if (Session::has('error_message'))
 		                		<div class="error-alert-dashboard"><i class="fc-pink glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
-		                	@endif	
-		                	
-							<div class="breadcrumbs-content">
-								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}
-							</div>
+		                	@endif														
 							
 							<div class="artefacts-content">
-								 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
+
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
 									@if(!empty($projectArtefacts))
@@ -147,7 +150,7 @@
 							                                  <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
 							                                  <div class="modal fade" id="reassignModal-{{$activity['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 																    <div class="modal-dialog">
-																        <div class="modal-content">
+																        <div class="modal-content" style="border-radius:0px;">
 																            <div class="modal-header">
 																	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
 																	            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasinar Actividad: {{$activity['title']}}</h4>

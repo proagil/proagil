@@ -267,46 +267,66 @@ $(function() {
 
        var probeId = $(this).data('probeId'); 
 
-        var parameters = {
-            'values[probe_id]'    : probeId,
-            'values[title]'       : $('input[name="values[title]').val(),
-            'values[status]'      : $('select[name="values[status]').val(), 
-            'values[description]' : $('textarea[name="values[description]').val(),
-        };
+       if($('input[name="values[title]').val()=='' || 
+          $('textarea[name="values[description]').val() == ''){
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+            if($('input[name="values[title]').val()==''){
+              $('input[name="values[title]').addClass('error-probe-input');
+            }   
+
+            if($('textarea[name="values[description]').val()==''){
+              $('textarea[name="values[description]').addClass('error-probe-input');
+            }                                 
+            
+            $('.error-alert-text').html(' Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
 
 
-       $.ajax({
-          url: projectURL+'/sondeo/guardar-sondeo-informacion/',
-          type:'POST',
-          dataType: 'JSON',
-          data: parameters,
-          success:function (response) {
+       }else{
 
-              if(!response.error){
-
-                console.log(response); 
-
-                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
-                $('.question-title-'+probeId).replaceWith(htmlTitle);
-
-                var statusText = (response.data.status==1)?'Cerrado':'Abierto';
-                var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
-                  $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
-
-                var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
-                  $('.question-description-'+probeId).replaceWith(htmlDescription); 
+            var parameters = {
+                'values[probe_id]'    : probeId,
+                'values[title]'       : $('input[name="values[title]').val(),
+                'values[status]'      : $('select[name="values[status]').val(), 
+                'values[description]' : $('textarea[name="values[description]').val(),
+            };
 
 
-                  $('.edit-probe-info-save').addClass('hidden');
-                  $('.edit-probe-info-default').removeClass('hidden');
+           $.ajax({
+              url: projectURL+'/sondeo/guardar-sondeo-informacion/',
+              type:'POST',
+              dataType: 'JSON',
+              data: parameters,
+              success:function (response) {
 
+                  if(!response.error){
+
+                    console.log(response); 
+
+                    var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
+                    $('.question-title-'+probeId).replaceWith(htmlTitle);
+
+                    var statusText = (response.data.status==1)?'Cerrado':'Abierto';
+                    var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
+                      $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
+
+                    var htmlDescription = '<div class="question-description-'+probeId+' fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value">'+response.data.description+'</span></div>';              
+                      $('.question-description-'+probeId).replaceWith(htmlDescription); 
+
+
+                      $('.edit-probe-info-save').addClass('hidden');
+                      $('.edit-probe-info-default').removeClass('hidden');
+
+
+                  }
+              },
+              error: function(xhr, error) {
 
               }
-          },
-          error: function(xhr, error) {
+          });   
 
-          }
-      });      
+      }   
 
     })       
 

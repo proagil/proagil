@@ -2,6 +2,18 @@
 
 class ProbeController extends BaseController {
 
+	public function __construct(){
+
+	      //not user on session
+	      $this->beforeFilter(function(){
+
+	        if(is_null(Session::get('user'))){
+	          return Redirect::to(URL::action('LoginController@index'));
+	        }
+
+	      });
+	 }
+
 	public function index($projectId){
 
 	    if(is_null(Session::get('user'))){
@@ -492,6 +504,63 @@ class ProbeController extends BaseController {
 	      header('Content-Type: application/json');
 	      return Response::json($result);			 
 
+	}
+
+	public function getProbeResults($probeId){
+
+		// get probe results 
+		$probeResults = Probe::getProbeResults($probeId); 
+
+		$graphicsArray = array(); 
+
+		foreach($probeResults['elements'] as $index => $element){
+
+			if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+
+				// create table with results for closed questions
+				$tableResults = Lava::DataTable();
+
+				$tableResults->addStringColumn('Opcion')
+		       				 ->addNumberColumn('Resultados');
+
+				foreach($element['results'] as $result){
+
+					// add rows to table with data
+					$tableResults->addRow(array($result['name'], $result['result_count'])); 
+
+				}
+
+				// create graphic for each question
+				$piechart = Lava::PieChart('graphic-'.$index)
+				                 ->setOptions(array(
+				                   'datatable' => $tableResults,
+				                   'title' => $element['question'],
+				                   'is3D' => true,
+				                   'colors' => array(
+				                         '#41cac0',
+				                         '#ec8f6e',
+				                         '#a8d76f',
+				                         '#eecb44',
+				                         '#ef6f66',
+				                         '#9E71A8',
+				                         '#B5D6EB',
+				                         '#CD3B71',
+				                         '#EC7143',
+				                         '#ECD943',
+				                         '#EC4843',
+				                         '#EC8443'
+
+				                      )
+				                  ));	
+
+				// save each graphic on global array
+				$graphicsArray[$index] = $piechart; 
+
+			}
+
+		}
+
+		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray);             	
 	}	
 
 
