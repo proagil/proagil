@@ -61,8 +61,11 @@
 										@endforeach								
 									</div>
 									@else
-									<div>
-										A&uacute;n no hay artefactos asociados al proyecto. Para crear alg&uacute;n artefacto haga clic <a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+									<div class="txt-center fs-med">
+										<i class="fa  fa-frown-o fc-yellow fa-fw"></i> A&uacute;n no hay artefactos asociados al proyecto. @if($projectOwner) Para crear alg&uacute;n artefacto haga clic 
+										
+										<a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+										@endif
 									</div>
 									@endif
 
@@ -246,7 +249,7 @@
 										</div>
 										@endforeach
 									@else
-									<div class="f-min">No hay tareas para mostrar</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tareas para mostrar</div>
 									@endif											
 								
 								</div>

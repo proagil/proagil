@@ -195,6 +195,10 @@ Route::any('/evaluacion-heuristica/guardar-informacion/', 'HeuristicEvaluationCo
 
 Route::any('/evaluacion-heuristica/guardar-nuevo-problema/', 'HeuristicEvaluationController@saveNewElement');
 
+Route::any('/guia-de-estilos/listado/{project_id}', 'StyleGuideController@index');
+
+Route::any('/guia-de-estilos/crear/{project_id}', 'StyleGuideController@create');
+
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 

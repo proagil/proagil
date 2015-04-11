@@ -12,6 +12,22 @@ class Files extends Eloquent{
 		return DB::table('file')->where('id', $id)->update($values);
 	}
 
+	public static function _delete($fileId) {
+
+		try{
+
+		return DB::table('file AS f')
+			 		->where('f.id', $fileId)
+			 		->delete();
+
+		}catch(\Exception $e) {
+
+			return false; 
+
+		}
+
+	}		
+
 }
 
 ?>

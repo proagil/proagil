@@ -303,8 +303,14 @@ class UserController extends BaseController {
 
 	           	if($avatar!=NULL){
 
-	           		// save user avatar
+	           		// save new user avatar
 	           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
+
+	           		// delete old avatar
+	           		if($user['avatar']!=NULL || $user['avatar']!=''){
+	           			$this->deleteFile($user['avatar_file'], $user['avatar']); 
+	           		}
+
 	           	}
 
               $updateUser = array(
@@ -387,6 +393,19 @@ class UserController extends BaseController {
 			//Input::file('avatar')->guessClientExtension()
 			// Input::file('avatar')->getClientSize()		
 
+	}
+
+	public function deleteFile($fileName, $fileId){
+
+		$fileDeleted = FALSE; 
+
+		if(unlink(sprintf(public_path('uploads/%s'), $fileName))){
+			if(Files::_delete($fileId)){
+				$fileDeleted = TRUE; 
+			} 
+		}
+
+		return $fileDeleted; 
 	}
 
 }

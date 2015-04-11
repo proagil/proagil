@@ -17,6 +17,14 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .side-info,
+ .fonts-content,
+ .font-info,
+ .style-guide-section,
+ .style-guide-content,
+ .style-guide-tabs-content,
+ .tab,
+ .style-guide-section-content,
  .result-answer,
  .result-question,
  .probe-result-question-row,
@@ -589,6 +597,13 @@ a.login-link:hover  {
 
 .btn-sidebar {
 	background-color: #35404d;
+}
+
+.side-info {
+	position: absolute;
+    bottom: 0;
+    left: 0;
+    background-color: red; 
 }
 
 /*-------------------------------------------
@@ -1181,6 +1196,7 @@ textarea{
 .btn-storm-ideas-edit{
 	margin-left: 3%;
 }
+
 /*-------------------------------------------
 	HEURISTIC EVALUATION section
  -------------------------------------------*/
@@ -1216,5 +1232,34 @@ textarea{
  	width: 25%; 
  	 	padding: 2%;
 
+ }
+
+ /*-------------------------------------------
+	STYLE GUIDE section
+ -------------------------------------------*/
+
+ .tab {
+ 	width: 15%; 
+ 	padding: 2% 0; 
+ 	margin: 0; 
+ 	cursor: pointer; 
+
+ }
+
+ .tab-on {
+ 	background-color: #e3e2e2;
+ 	border-top: 4px solid #a8d76f; 
+ }
+
+ .tab-off {
+ 	background-color: #f2f2f2;
+ }
+
+ .style-guide-section{
+ 	background-color: #e3e2e2;
+ }
+
+ .style-guide-form-group{
+ 	padding: 1%; 
  }
 
