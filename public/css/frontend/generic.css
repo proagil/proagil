@@ -17,6 +17,8 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .primary-color-content,
+ .color-content,
  .side-info,
  .fonts-content,
  .font-info,
@@ -1263,3 +1265,9 @@ textarea{
  	padding: 1%; 
  }
 
+.color-picker {
+	border-right:36px solid #42C2B8;
+	cursor: pointer;
+	margin: 2%;
+
+}

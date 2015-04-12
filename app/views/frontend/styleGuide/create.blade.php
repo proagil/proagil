@@ -2,7 +2,7 @@
 <html>
 
 	@include('frontend.includes.head')
-	{{ HTML::style('css/frontend/colorpicker.css') }}
+	{{ HTML::style('css/frontend/colpick.css') }}
 
 
 	<body>
@@ -38,7 +38,8 @@
 								</div>							
 
 							</div>	
-							{{ Form::open(array('action' => array('ExistingSystemController@save'), 'files' => true, 'id' => 'form-create-esystem')) }}	
+							{{ Form::open(array('action' => array('StyleGuideController@save'), 'files' => true, 'id' => 'form-save-guide-style')) }}
+								<input name="values[project_id]" type="hidden" value="{{$projectId}}">								
 
 							<div class="style-guide-content">
 								<div class="style-guide-tabs-content">
@@ -60,9 +61,9 @@
 			                          <div class="form-group style-guide-form-group">
 			                            <label class="col-md-4 title-label control-label" for="textinput">Nombre de la aplicaci&oacute;n <span class="fc-pink fs-med">*</span></label>  
 			                            <div class="col-md-4">
-			                              {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input')) }}
+			                              {{ Form::text('values[name]', (isset($values['name']))?$values['name']:'', array('class'=>'form-control app-input', 'data-input-type' => 'information')) }}
 
-			                              <label class="error fc-pink fs-min" style="display:none;"></label>
+			                              <label class="error fc-pink fs-min hidden">Debe indicar un nombre de aplicaci&oacute;n</label>
 			                              <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
 			                            </div>
 			                          </div>
@@ -74,49 +75,56 @@
 			                          </div>			                          
 									</div>
 									<div class="style-guide-section hidden" id="section-colors">
-
-
-										<div class="color">
-											COLORR
-										</div>
-									</div>							
-									<div class="style-guide-section hidden" id="section-fonts">
-										<div class="fonts-content">
-											<div class="font-info">
-					                          <div class="form-group style-guide-form-group">
-					                            <label class="col-md-4 title-label control-label" for="textinput">Fuente<span class="fc-pink fs-med">*</span></label>  
-					                            <div class="col-md-4">
-					                              {{ Form::text('values[font_name][]', (isset($values['font_name']))?$values['name']:'', array('class'=>'form-control app-input', 'placeholder'=>'Nombre de fuente. Ej: Arial')) }}
-	                              				  {{ Form::text('values[font_size][]', (isset($values['font_size']))?$values['name']:'', array('class'=>'form-control app-input', 'placeholder'=>'Tamaño de fuente. Ej: 14px')) }}					                              
-
-					                              <label class="error fc-pink fs-min" style="display:none;"></label>
-					                              <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
-					                            </div>
-					                          </div>	
-											</div>
-											<div class="font-info">
-					                          <div class="form-group style-guide-form-group">
-					                            <label class="col-md-4 title-label control-label" for="textinput">Fuente<span class="fc-pink fs-med">*</span></label>  
-					                            <div class="col-md-4">
-					                              {{ Form::text('values[font_name][]', (isset($values['font_name']))?$values['name']:'', array('class'=>'form-control app-input', 'placeholder'=>'Nombre de fuente. Ej: Arial')) }}
-	                              				  {{ Form::text('values[font_size][]', (isset($values['font_size']))?$values['name']:'', array('class'=>'form-control app-input', 'placeholder'=>'Tamaño de fuente. Ej: 14px')) }}					                              
-
-					                              <label class="error fc-pink fs-min" style="display:none;"></label>
-					                              <span class="error fc-pink fs-min"><?= ($errors->has('name'))?$errors->first('name'):''?></span>  
-					                            </div>
-					                          </div>	
-											</div>											
-										</div>
-		                          
-			                          										
+			                          <div class="form-group style-guide-form-group">
+			                            <label class="col-md-4 title-label control-label" for="textinput">Colores primarios</label>
+			                            <div class="col-md-4">
+				                            <div class="primary-color-content">
+											</div>																			
+			                            </div>
+			                          </div>
 			                          <div class="form-group">
 			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
 			                            <div class="col-md-4">
-			                              <div class="btn-add-invitation">
+			                              <div class="btn-add-color">
 			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
 			                                  <i class="fa fa-plus fa-fw"></i>
 			                                </div>
-			                                <span class="fc-turquoise fs-min">Hacer clic para agregar otra fuente</span> 
+			                                <span class="fs-min cur-point">Hacer clic para agregar color primario</span> 
+			                              </div>
+			                            </div> 
+			                          </div>
+			                          <div class="form-group style-guide-form-group">
+			                            <label class="col-md-4 title-label control-label" for="textinput">Colores secundarios</label>
+			                            <div class="col-md-4">
+				                            <div class="secundary-color-content">
+											</div>																			
+			                            </div>
+			                          </div>
+			                          <div class="form-group">
+			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
+			                            <div class="col-md-4">
+			                              <div class="btn-add-secundary-color cur-point">
+			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
+			                                  <i class="fa fa-plus fa-fw"></i>
+			                                </div>
+			                                <span class="fs-min">Hacer clic para agregar color secundario</span> 
+			                              </div>
+			                            </div> 
+			                          </div>				                          			                          
+
+									</div>							
+									<div class="style-guide-section hidden" id="section-fonts">
+										<div class="fonts-content">								
+										</div>
+		                          		
+			                          <div class="form-group">
+			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
+			                            <div class="col-md-4">
+			                              <div class="add-new-font cur-point" style="margin:5%">
+			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
+			                                  <i class="fa fa-plus fa-fw"></i>
+			                                </div>
+			                                <span class="fs-min">Hacer clic para agregar otra fuente</span> 
 			                              </div>
 			                            </div> 
 			                          </div>
@@ -132,13 +140,11 @@
 								</div>								
 							</div>
 
-
-
 							 {{Form::close()}}
 
 							<div class="probe-general-buttons">
 
-								<div class="save-esystem txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+								<div class="save-style-guide txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
 									Guardar
 								</div>									
 						
@@ -157,7 +163,7 @@
 	@include('frontend.includes.javascript')
 
 	{{ HTML::script('js/frontend/style-guide.js') }}
-	{{ HTML::script('js/frontend/colorpicker.js') }}
+	{{ HTML::script('js/frontend/colpick.js') }}
 
 	<script>
 

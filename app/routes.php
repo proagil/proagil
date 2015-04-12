@@ -199,6 +199,11 @@ Route::any('/guia-de-estilos/listado/{project_id}', 'StyleGuideController@index'
 
 Route::any('/guia-de-estilos/crear/{project_id}', 'StyleGuideController@create');
 
+Route::any('/guia-de-estilos/guardar', 'StyleGuideController@save');
+
+Route::any('/guia-de-estilos/editar/{style_guide_id}', 'StyleGuideController@edit');
+
+
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 

@@ -39,20 +39,20 @@
 							<div class="list-content">
 								@if(!empty($stylesGuide))
 									@foreach($stylesGuide as $styleGuide)
-									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content e-system" data-existing-system-id="{{$system['id']}}">
-										<i class="fc-yellow fa fa-desktop fa-fw"></i>
+									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content e-system" data-style-guide-id="{{$styleGuide['id']}}">
+										<i class="fc-pink fa  fa-file-photo-o fa-fw"></i>
 											{{$styleGuide['name']}}
 					
 									</div>
 									<div class="probe-options txt-center" {{(!$projectOwner)?'style="width:4%;"':'style="width:8%;"'}}>
 																		
 										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-yellow">
-											<a href="{{URL::action('ExistingSystemController@edit', array($system['id']))}}">
+											<a href="{{URL::action('StyleGuideController@edit', array($styleGuide['id']))}}">
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
 										@if($projectOwner)
-										<div data-existing-system-id="{{$system['id']}}" data-system-name="{{$system['name']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink delete-esystem">
+										<div data-style-guide-id="{{$styleGuide['id']}}" data-style-guide-name="{{$styleGuide['name']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink delete-esystem">
 											<i class="fa fa-times fa-fw"></i>
 										</div>												
 										@endif								

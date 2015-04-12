@@ -29,7 +29,7 @@ class StyleGuideController extends BaseController {
 	    	 // get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 $stylesGuide = array(); 
+	    	 $stylesGuide = StyleGuide::enumerate($projectId);  
 
 	    	return View::make('frontend.styleGuide.index')
 	    		    	->with('projectName', $project['name'])
@@ -61,6 +61,96 @@ class StyleGuideController extends BaseController {
 	    	 return Redirect::to(URL::action('DashboardController@index'));
 
 	    }
+
+	}
+
+	public function save(){
+
+		$values = Input::get('values');
+
+		//print_r(	$values); die; 
+
+		// get project data
+		$project = (array) Project::getName($values['project_id']);	
+
+		$styleGuide = array(
+			'name'			=> $values['name'],
+			'project_id'	=> $values['project_id']
+
+		);
+
+		$styleGuideId = StyleGuide::insert($styleGuide);
+
+		if($styleGuideId>0){
+
+			// save primary colors
+			if(isset($values['primary_color'])){
+
+				foreach($values['primary_color'] as $color){
+
+					$primaryColor = array(
+						'hexadecimal'		=> $color,
+						'type'				=> Config::get('constant.style_guide.color.primary'),
+						'style_guide_id'	=> $styleGuideId
+					);
+
+					$primaryColorId = StyleGuide::saveColor($primaryColor);
+
+				}
+
+			}
+
+			// save secundary colors
+			if(isset($values['secundary_color'])){
+
+				foreach($values['secundary_color'] as $color){
+
+					$secundaryColor = array(
+						'hexadecimal'		=> $color,
+						'type'				=> Config::get('constant.style_guide.color.secundary'),
+						'style_guide_id'	=> $styleGuideId
+					);
+
+					$secundaryColorId = StyleGuide::saveColor($secundaryColor);
+
+				}				
+				
+			}
+
+			// save fonts values
+			if(isset($values['font_name'])){
+
+				foreach($values['font_name'] as $index => $font){
+
+					$fontValue = array(
+						'name'				=> $font,
+						'size'				=> $values['font_size'][$index],
+						'style_guide_id'	=> $styleGuideId
+					);
+
+					$secundaryColorId = StyleGuide::saveFont($fontValue);
+
+				}				
+				
+			}
+
+		   		Session::flash('success_message', 'Se ha creado la gu&iacute;a de estilos exitosamente en su proyecto: '.$project['name']); 
+
+                // redirect to index probre view
+                return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));										
+
+		}else{
+
+
+		   		Session::flash('error_message', 'No se ha podido crear la gu&iacute;a de estilos en su proyecto: '.$project['name']); 
+
+		   		return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));			
+
+		}
+
+	}
+
+	public function edit(){
 
 	}
 
