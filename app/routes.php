@@ -141,6 +141,8 @@ Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
 
 Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
 
+Route::any('tormenta-de-ideas/eliminar/{storm_ideas_id}', 'StormIdeasController@delete');
+
 Route::any('tormenta-de-ideas/editar/{storm_ideas_id}', 'StormIdeasController@edit');
 
 Route::any('tormenta-de-ideas/listado/{project_id}', 'StormIdeasController@index');

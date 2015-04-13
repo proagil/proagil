@@ -21,24 +21,29 @@ class StormIdeas extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('storm_ideas')->where('project_id', $projectId)->get();
+		return DB::table('storm_ideas AS si')
+
+				->select('si.*', 'f.server_name AS storm_ideas_image')
+
+				->where('si.project_id', $projectId)
+
+				->where('si.enabled', TRUE)
+
+				->leftJoin('file AS f', 'f.id', '=', 'si.image')
+
+				->get();									   
 	}
 
 	public static function get($stormIdeasId){
 
 		return DB::table('storm_ideas')->where('id', $stormIdeasId)
-											 ->where('enabled', TRUE)
-				  							 ->first();
+									   ->where('enabled', TRUE)
+				  					   ->first();
 	}
 
 	public static function insert($values){
 
 		return DB::table('storm_ideas')->insertGetId($values);
-	}
-
-	public static function insertStormIdeasWord($values){
-
-		return DB::table('storm_ideas_word')->insertGetId($values);
 	}
 
 	public static function updateStormIdeas($id, $values){

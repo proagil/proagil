@@ -1059,7 +1059,7 @@ $(function() {
 
 ----------------------------------------------------------------------*/
 
-    //ADD: new activity
+    //ADD: new storm-ideas
     $('.btn-add-storm-ideas').on('click', function(){
 
       var projectId = $(this).data('projectId'); 
@@ -1068,6 +1068,13 @@ $(function() {
 
     }); 
 
+    //DELETE: storm-ideas
+    $('.btn-delete-storm-ideas').on('click', function(){
+      var stormIdeasId = $(this).data('stormIdeasId'); 
+
+      window.location.href = projectURL+'/tormenta-de-ideas/eliminar/'+stormIdeasId;
+
+    }); 
 
    //CREATE: submit form
     $('.btn-create-storm-ideas').on('click', function(){
