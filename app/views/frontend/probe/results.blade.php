@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> PROYECTO  <span class="fc-green"> &raquo; </span> Sondeos <span class="fc-green"> &raquo; </span> Crear
+								Inicio  <span class="fc-green"> &raquo; </span> {{Session::get('project')['name']}}  <span class="fc-green"> &raquo; </span> {{$probeTitle}} <span class="fc-green"> &raquo; </span> Resultados
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,22 +30,41 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									Resultados de sondeo
+									Resultados
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
 															
 
-							<div class="list-content probe-questions-lists">
+							<div class="list-content">
 								@foreach($graphicsArray as $index => $graphic)
 
 								<div id="graphic-{{$index}}"></div>
 								@piechart('graphic-'.$index, 'graphic-'.$index)	
 
 								@endforeach
-								
-					 																	
+																						
+							</div>
+
+							<div class="list-content">
+								@if(!empty($openQuestions))
+									@foreach($openQuestions as $question)
+									<div class="probe-result-question-row">
+										<div class="result-question f-bold">
+											{{$question['question']}}
+										</div>
+										@if(!empty($question['results']))
+											@foreach($question['results'] as $answer)
+											<div class="result-answer">
+												{{$answer}}
+											</div>
+											@endforeach
+										@endif																	
+									</div>
+									@endforeach
+								@endif
+
 							</div>
 
 																	

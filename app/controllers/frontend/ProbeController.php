@@ -511,7 +511,12 @@ class ProbeController extends BaseController {
 		// get probe results 
 		$probeResults = Probe::getProbeResults($probeId); 
 
-		$graphicsArray = array(); 
+		//print_r($probeResults); die; 
+
+		$graphicsArray = array();
+		$openQuestions = array();
+
+		//print_r($probeResults['elements']); die;  
 
 		foreach($probeResults['elements'] as $index => $element){
 
@@ -533,24 +538,10 @@ class ProbeController extends BaseController {
 				// create graphic for each question
 				$piechart = Lava::PieChart('graphic-'.$index)
 				                 ->setOptions(array(
-				                   'datatable' => $tableResults,
-				                   'title' => $element['question'],
-				                   'is3D' => true,
-				                   'colors' => array(
-				                         '#41cac0',
-				                         '#ec8f6e',
-				                         '#a8d76f',
-				                         '#eecb44',
-				                         '#ef6f66',
-				                         '#9E71A8',
-				                         '#B5D6EB',
-				                         '#CD3B71',
-				                         '#EC7143',
-				                         '#ECD943',
-				                         '#EC4843',
-				                         '#EC8443'
-
-				                      )
+				                   'datatable' 		=> $tableResults,
+				                   'title' 			=> $element['question'],
+				                   'is3D' 			=> true,
+				                   'colors' 		=> Config::get('constant.probe.colors')
 				                  ));	
 
 				// save each graphic on global array
@@ -558,9 +549,22 @@ class ProbeController extends BaseController {
 
 			}
 
+			if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
+
+				$openQuestions[$index]['question'] = $element['question']; 
+
+				foreach($element['results'] as $j=> $result){
+
+					$openQuestions[$index]['results'][$j] = $result['value'];  
+
+				}				
+			}
+
 		}
 
-		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray);             	
+		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray)
+													->with('openQuestions', $openQuestions)
+												 	->with('probeTitle', $probeResults['title']);             	
 	}	
 
 

@@ -40,11 +40,9 @@
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
 
-									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
-									<div class="fc-grey-ii fs-xxbig arrow-left prev">
+									<div class="fc-grey-ii fs-xxbig arrow-left prev"  {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
-									@endif
 
 									@if(!empty($projectArtefacts))
 									<div class="artefacts-list">								
@@ -63,16 +61,17 @@
 										@endforeach								
 									</div>
 									@else
-									<div>
-										A&uacute;n no hay artefactos asociados al proyecto. Para crear alg&uacute;n artefacto haga clic <a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+									<div class="txt-center fs-med">
+										<i class="fa  fa-frown-o fc-yellow fa-fw"></i> A&uacute;n no hay artefactos asociados al proyecto. @if($projectOwner) Para crear alg&uacute;n artefacto haga clic 
+										
+										<a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+										@endif
 									</div>
 									@endif
 
-									@if(!empty($projectArtefacts) && count($projectArtefacts)>=6)
-									<div class="fc-grey-ii fs-xxbig arrow-left next">
+									<div class="fc-grey-ii fs-xxbig arrow-left next" {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-right fa-fw"></i>
 									</div>
-									@endif
 								</div>
 							</div>
 
@@ -250,7 +249,7 @@
 										</div>
 										@endforeach
 									@else
-									<div class="f-min">No hay tareas para mostrar</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tareas para mostrar</div>
 									@endif											
 								
 								</div>

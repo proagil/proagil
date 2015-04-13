@@ -2,6 +2,19 @@
 
 class ExistingSystemController extends BaseController {
 
+	public function __construct(){
+
+	      //not user on session
+	      $this->beforeFilter(function(){
+
+	        if(is_null(Session::get('user'))){
+	          return Redirect::to(URL::action('LoginController@index'));
+	        }
+
+	      });
+	  }
+
+
 	public function index($projectId){
 
 	    if(is_null(Session::get('user'))){
@@ -134,6 +147,8 @@ class ExistingSystemController extends BaseController {
 
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
+
+
 		if(!empty($existingSystem)){
 
 			// get project data
@@ -157,17 +172,24 @@ class ExistingSystemController extends BaseController {
 
 	}
 
-	public function saveSystemInfo($systemId) {
+	public function saveSystemInfo($existingSystemId) {
 
 		$values = Input::get('esystem');
 
 	   	// get system interface
 	   	$interfaceFile = Input::file('interface');
 
+	   	$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
+
 	   	if($interfaceFile!=NULL){
 
 	   		// save user avatar
 	   		$imageId = $this->uploadAndResizeFile($interfaceFile, 500, 300); 
+
+	   		//delete old interface
+       		if($existingSystem['interface']!=NULL || $existingSystem['interface']!=''){
+       			$this->deleteFile($existingSystem['interface_image'], $existingSystem['interface']); 
+       		}	   		
 	   	}
 
 	   	$values['iterface_id'] = ($values['iterface_id']==NULL)? NULL: $values['iterface_id']; 		
@@ -177,17 +199,17 @@ class ExistingSystemController extends BaseController {
 			'interface'		=> (isset($imageId))?$imageId:$values['iterface_id'],
 		);
 
-		if(ExistingSystem::edit($systemId, $exystingSystem)){
+		if(ExistingSystem::edit($existingSystemId, $exystingSystem)){
 
 		 	//Session::flash('success_message', 'Se ha creado el analisis de sistema existente exitosamente en su proyecto: '.$project['name']); 
  
             // redirect to edit existing system view
-            return Redirect::to(URL::action('ExistingSystemController@edit', $systemId));				
+            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
 
 		}else{
 
             // redirect to edit existing system view
-            return Redirect::to(URL::action('ExistingSystemController@edit', $systemId));				
+            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
 
 		}
 
@@ -361,6 +383,19 @@ class ExistingSystemController extends BaseController {
 		}
 
 	}
+
+	public function deleteFile($fileName, $fileId){
+
+		$fileDeleted = FALSE; 
+
+		if(unlink(sprintf(public_path('uploads/%s'), $fileName))){
+			if(Files::_delete($fileId)){
+				$fileDeleted = TRUE; 
+			} 
+		}
+
+		return $fileDeleted; 
+	}	
 
 
 

@@ -40,7 +40,7 @@
 						<a class="fc-grey-iv" href="{{URL::action('ProjectController@editInvitation', array($project['id']))}}"><i class="fc-turquoise fs-big fa fa-users"></i> Invitar a colaboradores</a>
 					</li>	
 					@endif												
-				</ul>
+				</ul>		
 			</ul>
 		</div>
     </div>
