@@ -36,7 +36,9 @@
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Sondeos
-							</div>							
+							</div>	
+
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
@@ -48,7 +50,6 @@
 		                	@endif	
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Sondeos
 									<div class="section-arrow pull-right"></div>

@@ -147,8 +147,6 @@ class ExistingSystemController extends BaseController {
 
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
-
-
 		if(!empty($existingSystem)){
 
 			// get project data
@@ -192,11 +190,11 @@ class ExistingSystemController extends BaseController {
        		}	   		
 	   	}
 
-	   	$values['iterface_id'] = ($values['iterface_id']==NULL)? NULL: $values['iterface_id']; 		
+	   	$values['interface_id'] = ($values['interface_id']==NULL)? NULL: $values['interface_id']; 		
 
 		$exystingSystem = array(
 			'name'			=> 	$values['name'],
-			'interface'		=> (isset($imageId))?$imageId:$values['iterface_id'],
+			'interface'		=> (isset($imageId))?$imageId:$values['interface_id'],
 		);
 
 		if(ExistingSystem::edit($existingSystemId, $exystingSystem)){
@@ -369,7 +367,7 @@ class ExistingSystemController extends BaseController {
 
 		// move file into uploads folder and resize
 		$file->move(public_path('uploads'), $serverName);
-		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->resize($width, $height)->save();
+		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->->widen($width, $height)->save();
 
 		// save image on database and generate file id
 		if($resizedFile!=NULL){

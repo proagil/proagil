@@ -37,15 +37,41 @@ $(function() {
 
   }) 
 
-    var colorCount = 0; 
+    var colorCount = 0,
+        fontCount = 0;  
+
+    $('.color-picker').colpick({
+      layout:'hex',
+      submit:0,
+      colorScheme:'light',
+      color: $(this).val(),
+      onShow: function(el){
+
+        console.log($(el).color); 
+
+      },
+      onChange:function(hsb,hex,rgb,el,bySetColor) {
+        $(el).css('border-color','#'+hex); 
+        // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+        if(!bySetColor) $(el).val(hex);
+      }
+    }).keyup(function(){
+       console.log(this.value); 
+      $(this).colpickSetColor(this.value);
+    });       
 
     // add color
     $('.btn-add-color').on('click', function(){
 
       colorCount++; 
 
-      var colorHtml =  '<input type="text" data-input-type="colors" name="values[primary_color][]" class="form-control app-input color-picker"></input>'+
-                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>';
+      var colorHtml =  '<div class="color-row color-row-'+colorCount+'">'+
+                        '<input type="text" data-input-type="colors" name="values[primary_color][]" class="form-control app-input color-picker"></input>'+
+                         '<div data-color-id="'+colorCount+'" class="btn-delete-color circle activity-option txt-center fs-big fc-pink">'+
+                              '<i class="fa fa-times fa-fw"></i>'+
+                        '</div>'+                         
+                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>'+
+                        '</div>';
                   
 
       $(colorHtml).appendTo('.primary-color-content').fadeIn('slow');
@@ -60,6 +86,7 @@ $(function() {
         if(!bySetColor) $(el).val(hex);
       }
     }).keyup(function(){
+
       $(this).colpickSetColor(this.value);
     });     
 
@@ -69,8 +96,13 @@ $(function() {
 
       colorCount++; 
 
-      var colorHtml =  '<input type="text" data-input-type="colors" name="values[secundary_color][]" class="form-control app-input color-picker"></input>'+
-                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>';
+      var colorHtml =  '<div class="color-row color-row-'+colorCount+'">'+
+                        '<input type="text" data-input-type="colors" name="values[secundary_color][]" class="form-control app-input color-picker"></input>'+
+                         '<div data-color-id="'+colorCount+'" class="btn-delete-color circle activity-option txt-center fs-big fc-pink">'+
+                              '<i class="fa fa-times fa-fw"></i>'+
+                        '</div>'+                              
+                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>'+
+                        '</div>'; 
                   
 
       $(colorHtml).appendTo('.secundary-color-content').fadeIn('slow');
@@ -91,16 +123,31 @@ $(function() {
 
     }) 
 
+    $(document).on('click','.btn-delete-color', function(){
+
+      var fontId = $(this).data('colorId'); 
+
+       $(document).find('.color-row-'+fontId).fadeOut('slow', 
+          function() { 
+            $(this).remove()
+          });
+    });
+
     // add new font values
     $('.add-new-font').on('click', function(){
 
-      var fontHtml =  '<div class="font-info" style="display:none;">'+
+      fontCount++; 
+
+      var fontHtml =  '<div class="font-info font-content-'+fontCount+'" style="display:none;">'+
                         '<div class="form-group style-guide-form-group">'+
                           '<label class="col-md-4 title-label control-label" for="textinput">Fuente<span class="fc-pink fs-med">*</span></label>'+  
                           '<div class="col-md-4">'+
                             '<input data-font-type="name" data-input-type="fonts" class="form-control app-input" placeholder="Nombre de fuente. Ej: Arial" name="values[font_name][]" type="text" value="">'+
                             '<br><label class="error-name fc-pink fs-min hidden">Debe indicar un nombre de fuente</label>'+
                             '<input data-font-type="size" data-input-type="fonts" class="form-control app-input" placeholder="Tamaño de fuente. Ej: 14px" name="values[font_size][]" type="text" value="">'+
+                             '<div data-font-id="'+fontCount+'" class="btn-delete-font circle activity-option txt-center fs-big fc-pink">'+
+                                  '<i class="fa fa-times fa-fw"></i>'+
+                            '</div>'+                            
                             '<br><label class="error-size fc-pink fs-min hidden">Debe indicar un tama&ntilde;o de fuente</label>'+
                           '</div>'+
                         '</div>'+  
@@ -108,7 +155,17 @@ $(function() {
 
         $(fontHtml).appendTo('.fonts-content').fadeIn('slow');                 
 
-    })
+    });
+
+    $(document).on('click','.btn-delete-font', function(){
+
+      var fontId = $(this).data('fontId'); 
+
+       $(document).find('.font-content-'+fontId).fadeOut('slow', 
+          function() { 
+            $(this).remove()
+          });
+    });
 
     $('.save-style-guide').on('click', function(){
 
@@ -188,6 +245,95 @@ $(function() {
                 $(document).find('#form-save-guide-style').submit(); 
               }  
       
-    })    
+    })
+
+    $('.btn-delete-saved-color').on('click',function(e){
+
+       e.preventDefault(); 
+
+        var colorId = $(this).data('colorId'); 
+
+        var showAlert = swal({
+          title: 'Eliminar color',
+          text: 'Confirma que desea eliminar el color de la guía de estilos',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+         $.ajax({
+            url: projectURL+'/guia-de-estilos/eliminar-color/'+colorId,
+            type:'GET',
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                   $(document).find('.color-row-saved-'+colorId).fadeOut('slow', 
+                      function() { 
+                        $(this).remove();
+                    });
+                 
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+        });               
+
+    });   
+
+
+    $('.btn-delete-saved-font').on('click', function(e){
+
+       e.preventDefault(); 
+
+        var fontId = $(this).data('fontId'); 
+
+        var showAlert = swal({
+          title: 'Eliminar fuente',
+          text: 'Confirma que desea eliminar la fuente de la guía de estilos',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+         $.ajax({
+            url: projectURL+'/guia-de-estilos/eliminar-fuente/'+fontId,
+            type:'GET',
+            dataType: 'JSON',
+            success:function (response) {
+
+                if(!response.error){
+
+                   $(document).find('.font-saved-content-'+fontId).fadeOut('slow', 
+                      function() { 
+                        $(this).remove();
+                    });
+                 
+
+                }
+            },
+            error: function(xhr, error) {
+
+            }
+          });     
+
+        });               
+
+    });          
 
 })

@@ -37,7 +37,7 @@
                                 <div class="col-md-8">
                                   <div class=" app-input-invitation app-input">{{$userOnProject->email}}</div>
                                   {{ Form::select('invitations[role]['.$userOnProject->id.']', $userRoles, $userOnProject->user_role_id , array('class'=>'form-control app-input-invitation app-input')) }}
-                                  <div data-user-id="{{$userOnProject->id}}" data-project-id="{{$projectId}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">
+                                  <div data-user-id="{{$userOnProject->id}}" data-project-id="{{$projectId}}" class="btn-delete-invitation circle activity-option txt-center fs-big fc-pink">
                                     <i class="fa fa-times fa-fw"></i>
                                   </div>
                                   <br><br>
@@ -103,7 +103,7 @@
                                           });
                                   
                       htmlInvitation += '</select>'+
-                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-new-invitation circle activity-option txt-center fs-big fc-turquoise">'+
+                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-new-invitation circle activity-option txt-center fs-big fc-pink">'+
                                         '<i class="fa fa-times fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+

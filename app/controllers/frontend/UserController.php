@@ -377,7 +377,7 @@ class UserController extends BaseController {
 
 		// move file into uploads folder and resize
 		$file->move(public_path('uploads'), $serverName);
-		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->resize($width, $height)->save();
+		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->widen($width)->save();
 
 		// save image on database and generate file id
 		if($resizedFile!=NULL){
@@ -389,9 +389,6 @@ class UserController extends BaseController {
 
 			return $fileId = Files::insert($fileValues); 
 		}
-
-			//Input::file('avatar')->guessClientExtension()
-			// Input::file('avatar')->getClientSize()		
 
 	}
 

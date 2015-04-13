@@ -15,7 +15,9 @@
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos
-							</div>							
+							</div>	
+
+							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
@@ -23,7 +25,6 @@
 
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Gu&iacute;a de estilos
 									<div class="section-arrow pull-right"></div>
@@ -39,7 +40,7 @@
 							<div class="list-content">
 								@if(!empty($stylesGuide))
 									@foreach($stylesGuide as $styleGuide)
-									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content e-system" data-style-guide-id="{{$styleGuide['id']}}">
+									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content style-guide" data-style-guide-id="{{$styleGuide['id']}}">
 										<i class="fc-pink fa  fa-file-photo-o fa-fw"></i>
 											{{$styleGuide['name']}}
 					
@@ -76,11 +77,11 @@
 
     $(function() {
 
-      $('.e-system').on('click', function(){
+      $('.style-guide').on('click', function(){
 
-      	var existingSystemId = $(this).data('existingSystemId');
+      	var styleGuideId = $(this).data('styleGuideId');
 
-      	 window.location.href = projectURL+'/analisis-sistemas-existentes/detalle/'+existingSystemId;
+      	 window.location.href = projectURL+'/guia-de-estilos/detalle/'+styleGuideId;
 
       })
 
@@ -102,7 +103,7 @@
           },
           function(){
 
-              window.location.href = projectURL+'/analisis-sistemas-existente/eliminar/'+existingSystemId;
+              window.location.href = projectURL+'/guia-de-estilos/eliminar/'+existingSystemId;
 
           });               
 

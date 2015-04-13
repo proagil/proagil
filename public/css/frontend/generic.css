@@ -17,6 +17,7 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .color-row,
  .primary-color-content,
  .color-content,
  .side-info,
@@ -1058,7 +1059,7 @@ textarea{
 .probe-input-description {
 	padding: 4px; 
 	margin: 4px; 
-	width: 99%%;
+	width: 99%;
 }
 
 .btn-add-question-option-edit,
@@ -1269,5 +1270,5 @@ textarea{
 	border-right:36px solid #42C2B8;
 	cursor: pointer;
 	margin: 2%;
-
+	width: 60%; 
 }

@@ -70,7 +70,7 @@
 			                          <div class="form-group style-guide-form-group">
 			                            <label class="col-md-4 title-label control-label" for="textinput">Logo</label>
 			                            <div class="col-md-4">
-     									 {{ Form::file('avatar', array('id'=> 'avatar', 'class'=> 'file-upload', 'title' => 'Selecciona una imagen', 'data-filename-placement' => 'inside')) }}
+     									 {{ Form::file('logo', array('id'=> 'logo', 'class'=> 'file-upload', 'title' => 'Selecciona una imagen', 'data-filename-placement' => 'inside')) }}
 			                            </div>
 			                          </div>			                          
 									</div>

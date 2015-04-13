@@ -7,6 +7,10 @@ class StyleGuideController extends BaseController {
 	      //not user on session
 	      $this->beforeFilter(function(){
 
+	      	 $userRole = Session::get('user_role');
+
+	      	 //print_r( $userRole ); die; 
+
 	        if(is_null(Session::get('user'))){
 	          return Redirect::to(URL::action('LoginController@index'));
 	        }
@@ -73,9 +77,29 @@ class StyleGuideController extends BaseController {
 		// get project data
 		$project = (array) Project::getName($values['project_id']);	
 
+       	// get style guide logo
+       	$logo = Input::file('logo');
+
+       	// get style guide  interface
+       	$interface = Input::file('interface');       	
+
+       	if($logo!=NULL){
+
+       		// save style guide logo
+       		$logoId = $this->uploadAndResizeFile($logo, 300, 300); 
+       	}
+
+       	if($interface!=NULL){
+
+       		// save style guide interface
+       		$interfaceId = $this->uploadAndResizeFile($interface, 700, 700); 
+       	}	       			
+
 		$styleGuide = array(
 			'name'			=> $values['name'],
-			'project_id'	=> $values['project_id']
+			'project_id'	=> $values['project_id'],
+			'logo'			=> (isset($logoId))?$logoId:NULL,
+			'interface'		=> (isset($interfaceId))?$interfaceId:NULL,
 
 		);
 
@@ -150,9 +174,104 @@ class StyleGuideController extends BaseController {
 
 	}
 
-	public function edit(){
+	public function edit($styleGuideId){
+
+		if(Input::has('_token')){
+
+		}else{
+
+			$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);
+
+			if(!empty($styleGuide)){
+
+				//print_r($styleGuide); die; 
+
+				// get project data
+				 $project = (array) Project::getName($styleGuide['project_id']); 
+
+
+				return View::make('frontend.styleGuide.edit')
+							->with('values', $styleGuide)
+							->with('projectName', $project['name'])
+							->with('projectId', $project['id'])
+							->with('styleGuideId', $styleGuideId);   			
+
+			}else{
+
+				return Redirect::to(URL::action('DashboardController@index'));
+
+			}
+		}	
 
 	}
+
+	public function deleteColor($colorId) {
+
+		 if(StyleGuide::deleteColor($colorId)) {
+
+		      $result = array(
+		          'error'   => false
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}		
+
+	public function deleteFont($fontId) {
+
+		 if(StyleGuide::deleteFont($fontId)) {
+
+		      $result = array(
+		          'error'   => false
+		      );		 	
+
+		 }else{
+
+		      $result = array(
+		          'error'     => true
+		      );		 	
+
+		 } 
+
+	      header('Content-Type: application/json');
+	      return Response::json($result);			 
+
+	}		
+
+	public function uploadAndResizeFile($file, $width, $height) {
+
+		// get client name and generate server name
+		$clientName = $file->getClientOriginalName(); 
+		$serverName = md5(time(). str_replace(' ', '_', $clientName)).'.'.$file->guessClientExtension();
+
+		// move file into uploads folder and resize
+		$file->move(public_path('uploads'), $serverName);
+		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->widen($width)->save();
+
+		// save image on database and generate file id
+		if($resizedFile!=NULL){
+
+			$fileValues = array(
+				'client_name'		=> $clientName,
+				'server_name'		=> $serverName 
+			);
+
+			return $fileId = Files::insert($fileValues); 
+		}
+
+			//Input::file('avatar')->guessClientExtension()
+			// Input::file('avatar')->getClientSize()		
+
+	}	
 
 
 }
