@@ -95,7 +95,6 @@ class StormIdeasController extends BaseController {
 			                        'weight'     			=> $countWord,
 			                	);
 			                	array_push($stormIdeasWords, $stormIdeasWord);
-			                	// $stormIdeasWordId = StormIdeas::insertStormIdeasWord($stormIdeasWord); 
 	                		}
 
 	                  	}
@@ -142,6 +141,36 @@ class StormIdeasController extends BaseController {
 		}
 	}
 
+	public function delete($stormIdeasId){
+
+    	//get comprobation_list by id data
+    	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
+    	$projectId = $stormIdeas['project_id'];
+
+		$stormIdeas = StormIdeas::deleteStormIdeas($stormIdeasId);
+
+		if($stormIdeas>0){
+
+	        Session::flash('success_message', 'Se ha eliminado la Tormenta de Ideas'); 
+
+	        // save created project ID on session
+	        Session::put('created_project_id', $projectId);
+
+	        // redirect to invitation viee
+	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId);
+	        
+		}else{
+
+			Session::flash('error_message', 'No se pudo eliminar la Tormenta de Ideas'); 
+
+	        // save created project ID on session
+	        Session::put('created_project_id', $projectId);
+
+	        // redirect to invitation viee
+	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId);
+		}
+    
+	}
 
 	public function edit($stormIdeasId){
 

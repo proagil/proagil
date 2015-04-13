@@ -97,6 +97,7 @@
  .btn-content,
  .storm-ideas-item-content,
  .storm-ideas-options,
+ .modal-storm-ideas, 
  .wordcloud,
  .form-group-modal,
  .form-content,
@@ -1174,6 +1175,10 @@ textarea{
 	padding: 9px 4px;
 }
 
+.storm-ideas-item-content:hover {
+	background-color: #e3e2e2;
+}
+
 .storm-ideas-options {
 	width: 8%;
 	margin: 1% 0 0 0;
@@ -1198,6 +1203,10 @@ textarea{
 
 .btn-storm-ideas-edit{
 	margin-left: 3%;
+}
+
+.modal-storm-ideas {
+	height: 380px;
 }
 
 /*-------------------------------------------
