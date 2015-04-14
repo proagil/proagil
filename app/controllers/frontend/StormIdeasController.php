@@ -147,6 +147,7 @@ class StormIdeasController extends BaseController {
     	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
     	$projectId = $stormIdeas['project_id'];
 
+		$this->deleteFile($stormIdeas['storm_ideas_image'], $stormIdeas['image']); 
 		$stormIdeas = StormIdeas::deleteStormIdeas($stormIdeasId);
 
 		if($stormIdeas>0){
@@ -184,6 +185,11 @@ class StormIdeasController extends BaseController {
 	    	$projectId = $stormIdeas['project_id'];
 	    	$project = (array) Project::getName($projectId);
 
+/*			echo "<pre>";
+        	print_r($stormIdeas);
+        	echo "</pre>";
+        	die;*/
+
 	    	$values = $stormIdeas;
 	    	
 	        if(Input::has('_token')){
@@ -205,11 +211,9 @@ class StormIdeasController extends BaseController {
 
 		        	$words = preg_split("/[\s,]+/", $ideas);
 
-/*		        	echo "<pre>";
-		        	print_r($words);
-		        	echo "</pre>";*/
-
 		        	$countWords = array_count_values($words);
+		        	
+		        	$this->deleteFile($stormIdeas['storm_ideas_image'], $stormIdeas['image']); 
 
 		        	$stormIdeas = array(
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
@@ -280,11 +284,6 @@ class StormIdeasController extends BaseController {
 		}
 	}
 
-	public function show($stormIdeasId){
-		echo "show";
-		return true;
-	}
-
 	public function saveStormIdeasImage($stormIdeasId,$stormIdeasName){
 
 		$img = $_POST['imgBase64'];
@@ -314,6 +313,19 @@ class StormIdeasController extends BaseController {
       		$stormIdeasId = StormIdeas::updateStormIdeas($stormIdeasId, $stormIdeas); 
       	}
 
+	}
+
+	public function deleteFile($fileName, $fileId){
+
+		$fileDeleted = FALSE; 
+
+		if(unlink(sprintf(public_path('uploads/%s'), $fileName))){
+			if(Files::_delete($fileId)){
+				$fileDeleted = TRUE; 
+			} 
+		}
+
+		return $fileDeleted; 
 	}
 
 

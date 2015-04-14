@@ -36,9 +36,17 @@ class StormIdeas extends Eloquent{
 
 	public static function get($stormIdeasId){
 
-		return DB::table('storm_ideas')->where('id', $stormIdeasId)
-									   ->where('enabled', TRUE)
-				  					   ->first();
+		return DB::table('storm_ideas AS si')
+
+				->select('si.*', 'f.server_name AS storm_ideas_image')
+
+				->where('si.id', $stormIdeasId)
+
+				->where('si.enabled', TRUE)
+
+				->leftJoin('file AS f', 'f.id', '=', 'si.image')									   
+				
+				->first();
 	}
 
 	public static function insert($values){
