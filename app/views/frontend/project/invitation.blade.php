@@ -106,8 +106,8 @@
                                           });
                                   
                       htmlInvitation += '</select>'+
-                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-invitation circle activity-option txt-center fs-big fc-turquoise">'+
-                                        '<i class="fa fa-minus fa-fw"></i>'+
+                                      '<div data-invitation-id="'+invitationCount+'" class="btn-delete-invitation circle activity-option txt-center fs-big fc-pink">'+
+                                        '<i class="fa fa-times fa-fw"></i>'+
                                       '</div>'+
                                       '<br><br>'+
                                       '<span class="error fc-pink fs-min hidden">El correo electr&oacute;nico indicado no es v&aacute;lido</span>'+

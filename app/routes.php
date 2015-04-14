@@ -205,6 +205,13 @@ Route::any('/guia-de-estilos/guardar', 'StyleGuideController@save');
 
 Route::any('/guia-de-estilos/editar/{style_guide_id}', 'StyleGuideController@edit');
 
+Route::any('/guia-de-estilos/eliminar-color/{color_id}', 'StyleGuideController@deleteColor');
+
+Route::any('/guia-de-estilos/detalle/{style_guide_id}', 'StyleGuideController@detail');
+
+Route::any('/guia-de-estilos/eliminar-fuente/{font_id}', 'StyleGuideController@deleteFont');
+
+Route::any('/guia-de-estilos/eliminar/{style_guide_id}', 'StyleGuideController@deleteStyleGuide');
 
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/

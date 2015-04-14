@@ -135,7 +135,7 @@ $(function() {
 
                   '<label class="probe-label txt-right">Nombre:</label>'+
                   '<input type="hidden" name="esystem[project_id]" value="'+projectId+'">'+ 
-                   '<input type="hidden" name="esystem[iterface_id]" value="'+interfaceValue+'">'+ 
+                   '<input type="hidden" name="esystem[interface_id]" value="'+interfaceValue+'">'+ 
                   '<input type="text" name="esystem[name]" value="'+response.data.name+'" class="probe-input-name probe-input form-control">'+  
 
                   '<label class="probe-label txt-right">Interfaz:</label>'+
