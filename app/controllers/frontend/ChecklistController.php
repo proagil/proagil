@@ -431,7 +431,7 @@ class ChecklistController extends BaseController {
 	        		'status'      	=> Config::get('constant.checklist.checked') 
 	        	);
 
-	  	        $updateChecklist = Checklist::updateChecklist($checklistId, $checklistBelongsItem);
+	  	        $updateChecklist = Checklist::updateChecklist($checklistId, $checklist);
 
 	        	if ($updateChecklist>0){
 
