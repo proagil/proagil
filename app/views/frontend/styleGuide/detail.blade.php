@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> An&aacute;lisis de sistemas existentes <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}}
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos <span class="fc-green"> &raquo; </span> {{$styleGuide['name']}}
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,38 +30,95 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									{{$existingSystem['name']}}
+									{{$styleGuide['name']}}
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
-							@if($existingSystem['interface']!='')
-							<div class="e-system-table-head">
-								<div class="system-interface txt-center">
- 									<img  src="{{URL::to('/').'/uploads/'.$existingSystem['interface_image']}}"/>
-								</div>
-							</div>
-							@endif
 
 							<div class="e-system-table-content">
+								@if($styleGuide['interface']!='')
 								<div class="e-system-row">
-									<div class="txt-center f-bold f-med e-system-topic row-head">
-										Caracter&iacute;stica
+									<div class="txt-center f-bold f-big fc-turquoise text-uppercase e-system-topic">
+										Interfaz de usuario
 									</div>
-									<div class="e-system-obs f-bold f-med txt-center row-head">
-										Observaci&oacute;n
-									</div>
-								</div>	
-								@foreach($existingSystem['elements'] as $existingSystem)							
-								<div class="e-system-row">
-									<div class="txt-center e-system-topic">
-										{{$existingSystem['topic_name']}}
-									</div>
-									<div class="e-system-obs">
-										{{$existingSystem['observation']}}
+									<div class="e-system-obs f-bold f-med txt-center">
+										<div class="system-interface txt-center">
+		 									<img  src="{{URL::to('/').'/uploads/'.$styleGuide['interface_image']}}"/>
+										</div>										
 									</div>
 								</div>
-								@endforeach							
+								@endif
+
+								@if($styleGuide['logo']!='')
+								<div class="e-system-row">
+									<div class="txt-center f-bold f-big fc-turquoise text-uppercase e-system-topic">
+										Logo
+									</div>
+									<div class="e-system-obs f-bold f-med txt-center">
+										<div class="system-interface txt-center">
+		 									<img  src="{{URL::to('/').'/uploads/'.$styleGuide['logo_image']}}"/>
+										</div>										
+									</div>
+								</div>
+								@endif		
+
+								@if(!empty($styleGuide['colors']))
+								<div class="e-system-row">
+									<div class="txt-center f-bold f-big fc-turquoise text-uppercase e-system-topic">
+										Colores primarios
+									</div>
+									<div class="colors-content">
+										@foreach($styleGuide['colors'] as $color)
+											@if($color['type'] == 1)
+												<div class="detail-color">
+													<div class="color-bg-style-guide" style="background-color: {{'#'.$color['hexadecimal']}}">
+													</div>
+													<div class="text-uppercase  color-hexa">
+														{{'#'.$color['hexadecimal']}}
+													</div>
+												</div>
+
+											@endif
+										@endforeach										
+									</div>
+								</div>
+								@endif
+
+								@if(!empty($styleGuide['colors']))
+								<div class="e-system-row">
+									<div class="txt-center f-bold f-big fc-turquoise text-uppercase e-system-topic">
+										Colores Secundarios
+									</div>
+									<div class="colors-content">
+										@foreach($styleGuide['colors'] as $color)
+											@if($color['type'] == 2)
+												<div class="detail-color">
+													<div class="color-bg-style-guide" style="background-color: {{'#'.$color['hexadecimal']}}">
+													</div>
+													<div class="text-uppercase  color-hexa">
+														{{'#'.$color['hexadecimal']}}
+													</div>
+												</div>
+
+											@endif
+										@endforeach										
+									</div>
+								</div>
+								@endif	
+
+								@if(!empty($styleGuide['fonts']))
+								<div class="e-system-row">
+									<div class="txt-center f-bold f-big fc-turquoise text-uppercase e-system-topic">
+										Tipograf&iacute;a
+									</div>
+									<div class="e-system-obs">
+										@foreach($styleGuide['fonts'] as $font)
+											{{$font['name']}} - {{$font['size']}} <br>
+										@endforeach										
+									</div>
+								</div>
+								@endif																					
 							</div>															
 
 																	

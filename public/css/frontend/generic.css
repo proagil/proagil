@@ -17,6 +17,10 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .big-circle,
+ .color-hexa,
+ .detail-color,
+ .colors-content,
  .color-row,
  .primary-color-content,
  .color-content,
@@ -553,6 +557,8 @@ a.login-link:hover  {
 
 .user-profile {
 	max-height: 28px;
+	width: 28px;
+	height: 28px; 
 }
 
 .user-profile-options {
@@ -1280,4 +1286,25 @@ textarea{
 	cursor: pointer;
 	margin: 2%;
 	width: 60%; 
+}
+
+.color-bg-style-guide {
+	float: left; 
+	width: 70px;
+	height: 70px; 
+	margin: 2px;
+}
+
+.colors-content{
+	width: 70%;
+	padding: 2%; 
+	border-left: 10px solid #ffffff; 
+}
+
+.detail-color {
+	width: 12%; 
+}
+
+.color-hexa {
+	margin: 10px;
 }

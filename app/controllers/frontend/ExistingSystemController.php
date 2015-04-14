@@ -367,7 +367,7 @@ class ExistingSystemController extends BaseController {
 
 		// move file into uploads folder and resize
 		$file->move(public_path('uploads'), $serverName);
-		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->->widen($width, $height)->save();
+		$resizedFile = Image::make(sprintf(public_path('uploads/%s'), $serverName))->widen($width, $height)->save();
 
 		// save image on database and generate file id
 		if($resizedFile!=NULL){

@@ -65,7 +65,7 @@ $(function() {
 
       colorCount++; 
 
-      var colorHtml =  '<div class="color-row color-row-'+colorCount+'">'+
+      var colorHtml =  '<div class="color-row color-row-'+colorCount+'" style="display:none;">'+
                         '<input type="text" data-input-type="colors" name="values[primary_color][]" class="form-control app-input color-picker"></input>'+
                          '<div data-color-id="'+colorCount+'" class="btn-delete-color circle activity-option txt-center fs-big fc-pink">'+
                               '<i class="fa fa-times fa-fw"></i>'+
@@ -96,7 +96,7 @@ $(function() {
 
       colorCount++; 
 
-      var colorHtml =  '<div class="color-row color-row-'+colorCount+'">'+
+      var colorHtml =  '<div class="color-row color-row-'+colorCount+'" style="display:none;">'+
                         '<input type="text" data-input-type="colors" name="values[secundary_color][]" class="form-control app-input color-picker"></input>'+
                          '<div data-color-id="'+colorCount+'" class="btn-delete-color circle activity-option txt-center fs-big fc-pink">'+
                               '<i class="fa fa-times fa-fw"></i>'+
@@ -125,9 +125,9 @@ $(function() {
 
     $(document).on('click','.btn-delete-color', function(){
 
-      var fontId = $(this).data('colorId'); 
+      var colorId = $(this).data('colorId'); 
 
-       $(document).find('.color-row-'+fontId).fadeOut('slow', 
+       $(document).find('.color-row-'+colorId).fadeOut('slow', 
           function() { 
             $(this).remove()
           });
@@ -210,7 +210,6 @@ $(function() {
 
                             $(this).siblings('.error-name').removeClass('hidden'); 
 
-                            $('*[data-tab-name="fonts"]').addClass('fc-pink');
                           }else{
                              $(this).siblings('.error-name').addClass('hidden');
 
@@ -246,6 +245,123 @@ $(function() {
               }  
       
     })
+
+
+/*----------------------------------------------------------------------
+
+        EDIT functions
+
+----------------------------------------------------------------------*/    
+
+    var newColorCount = 0,
+        newFontCount = 0;   
+
+    // add color
+    $('.btn-add-new-color').on('click', function(){
+
+      newColorCount++; 
+
+      var colorHtml =  '<div class="color-row color-new-row-'+newColorCount+'" style="display:none;">'+
+                        '<input type="text" data-input-type="colors" name="values[primary_color][]" class="form-control app-input color-picker"></input>'+
+                         '<div data-color-id="'+newColorCount+'" class="btn-delete-new-color circle activity-option txt-center fs-big fc-pink">'+
+                              '<i class="fa fa-times fa-fw"></i>'+
+                        '</div>'+                         
+                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>'+
+                        '</div>';
+                  
+
+      $(colorHtml).appendTo('.primary-color-content').fadeIn('slow');
+
+     $(document).find('.color-picker').colpick({
+      layout:'hex',
+      submit:0,
+      colorScheme:'light',
+      onChange:function(hsb,hex,rgb,el,bySetColor) {
+        $(el).css('border-color','#'+hex);
+        // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+        if(!bySetColor) $(el).val(hex);
+      }
+    }).keyup(function(){
+
+      $(this).colpickSetColor(this.value);
+    });     
+
+    })
+
+     $('.btn-add-new-secundary-color').on('click', function(){
+
+      newColorCount++; 
+
+      var colorHtml =  '<div class="color-row color-new-row-'+newColorCount+'" style="display:none;">'+
+                        '<input type="text" data-input-type="colors" name="values[secundary_color][]" class="form-control app-input color-picker"></input>'+
+                         '<div data-color-id="'+newColorCount+'" class="btn-delete-new-color circle activity-option txt-center fs-big fc-pink">'+
+                              '<i class="fa fa-times fa-fw"></i>'+
+                        '</div>'+                              
+                        '<br><label class="error fc-pink fs-min hidden">Debe indicar un color v&aacute;lido</label>'+
+                        '</div>'; 
+                  
+
+      $(colorHtml).appendTo('.secundary-color-content').fadeIn('slow');
+
+       $(document).find('.color-picker').colpick({
+        layout:'hex',
+        submit:0,
+        colorScheme:'light',
+        submitText: 'oo',
+        onChange:function(hsb,hex,rgb,el,bySetColor) {
+          $(el).css('border-color','#'+hex);
+          // Fill the text box just if the color was set using the picker, and not the colpickSetColor function.
+          if(!bySetColor) $(el).val(hex);
+        }
+      }).keyup(function(){
+        $(this).colpickSetColor(this.value);
+      });     
+
+    }) 
+
+    $(document).on('click','.btn-delete-new-color', function(){
+
+      var colorId = $(this).data('colorId'); 
+
+       $(document).find('.color-new-row-'+colorId).fadeOut('slow', 
+          function() { 
+            $(this).remove()
+          });
+    });
+
+    // add new font values
+    $('.add-new-font-edit').on('click', function(){
+
+      newFontCount++; 
+
+      var fontHtml =  '<div class="font-info font-new-content-'+newFontCount+'" style="display:none;">'+
+                        '<div class="form-group style-guide-form-group">'+
+                          '<label class="col-md-4 title-label control-label" for="textinput">Fuente<span class="fc-pink fs-med">*</span></label>'+  
+                          '<div class="col-md-4">'+
+                            '<input data-font-type="name" data-input-type="fonts" class="form-control app-input" placeholder="Nombre de fuente. Ej: Arial" name="values[font_name][]" type="text" value="">'+
+                            '<br><label class="error-name fc-pink fs-min hidden">Debe indicar un nombre de fuente</label>'+
+                            '<input data-font-type="size" data-input-type="fonts" class="form-control app-input" placeholder="Tamaño de fuente. Ej: 14px" name="values[font_size][]" type="text" value="">'+
+                             '<div data-font-id="'+newFontCount+'" class="btn-delete-new-font circle activity-option txt-center fs-big fc-pink">'+
+                                  '<i class="fa fa-times fa-fw"></i>'+
+                            '</div>'+                            
+                            '<br><label class="error-size fc-pink fs-min hidden">Debe indicar un tama&ntilde;o de fuente</label>'+
+                          '</div>'+
+                        '</div>'+  
+                      '</div>';   
+
+        $(fontHtml).appendTo('.fonts-content').fadeIn('slow');                 
+
+    });
+
+    $(document).on('click','.btn-delete-new-font', function(){
+
+      var fontId = $(this).data('fontId'); 
+
+       $(document).find('.font-new-content-'+fontId).fadeOut('slow', 
+          function() { 
+            $(this).remove()
+          });
+    });
 
     $('.btn-delete-saved-color').on('click',function(e){
 
@@ -334,6 +450,113 @@ $(function() {
 
         });               
 
-    });          
+    });   
+
+    $('.edit-style-guide').on('click', function(){
+
+          var successValidation = 0,
+              totalValues = 0;
+
+              //validate style guide elements
+              $('input[type="text"]').each(function(){
+
+
+                if(typeof $(this).data('inputType')!== 'undefined'){
+
+                  totalValues++; 
+
+                  switch($(this).data('inputType')) {
+                    case 'information':
+                      if($(this).val() == ''){
+                        $(this).siblings('.error').removeClass('hidden'); 
+
+                        //$('*[data-tab-name="information"]').addClass('fc-pink');
+                      }else{
+                         $(this).siblings('.error').addClass('hidden');
+                          successValidation++; 
+
+                      }
+                    break; 
+                    case 'colors':
+                      if($(this).val() != '' && $(this).val().match(/[0-9A-Fa-f]{6}/g)){
+                        $(this).siblings('.error').addClass('hidden'); 
+                        successValidation++; 
+
+                      }else{
+   
+                        $(this).siblings('.error').removeClass('hidden');   
+
+                      }  
+                    break; 
+                    case 'fonts':
+                        if($(this).data('fontType')=='name'){
+
+                          if($(this).val() == ''){
+
+                            $(this).siblings('.error-name').removeClass('hidden'); 
+
+                          }else{
+                             $(this).siblings('.error-name').addClass('hidden');
+
+                              successValidation++; 
+
+                          }                          
+
+                        }else{
+
+                          if($(this).val() == ''){
+
+                            $(this).siblings('.error-size').removeClass('hidden'); 
+
+                          }else{
+                             $(this).siblings('.error-size').addClass('hidden');
+
+                              successValidation++; 
+
+                          }                            
+                          
+                        }
+                    break;                                         
+                  }
+
+                }
+              });
+
+              console.log('successValidation: '+successValidation+' totalValues: '+totalValues);
+
+              // success validation, all categories are valid
+              if(successValidation==totalValues){
+                $(document).find('#form-edit-guide-style').submit(); 
+              }  
+      
+    })  
+
+    $('.btn-delete-style-guide').on('click',function(e){
+
+      console.log('xxx'); 
+
+       e.preventDefault(); 
+
+        var styleGuideId = $(this).data('styleGuideId'),
+            styleGuideName = $(this).data('styleGuideName'); 
+
+        var showAlert = swal({
+          title: 'Eliminar color',
+          text: 'Confirma que desea eliminar la guía de estilos: '+styleGuideName,
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Si, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+          window.location.href = projectURL+'/guia-de-estilos/eliminar/'+styleGuideId;  
+
+        });               
+
+    });                
 
 })

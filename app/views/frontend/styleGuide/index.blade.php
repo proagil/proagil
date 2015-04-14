@@ -53,7 +53,7 @@
 											</a>
 										</div>
 										@if($projectOwner)
-										<div data-style-guide-id="{{$styleGuide['id']}}" data-style-guide-name="{{$styleGuide['name']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="circle activity-option txt-center fs-big fc-pink delete-esystem">
+										<div data-style-guide-id="{{$styleGuide['id']}}" data-style-guide-name="{{$styleGuide['name']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="btn-delete-style-guide circle activity-option txt-center fs-big fc-pink">
 											<i class="fa fa-times fa-fw"></i>
 										</div>												
 										@endif								
@@ -72,6 +72,8 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.javascript')
+	{{ HTML::script('js/frontend/style-guide.js') }}
+	{{ HTML::script('js/frontend/colpick.js') }}
 
 	<script>
 

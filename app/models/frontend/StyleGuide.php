@@ -110,26 +110,85 @@ class StyleGuide extends Eloquent{
 
 	}	
 
-	public static function updateProjectArtefact($projectId, $artefact){
+	public static function _update($styleGuideId, $styleGuide){
 
-		return DB::table('artefact_belongs_to_project')->insertGetId($artefact);
+		return DB::table('style_guide')->where('id', $styleGuideId)->update($styleGuide);
 
 	}
 
-	public static function getByFriendlyUrl($friendlyUrl){
+	public static function deletePrimaryColors($styleGuideId){
 
-		return DB::table('artefact')
-				  	->where('friendly_url', $friendlyUrl)
-					->where('enabled', TRUE)
-				  	->first();
+		try{
+
+			return DB::table('style_guide_color AS sgc')
+					->where('sgc.style_guide_id', $styleGuideId)
+					->where('sgc.type', 1)
+					->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
 	}	
 
-	public static function getById($artefactId){
+	public static function deleteSecundaryColors($styleGuideId){
 
-		return DB::table('artefact')
-				  	->where('id', $artefactId)
-					->where('enabled', TRUE)
-				  	->first();
+		try{
+
+			return DB::table('style_guide_color AS sgc')
+					->where('sgc.style_guide_id', $styleGuideId)
+					->where('sgc.type', 2)
+					->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}		
+
+	public static function deleteFonts($styleGuideId){
+
+		try{
+
+			return DB::table('style_guide_font AS sgf')
+					->where('sgf.style_guide_id', $styleGuideId)
+					->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}	
+
+	public static function deleteStyleGuide($styleGuideId){
+
+		try{
+
+			$deletedColors = DB::table('style_guide_color AS sgc')
+					->where('sgc.style_guide_id', $styleGuideId)
+					->delete();
+
+			$deletedFonts =  DB::table('style_guide_font AS sgf')
+					->where('sgf.style_guide_id', $styleGuideId)
+					->delete();		
+
+			return DB::table('style_guide AS sg')
+					->where('sg.id', $styleGuideId)
+					->delete();
+
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+
 	}
 
 

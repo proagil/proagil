@@ -38,8 +38,9 @@
 								</div>							
 
 							</div>	
-							{{ Form::open(array('action' => array('StyleGuideController@edit'), 'files' => true, 'id' => 'form-save-guide-style')) }}
-								<input name="values[project_id]" type="hidden" value="{{$projectId}}">								
+							{{ Form::open(array('action' => array('StyleGuideController@edit', $values['id']), 'files' => true, 'id' => 'form-edit-guide-style')) }}
+								<input name="values[project_id]" type="hidden" value="{{$projectId}}">
+								<input name="values[style_guide_id]" type="hidden" value="{{$values['id']}}">									
 
 							<div class="style-guide-content">
 								<div class="style-guide-tabs-content">
@@ -75,7 +76,7 @@
 				 									<img  src="{{URL::to('/').'/uploads/'.$values['logo_image']}}"/>
 												</div>
 											@endif	
-     									 {{ Form::file('avatar', array('id'=> 'avatar', 'class'=> 'file-upload', 'title' => 'Editar logo', 'data-filename-placement' => 'inside')) }}												     									 
+     									 {{ Form::file('logo', array('id'=> 'logo', 'class'=> 'file-upload', 'title' => 'Editar logo', 'data-filename-placement' => 'inside')) }}												     									 
 			                            </div>
 			                          </div>			                          
 									</div>
@@ -103,7 +104,7 @@
 			                          <div class="form-group">
 			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
 			                            <div class="col-md-4">
-			                              <div class="btn-add-color">
+			                              <div class="btn-add-new-color">
 			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
 			                                  <i class="fa fa-plus fa-fw"></i>
 			                                </div>
@@ -119,7 +120,7 @@
 				                            		@foreach($values['colors'] as $color)
 					                            		@if($color['type']==2)
 														<div class="color-row color-row-saved-{{$color['id']}}">
-		                        							<input style="border-color: {{'#'.$color['hexadecimal']}}" type="text" data-input-type="colors" name="values[primary_color][]" value="{{$color['hexadecimal']}}" class="form-control app-input color-picker"></input>
+		                        							<input style="border-color: {{'#'.$color['hexadecimal']}}" type="text" data-input-type="colors" name="values[secundary_color][]" value="{{$color['hexadecimal']}}" class="form-control app-input color-picker"></input>
 									                         <div data-color-id="{{$color['id']}}" class="btn-delete-saved-color circle activity-option txt-center fs-big fc-pink">
 									                              <i class="fa fa-times fa-fw"></i>
 									                        </div>                       
@@ -134,7 +135,7 @@
 			                          <div class="form-group">
 			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
 			                            <div class="col-md-4">
-			                              <div class="btn-add-secundary-color cur-point">
+			                              <div class="btn-add-new-secundary-color cur-point">
 			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
 			                                  <i class="fa fa-plus fa-fw"></i>
 			                                </div>
@@ -169,7 +170,7 @@
 			                          <div class="form-group">
 			                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
 			                            <div class="col-md-4">
-			                              <div class="add-new-font cur-point" style="margin:5%">
+			                              <div class="add-new-font-edit cur-point" style="margin:5%">
 			                                <div class="circle activity-option txt-center fs-big fc-turquoise">
 			                                  <i class="fa fa-plus fa-fw"></i>
 			                                </div>
@@ -198,7 +199,7 @@
 
 							<div class="probe-general-buttons">
 
-								<div class="save-style-guide txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+								<div class="edit-style-guide txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
 									Guardar
 								</div>									
 						
