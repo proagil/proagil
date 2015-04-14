@@ -37,7 +37,7 @@
 							</div>	
 							{{ Form::open(array('action' => array('ProbeController@save'), 'id' => 'form-create-probe')) }}	
 
-								<label class="probe-label txt-right">Titulo:</label>
+								<label class="probe-label txt-right">T&iacute;tulo:</label>
 							
 								<input type="hidden" name="probe[project_id]" value="{{$projectId}}">	
 								<input type="text" name="probe[title]"  class="probe-input-name probe-input form-control">	
@@ -58,7 +58,7 @@
 
 							<div class="probe-general-buttons">
 
-								<div class="save-probe txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+								<div class="save-probe txt-center fs-med common-btn btn-iii btn-green pull-right txt-center">
 									Guardar sondeo
 								</div>									
 								<div class="add-question-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">

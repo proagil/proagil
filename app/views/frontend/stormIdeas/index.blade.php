@@ -86,7 +86,7 @@
 																		
 								@endforeach
 							@else
-								<div class="f-min">Aún no han creado tormentas de ideas</div>
+								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay sondeos creados</div>
 							@endif
 											
 							</div>											

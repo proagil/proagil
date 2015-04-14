@@ -6,7 +6,7 @@ class Probe extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('probe')->where('project_id', $projectId)->get();
+		return DB::table('probe')->where('project_id', $projectId)->orderby('probe.id', 'ASC')->get();
 	}
 
 	public static function getAnswerTypes($type){
