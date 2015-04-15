@@ -565,7 +565,8 @@ class ProbeController extends BaseController {
 
 		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray)
 													->with('openQuestions', $openQuestions)
-												 	->with('probeTitle', $probeResults['title']);             	
+												 	->with('probeTitle', $probeResults['title'])
+												 	->with('probeResponses', $probeResults['responses']);              	
 	}	
 
 
