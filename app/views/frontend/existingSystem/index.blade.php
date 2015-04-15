@@ -32,7 +32,7 @@
 							</div>	
 							@if($projectOwner)
 							<div class=" fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('ExistingSystemController@create', array($projectId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear analisis</a>
+								<a href="{{URL::action('ExistingSystemController@create', array($projectId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear an&aacute;lisis</a>
 							</div>
 							@endif
 							
