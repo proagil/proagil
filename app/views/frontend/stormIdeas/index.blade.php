@@ -95,7 +95,7 @@
 																		
 								@endforeach
 							@else
-								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay sondeos creados</div>
+								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay Tormenta de Ideas creadas</div>
 							@endif
 											
 							</div>											
