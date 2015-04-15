@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Editar Lista de Comprobación
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación <span class="fc-green"> &raquo; </span> Editar
         							</div>
 
                       @if (Session::has('success_message'))
