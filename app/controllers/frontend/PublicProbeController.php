@@ -39,12 +39,16 @@ class PublicProbeController extends BaseController {
 
 	        		foreach($value as $option){
 
-	        			$responseOptions = array(
-	        				'probe_template_option_id'		=> $option,
-	        				'probe_template_element_id'		=> $elementId
-	        			);
+	        			if($option!=''){
 
-	        			Probe::saveResponse($responseOptions); 
+		        			$responseOptions = array(
+		        				'probe_template_option_id'		=> $option,
+		        				'probe_template_element_id'		=> $elementId
+		        			);
+
+		        			Probe::saveResponse($responseOptions); 
+
+	        			}
 
 	        		}
 
@@ -52,37 +56,56 @@ class PublicProbeController extends BaseController {
 
 	        	if($elementType=='radio') {
 
-        			$responseOptions = array(
-        				'probe_template_option_id'		=> $value,
-        				'probe_template_element_id'		=> $elementId,
-        			);
+	        		if($value!=''){
 
-        			Probe::saveResponse($responseOptions); 	        		
+	        			$responseOptions = array(
+	        				'probe_template_option_id'		=> $value,
+	        				'probe_template_element_id'		=> $elementId,
+	        			);
+
+	        			Probe::saveResponse($responseOptions); 	 	        			
+
+	        		}       		
 
 	        	}
 
 	        	if($elementType=='text') {
 
-        			$responseOptions = array(
-        				'value'							=> $value, 
-        				'probe_template_element_id'		=> $elementId
-        			);
+        			if($value!=''){
 
-        			Probe::saveResponse($responseOptions); 	        		
+	        			$responseOptions = array(
+	        				'value'							=> $value, 
+	        				'probe_template_element_id'		=> $elementId
+	        			);
+
+	        			Probe::saveResponse($responseOptions); 	
+
+        			}        		
 
 	        	}
 
 	        	if($elementType=='textarea') {
 
-        			$responseOptions = array(
-        				'value'							=> $value, 
-        				'probe_template_element_id'		=> $elementId
-        			);
+	        		if($value!=''){
 
-        			Probe::saveResponse($responseOptions); 	       	        		
+	        			$responseOptions = array(
+	        				'value'							=> $value, 
+	        				'probe_template_element_id'		=> $elementId
+	        			);
+
+	        			Probe::saveResponse($responseOptions); 
+
+	        		}	       	        		
 
 	        	}
 	        }
+
+			// get current probe
+			$probe = Probe::getProbeByUrl($probeUrl); 
+
+			// update probe response
+			Probe::_update($probe['id'], array('responses' => $probe['responses'] + 1 )); 
+
 
 	        return Redirect::to(URL::action('PublicProbeController@send', array($probeUrl)));
 

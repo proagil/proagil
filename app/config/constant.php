@@ -53,7 +53,8 @@ return array(
 	'probe.element.textarea'				=> 2,
 	'probe.element.radio'					=> 3,
 	'probe.element.checkbox'				=> 4,
-	'probe.colors'							=> array('#41cac0','#ec8f6e','#a8d76f','#eecb44','#ef6f66', '#9E71A8','#B5D6EB','#CD3B71','#EC7143','#ECD943','#EC4843','#EC8443'),
+	'probe.responses_limit'					=> 50,
+	'probe.colors'							=> array('#41cac0','#a8d76f','#eecb44','#ef6f66', '#ec8f6e' ,'#9E71A8','#B5D6EB','#CD3B71','#EC7143','#ECD943','#EC4843','#EC8443'),
 	'style_guide.color.primary'				=> 1,
 	'style_guide.color.secundary'			=> 2
 

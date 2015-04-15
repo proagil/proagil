@@ -35,13 +35,16 @@
 								</div>							
 
 							</div>	
-															
+
+							<p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$probeTitle}}</p>
+							<p class="text-center f-bold fs-fmed text-uppercase">{{$probeResponses}} Respuestas </p>													
 
 							<div class="list-content">
 								@foreach($graphicsArray as $index => $graphic)
 
-								<div id="graphic-{{$index}}"></div>
-								@piechart('graphic-'.$index, 'graphic-'.$index)	
+									<div id="graphic-{{$index}}"></div>
+
+									@piechart('graphic-'.$index, 'graphic-'.$index)	
 
 								@endforeach
 																						
@@ -57,7 +60,7 @@
 										@if(!empty($question['results']))
 											@foreach($question['results'] as $answer)
 											<div class="result-answer">
-												{{$answer}}
+												 {{$answer}}
 											</div>
 											@endforeach
 										@endif																	

@@ -67,13 +67,16 @@
 									@foreach($probes as $probe)
 									<div class="probe-item-content" {{(!$projectOwner)?'style=width:100%':''}} data-probe-url="{{$probe['url']}}">
 										<i class="fc-green fa fa-th-list fa-fw"></i>
-											{{$probe['title']}}		
+
+											<span class="f-bold"> {{$probe['title']}} </span>		
 
 											@if($probe['status']==1)
 												<i class="fc-turquoise fa fa-lock fa-fw"></i> Cerrado
 											@else
 												<i class="fc-turquoise fa fa-unlock fa-fw"></i> Abierto
-											@endif				
+											@endif	
+
+											 <i class="fc-turquoise fa fa-comments-o fa-fw"> </i> {{$probe['responses']}}	Respuestas				
 									</div>
 									@if($projectOwner)	
 									<div class="probe-options txt-center">

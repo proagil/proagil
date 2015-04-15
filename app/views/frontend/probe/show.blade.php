@@ -7,7 +7,7 @@
 	        <div class="row show-probe-container">
 	            <div class="col-md-8 col-lg-8">
 
-	            	@if ($probe['status']==2)
+	            	@if ($probe['status']==2 && $probe['responses'] < Config::get('constant.probe.responses_limit'))
 	                <div class="show-probe-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-big">
@@ -113,7 +113,7 @@
 	                <div class="show-probe-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-big">
-								El sondeo que solicita se encuentra cerrado. Si necesita m&aacute;s informaci&oacute;n p&oacute;ngase en contacto con su autor. Gracias        	  		
+								El sondeo que solicita no est&aacute; disponible. Si necesita m&aacute;s informaci&oacute;n p&oacute;ngase en contacto con su autor. Gracias        	  		
 	                    	  </div>
 	                   	</div>
 	                </div>

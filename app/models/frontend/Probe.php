@@ -183,7 +183,6 @@ class Probe extends Eloquent{
 
 	}
 
-
 	public static function getProbeInfo($probeId){
 
 		 // get probe data
@@ -195,8 +194,23 @@ class Probe extends Eloquent{
 
 		->first();		
 
+	}
+
+	public static function getProbeByUrl($probeUrl){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get probe data
+		 return DB::table('probe AS p')
+
+		->select('p.*')
+
+		->where('p.url', $probeUrl)
+
+		->first();		
 
 	}
+
 
 	public static function getProbeElements($probeId){
 
