@@ -300,11 +300,20 @@ a.txt-undrln:hover {
 }
 
 .common-btn-i {
-	width: 200px;
+	width: 230px;
 	font-weight: bold;
 }
 
 .common-btn-i:hover{
+	cursor: pointer; 
+}
+
+.common-btn-ii {
+    width: 160px;
+    font-weight: bold;
+}
+
+.common-btn-ii:hover{
 	cursor: pointer; 
 }
 
@@ -948,7 +957,7 @@ a.btn-reassign:hover {
 	width: 10%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
-	padding: 10px 4px; 
+	padding: 9px 4px 10px;
 }
 
 .checklist-status:hover {
@@ -1199,20 +1208,13 @@ textarea{
 	margin: 0.6in auto;
 }
 
-.btn-back-storm-ideas{
-	margin-left: 35%;
-}
 
 .btn-download-storm-ideas{
 	margin-left: 3%;
 }
 
 .btn-storm-ideas-edit{
-	margin-left: 3%;
-}
-
-.modal-storm-ideas {
-	height: 380px;
+	margin-left: 50%;
 }
 
 /*-------------------------------------------

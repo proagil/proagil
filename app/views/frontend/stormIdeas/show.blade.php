@@ -16,7 +16,7 @@
         							<div class="breadcrumbs-content">
         								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Generar Tormenta de Ideas
         							</div>
-
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('StormIdeasController@index', array($project['id']))}}" > Volver</a> 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif                          
@@ -36,7 +36,6 @@
                           <span data-weight="{{$stormIdeasWord['weight']}}">{{$stormIdeasWord['word']}}</span> 
                         @endforeach
                         </div>
-                          <div class="pull-left btn-back-storm-ideas common-btn btn-ii btn-green txt-center"> <a  href="{{URL::action('StormIdeasController@index', array($project['id']))}}"> <i class="fa fa-chevron-left fa-fw"></i> Regresar</a></div>                        
                           <div class="pull-left btn-storm-ideas-edit common-btn btn-ii btn-yellow txt-center"> <a  href="{{URL::action('StormIdeasController@edit', array($stormIdeasId))}}"> <i class="fa fa-pencil fa-fw"></i> Editar</a></div>
                           <div class="pull-left btn-download-storm-ideas common-btn btn-ii btn-turquoise txt-center "> <a id="download"> <i class="fa fa-cloud-download fa-fw"></i> Descargar</a></div>
                       </div>	                              	                               	   				

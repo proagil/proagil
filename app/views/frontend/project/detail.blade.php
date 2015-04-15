@@ -116,7 +116,7 @@
 
 									</div>
 									@if($projectOwner)
-									<div class=" fs-med common-btn btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
+									<div class=" fs-med common-btn-ii btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
 										<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
 									</div>
 									@endif

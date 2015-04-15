@@ -77,7 +77,6 @@ class ChecklistController extends BaseController {
 
 		        if(!$validator->fails()){
 
-
 		        	$checklist = array(
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
 	                  'project_id'          => $projectId,
@@ -397,6 +396,7 @@ class ChecklistController extends BaseController {
 	}
 
 	public function verify($checklistId){
+		
 		//get user and user role
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');

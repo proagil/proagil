@@ -44,14 +44,14 @@
 							@if(!empty($stormsIdeas))
 								@foreach($stormsIdeas as $stormIdeas)
 									<a href="#" data-toggle="modal" data-target="#imageModal-{{$stormIdeas['id']}}" >
-										<div style="width:{{($projectOwner)?'90%':'100%'}}" class="storm-ideas-item-content">
+										<div style="width:{{($projectOwner)?'90%':'95%'}}" class="storm-ideas-item-content">
 											<i class="fc-turquoise fa fa-cloud fa-fw"></i>{{$stormIdeas['name']}}
 										</div>
 									</a>	
 									<!-- INIT MODAL HTML TO SHOW STORM IDEAS -->
 									<div class="modal fade" id="imageModal-{{$stormIdeas['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 									    <div class="modal-dialog">
-									        <div class="modal-storm-ideas modal-content" style="border-radius:0px;">
+									        <div class="modal-content" style="border-radius:0px;">
 									            <div class="modal-header" style="border-bottom: 0px;">
 										            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
 										            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">{{$stormIdeas['name']}}</h4>
@@ -78,10 +78,19 @@
 													<i class="fa fa-pencil fc-yellow fa-fw"></i>
 												</a>
 											</div>
-											<div data-storm-ideas-id="{{$stormIdeas['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-delete-storm-ideas" >
+											<div data-storm-ideas-title="{{$stormIdeas['name']}}"  data-storm-ideas-id="{{$stormIdeas['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-delete-storm-ideas" >
 												<i class="fa fa-times fa-fw"></i>
 											</div>
-										</div>												
+										</div>
+									@else
+										<div class="storm-ideas-options txt-center" style="width:5%">
+											<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-turquoise">
+												<a href="{{URL::action('StormIdeasController@edit', array($stormIdeas['id']))}}">
+													<i class="fa fa-pencil fc-yellow fa-fw"></i>
+												</a>
+											</div>
+										</div>
+
 									@endif								
 																		
 								@endforeach
