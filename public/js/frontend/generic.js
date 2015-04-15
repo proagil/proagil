@@ -1092,13 +1092,31 @@ $(function() {
 
     }); 
 
+    
     //DELETE: storm-ideas
     $('.btn-delete-storm-ideas').on('click', function(){
-      var stormIdeasId = $(this).data('stormIdeasId'); 
 
-      window.location.href = projectURL+'/tormenta-de-ideas/eliminar/'+stormIdeasId;
+    var stormIdeasId = $(this).data('stormIdeasId'),
+        stormIdeasTitle = $(this).data('stormIdeasTitle');
 
-    }); 
+      var showAlert = swal({
+        title: '¿Está seguro que desea eliminar la tormenta de ideas: '+stormIdeasTitle+' ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef6f66',
+        confirmButtonText: 'Si, eliminar',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#ef6f66',
+        closeOnConfirm: true
+      },
+      function(){
+
+          window.location.href = projectURL+'/tormenta-de-ideas/eliminar/'+stormIdeasId;
+
+      });               
+
+    });
+
 
    //CREATE: submit form
     $('.btn-create-storm-ideas').on('click', function(){

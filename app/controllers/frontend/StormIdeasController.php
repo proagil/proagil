@@ -178,110 +178,99 @@ class StormIdeasController extends BaseController {
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
 
-	    if($userRole['user_role_id']==Config::get('constant.project.owner')){
+    	// get project data
+    	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
+    	$projectId = $stormIdeas['project_id'];
+    	$project = (array) Project::getName($projectId);
 
-	    	// get project data
-	    	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
-	    	$projectId = $stormIdeas['project_id'];
-	    	$project = (array) Project::getName($projectId);
+    	$values = $stormIdeas;
+    	
+        if(Input::has('_token')){
 
-/*			echo "<pre>";
-        	print_r($stormIdeas);
-        	echo "</pre>";
-        	die;*/
+	        // get input valiues
+	        $values = Input::get('values');	 
+            	
+        	$rules =  array(
+	          'name'       		=> 'required',
+	          'ideas' 			=> 'required'
+        	);
 
-	    	$values = $stormIdeas;
-	    	
-	        if(Input::has('_token')){
+            // set validation rules to input values
+	        $validator = Validator::make(Input::get('values'), $rules);
 
-		        // get input valiues
-		        $values = Input::get('values');	 
-	            	
-            	$rules =  array(
-		          'name'       		=> 'required',
-		          'ideas' 			=> 'required'
-	        	);
+	        if(!$validator->fails()){
 
-	            // set validation rules to input values
-		        $validator = Validator::make(Input::get('values'), $rules);
+	        	$ideas = $values['ideas'];
 
-		        if(!$validator->fails()){
+	        	$words = preg_split("/[\s,]+/", $ideas);
 
-		        	$ideas = $values['ideas'];
+	        	$countWords = array_count_values($words);
+	        	
+	        	$this->deleteFile($stormIdeas['storm_ideas_image'], $stormIdeas['image']); 
 
-		        	$words = preg_split("/[\s,]+/", $ideas);
+	        	$stormIdeas = array(
+                  'enabled'        		=> Config::get('constant.ENABLED'),
+                  'project_id'          => $projectId,
+                  'name'             	=> $values['name'],
+                  'ideas'				=> $ideas
+                );
 
-		        	$countWords = array_count_values($words);
-		        	
-		        	$this->deleteFile($stormIdeas['storm_ideas_image'], $stormIdeas['image']); 
+                // insert checklist on DB
+          		$updateStormIdeasId = StormIdeas::updateStormIdeas($stormIdeasId, $stormIdeas);  
 
-		        	$stormIdeas = array(
-	                  'enabled'        		=> Config::get('constant.ENABLED'),
-	                  'project_id'          => $projectId,
-	                  'name'             	=> $values['name'],
-	                  'ideas'				=> $ideas
-	                );
+          		if($updateStormIdeasId>0) {
+          			$stormIdeasWords = array(); 
 
-	                // insert checklist on DB
-              		$updateStormIdeasId = StormIdeas::updateStormIdeas($stormIdeasId, $stormIdeas);  
+                	foreach($countWords as $index => $countWord){
 
-              		if($updateStormIdeasId>0) {
-              			$stormIdeasWords = array(); 
+                		if($index!=''){
+                			$stormIdeasWord = array(
+		                    	'word'      			=> $index,
+		                      	'storm_ideas_id'       	=> $stormIdeasId,
+		                        'weight'     			=> $countWord,
+		                	);
+		                	array_push($stormIdeasWords, $stormIdeasWord);
+                		}
 
-	                	foreach($countWords as $index => $countWord){
+                  	}
 
-	                		if($index!=''){
-	                			$stormIdeasWord = array(
-			                    	'word'      			=> $index,
-			                      	'storm_ideas_id'       	=> $stormIdeasId,
-			                        'weight'     			=> $countWord,
-			                	);
-			                	array_push($stormIdeasWords, $stormIdeasWord);
-	                		}
+             		return View::make('frontend.stormIdeas.show')
+					    	->with('project', $project) 
+					    	->with('projectDetail', TRUE)
+					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+					    	->with('stormIdeas', $stormIdeas)
+					    	->with('stormIdeasId', $stormIdeasId)
+                      		->with('stormIdeasWords', $stormIdeasWords);
 
-	                  	}
+	            }else{
 
-                 		return View::make('frontend.stormIdeas.show')
-						    	->with('project', $project) 
-						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-						    	->with('stormIdeas', $stormIdeas)
-						    	->with('stormIdeasId', $stormIdeasId)
-                          		->with('stormIdeasWords', $stormIdeasWords);
+             		return View::make('frontend.stormIdeas.edit')
+                          	->with('error_message', 'No se pudo editar la tormenta de ideas')
+                          	->with('values', $values)
+					    	->with('project', $project) 
+					    	->with('projectDetail', TRUE)
+					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+          		}
 
-		            }else{
+	        }else{
 
-                 		return View::make('frontend.stormIdeas.edit')
-                              	->with('error_message', 'No se pudo editar la tormenta de ideas')
-                              	->with('values', $values)
-						    	->with('project', $project) 
-						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
-              		}
+          		return View::make('frontend.stormIdeas.edit')
+                          	->withErrors($validator)
+                          	->with('values', $values)
+					    	->with('project', $project) 
+					    	->with('projectDetail', TRUE)
+					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
 
-		        }else{
+       		} 
+	    }else{
 
-              		return View::make('frontend.stormIdeas.edit')
-	                          	->withErrors($validator)
-	                          	->with('values', $values)
-						    	->with('project', $project) 
-						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
-
-           		} 
-		    }else{
-
-	         	// render view first time 
-		        return View::make('frontend.stormIdeas.edit')
-		        				->with('values', $values)
-						    	->with('project', $project) 
-						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
-		    }
-		}else{
-
-			return Redirect::to(URL::action('DashboardController@index'));
-		}
+         	// render view first time 
+	        return View::make('frontend.stormIdeas.edit')
+	        				->with('values', $values)
+					    	->with('project', $project) 
+					    	->with('projectDetail', TRUE)
+					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+	    }
 	}
 
 	public function saveStormIdeasImage($stormIdeasId,$stormIdeasName){
