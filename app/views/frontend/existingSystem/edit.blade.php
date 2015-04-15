@@ -17,7 +17,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}} <span class="fc-green"> &raquo; </span> Editar
 							</div>	
 
-							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
+							<i class="fc-green glyphicon  glyphicon-chevron-left"> </i> <a href="{{URL::action('ExistingSystemController@index', array($projectId))}}" class="cur-point btn-back-i"> Volver</a>			
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text"></span> </div>	
 
 							<div class="success-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="success-alert-text"> Success Alert</span> </div>		

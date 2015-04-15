@@ -6,7 +6,7 @@ class HeuristicEvaluation extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('heuristic_evaluation')->where('project_id', $projectId)->get();
+		return DB::table('heuristic_evaluation')->where('project_id', $projectId)->orderby('heuristic_evaluation.id', 'ASC')->get();
 	}
 
 	public static function getHeuristics(){

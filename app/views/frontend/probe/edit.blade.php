@@ -17,7 +17,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$values['title']}} <span class="fc-green"> &raquo; </span> Editar
 							</div>	
 
-							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
+							<i class="fc-green glyphicon  glyphicon-chevron-left"> </i> <a href="{{URL::action('ProbeController@index', array($projectId))}}" class="cur-point btn-back-i"> Volver</a>			
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text"></span> </div>	
 
 							<div class="success-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="success-alert-text"> Success Alert</span> </div>		
@@ -36,7 +36,7 @@
 							</div>
 
 								<div class="probe-info-edit-content">
-									<div class="question-title-{{$probeId}} fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
+									<div class="question-title-{{$probeId}} fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
 									</div>
 									
 									<div class="question-status-{{$probeId}} fc-turquoise">Estado: <span class="fc-blue-i probe-label-value"> {{($values['status']==1)?'Cerrado':'Abierto'}} </span>

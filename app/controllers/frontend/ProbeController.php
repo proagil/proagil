@@ -168,6 +168,7 @@ class ProbeController extends BaseController {
 
 			return View::make('frontend.probe.edit')
 						->with('projectName', $project['name'])
+						->with('projectId', $project['id'])
 						->with('probeId', $probeId)
 						->with('answerTypesOpen', $answerTypesOpen)
 						->with('answerTypesClose', $answerTypesClose)

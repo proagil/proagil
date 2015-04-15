@@ -488,6 +488,7 @@ a.txt-undrln:hover {
 
 }
 
+a.btn-back-i,
 a.btn-back,
 a.login-link {
 	outline: none;
@@ -495,6 +496,7 @@ a.login-link {
 	color: #aeb2b7;
 }
 
+a.btn-back-i:hover,
 a.btn-back:hover,
 a.login-link:hover  {
 	outline: none;

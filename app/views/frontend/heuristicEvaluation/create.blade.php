@@ -49,7 +49,7 @@
 
 							<div class="probe-general-buttons">
 
-								<div class="save-evaluation txt-center fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+								<div class="save-evaluation txt-center fs-med common-btn btn-iii btn-green pull-right txt-center">
 									Guardar
 								</div>									
 								<div class="add-element-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">

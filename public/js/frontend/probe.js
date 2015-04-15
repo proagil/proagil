@@ -239,7 +239,7 @@ $(function() {
 
               if(!response.error){
 
-                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
+                var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                 $('.question-title-'+probeId).replaceWith(htmlTitle);
 
                 var probeStatus = (response.data.status==1)?'Cerrado':'Abierto'; 
@@ -304,7 +304,7 @@ $(function() {
 
                     console.log(response); 
 
-                    var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">Titulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
+                    var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                     $('.question-title-'+probeId).replaceWith(htmlTitle);
 
                     var statusText = (response.data.status==1)?'Cerrado':'Abierto';

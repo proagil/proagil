@@ -120,7 +120,7 @@
 	                @endif
 	                <div class="brand-img pull-right">
 	                	 <span class="login-title txt-center fs-min"> Sondeo generado con: 
-							<img  style="width:10%" src="{{URL::to('/').'/images/logo-sm.png'}}"/>
+							<a href="{{URL::to('/')}}"><img style="width:10%" src="{{URL::to('/').'/images/logo-sm.png'}}"/></a>
 	                	 </span>
 	                	 
 	                </div>	                

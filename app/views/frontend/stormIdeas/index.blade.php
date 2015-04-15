@@ -15,8 +15,9 @@
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
 								Inicio  <span class="fc-green"> &raquo; </span> {{$project['name']}}  <span class="fc-green"> &raquo; </span> Tormenta de Ideas
-							</div>							
+							</div>	
 
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
 		                	@if (Session::has('error_message'))
 		                		<div class="error-alert-dashboard"><i class="fc-pink glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
 		                	@endif	
@@ -26,7 +27,6 @@
 		                	@endif							
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Tormenta de Ideas
 									<div class="section-arrow pull-right"></div>
@@ -95,7 +95,7 @@
 																		
 								@endforeach
 							@else
-								<div class="f-min">Aún no han creado tormentas de ideas</div>
+								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay sondeos creados</div>
 							@endif
 											
 							</div>											

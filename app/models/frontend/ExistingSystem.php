@@ -6,7 +6,7 @@ class ExistingSystem extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('existing_system')->where('project_id', $projectId)->get();
+		return DB::table('existing_system')->where('project_id', $projectId)->orderby('existing_system.id', 'ASC')->get();
 	}
 
 	public static function getExistingSystemTopics(){
