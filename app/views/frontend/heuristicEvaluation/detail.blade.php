@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica <span class="fc-green"> &raquo; </span> {{$evaluation['name']}}
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica <span class="fc-green"> &raquo; </span> {{$evaluation['name']}} <span class="fc-green"> &raquo; </span> Detalle 
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,11 +30,13 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									{{$evaluation['name']}}
+									Detalle evaluaci&oacute;n heur&iacute;stica
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
+
+							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$evaluation['name']}}</div>
 
 							<div class="heuristic-evaluation-table-content">
 								<div class="heuristic-evaluation-row">
