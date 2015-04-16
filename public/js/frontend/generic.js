@@ -480,7 +480,7 @@ $(function() {
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#ef6f66',
-            confirmButtonText: 'Si, eliminar',
+            confirmButtonText: 'Sí, eliminar',
             cancelButtonText: 'Cancelar',
             cancelButtonColor: '#ef6f66',
             closeOnConfirm: true
@@ -950,12 +950,29 @@ $(function() {
     });
 
     //DELETE: checklist
+        //DELETE: storm-ideas
     $('.btn-checklist-delete').on('click', function(){
-      var checklistId = $(this).data('checklistId'); 
 
-      window.location.href = projectURL+'/listas-de-comprobacion/eliminar/'+checklistId;
+    var checklistId = $(this).data('checklistId'),
+        checklistTitle = $(this).data('checklistTitle');
 
-    }); 
+      var showAlert = swal({
+        title: '¿Está seguro que desea eliminar la lista de comprobacion: '+checklistTitle+' ?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#ef6f66',
+        confirmButtonText: 'Sí, eliminar',
+        cancelButtonText: 'Cancelar',
+        cancelButtonColor: '#ef6f66',
+        closeOnConfirm: true
+      },
+      function(){
+
+          window.location.href = projectURL+'/listas-de-comprobacion/eliminar/'+checklistId;
+
+      });               
+
+    });
 
     //DELETE: principle
     $(document).on('click','.btn-delete-principle', function(){
@@ -1064,7 +1081,7 @@ $(function() {
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ef6f66',
-        confirmButtonText: 'Si, eliminar',
+        confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar',
         cancelButtonColor: '#ef6f66',
         closeOnConfirm: true
@@ -1104,7 +1121,7 @@ $(function() {
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#ef6f66',
-        confirmButtonText: 'Si, eliminar',
+        confirmButtonText: 'Sí, eliminar',
         cancelButtonText: 'Cancelar',
         cancelButtonColor: '#ef6f66',
         closeOnConfirm: true
