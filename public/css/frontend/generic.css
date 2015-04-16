@@ -34,6 +34,7 @@
  .style-guide-section-content,
  .result-answer,
  .result-question,
+ .open-question-row,
  .probe-result-question-row,
  .heuristic-evaluation-value,
  .heuristic-evaluation-table-content,
@@ -362,7 +363,7 @@ a.txt-undrln:hover {
 
 .btn-turquoise {
 	background-color: #41cac0; 
-	color: #f2f2f2;
+	color: #FFFFFF;
 }
 
 .btn-turquoise:hover {
@@ -1129,8 +1130,12 @@ textarea{
 	border-radius: 0px;
 }
 
-.probe-result-question-row {
+.open-question-row {
 	margin-left: 11%; 
+}
+
+.question-number{
+	background-color: #f2f2f2; 
 }
 
 /*-------------------------------------------
@@ -1179,6 +1184,16 @@ textarea{
 .esystem-label-value {
 	font-weight: 100;
 	width: 50%; 
+}
+
+.interface-preview {
+	background-color: #f2f2f2; 
+}
+
+.probe-info-edit-content {
+
+	background-color: #f2f2f2; 
+
 }
 
 /*-------------------------------------------

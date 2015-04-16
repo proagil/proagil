@@ -58,6 +58,8 @@
 										@endif								
 									</div>									
 									@endforeach
+								@else
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay an&aacute;lisis de sistemas existentes creados</div>
 								@endif				
 							</div>											
 						</div>

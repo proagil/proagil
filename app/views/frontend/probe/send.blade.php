@@ -8,9 +8,9 @@
 	            <div class="col-md-8 col-lg-8">
 	                <div class="show-probe-panel panel panel-default">
 	                    <div class="panel-body">
-	                    	  <div class="login-title txt-center fs-big">
+	                    	  <div class="login-title fc-turquoise txt-center fs-big">
 	                    	  		Sondeo enviado <br>
-	                    	  		<span class="fc-turquoise f-bold fs-med">Su sondeo se ha enviado correctamente </span>                 	  		
+	                    	  		<span class=" fc-blue-i f-bold fs-med">Muchas gracias por responder el Sondeo. Sus respuestas se han guardado correctamente </span>                 	  		
 	                    	  </div>
 				                <div class="brand-img pull-right">
 				                	 <span class="login-title txt-center fs-min"> Sondeo generado con: 
