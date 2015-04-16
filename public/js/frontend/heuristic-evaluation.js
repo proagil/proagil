@@ -111,7 +111,7 @@ $(function() {
         // success validation, all inputs are valid
         if(successValidation==1){
           $('html, body').animate({ scrollTop: 0 }, 'slow');
-          $('.error-alert-text').html(' Debe especificar al menos un problema para la evaluaci&oacute;n heuri&iacute;stica').parent().removeClass('hidden');
+          $('.error-alert-text').html(' Debe especificar al menos un problema para la evaluaci&oacute;n heur&iacute;stica').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-esystem').submit(); 
           $('.error-alert-text').parent().addClass('hidden'); 
@@ -159,30 +159,25 @@ $(function() {
 
      $(document).on('click', '.cancel-edit-element-info', function(e){
 
-       var systemId = $(this).data('systemId'),
+       var evaluationId = $(this).data('evaluationId'),
            projectId = $(this).data('projectId'),
            html = ''; 
 
        $.ajax({
-          url: projectURL+'/analisis-sistemas-existente/editar-informacion/'+systemId,
+          url: projectURL+'/evaluacion-heuristica/editar-informacion/'+evaluationId,
           type:'GET',
           dataType: 'JSON',
           success:function (response) {
 
               if(!response.error){
 
-                html += '<div class="probe-info-edit-content system-info-content">'+
-                  '<div class="element-name-'+response.data.id+' fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value">'+response.data.name+'</span>'+
-                  '</div>';  
+                html += '<div class="probe-info-edit-content evaluation-info-content">'+
+                          '<div class="element-name-'+evaluationId+' fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value">'+response.data.name+'</span>'+
+                          '</div>'+
+                '</div>'; 
 
-                  if(response.data.interface_image!=null){
-                  html +=  '<div class="txt-center interface-preview">'+
-                    '<img style="width:35%" src="'+projectURL+'/uploads/'+response.data.interface_image+'"/>'+
-                  '</div>'; 
-                  }
-                html += '</div>'; 
 
-               $('.system-info-content').replaceWith(html); 
+               $('.evaluation-info-content').replaceWith(html); 
 
                 $('.edit-element-info-save').addClass('hidden');
                 $('.edit-element-info-default').removeClass('hidden');              

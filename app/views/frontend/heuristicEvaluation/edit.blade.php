@@ -86,7 +86,7 @@
 
 							<div class="probe-general-buttons">								
 								<div data-project-id="{{$projectId}}" data-evaluation-id="{{$evaluationId}}" class="add-new-element-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-									<a href="#">Nueva observaci&oacute;n</a>
+									<a href="#">Agregar problema</a>
 								</div>							
 							</div>							 
 																	

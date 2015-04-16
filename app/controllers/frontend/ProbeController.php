@@ -516,6 +516,7 @@ class ProbeController extends BaseController {
 
 		$graphicsArray = array();
 		$openQuestions = array();
+		$questionResults = array();
 
 		//print_r($probeResults['elements']); die;  
 
@@ -546,25 +547,28 @@ class ProbeController extends BaseController {
 				                  ));	
 
 				// save each graphic on global array
-				$graphicsArray[$index] = $piechart; 
+				$questionResults[$index] = $piechart; 
 
 			}
 
 			if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
 
-				$openQuestions[$index]['question'] = $element['question']; 
+				$questionResults[$index]['question'] = $element['question']; 
 
 				foreach($element['results'] as $j=> $result){
 
-					$openQuestions[$index]['results'][$j] = $result['value'];  
+					$questionResults[$index]['results'][$j] = $result['value'];  
 
 				}				
 			}
 
+
 		}
 
-		return View::make('frontend.probe.results')->with('graphicsArray', $graphicsArray)
-													->with('openQuestions', $openQuestions)
+		//print_r($questionResults); die; 
+
+
+		return View::make('frontend.probe.results')->with('questionResults', $questionResults)
 												 	->with('probeTitle', $probeResults['title'])
 												 	->with('probeResponses', $probeResults['responses']);              	
 	}	

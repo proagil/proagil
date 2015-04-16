@@ -35,12 +35,19 @@
 
 							</div>	
 								<div class="probe-info-edit-content system-info-content">
-									<div class="element-name-{{$existingSystemId}} fc-turquoise">Nombre: <span class="fc-blue-i probe-label-value"> {{$existingSystem['name']}}</span>
+									<div class="element-name-{{$existingSystemId}} fc-turquoise">Nombre: <br> <span class="fc-blue-i probe-label-value"> {{$existingSystem['name']}}</span>
 									</div>
-									@if($existingSystem['interface_image']!=NULL)
-									<div class="txt-center interface-preview">
+
+									@if($existingSystem['interface_image']!='')
+									<div class="interface-preview">
+										<span class="fc-turquoise"> Interfaz: </span> <br>
 										<img style="width:35%" src="{{URL::to('/').'/uploads/'.$existingSystem['interface_image']}}"/>
 									</div>
+									@else
+									<div class="interface-preview">
+										<span class="fc-turquoise"> Interfaz: </span> <br>
+										<span class="fc-blue-i probe-label-value"> Sin interfaz de usuario</span>
+									</div>									
 									@endif
 								</div>
 

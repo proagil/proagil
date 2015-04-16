@@ -40,35 +40,50 @@
 							<p class="text-center f-bold fs-fmed text-uppercase">{{$probeResponses}} Respuestas </p>													
 
 							<div class="list-content">
-								@foreach($graphicsArray as $index => $graphic)
+								@foreach($questionResults as $index => $result)
 
-									<div id="graphic-{{$index}}"></div>
+									@if(isset($result['question']))
 
-									@piechart('graphic-'.$index, 'graphic-'.$index)	
+										<div class="probe-result-question-row">
+											
+											<div class="question-number text-center f-bold fs-fmed text-uppercase">
+												Pregunta {{$index + 1}} 
+											</div>
+
+											<br>
+
+											<div class="open-question-row">
+												<div class="result-question f-bold">{{$result['question']}}</div>
+												@if(!empty($result['results']))
+													@foreach($result['results'] as $answer)
+													<div class="result-answer">
+														 {{$answer}}
+													</div>
+													@endforeach
+												@endif
+											</div>																	
+										</div>									
+
+									@else
+										<div class="probe-result-question-row">
+												<div class="question-number text-center f-bold fs-fmed text-uppercase">
+													Pregunta {{$index + 1}} 
+												</div> 
+
+												<br>
+											<div id="graphic-{{$index}}"></div>
+
+											@piechart('graphic-'.$index, 'graphic-'.$index)	
+										</div>
+
+
+									@endif
+
 
 								@endforeach
 																						
 							</div>
 
-							<div class="list-content">
-								@if(!empty($openQuestions))
-									@foreach($openQuestions as $question)
-									<div class="probe-result-question-row">
-										<div class="result-question f-bold">
-											{{$question['question']}}
-										</div>
-										@if(!empty($question['results']))
-											@foreach($question['results'] as $answer)
-											<div class="result-answer">
-												 {{$answer}}
-											</div>
-											@endforeach
-										@endif																	
-									</div>
-									@endforeach
-								@endif
-
-							</div>
 
 																	
 						</div>

@@ -100,7 +100,7 @@ $(function() {
         // success validation, all inputs are valid
         if(successValidation==1){
           $('html, body').animate({ scrollTop: 0 }, 'slow');
-          $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
+          $('.error-alert-text').html(' Debe especificar al menos una observaci&oacute;n para el an&aacute;lisis de sistema existente').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-esystem').submit(); 
           $('.error-alert-text').parent().addClass('hidden'); 

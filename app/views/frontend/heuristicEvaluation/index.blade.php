@@ -60,6 +60,8 @@
 										@endif								
 									</div>									
 									@endforeach
+								@else
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay evaluaciones heur&iacute;sticas creadas</div>								
 								@endif				
 							</div>											
 						</div>
