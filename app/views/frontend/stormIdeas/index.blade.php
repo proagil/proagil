@@ -44,7 +44,7 @@
 							@if(!empty($stormsIdeas))
 								@foreach($stormsIdeas as $stormIdeas)
 									<a href="#" data-toggle="modal" data-target="#imageModal-{{$stormIdeas['id']}}" >
-										<div style="width:{{($projectOwner)?'90%':'95%'}}" class="storm-ideas-item-content">
+										<div style="width:{{($projectOwner)?'92%':'95%'}}" class="storm-ideas-item-content">
 											<i class="fc-turquoise fa fa-cloud fa-fw"></i>{{$stormIdeas['name']}}
 										</div>
 									</a>	
