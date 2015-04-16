@@ -50,7 +50,10 @@ class Checklist extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('comprobation_list')->where('project_id', $projectId)->get();
+		return DB::table('comprobation_list')
+				   ->where('project_id', $projectId)
+				   ->orderBy('id', 'asc')
+				   ->get();
 	}
 
 	public static function enumerateAllItemsByChecklistId($checklistId) {

@@ -39,7 +39,7 @@
 
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Seleccione los principios: </label>  
-                            <div class="col-md-6">
+                            <div class="col-md-8">
                               @if (!is_null($checklistItems))
                                 @foreach($checklistItems as $checklistItem)
 
