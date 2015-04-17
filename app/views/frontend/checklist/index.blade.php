@@ -68,11 +68,11 @@
 													<i class="fa fa-pencil fc-yellow fa-fw"></i>
 												</a>
 											</div>
-											<div data-checklist-id="{{$checklist['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-checklist-delete" >
+											<div data-checklist-id="{{$checklist['id']}}" data-checklist-title="{{$checklist['title']}}" data-toggle="tooltip" data-placement="top" title="Eliminar"  class="circle activity-option txt-center fs-big fc-pink btn-checklist-delete" >
 												<i class="fa fa-times fa-fw"></i>
 											</div>
 										@else
-											<div data-checklist-id="{{$checklist['id']}}" data-checklist-title="{{$checklist['title']}}"data-toggle="tooltip" data-placement="top" title="Eliminar" style="margin: 0px 5px 0 2px" class="circle activity-option txt-center fs-big fc-pink pull-right btn-delete-checklist">
+											<div data-checklist-id="{{$checklist['id']}}" data-checklist-title="{{$checklist['title']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" style="margin: 0px 5px 0 2px" class="circle activity-option txt-center fs-big fc-pink pull-right btn-delete-checklist">
 												<i class="fa fa-times fa-fw"></i>
 											</div>
 										@endif
