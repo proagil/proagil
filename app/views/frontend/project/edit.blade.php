@@ -21,7 +21,7 @@
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif   
 
-                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>                       
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('ProjectController@detail', array($projectId))}}" class="btn-back-i"> Volver</a>                       
         							
                       <div class="section-title fc-blue-iii fs-big">
         								Editar Proyecto
@@ -59,16 +59,39 @@
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label">Artefactos del proyecto</label>  
                             <div class="col-md-4">
-                              @if (!is_null($artefacts))
-                                @foreach($artefacts as $artefact)
-
-                                  {{Form::checkbox('values[artefacts][]', $artefact->id, (in_array($artefact->id, $projectArtefacts))?TRUE:FALSE) }} 
-                                  <label> {{ $artefact->name }} </label> <br>
-
+                              @if (!empty($projectArtefacts))
+                                @foreach($projectArtefacts as $artefact)
+                                  <div class="project-artefact-list artefact-{{$artefact->id}}">
+                                    <div class="artefact-name"> {{ $artefact->name }} </div> 
+                                     <div data-project-id="{{$projectId}}" data-artefact-name="{{$artefact->name}}" data-artefact-friendly-url="{{$artefact->friendly_url}}" data-artefact-id="{{$artefact->id}}"class="delete-project-artefact circle activity-option txt-center fs-big fc-pink">
+                                        <i class="fa fa-times fa-fw"></i>
+                                      </div>                                    
+                                  </div>
                                 @endforeach
+                              @else
+                              <div class="project-artefact-list f-bold ">Proyecto sin artefactos asociados</div>                                                         
                               @endif                              
                             </div>
                           </div> 
+
+                          @if(count($projectArtefacts) < $totalArtefacts)
+                          <div class="form-group">
+                            <label class="col-md-4 title-label fc-grey-iv control-label">.</label>  
+                            <div class="col-md-4">
+                                <div class="project-artefact-list f-bold ">Seleccione si desea incorporar alguno de estos nuevos artefactos</div>
+                                @foreach($artefacts as $artefact)
+                                  <div class="project-artefact-list">
+                                    @if(!(in_array($artefact->id, $projectArtefactsSimple)))
+                                       <div class="artefact-checkbox"> {{Form::checkbox('values[artefacts][]', $artefact->id, FALSE) }}
+                                       </div>    
+                                       {{ $artefact->name }}    
+                                       @endif                               
+                                  </div>
+                                @endforeach                             
+                            </div>
+                          </div>  
+                          @endif
+
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput"><i class="fs-med fa fa-times fc-pink fa-fw"></i> <a href="#" class="txt-undrln btn-delete-project" data-project-id="{{$projectId}}"> Eliminar proyecto</a></label>  
                           </div>                                                                              

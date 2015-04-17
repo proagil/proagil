@@ -847,12 +847,78 @@ $(function() {
 
 });
 
+/*----------------------------------------------------------------------
 
+       EDIT PROJECT
+
+----------------------------------------------------------------------*/
+
+
+        $(document).on('click', '.delete-project-artefact', function(){
+
+           var artefactId = $(this).data('artefactId'), 
+               artefactFriendlyUrl = $(this).data('artefactFriendlyUrl'),
+               artefactName = $(this).data('artefactName'),
+               projectId = $(this).data('projectId'); 
+
+
+            var showAlert = swal({
+              title: 'Eliminar artefacto',
+              text: 'Confirma que desea eliminar el artefacto '+artefactName,
+              type: 'warning',
+              showCancelButton: true,
+              confirmButtonColor: '#ef6f66',
+              confirmButtonText: 'Si, eliminar',
+              cancelButtonText: 'Cancelar',
+              cancelButtonColor: '#ef6f66',
+              closeOnConfirm: true
+            },
+            function(){
+
+                var parameters = {
+                    'values[artefact_friendly_url]'      : artefactFriendlyUrl,
+                    'values[artefact_id]'                : artefactId, 
+                    'values[project_id]'                 : projectId 
+                };
+
+                // show ajax loader
+                $('.loader').show();
+
+                 $.ajax({
+                    url: projectURL+'/proyecto/eliminar-artefacto/',
+                    type:'POST',
+                    data: parameters,
+                    dataType: 'JSON',
+                    success:function (response) {
+
+                        if(!response.error){
+
+                         $(document).find('.artefact-'+artefactId).fadeOut('slow', 
+                            function() { 
+                              $(this).remove();
+                          });
+
+                         setTimeout(function(){
+                            location.reload(); 
+                        }, 1000);
+
+                            // hide ajax loader
+                            $('.loader').hide();
+                       
+                        }
+                    },
+                    error: function(xhr, error) {
+
+                    }
+                });
+
+            });               
+
+         
+        });
 
     //PUBLIC PROBE: submit form
     $('.btn-send-public-probe').on('click', function(){
-
-      console.log('dddd'); 
         
         $('#form-save-probe-results').submit();
 

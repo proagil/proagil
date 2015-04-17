@@ -59,7 +59,9 @@
 										@endif								
 									</div>									
 									@endforeach
-								@endif				
+								@else
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay gu&iacute;as de estilos creados</div>
+								@endif													
 							</div>											
 						</div>
 					</div>

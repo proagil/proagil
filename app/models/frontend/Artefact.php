@@ -2,9 +2,24 @@
 
 class Artefact extends Eloquent{
 
-	public static function enumerate(){
+	public static function enumerate($mode=NULL){
 
-		return DB::table('artefact')->where('enabled', TRUE)->get();
+		$consult =  DB::table('artefact')->where('enabled', TRUE)->get();
+
+		$result = array();
+
+		if($mode!=NULL){
+
+			foreach($consult as $index => $row){
+				$result[$index] = $row->id; 
+			}			
+		}
+
+		return ($mode!=NULL)?$result:$consult; 
+	}
+
+	public static function countArtefacts(){
+		return DB::table('artefact')->where('enabled', TRUE)->count();
 	}
 
 	public static function insertProjectArtefact($artefact){
@@ -13,9 +28,12 @@ class Artefact extends Eloquent{
 
 	}
 
-	public static function deleteProjectArtefact($projectId){
+	public static function deleteProjectArtefact($artefactId, $projectId){
 
-		return DB::table('artefact_belongs_to_project')->where('project_id', $projectId)->delete();
+		return DB::table('artefact_belongs_to_project')
+					->where('project_id', $projectId)
+					->where('artefact_id', $artefactId)
+					->delete();
 
 	}
 

@@ -60,10 +60,37 @@ class Checklist extends Eloquent{
 		
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 		return DB::table('comprobation_list_item_belongs_to_comprobation_list AS clibtcl')
-											->select ('cli.*', 'clibtcl.status' )
-											->where('clibtcl.comprobation_list_id', $checklistId)
-											->join('comprobation_list_item AS cli', 'cli.id', '=', 'clibtcl.comprobation_list_item_id')
-				  							->get();
+				->select ('cli.*', 'clibtcl.status' )
+				->where('clibtcl.comprobation_list_id', $checklistId)
+				->join('comprobation_list_item AS cli', 'cli.id', '=', 'clibtcl.comprobation_list_item_id')
+				->get();
+	}
+
+	public static function getChecklistsByProject($projectId){
+
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$checklists = DB::table('comprobation_list')
+		   ->where('project_id', $projectId)
+		   ->orderBy('id', 'asc')
+		   ->get();
+
+		foreach($checklists as $index => $checklist){
+
+			$checklistItem =  DB::table('comprobation_list_item_belongs_to_comprobation_list AS clibtcl')
+					->select ('cli.*', 'clibtcl.status' )
+					->where('clibtcl.comprobation_list_id', $checklist['id'])
+					->join('comprobation_list_item AS cli', 'cli.id', '=', 'clibtcl.comprobation_list_item_id')
+					->get();	
+
+			$checklists[$index]['elements'] = $checklistItem;
+
+		}
+
+		return $checklists; 
+
+
 	}
 
 	public static function enumerateDefaultItems() {

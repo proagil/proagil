@@ -17,6 +17,7 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .project-artefact-list,
  .big-circle,
  .color-hexa,
  .detail-color,
@@ -753,6 +754,13 @@ a.login-link:hover  {
  	overflow: hidden;
 }
 
+.artefact-checkbox {
+	float: left;
+	width: 13%; 
+	height: auto;
+ 	overflow: hidden;
+}
+
 .tags-list{
 	list-style: none; 
 	padding: 0; 
@@ -921,6 +929,9 @@ a.btn-reassign:hover {
 
 .comment-user-avatar {
 	max-height: 35px;
+	width: 35px;
+	height: 35px; 
+
 }
 
 .comment-textarea {
@@ -1232,6 +1243,7 @@ textarea{
 
 .btn-storm-ideas-edit{
 	margin-left: 50%;
+	margin-bottom: 2%; 
 }
 
 /*-------------------------------------------
