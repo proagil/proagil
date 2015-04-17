@@ -60,7 +60,7 @@
 									</div>									
 									@endforeach
 								@else
-									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay gu&iacute;as de estilos creados</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay gu&iacute;as de estilos creadas</div>
 								@endif													
 							</div>											
 						</div>

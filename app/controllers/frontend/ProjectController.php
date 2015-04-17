@@ -895,8 +895,7 @@ class ProjectController extends BaseController {
 
                             foreach($artefactValue['elements'] as $element){
 
-                              Checklist::deleteChecklistItem($element['id']);
-                              Checklist::deleteNewChecklistItem($element['id']);
+                              Checklist::deleteChecklitsElement($element['id']);
 
                             }
                           }                    
@@ -1220,8 +1219,7 @@ class ProjectController extends BaseController {
 
                                       foreach($artefactValue['elements'] as $element){
 
-                                        Checklist::deleteChecklistItem($element['id']);
-                                        Checklist::deleteNewChecklistItem($element['id']);
+                                          Checklist::deleteChecklitsElement($element['id']);
 
                                       }
                                     }                    

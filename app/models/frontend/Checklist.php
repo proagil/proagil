@@ -17,6 +17,25 @@ class Checklist extends Eloquent{
 
 	}
 
+	public static function deleteChecklitsElement($elementId){
+		try{
+
+			$deletedItem =  DB::table('comprobation_list_item_belongs_to_comprobation_list')
+						->where('comprobation_list_item_id', $elementId)
+						->delete();
+
+			return DB::table('comprobation_list_item')
+						->where('id', $elementId)
+						->delete();						
+
+		}catch(\Exception $e){
+
+			return false; 
+
+		}
+
+	}	
+
 	public static function deleteChecklistItem($checklistId){
 		try{
 
