@@ -1324,6 +1324,7 @@ textarea{
 	width: 70px;
 	height: 70px; 
 	margin: 2px;
+	border: solid 5px rgb(227, 223, 236);
 }
 
 .colors-content{

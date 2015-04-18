@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos <span class="fc-green"> &raquo; </span> {{$styleGuide['name']}}
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos <span class="fc-green"> &raquo; </span> {{$styleGuide['name']}} <span class="fc-green"> &raquo; </span> Detalle
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,11 +30,13 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									{{$styleGuide['name']}}
+									Detalle gu&iacute;a de estilos
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
+
+							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$styleGuide['name']}}</div>
 
 							<div class="e-system-table-content">
 								@if($styleGuide['interface']!='')
@@ -44,7 +46,7 @@
 									</div>
 									<div class="e-system-obs f-bold f-med txt-center">
 										<div class="system-interface txt-center">
-		 									<img  src="{{URL::to('/').'/uploads/'.$styleGuide['interface_image']}}"/>
+		 									<img  style="width:60%;" src="{{URL::to('/').'/uploads/'.$styleGuide['interface_image']}}"/>
 										</div>										
 									</div>
 								</div>
