@@ -59,13 +59,20 @@
 									            <div class="modal-body">
 						                            <div class="col-md-12">
 						                              <div class="txt-center">
-					                                    <img width="100%" src="{{URL::to('/').'/uploads/'.$stormIdeas['storm_ideas_image']}}"/>
+					                                    <img id="storm-image-{{$stormIdeas['id']}}" width="100%" src="{{URL::to('/').'/uploads/'.$stormIdeas['storm_ideas_image']}}"/>
 						                              </div>
 						                            </div>
 									            </div>
 									            <div class="modal-footer" style="border-top: 0px;">
 
 									        	</div>
+										        <div class="modal-footer" style="border-top: 0px">
+										        	<div class="pull-right btn-download-storm-ideas common-btn btn-ii btn-turquoise txt-center"> 
+										        		<a id="download-{{$stormIdeas['id']}}" href="{{URL::to('/').'/uploads/'.$stormIdeas['storm_ideas_image']}}" download="{{$stormIdeas['name']}}.png">
+										        		<i class="fa fa-cloud-download fa-fw"></i> Descargar
+										        	 	</a>
+										        	</div>
+										        </div>									    
 									    	</div>
 									  	</div>
 									</div>
