@@ -436,9 +436,11 @@ class ProjectController extends BaseController {
 
     // get view data
     $artefacts = (array) Artefact::enumerate(); 
+    $totalArtefacts = Artefact::countArtefacts(); 
     $projectTypes = (array) Project::selectProjectTypes(); 
     $project = (array) Project::get($projectId); 
-    $projectArtefacts = (array) Project::getProjectArtefacts($projectId); 
+    $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
+    $projectArtefactsSimple = (array) Project::getProjectArtefacts($projectId); 
     $values =  (array) $project;
 
     if(Input::has('_token')){
@@ -469,9 +471,6 @@ class ProjectController extends BaseController {
 
               if($updatedProject) {
 
-                  // delete old project artefacts
-                  Artefact::deleteProjectArtefact($projectId);
-
                 //save new project artefacts
                 if(isset($values['artefacts'])){
 
@@ -488,10 +487,13 @@ class ProjectController extends BaseController {
 
                 }
 
+                  Session::flash('success_message', 'Se ha editado el proyecto exitosamente'); 
+
                  return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
 
 
               }else{
+
 
                   // show view with error message
                  return View::make('frontend.project.edit')
@@ -511,7 +513,7 @@ class ProjectController extends BaseController {
                           ->withErrors($validator)
                           ->with('values', $values)
                           ->with('project', $project)
-                          ->with('artefacts', $artefacts)
+                          ->with('artefacts', $artefacts)                      
                           ->with('projectArtefacts', $projectArtefacts)
                           ->with('projectTypes', $projectTypes)
                           ->with('projectId', $projectId);
@@ -520,11 +522,13 @@ class ProjectController extends BaseController {
 
         }else{
 
-          // render view first time 
+          //render view first time 
           return View::make('frontend.project.edit')
                       ->with('artefacts', $artefacts)
+                      ->with('totalArtefacts', $totalArtefacts)
                       ->with('projectTypes', $projectTypes)
                       ->with('projectArtefacts', $projectArtefacts)
+                      ->with('projectArtefactsSimple', $projectArtefactsSimple)                             
                       ->with('values', $values)
                       ->with('project', $project)
                       ->with('projectId', $projectId); 
@@ -632,7 +636,6 @@ class ProjectController extends BaseController {
 
           }
 
-          //print_r($activities); die; 
           
           return View::make('frontend.project.detail')
                 ->with('projectDetail', TRUE) 
@@ -653,6 +656,302 @@ class ProjectController extends BaseController {
 
   }
 
+  public function deleteArtefact(){
+
+    $values = Input::get('values');
+
+    $artefact = Artefact::getByFriendlyUrl($values['artefact_friendly_url']);
+
+    $deletedData = FALSE; 
+
+          if(!empty($artefact)){  
+
+             switch($values['artefact_friendly_url']) {
+
+                  case Config::get('constant.artefact.heuristic_evaluation'):
+
+                     $artefactList = HeuristicEvaluation::getEvaluationDataByProject($values['project_id']); 
+
+                      if(!empty($artefactList)){
+
+                        // delete artefact elements
+                        foreach($artefactList as $artefactValue){
+
+                          if(!empty($artefactValue['elements'])){
+
+                            foreach($artefactValue['elements'] as $element){
+
+                              HeuristicEvaluation::deleteElement($element['id']);
+
+                            }                    
+                          }
+                        }
+
+                          // delete artefact info
+                          foreach($artefactList as $artefact){
+
+                            HeuristicEvaluation::_delete($artefact['id']);
+
+                          } 
+
+                          //delete relation artefact - project
+                          Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      } 
+
+                        break;
+
+                  case Config::get('constant.artefact.storm_ideas'):
+
+                      $artefactList = StormIdeas::enumerate($values['project_id']); 
+                    
+                      if(!empty($artefactList)){
+
+                        // delete artefact 
+                        foreach($artefactList as $artefactValue){
+
+                          if(!empty($artefactValue)){
+
+                            foreach($artefactList as $artefactValue){
+
+                              StormIdeas::deleteStormIdeas($artefactValue['id']);
+
+                            }  
+
+                          }                  
+                                        
+                        }
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      } 
+
+                          break; 
+
+                  case Config::get('constant.artefact.probe'):
+
+                     $artefactList = Probe::getProbeElementsByProject($values['project_id']); 
+
+                      if(!empty($artefactList)){
+
+                        // delete artefact elements
+                        foreach($artefactList as $artefactValue){
+
+                          if(!empty($artefactValue['elements'])){
+
+                            foreach($artefactValue['elements'] as $element){
+
+                              Probe::deleteQuestion($element['id']);
+
+                            }                    
+                          }
+                        }
+
+                          // delete artefact info
+                          foreach($artefactList as $artefact){
+
+                            Probe::_delete($artefact['id']);
+
+                          } 
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                          Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      }    
+
+                          break;
+
+                  case Config::get('constant.artefact.style_guide'):
+
+                      $artefactList = StyleGuide::getStyleGuideByProject($values['project_id']); 
+                    
+                      if(!empty($artefactList)){
+
+                        // delete artefact elements
+                        foreach($artefactList as $artefactValue){
+
+                            if(!empty($artefactValue['colors'])){
+
+                              foreach($artefactValue['colors'] as $color){
+
+                                StyleGuide::deleteColor($color['id']);
+
+                              }                    
+                            }
+
+                            if(!empty($artefactValue['fonts'])){
+
+                              foreach($artefactValue['fonts'] as $font){
+
+                                StyleGuide::deleteFont($font['id']);
+
+                              }                    
+                            }
+                          }                        
+
+                          // delete artefact info
+                          foreach($artefactList as $artefact){
+
+                            StyleGuide::deleteStyleGuide($artefact['id']);
+
+                          } 
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      } 
+
+                      break;
+
+                  case Config::get('constant.artefact.existing_system'):
+
+                     $artefactList = ExistingSystem::getExistingSystemDataByProject($values['project_id']); 
+
+                      if(!empty($artefactList)){
+
+                        // delete artefact elements
+                        foreach($artefactList as $artefactValue){
+
+                          if(!empty($artefactValue['elements'])){
+
+                            foreach($artefactValue['elements'] as $element){
+
+                              ExistingSystem::deleteElement($element['id']);
+
+                            }                    
+                          }
+                        }
+
+                          // delete artefact info
+                          foreach($artefactList as $artefact){
+
+                            ExistingSystem::_delete($artefact['id']);
+
+                          } 
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      }                 
+
+                          break;
+
+                  case Config::get('constant.artefact.checklist'):
+
+                     $artefactList = Checklist::getChecklistsByProject($values['project_id']);
+
+                      if(!empty($artefactList)){
+
+                        // delete artefact elements
+                        foreach($artefactList as $artefactValue){
+
+                          if(!empty($artefactValue['elements'])){
+
+                            foreach($artefactValue['elements'] as $element){
+
+                              Checklist::deleteChecklitsElement($element['id']);
+
+                            }
+                          }                    
+                        }
+
+                          // delete artefact info
+                          foreach($artefactList as $artefact){
+
+                            Checklist::deleteChecklist($artefact['id']);
+
+                          } 
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                           $deletedData = TRUE;                        
+
+                      }else{
+
+                          //delete relation artefact - project
+                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+
+                          $deletedData = TRUE;    
+
+                      }  
+
+                        break;
+            }                       
+
+
+
+          if($deletedData){
+
+            $result = array(
+                'error'   => false,
+            );
+
+          }else{
+
+            $result = array(
+                'error'     => true
+            );
+
+          }
+
+          header('Content-Type: application/json');
+          return Response::json($result);             
+
+
+    }else{
+
+      return Redirect::to(URL::action('LoginController@index'));
+    }    
+
+  }
+
   public function delete($projectId){
 
       // get user on session
@@ -667,10 +966,8 @@ class ProjectController extends BaseController {
 
       }else{
 
-        // delete all project data
-        if(Project::deleteArtefacts($projectId) &&
-           Project::deleteUsers($projectId) &&
-           Project::deleteCategoriesActivity($projectId)){
+          Project::deleteUsers($projectId); 
+          Project::deleteCategoriesActivity($projectId); 
 
               // delete project activities
               $activities = Project::getActivitiesByProject($projectId); 
@@ -678,29 +975,291 @@ class ProjectController extends BaseController {
               if(!empty($activities)){
 
                 foreach($activities as $activity){
-                  Activity::deleteActivity($activity['activity_id']); 
-                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
                   Activity::deleteActivityComment($activity['activity_id']);
+                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
+                  Activity::deleteActivity($activity['activity_id']); 
+                
                 }
 
               }
 
+              // get project artefacts
+              $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
+
+              if(!empty($projectArtefacts)){
+
+                foreach( $projectArtefacts as $index => $projectArtefact){
+
+                       switch($projectArtefact['friendly_url']) {
+
+                            case Config::get('constant.artefact.heuristic_evaluation'):
+
+                               $artefactList = HeuristicEvaluation::getEvaluationDataByProject($projectId); 
+
+                                if(!empty($artefactList)){
+
+                                  // delete artefact elements
+                                  foreach($artefactList as $artefactValue){
+
+                                    if(!empty($artefactValue['elements'])){
+
+                                      foreach($artefactValue['elements'] as $element){
+
+                                        HeuristicEvaluation::deleteElement($element['id']);
+
+                                      }                    
+                                    }
+                                  }
+
+                                    // delete artefact info
+                                    foreach($artefactList as $artefact){
+
+                                      HeuristicEvaluation::_delete($artefact['id']);
+
+                                    } 
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                } 
+
+                                  break;
+
+                            case Config::get('constant.artefact.storm_ideas'):
+
+                                $artefactList = StormIdeas::enumerate($projectId); 
+                              
+                                if(!empty($artefactList)){
+
+                                  // delete artefact 
+                                  foreach($artefactList as $artefactValue){
+
+                                    if(!empty($artefactValue)){
+
+                                      foreach($artefactList as $artefactValue){
+
+                                        StormIdeas::deleteStormIdeas($artefactValue['id']);
+
+                                      }  
+
+                                    }                  
+                                                  
+                                  }
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                } 
+
+                                    break; 
+
+                            case Config::get('constant.artefact.probe'):
+
+                               $artefactList = Probe::getProbeElementsByProject($projectId); 
+
+                                if(!empty($artefactList)){
+
+                                  // delete artefact elements
+                                  foreach($artefactList as $artefactValue){
+
+                                    if(!empty($artefactValue['elements'])){
+
+                                      foreach($artefactValue['elements'] as $element){
+
+                                        Probe::deleteQuestion($element['id']);
+
+                                      }                    
+                                    }
+                                  }
+
+                                    // delete artefact info
+                                    foreach($artefactList as $artefact){
+
+                                      Probe::_delete($artefact['id']);
+
+                                    } 
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                }    
+
+                                    break;
+
+                            case Config::get('constant.artefact.style_guide'):
+
+                                $artefactList = StyleGuide::getStyleGuideByProject($projectId); 
+                              
+                                if(!empty($artefactList)){
+
+                                  // delete artefact elements
+                                  foreach($artefactList as $artefactValue){
+
+                                      if(!empty($artefactValue['colors'])){
+
+                                        foreach($artefactValue['colors'] as $color){
+
+                                          StyleGuide::deleteColor($color['id']);
+
+                                        }                    
+                                      }
+
+                                      if(!empty($artefactValue['fonts'])){
+
+                                        foreach($artefactValue['fonts'] as $font){
+
+                                          StyleGuide::deleteFont($font['id']);
+
+                                        }                    
+                                      }
+                                    }                        
+
+                                    // delete artefact info
+                                    foreach($artefactList as $artefact){
+
+                                      StyleGuide::deleteStyleGuide($artefact['id']);
+
+                                    } 
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                } 
+
+                                break;
+
+                            case Config::get('constant.artefact.existing_system'):
+
+                               $artefactList = ExistingSystem::getExistingSystemDataByProject($projectId); 
+
+                                if(!empty($artefactList)){
+
+                                  // delete artefact elements
+                                  foreach($artefactList as $artefactValue){
+
+                                    if(!empty($artefactValue['elements'])){
+
+                                      foreach($artefactValue['elements'] as $element){
+
+                                        ExistingSystem::deleteElement($element['id']);
+
+                                      }                    
+                                    }
+                                  }
+
+                                    // delete artefact info
+                                    foreach($artefactList as $artefact){
+
+                                      ExistingSystem::_delete($artefact['id']);
+
+                                    } 
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                }                 
+
+                                    break;
+
+                            case Config::get('constant.artefact.checklist'):
+
+                               $artefactList = Checklist::getChecklistsByProject($projectId);
+
+                                if(!empty($artefactList)){
+
+                                  // delete artefact elements
+                                  foreach($artefactList as $artefactValue){
+
+                                    if(!empty($artefactValue['elements'])){
+
+                                      foreach($artefactValue['elements'] as $element){
+
+                                          Checklist::deleteChecklitsElement($element['id']);
+
+                                      }
+                                    }                    
+                                  }
+
+                                    // delete artefact info
+                                    foreach($artefactList as $artefact){
+
+                                      Checklist::deleteChecklist($artefact['id']);
+
+                                    } 
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                     $deletedData = TRUE;                        
+
+                                }else{
+
+                                    //delete relation artefact - project
+                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+
+                                    $deletedData = TRUE;    
+
+                                }  
+
+                                  break;
+                      }                       
+                                                 
+                                
+                }
+
+              }
+
+          }
 
               Session::flash('success_message', 'Se ha eliminado el proyecto correctamente'); 
 
               return Redirect::to(URL::action('DashboardController@index'));
-
-        }else{
-
-              Session::flash('error_message', 'No se ha podido eliminar el proyecto del sistema'); 
-
-              return Redirect::to(URL::action('DashboardController@index'));
-
-        }
-
-      }
-
-  }
+}
 
   public function friendlyURL($str) {
 

@@ -36,6 +36,7 @@ class StormIdeas extends Eloquent{
 				->get();									   
 	}
 
+
 	public static function get($stormIdeasId){
 
 		return DB::table('storm_ideas AS si')

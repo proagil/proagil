@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> An&aacute;lisis de sistemas existentes <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}}
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> An&aacute;lisis de sistemas existentes <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}} <span class="fc-green"> &raquo; </span> Detalle
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,11 +30,14 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									{{$existingSystem['name']}}
+									Detalle an&aacute;lisis de sistema existente
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
-							</div>	
+							</div>
+
+							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$existingSystem['name']}}</div>
+
 							@if($existingSystem['interface']!='')
 							<div class="e-system-table-head">
 								<div class="system-interface txt-center">

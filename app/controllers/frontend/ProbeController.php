@@ -76,7 +76,8 @@ class ProbeController extends BaseController {
 		   		'description'		=> $values['description'],
 		   		'status'			=> $values['status'],
 		   		'url'				=> md5($values['title'].date('H:i:s')),
-		   		'project_id'		=> $values['project_id']
+		   		'project_id'		=> $values['project_id'],
+		   		'responses'			=> 0
 
 		   	);
 
