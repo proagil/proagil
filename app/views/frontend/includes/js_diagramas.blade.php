@@ -35,6 +35,8 @@
 
 {{ HTML::script('js/frontend/joint-master/plugins/connectors/joint.connectors.rounded.js') }} 
 
-{{ HTML::script('js/frontend/joint-master/plugins/connectors/joint.connectors.smooth.js') }}
+{{ HTML::script('js/frontend/joint-master/plugins/connectors/joint.connectors.smooth.js') }}  
 
-{{ HTML::script('js/frontend/indexJS.js') }}  
+{{ HTML::script('js/frontend/DiagramJS.js') }}  
+
+{{ HTML::script('js/frontend/jquery.ddslick.min.js') }}  

@@ -34,16 +34,67 @@
 							
 							<div class="list-content">
 								<!-- Menu top con elementos para grandar, borrar, exportar-->
-								<div class="toolbar_container" ></div>
+
+								<div class="toolbar_container" >
+									
+									<button type="button" class="btn btn-default  btn-circle" data-toggle="tooltip" data-placement="bottom" title="Deshacer">
+										 <p class=" fa fa-mail-reply fa_icons" > </p><br/>
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Rehacer">
+										 <p class="fa fa-share fa_icons"></p>  
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar">
+										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Aumentar">
+										 <p class="glyphicon glyphicon-zoom-in fa_icons" ></p>
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Disminuir">
+										 <p class="glyphicon glyphicon-zoom-out fa_icons" ></p>
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Guardar">
+										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
+									</button>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar">
+										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
+									</button>
+
+									<div class= "separador"> </div> 
+
+									<!--<form role="form">
+									    <div class="form-group dropdownlineas">
+									      <select class="form-control lineas" id="sel1">
+									        <option  data-content="<img src= ../images/LineaNormal.png>">hola</option>
+									        <option value="">2</option>
+									        <option value="">3</option>
+									        <option value="">4</option>
+									      </select>
+									    </div>
+  									</form>-->
+
+  									<div id="dropdownlineas" class= "contenedor"></div>
+																		
+
+
+											
+										
+
+
+									
+								</div>
 
 								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
-								<div class="stencil_container" ></div>
+								
 								<div class="paper"> 
 
 
 
 								</div>
-									Por ahora nada
+
+								<div class="stencil_container" >
+									
+								</div>
+									
 											
 							</div>											
 						</div>
@@ -57,6 +108,7 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.js_diagramas')
+	
 
 	<script>
 
@@ -71,6 +123,44 @@
       })
 
   	});
+
+
+    var ddData = [
+    {
+        
+        value: 1,
+        selected: false,
+        imageSrc: "../images/LineaNormal.png"
+    },
+    {
+        
+        value: 2,
+        selected: false,
+        imageSrc: "../images/punteada.png"
+    },
+    {
+
+        value: 3,
+        selected: false,
+        imageSrc: "../images/NormalPunta.png"
+    }
+];
+
+    $('#dropdownlineas').ddslick({
+    data: ddData,
+    width: 100,
+    imagePosition: "center",
+    defaultSelectedIndex:3,
+
+    onSelected: function (data) {
+        var ddData = $('#dropdownlineas').data('ddslick');
+       var index = ddData.selectedIndex;
+       
+       
+       document.getElementById("dropdownlineas").className= index;
+   		
+    }
+});
 	</script>
 	</body>
 
