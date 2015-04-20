@@ -108,14 +108,14 @@ class ExistingSystemController extends BaseController {
 
 		 		// get project data
 			    $project = (array) Project::getName($values['project_id']); 	 
-		   		Session::flash('success_message', 'Se ha creado el analisis de sistema existente exitosamente en su proyecto: '.$project['name']); 
+		   		Session::flash('success_message', 'Se ha creado el análisis de sistema existente'); 
 
                 // redirect to index probre view
                 return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
 
 		}else{
 
-		   		Session::flash('error_message', 'No se ha podido crear el analisis de sistema existente en su proyecto: '.$project['name']); 
+		   		Session::flash('error_message', 'No se pudo crear el análisis de sistema existente'); 
 
 		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
 		}
@@ -199,7 +199,7 @@ class ExistingSystemController extends BaseController {
 
 		if(ExistingSystem::edit($existingSystemId, $exystingSystem)){
 
-		 	//Session::flash('success_message', 'Se ha creado el analisis de sistema existente exitosamente en su proyecto: '.$project['name']); 
+		 	//Session::flash('success_message', 'Se creó el análisis de sistema existente'); 
  
             // redirect to edit existing system view
             return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
@@ -275,7 +275,7 @@ class ExistingSystemController extends BaseController {
 
 		}else{
 		   	
-		   	Session::flash('error_message', 'No se ha podido eliminar el sistema existente'); 
+		   	Session::flash('error_message', 'No se pudo eliminar el sistema existente'); 
 
 		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
 		} 

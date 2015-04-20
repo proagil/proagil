@@ -96,7 +96,7 @@ class ProjectController extends BaseController {
                 // save user on session as project owner
                 User::userBelongsToProject($userRole);
 
-                Session::flash('success_message', 'Se ha creado exitosamente su proyecto en el sistema, si lo desea puede invitar a otros a colaborar'); 
+                Session::flash('success_message', 'Se creó el proyecto'); 
 
                 // save created project ID on session
                 Session::put('created_project_id', $projectId);
@@ -487,7 +487,7 @@ class ProjectController extends BaseController {
 
                 }
 
-                  Session::flash('success_message', 'Se ha editado el proyecto exitosamente'); 
+                  Session::flash('success_message', 'Se editó el proyecto'); 
 
                  return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
 
@@ -497,7 +497,7 @@ class ProjectController extends BaseController {
 
                   // show view with error message
                  return View::make('frontend.project.edit')
-                              ->with('error_message', 'No se pudo crear el proyecto')
+                              ->with('error_message', 'No se pudo editar el proyecto')
                               ->with('values', $values)
                               ->with('project', $project)
                               ->with('artefacts', $artefacts)

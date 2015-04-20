@@ -488,7 +488,7 @@ class ActivityController extends BaseController {
 		          $message->subject('PROAGIL: Notificación de actividad asignada');
 		        });  
 
-		        Session::flash('success_message', 'Se reasignó la actividad exitosamente'); 
+		        Session::flash('success_message', 'Se reasignó la actividad'); 
 
 		        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
 			}else{

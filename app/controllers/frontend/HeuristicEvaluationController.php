@@ -102,14 +102,14 @@ class HeuristicEvaluationController extends BaseController {
 
 		 		// get project data
 			    $project = (array) Project::getName($values['project_id']); 	 
-		   		Session::flash('success_message', 'Se ha creado la evaluaci&oacute;n heur&iacute;stica exitosamente en su proyecto: '.$project['name']); 
+		   		Session::flash('success_message', 'Se creó la evaluaci&oacute;n heur&iacute;stica'); 
 
                 // redirect to index probre view
                 return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));			
 
 		}else{
 
-		   		Session::flash('error_message', 'No se ha podido crear la evaluaci&oacute;n heur&iacute;stica en su proyecto: '.$project['name']); 
+		   		Session::flash('error_message', 'No se creó la evaluaci&oacute;n heur&iacute;stica'); 
 
 		   		return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));
 		}
@@ -263,7 +263,7 @@ class HeuristicEvaluationController extends BaseController {
 
 		}else{
 		   	
-		   	Session::flash('error_message', 'No se ha podido eliminar el evaluaci&oacute;n heur&iacute;stica'); 
+		   	Session::flash('error_message', 'No se pudo eliminar el evaluaci&oacute;n heur&iacute;stica'); 
 
 		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));			
 		} 

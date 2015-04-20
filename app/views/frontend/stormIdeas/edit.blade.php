@@ -25,7 +25,7 @@
                         <div class="error-alert-dashboard"><i class="fc-pink glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
                       @endif 
                                              
-        							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
+        							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('StormIdeasController@index', array($project['id']))}}" class="btn-back"> Volver</a>
                       <div class="section-title fc-blue-iii fs-big">
         								Editar Tormenta de Ideas
         							</div>

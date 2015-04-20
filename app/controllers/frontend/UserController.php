@@ -338,7 +338,7 @@ class UserController extends BaseController {
 
                  Session::put('user', $sessionUser);
 
-                 Session::flash('success_message', 'Se ha editato su perfil exitosamente'); 
+                 Session::flash('success_message', 'Se editó su perfil'); 
 
                  // update user session
 				return Redirect::to(URL::action('DashboardController@index'));
@@ -346,7 +346,7 @@ class UserController extends BaseController {
               }else{
 
               	// update on DB fail
-                return View::make('frontend.user.edit')->with('error_message', 'No se ha podido editar el perfil');
+                return View::make('frontend.user.edit')->with('error_message', 'No se editó el perfil');
 
               }
 
