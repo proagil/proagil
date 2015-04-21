@@ -78,7 +78,8 @@ class HeuristicEvaluationController extends BaseController {
 
 		$evaluation = array(
 			'name'			=> 	$values['name'],
-			'project_id'	=> $values['project_id']
+			'project_id'	=> $values['project_id'],
+			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 		);
 
 		$evaluationId = HeuristicEvaluation::insert($evaluation);

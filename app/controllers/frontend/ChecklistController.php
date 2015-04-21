@@ -81,7 +81,8 @@ class ChecklistController extends BaseController {
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
 	                  'project_id'          => $projectId,
 	                  'status'				=> Config::get('constant.checklist.not_checked'),
-	                  'title'             	=> $values['title']
+	                  'title'             	=> $values['title'],
+	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
 	                ); 
 
 	                // insert checklist on DB

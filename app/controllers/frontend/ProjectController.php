@@ -58,7 +58,8 @@ class ProjectController extends BaseController {
 
                       $projectArtefact = array(
                           'project_id'      => $projectId,
-                          'artefact_id'     => $artefact
+                          'artefact_id'     => $artefact,
+                          'iteration_id'      => 1//TODO : SAVE ITERATION ID
                       );
 
                       Artefact::insertProjectArtefact($projectArtefact); 
@@ -73,7 +74,8 @@ class ProjectController extends BaseController {
 
                       $activityCategory = array(
                         'name'        => $category,
-                        'project_id'  => $projectId
+                        'project_id'  => $projectId,
+                        'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                       );
 
                       ActivityCategory::insert($activityCategory);
@@ -89,7 +91,8 @@ class ProjectController extends BaseController {
 
                   'user_role_id'        => Config::get('constant.project.owner'),
                   'project_id'          => $projectId,
-                  'user_id'             => $user['id']
+                  'user_id'             => $user['id'],
+                  'iteration_id'        => 1 //TODO: ASIGNAR $iterationId
 
                 );
 
@@ -165,7 +168,8 @@ class ProjectController extends BaseController {
                       'email'         => $email,
                       'project_id'    => Session::get('created_project_id'),
                       'user_role_id'  => $invitations['role'][$index],
-                      'token'         => md5($email.date('H:i:s'))
+                      'token'         => md5($email.date('H:i:s')),
+                      'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                   );
 
                     // get user on session data
@@ -287,7 +291,8 @@ class ProjectController extends BaseController {
                   'email'         => $email,
                   'project_id'    => $projectId,
                   'user_role_id'  => $invitations['role'][$index],
-                  'token'         => md5($email.date('H:i:s'))
+                  'token'         => md5($email.date('H:i:s')),
+                  'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
               );
 
                    // get user on session data
@@ -478,7 +483,8 @@ class ProjectController extends BaseController {
 
                       $projectArtefact = array(
                           'project_id'      => $projectId,
-                          'artefact_id'     => $artefact
+                          'artefact_id'     => $artefact,
+                          'iteration_id'    => 1 //TODO: ASIGNAR $iterationId
                       );
 
                       //insert new project artefacts

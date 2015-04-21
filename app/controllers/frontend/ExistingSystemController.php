@@ -85,7 +85,8 @@ class ExistingSystemController extends BaseController {
 			'name'			=> 	$values['name'],
 			'enabled'		=>  Config::get('constant.ENABLED'),
 			'interface'		=> (isset($imageId))?$imageId:NULL,
-			'project_id'	=> $values['project_id']
+			'project_id'	=> $values['project_id'],
+			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 		);
 
 		$existingSystemId = ExistingSystem::insert($exystingSystem);
@@ -98,7 +99,8 @@ class ExistingSystemController extends BaseController {
 					'observation'				=> $observation['observation'],
 					'existing_system_topic_id' 	=> $observation['topic'],
 					'existing_system_id'		=> $existingSystemId,
-					'project_id'				=> $values['project_id']
+					'project_id'				=> $values['project_id'],
+					'iteration_id'  			=> 1 //TODO: ASIGNAR $iterationId
 
 				);
 
@@ -221,7 +223,8 @@ class ExistingSystemController extends BaseController {
 			'observation'				=> $values['observation'],
 			'existing_system_topic_id' 	=> $values['topic'],
 			'existing_system_id'		=> $values['system_id'],
-			'project_id'				=> $values['project_id']
+			'project_id'				=> $values['project_id'],
+			'iteration_id'  			=> 1 //TODO: ASIGNAR $iterationId
 
 		);
 

@@ -56,8 +56,9 @@ class ActivityCategoryController extends BaseController {
                 foreach($values['new_category'] as $index => $category){
 
                     $newCategory = array(
-                        'name'        =>  $category,
-                        'project_id'  =>  $projectId
+                        'name'          => $category,
+                        'project_id'    => $projectId, 
+                        'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                     );
 
                     ActivityCategory::insert($newCategory);

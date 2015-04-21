@@ -79,7 +79,8 @@ class ActivityController extends BaseController {
 			        $projectActivity = array(
 			            'project_id'    => $projectId,
 			            'activity_id'   => $activityId,
-			            'user_id'		=> $assignedUserId 
+			            'user_id'		=> $assignedUserId,
+			            'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 			        );
 			
 					//save project activity

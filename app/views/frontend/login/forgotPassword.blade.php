@@ -11,6 +11,8 @@
 					   <img src="{{URL::to('/').'/images/logo-sm.png'}}"/>
 					</div>
 
+                	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::to('/')}}" class="login-link"> Volver</a>
+
                     @if(isset($success_message))
                     	<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{$success_message}}</div>
                 	@endif
@@ -18,8 +20,7 @@
                     @if(isset($error_message))
                     	<div class="error-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{$error_message}}</div>
                 	@endif
-
-                	<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::to('/')}}" class="login-link"> Volver</a>
+                	
 	                <div class="login-panel panel panel-default">
 	                    <div class="panel-body">
 	                    	  <div class="login-title txt-center fs-med">

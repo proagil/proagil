@@ -100,6 +100,7 @@ class StyleGuideController extends BaseController {
 			'project_id'	=> $values['project_id'],
 			'logo'			=> (isset($logoId))?$logoId:NULL,
 			'interface'		=> (isset($interfaceId))?$interfaceId:NULL,
+			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 
 		);
 
@@ -217,6 +218,7 @@ class StyleGuideController extends BaseController {
 				'project_id'	=> $values['project_id'],
 				'logo'			=> (isset($logoId))?$logoId:$styleGuide['logo'],
 				'interface'		=> (isset($interfaceId))?$interfaceId:$styleGuide['interface'],
+				'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 
 			);
 

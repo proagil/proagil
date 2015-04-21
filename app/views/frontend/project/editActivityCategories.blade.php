@@ -17,12 +17,12 @@
         								Inicio <span class="fc-green"> &raquo; </span> Proyecto <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Configurar categor&iacute;as
         							</div>
 
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>   
+
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif 
-
-                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>   
-
+                      
         							<div class="section-title fc-blue-iii fs-big">
         								Configurar categor&iacute;as
         							</div>
