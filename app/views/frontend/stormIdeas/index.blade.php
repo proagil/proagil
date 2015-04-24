@@ -19,7 +19,7 @@
 
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
 		                	@if (Session::has('error_message'))
-		                		<div class="error-alert-dashboard"><i class="fc-pink glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
+		                		<div class="error-alert-dashboard"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
 		                	@endif	
 		                	
 		                	@if (Session::has('success_message'))

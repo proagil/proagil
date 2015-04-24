@@ -58,7 +58,8 @@ class ProjectController extends BaseController {
 
                       $projectArtefact = array(
                           'project_id'      => $projectId,
-                          'artefact_id'     => $artefact
+                          'artefact_id'     => $artefact,
+                          'iteration_id'      => 1//TODO : SAVE ITERATION ID
                       );
 
                       Artefact::insertProjectArtefact($projectArtefact); 
@@ -73,7 +74,8 @@ class ProjectController extends BaseController {
 
                       $activityCategory = array(
                         'name'        => $category,
-                        'project_id'  => $projectId
+                        'project_id'  => $projectId,
+                        'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                       );
 
                       ActivityCategory::insert($activityCategory);
@@ -89,14 +91,15 @@ class ProjectController extends BaseController {
 
                   'user_role_id'        => Config::get('constant.project.owner'),
                   'project_id'          => $projectId,
-                  'user_id'             => $user['id']
+                  'user_id'             => $user['id'],
+                  'iteration_id'        => 1 //TODO: ASIGNAR $iterationId
 
                 );
 
                 // save user on session as project owner
                 User::userBelongsToProject($userRole);
 
-                Session::flash('success_message', 'Se ha creado exitosamente su proyecto en el sistema, si lo desea puede invitar a otros a colaborar'); 
+                Session::flash('success_message', 'Se creó el proyecto'); 
 
                 // save created project ID on session
                 Session::put('created_project_id', $projectId);
@@ -165,7 +168,8 @@ class ProjectController extends BaseController {
                       'email'         => $email,
                       'project_id'    => Session::get('created_project_id'),
                       'user_role_id'  => $invitations['role'][$index],
-                      'token'         => md5($email.date('H:i:s'))
+                      'token'         => md5($email.date('H:i:s')),
+                      'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                   );
 
                     // get user on session data
@@ -287,7 +291,8 @@ class ProjectController extends BaseController {
                   'email'         => $email,
                   'project_id'    => $projectId,
                   'user_role_id'  => $invitations['role'][$index],
-                  'token'         => md5($email.date('H:i:s'))
+                  'token'         => md5($email.date('H:i:s')),
+                  'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
               );
 
                    // get user on session data
@@ -478,7 +483,8 @@ class ProjectController extends BaseController {
 
                       $projectArtefact = array(
                           'project_id'      => $projectId,
-                          'artefact_id'     => $artefact
+                          'artefact_id'     => $artefact,
+                          'iteration_id'    => 1 //TODO: ASIGNAR $iterationId
                       );
 
                       //insert new project artefacts
@@ -487,7 +493,7 @@ class ProjectController extends BaseController {
 
                 }
 
-                  Session::flash('success_message', 'Se ha editado el proyecto exitosamente'); 
+                  Session::flash('success_message', 'Se editó el proyecto'); 
 
                  return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
 
@@ -497,7 +503,7 @@ class ProjectController extends BaseController {
 
                   // show view with error message
                  return View::make('frontend.project.edit')
-                              ->with('error_message', 'No se pudo crear el proyecto')
+                              ->with('error_message', 'No se pudo editar el proyecto')
                               ->with('values', $values)
                               ->with('project', $project)
                               ->with('artefacts', $artefacts)

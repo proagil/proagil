@@ -81,7 +81,8 @@ class ChecklistController extends BaseController {
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
 	                  'project_id'          => $projectId,
 	                  'status'				=> Config::get('constant.checklist.not_checked'),
-	                  'title'             	=> $values['title']
+	                  'title'             	=> $values['title'],
+	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
 	                ); 
 
 	                // insert checklist on DB
@@ -125,7 +126,7 @@ class ChecklistController extends BaseController {
 		                  }
 		                }
 
-		                Session::flash('success_message', 'Se ha creado exitosamente su lista de comprobación'); 
+		                Session::flash('success_message', 'Se creó la lista de comprobación'); 
 
 		                // save created project ID on session
 		                Session::put('created_project_id', $projectId);
@@ -319,7 +320,7 @@ class ChecklistController extends BaseController {
 		                  }
 		                }
 
-		                Session::flash('success_message', 'Se ha editado exitosamente su lista de comprobación'); 
+		                Session::flash('success_message', 'Se editó la lista de comprobación'); 
 
 		                // save created project ID on session
 		                Session::put('created_project_id', $projectId);
@@ -435,13 +436,13 @@ class ChecklistController extends BaseController {
 
 	        	if ($updateChecklist>0){
 
-	        		Session::flash('success_message', 'Se verificó exitosamente la lista de comprobación'); 
+	        		Session::flash('success_message', 'Se verificó la lista de comprobación'); 
 
 	                // redirect to invitation viee
 	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
 	        	
 	        	}else{
-	        		Session::flash('error_message', 'No se pudo realizar exitosamente la verificación de la lista de comprobación'); 
+	        		Session::flash('error_message', 'No se pudo realizar la verificación de la lista de comprobación'); 
 
 	                // redirect to invitation viee
 	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);

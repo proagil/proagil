@@ -76,7 +76,8 @@ class StormIdeasController extends BaseController {
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
 	                  'project_id'          => $projectId,
 	                  'name'             	=> $values['name'],
-	                  'ideas'				=> $ideas
+	                  'ideas'				=> $ideas,
+	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
 	                );
 
 	                // insert checklist on DB
@@ -212,7 +213,8 @@ class StormIdeasController extends BaseController {
                   'enabled'        		=> Config::get('constant.ENABLED'),
                   'project_id'          => $projectId,
                   'name'             	=> $values['name'],
-                  'ideas'				=> $ideas
+                  'ideas'				=> $ideas,
+                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
                 );
 
                 // insert checklist on DB

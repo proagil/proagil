@@ -77,7 +77,8 @@ class ProbeController extends BaseController {
 		   		'status'			=> $values['status'],
 		   		'url'				=> md5($values['title'].date('H:i:s')),
 		   		'project_id'		=> $values['project_id'],
-		   		'responses'			=> 0
+		   		'responses'			=> 0,
+		   		'iteration_id'  	=> 1 //TODO: ASIGNAR $iterationId
 
 		   	);
 
@@ -132,7 +133,7 @@ class ProbeController extends BaseController {
 		   			}
 		   		}
 
-		   		Session::flash('success_message', 'Se ha creado el Sondeo exitosamente en su proyecto: '.$project['name']); 
+		   		Session::flash('success_message', 'Se creó el Sondeo'); 
 
                 // redirect to index probre view
                 return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
@@ -140,7 +141,7 @@ class ProbeController extends BaseController {
 
 		   }else{
 
-		   		Session::flash('error_message', 'No se ha podido crear el Sondeo en su proyecto: '.$project['name']); 
+		   		Session::flash('error_message', 'No se pudo crear el Sondeo'); 
 
 		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
 
@@ -257,7 +258,7 @@ class ProbeController extends BaseController {
 
 		}else{
 		   	
-		   	Session::flash('error_message', 'No se ha podido eliminar el sondeo'); 
+		   	Session::flash('error_message', 'No se pudo eliminar el sondeo'); 
 
 		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));			
 		} 

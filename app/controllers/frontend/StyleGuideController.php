@@ -100,6 +100,7 @@ class StyleGuideController extends BaseController {
 			'project_id'	=> $values['project_id'],
 			'logo'			=> (isset($logoId))?$logoId:NULL,
 			'interface'		=> (isset($interfaceId))?$interfaceId:NULL,
+			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 
 		);
 
@@ -158,7 +159,7 @@ class StyleGuideController extends BaseController {
 				
 			}
 
-		   		Session::flash('success_message', 'Se ha creado la gu&iacute;a de estilos exitosamente en su proyecto: '.$project['name']); 
+		   		Session::flash('success_message', 'Se creó la gu&iacute;a de estilos'); 
 
                 // redirect to index probre view
                 return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));										
@@ -166,7 +167,7 @@ class StyleGuideController extends BaseController {
 		}else{
 
 
-		   		Session::flash('error_message', 'No se ha podido crear la gu&iacute;a de estilos en su proyecto: '.$project['name']); 
+		   		Session::flash('error_message', 'No se pudo crear la gu&iacute;a de estilos'); 
 
 		   		return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));			
 
@@ -217,6 +218,7 @@ class StyleGuideController extends BaseController {
 				'project_id'	=> $values['project_id'],
 				'logo'			=> (isset($logoId))?$logoId:$styleGuide['logo'],
 				'interface'		=> (isset($interfaceId))?$interfaceId:$styleGuide['interface'],
+				'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 
 			);
 
@@ -285,7 +287,7 @@ class StyleGuideController extends BaseController {
 				
 			}
 
-			Session::flash('success_message', 'Se ha editado la gu&iacute;a de estilos exitosamente en su proyecto: '.$project['name']); 
+			Session::flash('success_message', 'Se editó la gu&iacute;a de estilos'); 
 
 	        // redirect to index style guide view
 	        return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));										

@@ -79,7 +79,8 @@ class ActivityController extends BaseController {
 			        $projectActivity = array(
 			            'project_id'    => $projectId,
 			            'activity_id'   => $activityId,
-			            'user_id'		=> $assignedUserId 
+			            'user_id'		=> $assignedUserId,
+			            'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
 			        );
 			
 					//save project activity
@@ -488,7 +489,7 @@ class ActivityController extends BaseController {
 		          $message->subject('PROAGIL: Notificación de actividad asignada');
 		        });  
 
-		        Session::flash('success_message', 'Se reasignó la actividad exitosamente'); 
+		        Session::flash('success_message', 'Se reasignó la actividad'); 
 
 		        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
 			}else{
