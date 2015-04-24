@@ -225,7 +225,7 @@ $(function() {
       }) 
 
       // go to artefact detail
-      $('.artefact').on('click', function(){
+      $('.artefact-detail').on('click', function(){
 
         var friendlyUrl = $(this).data('friendlyUrl'),
             projectId = $(this).data('projectId');

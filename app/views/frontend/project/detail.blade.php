@@ -33,11 +33,14 @@
 								<div class="fs-med tags-list tags-list-i" style="margin: 2% 0 0 0">
 									<span class="fs-big fc-pink fa fa-rotate-right fa-fw"></span><span class="f-bold">Iteraciones </span>
 									
-									<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1">Iteraci&oacute;n 1: Aalisis del problema</a>
-									<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2">Iteraci&oacute;n 2: Modulo de proyectos y actividades</a>
-									<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3">Iteraci&oacute;n 3: Implementación de formularios</a>
-									
+									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="1"> 1 </a>
+									<a href="#" class="selected-tag tags-list-on btn-filter iteration-tag" data-iteration-id="2">Iteraci&oacute;n 2: Modulo de proyectos y actividades</a>
+									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="3"> 3</a>
 
+									@if($projectOwner)
+									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar iteraciones</span></a>
+									@endif									
+									
 								</div>								
 
 								<div class="section-title fc-blue-iii fs-big">
@@ -50,6 +53,12 @@
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
 
+									@if($projectOwner)
+									<div class=" fs-med common-btn-ii btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
+										<i class="fs-big fa fa-plus fa-fw"></i>Agregar artefacto
+									</div>
+									@endif
+
 									<div class="fc-grey-ii fs-xxbig arrow-left prev"  {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
@@ -58,17 +67,22 @@
 									<div class="artefacts-list">								
 										@foreach($projectArtefacts as $projectArtefact)
 										<div class="slide">
-											<div class="artefact" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
-												<div class="artefact-icon">
+											<div class="artefact">
+												@if($projectOwner)
+												<i class="fs-med fa fa-times fc-pink fa-fw pull-right"></i>
+												@endif
+
+												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center">
-													{{$projectArtefact->name}}
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
+													{{$projectArtefact->name}} 
 												</div>
+
 											</div>
 										</div>
-										@endforeach								
+										@endforeach																	
 									</div>
 									@else
 									<div class="txt-center fs-med">
@@ -81,7 +95,7 @@
 
 									<div class="fc-grey-ii fs-xxbig arrow-left next" {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-right fa-fw"></i>
-									</div>
+									</div>										
 								</div>
 							</div>
 
