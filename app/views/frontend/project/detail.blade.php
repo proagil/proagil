@@ -30,6 +30,16 @@
 							
 							<div class="artefacts-content">
 
+								<div class="fs-med tags-list tags-list-i" style="margin: 2% 0 0 0">
+									<span class="fs-big fc-pink fa fa-rotate-right fa-fw"></span><span class="f-bold">Iteraciones </span>
+									
+									<a href="#" class="{{(in_array('1', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="1">Iteraci&oacute;n 1: Aalisis del problema</a>
+									<a href="#" class="{{(in_array('2', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="2">Iteraci&oacute;n 2: Modulo de proyectos y actividades</a>
+									<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3">Iteraci&oacute;n 3: Implementación de formularios</a>
+									
+
+								</div>								
+
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
 									@if(!empty($projectArtefacts))
@@ -145,19 +155,19 @@
 						                              <div class="detail-activity-content">
 						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} 
 						                                  @if($projectOwner)
-							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}" class="btn-reassign"><i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i> Reasignar</a>
+							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}" class="btn-reassign"><i class="fs-med fa fa-retweet fc-turquoise fa-fw"></i> Reasignar</a>
 							                                  <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
 							                                  <div class="modal fade" id="reassignModal-{{$activity['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 																    <div class="modal-dialog">
 																        <div class="modal-content" style="border-radius:0px;">
 																            <div class="modal-header">
 																	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
-																	            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasinar Actividad: {{$activity['title']}}</h4>
+																	            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasignar Actividad: {{$activity['title']}}</h4>
 																            </div>
 																            <div class="modal-body">
 																            	<div class="form-group-modal">
 																            	{{ Form::open(array('action' => array('ActivityController@reassign', $activity['id'] ), 'id' => 'form-reassign-activity-'.$activity['id'])) }}
-																	            	<label for="recipient-name" class=" col-md-4 control-label">Reasignar actividad</label>
+																	            	<label  class=" col-md-4 control-label">Reasignar actividad</label>
 																	            	<div class="col-md-8">
 																	           		{{ Form::select('values[assigned_user_id]', $usersOnProject, '' , array('class'=>'form-control app-input', 'id'=> 'assigned-user-'.$activity['id'])) }}
 																	           		<span class="error-modal-{{$activity['id']}} fc-pink fs-min hidden">Debe seleccionar el usuario</span>

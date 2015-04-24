@@ -17,6 +17,9 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .question-number,
+ .iteration-inputs,
+ .iterations-content,
  .project-artefact-list,
  .big-circle,
  .color-hexa,
@@ -430,6 +433,13 @@ a.txt-undrln:hover {
  	width: 20%;
  }
 
+
+ .subtitle-label {
+ 	text-align: left;
+ 	width: 14%;
+ }
+
+
  .btn-save-dashboard {
  	margin-left: 38%; 
  }
@@ -473,6 +483,7 @@ a.txt-undrln:hover {
 .app-input-i {
 	width: 98%; 
 }
+
 .app-input-modal {
 	border-radius: 0px;
 	width: 70%; 
@@ -488,6 +499,10 @@ a.txt-undrln:hover {
 .category-input {
 	width: 80%; 
 
+}
+
+.app-input-ii {
+	width: 81%; 
 }
 
 a.btn-back-i,
@@ -645,6 +660,12 @@ a.login-link:hover  {
 	margin: 1% 0 0 0; 
 }
 
+.iteration-inputs {
+	background-color: #f2f2f2; 
+	margin-bottom: 1%; 
+}
+
+
 
 /*-------------------------------------------
 	PROJECT DETAIL section
@@ -668,6 +689,17 @@ a.login-link:hover  {
 
 .section-arrow {
 	cursor: pointer; 
+}
+
+.section-title-it {
+	background-color: #e3e2e2;
+	padding: 5px 0 30px 9px; 
+	border-left: 5px solid #a8d76f;
+	margin-bottom: 14px; 
+	height: 19px;
+	width: 100%;
+ 	float: left;
+ 	overflow: hidden;
 }
 
 
@@ -1092,6 +1124,11 @@ textarea{
 	width: 99%;
 }
 
+.probe-general-buttons {
+	margin-bottom: 2%; 
+
+}
+
 .btn-add-question-option-edit,
 .btn-add-question-option,
 .question-option {
@@ -1147,6 +1184,7 @@ textarea{
 
 .question-number{
 	background-color: #f2f2f2; 
+	margin-bottom: 1%; 
 }
 
 /*-------------------------------------------

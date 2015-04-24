@@ -183,6 +183,8 @@
 
    		 	 rulesArray =_.object(rulesName,rulesValue); 
 
+   		 	 console.log(rulesArray); 
+
 
 	  		$('#form-save-probe-results').validate({
 	  			errorClass: 'error-input',
@@ -192,6 +194,7 @@
  				},
  				invalidHandler: function(event, validator){
 
+					$('html, body').animate({ scrollTop: 0 }, 'slow');
  					$('.error-alert').removeClass('hidden'); 
 
  				}
