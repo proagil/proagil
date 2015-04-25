@@ -27,6 +27,30 @@ class ArtefactController extends BaseController {
 
 	}
 
+	public function getArtefactInfo($artefactId){
+
+		$artefact = (array) Artefact::getById($artefactId); 
+
+
+	    if(!empty($artefact)){
+
+	      $result = array(
+	          'error'  			=> false,
+	          'data'			=> $artefact,
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
+
+	}
+
 	public function detail($friendlyUrl, $projectId){
 
 		$artefact = Artefact::getByFriendlyUrl($friendlyUrl);

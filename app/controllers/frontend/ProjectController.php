@@ -18,9 +18,7 @@ class ProjectController extends BaseController {
 
     // get view data
     $artefacts = (array) Artefact::enumerate(); 
-    $types =  array('0' => 'Seleccione un tipo de proyecto');
-    $projectTypes = (array) Project::selectProjectTypes(); 
-    $projectTypes = $types + $projectTypes;
+    $roles = User::getRoles(); 
 
 		if(Input::has('_token')){
 
@@ -28,7 +26,6 @@ class ProjectController extends BaseController {
 	        $rules =  array(
 	          'name'         	       => 'required',
             'description'          => 'required',
-            'project_type'         => 'integer|min:1'
 	        );
 
 	        // set validation rules to input values
@@ -42,7 +39,6 @@ class ProjectController extends BaseController {
               $project = array(
                 'name'      	        => $values['name'],
                 'description'         => $values['description'],
-                'project_type_id'     => $values['project_type'],
                 'enabled'             => Config::get('constant.ENABLED')       
               );
 
@@ -113,8 +109,8 @@ class ProjectController extends BaseController {
                               ->with('error_message', 'No se pudo crear el proyecto')
                               ->with('values', $values)
                               ->with('artefacts', $artefacts)
-                              ->with('projectTypes', $projectTypes)
-                              ->with('create_project', TRUE);
+                              ->with('create_project', TRUE)
+                              ->with('roles', $roles);
               }
 
            	}else{
@@ -123,8 +119,8 @@ class ProjectController extends BaseController {
                           ->withErrors($validator)
                           ->with('values', $values)
                           ->with('artefacts', $artefacts)
-                          ->with('projectTypes', $projectTypes)
-                          ->with('create_project', TRUE);
+                          ->with('create_project', TRUE)
+                          ->with('roles', $roles);
 
            	}
 
@@ -133,8 +129,8 @@ class ProjectController extends BaseController {
           // render view first time 
 	        return View::make('frontend.project.create')
                       ->with('artefacts', $artefacts)
-                      ->with('projectTypes', $projectTypes)
-                      ->with('create_project', TRUE);
+                      ->with('create_project', TRUE)
+                      ->with('roles', $roles);
 	      }
 
 	}

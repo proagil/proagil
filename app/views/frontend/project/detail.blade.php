@@ -41,7 +41,9 @@
 									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar iteraciones</span></a>
 									@endif									
 									
-								</div>								
+								</div>	
+
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde: 15/05/2015 a 30/05/2015															
 
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
@@ -273,7 +275,7 @@
 										</div>
 										@endforeach
 									@else
-									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tareas para mostrar</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay actividades para mostrar</div>
 									@endif											
 								
 								</div>

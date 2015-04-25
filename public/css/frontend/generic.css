@@ -17,6 +17,10 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .each-colaborator,
+ .colaborators-content,
+ .artefact-name-i,
+ .artefact-name,
  .question-number,
  .iteration-inputs,
  .iterations-content,
@@ -503,6 +507,7 @@ a.txt-undrln:hover {
 
 .app-input-ii {
 	width: 81%; 
+	border-radius: 0px;
 }
 
 a.btn-back-i,
@@ -723,7 +728,7 @@ a.login-link:hover  {
 	width: 90%;
 	height: auto; 
 	float: left;
-	margin: 0;
+	margin-top: 10px; 
 }
  
 .arrow-left,
@@ -781,6 +786,13 @@ a.login-link:hover  {
 .artefact-name {
 	float: left;
 	width: 73%; 
+	padding: 4% 0 0 0; 
+	height: auto;
+ 	overflow: hidden;
+}
+
+.artefact-name-i {
+	float: left;
 	padding: 4% 0 0 0; 
 	height: auto;
  	overflow: hidden;

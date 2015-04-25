@@ -43,6 +43,8 @@ Route::any('actividad/reasignar/{activity_id}', 'ActivityController@reassign');
 
 Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
 
+Route::any('artefacto/obtener-informacion/{artefact_id}', 'ArtefactController@getArtefactInfo');
+
 Route::any('/cerrar-sesion', 'LoginController@logout');
 
 Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
