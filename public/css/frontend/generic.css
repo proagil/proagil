@@ -17,6 +17,13 @@
 }
  
  /* --- ELEMENT reset -------------------------------------------------*/
+ .each-colaborator,
+ .colaborators-content,
+ .artefact-name-i,
+ .artefact-name,
+ .question-number,
+ .iteration-inputs,
+ .iterations-content,
  .project-artefact-list,
  .big-circle,
  .color-hexa,
@@ -430,6 +437,13 @@ a.txt-undrln:hover {
  	width: 20%;
  }
 
+
+ .subtitle-label {
+ 	text-align: left;
+ 	width: 14%;
+ }
+
+
  .btn-save-dashboard {
  	margin-left: 38%; 
  }
@@ -473,6 +487,7 @@ a.txt-undrln:hover {
 .app-input-i {
 	width: 98%; 
 }
+
 .app-input-modal {
 	border-radius: 0px;
 	width: 70%; 
@@ -488,6 +503,11 @@ a.txt-undrln:hover {
 .category-input {
 	width: 80%; 
 
+}
+
+.app-input-ii {
+	width: 81%; 
+	border-radius: 0px;
 }
 
 a.btn-back-i,
@@ -645,6 +665,12 @@ a.login-link:hover  {
 	margin: 1% 0 0 0; 
 }
 
+.iteration-inputs {
+	background-color: #f2f2f2; 
+	margin-bottom: 1%; 
+}
+
+
 
 /*-------------------------------------------
 	PROJECT DETAIL section
@@ -670,6 +696,17 @@ a.login-link:hover  {
 	cursor: pointer; 
 }
 
+.section-title-it {
+	background-color: #e3e2e2;
+	padding: 5px 0 30px 9px; 
+	border-left: 5px solid #a8d76f;
+	margin-bottom: 14px; 
+	height: 19px;
+	width: 100%;
+ 	float: left;
+ 	overflow: hidden;
+}
+
 
 .section-title {
 	background-color: #e3e2e2;
@@ -691,7 +728,7 @@ a.login-link:hover  {
 	width: 90%;
 	height: auto; 
 	float: left;
-	margin: 0;
+	margin-top: 10px; 
 }
  
 .arrow-left,
@@ -749,6 +786,13 @@ a.login-link:hover  {
 .artefact-name {
 	float: left;
 	width: 73%; 
+	padding: 4% 0 0 0; 
+	height: auto;
+ 	overflow: hidden;
+}
+
+.artefact-name-i {
+	float: left;
 	padding: 4% 0 0 0; 
 	height: auto;
  	overflow: hidden;
@@ -825,6 +869,21 @@ a.made-on{
 
 .tags-list a:hover{
 	background-color: #e3e2e2; 
+}
+
+
+.tags-list a.iteration-tag {
+	cursor: pointer; 
+	color: #35404d;
+	width: auto;
+	height: auto;
+	margin: 2px;
+	padding: 5px 8px;
+}
+
+.tags-list a.selected-tag {
+	background-color: #eecb44; 
+
 }
 
 /*-------------------------------------------
@@ -1092,6 +1151,11 @@ textarea{
 	width: 99%;
 }
 
+.probe-general-buttons {
+	margin-bottom: 2%; 
+
+}
+
 .btn-add-question-option-edit,
 .btn-add-question-option,
 .question-option {
@@ -1147,6 +1211,7 @@ textarea{
 
 .question-number{
 	background-color: #f2f2f2; 
+	margin-bottom: 1%; 
 }
 
 /*-------------------------------------------

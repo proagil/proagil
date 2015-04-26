@@ -30,6 +30,21 @@
 							
 							<div class="artefacts-content">
 
+								<div class="fs-med tags-list tags-list-i" style="margin: 2% 0 0 0">
+									<span class="fs-big fc-pink fa fa-rotate-right fa-fw"></span><span class="f-bold">Iteraciones </span>
+									
+									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="1"> 1 </a>
+									<a href="#" class="selected-tag tags-list-on btn-filter iteration-tag" data-iteration-id="2">Iteraci&oacute;n 2: Modulo de proyectos y actividades</a>
+									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="3"> 3</a>
+
+									@if($projectOwner)
+									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar iteraciones</span></a>
+									@endif									
+									
+								</div>	
+
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde: 15/05/2015 a 30/05/2015															
+
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
 									@if(!empty($projectArtefacts))
@@ -40,6 +55,12 @@
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
 
+									@if($projectOwner)
+									<div class=" fs-med common-btn-ii btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
+										<i class="fs-big fa fa-plus fa-fw"></i>Agregar artefacto
+									</div>
+									@endif
+
 									<div class="fc-grey-ii fs-xxbig arrow-left prev"  {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
@@ -48,17 +69,22 @@
 									<div class="artefacts-list">								
 										@foreach($projectArtefacts as $projectArtefact)
 										<div class="slide">
-											<div class="artefact" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
-												<div class="artefact-icon">
+											<div class="artefact">
+												@if($projectOwner)
+												<i class="fs-med fa fa-times fc-pink fa-fw pull-right"></i>
+												@endif
+
+												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center">
-													{{$projectArtefact->name}}
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
+													{{$projectArtefact->name}} 
 												</div>
+
 											</div>
 										</div>
-										@endforeach								
+										@endforeach																	
 									</div>
 									@else
 									<div class="txt-center fs-med">
@@ -71,7 +97,7 @@
 
 									<div class="fc-grey-ii fs-xxbig arrow-left next" {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-right fa-fw"></i>
-									</div>
+									</div>										
 								</div>
 							</div>
 
@@ -145,19 +171,19 @@
 						                              <div class="detail-activity-content">
 						                                  <i class="fs-med fa fa-user fc-turquoise fa-fw"></i> <span class="fc-pink">Asignada a:</span> {{$activity['first_name']}} 
 						                                  @if($projectOwner)
-							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}" class="btn-reassign"><i class="fs-med fa fa-refresh fc-turquoise fa-fw"></i> Reasignar</a>
+							                                  <a href="#" data-toggle="modal" data-target="#reassignModal-{{$activity['id']}}" class="btn-reassign"><i class="fs-med fa fa-retweet fc-turquoise fa-fw"></i> Reasignar</a>
 							                                  <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
 							                                  <div class="modal fade" id="reassignModal-{{$activity['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
 																    <div class="modal-dialog">
 																        <div class="modal-content" style="border-radius:0px;">
 																            <div class="modal-header">
 																	            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
-																	            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasinar Actividad: {{$activity['title']}}</h4>
+																	            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Reasignar Actividad: {{$activity['title']}}</h4>
 																            </div>
 																            <div class="modal-body">
 																            	<div class="form-group-modal">
 																            	{{ Form::open(array('action' => array('ActivityController@reassign', $activity['id'] ), 'id' => 'form-reassign-activity-'.$activity['id'])) }}
-																	            	<label for="recipient-name" class=" col-md-4 control-label">Reasignar actividad</label>
+																	            	<label  class=" col-md-4 control-label">Reasignar actividad</label>
 																	            	<div class="col-md-8">
 																	           		{{ Form::select('values[assigned_user_id]', $usersOnProject, '' , array('class'=>'form-control app-input', 'id'=> 'assigned-user-'.$activity['id'])) }}
 																	           		<span class="error-modal-{{$activity['id']}} fc-pink fs-min hidden">Debe seleccionar el usuario</span>
@@ -249,7 +275,7 @@
 										</div>
 										@endforeach
 									@else
-									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tareas para mostrar</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay actividades para mostrar</div>
 									@endif											
 								
 								</div>

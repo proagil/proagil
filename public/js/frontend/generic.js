@@ -159,6 +159,84 @@ $(function() {
 
 /*----------------------------------------------------------------------
 
+         CREATE PROJECT FUNCTIONS
+
+----------------------------------------------------------------------*/
+
+  $(document).on('click','.btn-artefact-description', function(e){
+
+    $('.loader').show(); 
+
+    var artefactId = $(this).data('artefactId');
+
+       $.ajax({
+          url: projectURL+'/artefacto/obtener-informacion/'+artefactId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                    $('#artefact-description-modal').modal();
+
+                    $('.artefact-name-i').html(response.data.name);
+                    $('.artefact-description').html(response.data.description);
+
+
+                    $('.loader').hide();  
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+  })
+
+  var colaboratorCount = 0; 
+
+  $(document).on('click','.btn-add-colaborator', function(e){
+
+    colaboratorCount++;
+
+    var htmlColaborators = '<div style="display:none" class="each-colaborator new-colaborator-'+colaboratorCount+'">'+
+                            '<div class="form-group">'+
+                              '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Colaborador</label>'+  
+                              '<div class="col-md-4">'+
+                                '<input placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii" name="values[name]" type="text" value="">'+
+                                '<select class="form-control app-input-ii" name="values[project_type]">';
+                                    $.each(userRoles, function(index, role) {
+                                        htmlColaborators += '<option value="'+index+'" selected>'+role+'</option>';
+                                    });                                
+
+                                htmlColaborators += '</select>'+
+                                '<div data-colaborator-id="'+colaboratorCount+'" class="btn-delete-colaborator circle activity-option txt-center fs-big fc-pink">'+
+                                  '<i class="fa fa-times fa-fw"></i>'+
+                                '</div>'+                                                              
+                              '</div>'+                                
+                            '</div>'+                                    
+                          '</div>';
+
+                          $(htmlColaborators).appendTo('.colaborators-content').fadeIn('slow');
+  });
+
+
+    $(document).on('click', '.btn-delete-colaborator', function(e){
+
+        e.preventDefault();
+
+        var colaboratorId = $(this).data('colaboratorId');
+
+          $(document).find('.new-colaborator-'+colaboratorId).fadeOut('slow', 
+              function() { 
+                $(this).remove()
+          });
+     
+
+    });
+
+/*----------------------------------------------------------------------
+
         PROJECT DETAIL FUNCTIONS
 
 ----------------------------------------------------------------------*/        
@@ -225,7 +303,7 @@ $(function() {
       }) 
 
       // go to artefact detail
-      $('.artefact').on('click', function(){
+      $('.artefact-detail').on('click', function(){
 
         var friendlyUrl = $(this).data('friendlyUrl'),
             projectId = $(this).data('projectId');
