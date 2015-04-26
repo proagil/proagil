@@ -56,6 +56,10 @@
 										@endif	
 									
 									<div style="width:{{($projectOwner)?'82%':'90%'}}" class="checklist-item-content">
+										<i class="fc-yellow fa  fa-th fa-fw"></i>
+											<?php $date = new DateTime($checklist['closing_date']);?>
+											{{$checklist['closing_date']= $date->format('d-m-Y')}}
+											 &nbsp; &nbsp;
 										<i class="fc-turquoise fa fa-list-ul fa-fw"></i>
 											{{$checklist['title']}}					
 									</div>

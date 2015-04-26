@@ -375,7 +375,7 @@ $(function() {
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ef6f66',
-          confirmButtonText: 'Si, eliminar',
+          confirmButtonText: 'Sí, eliminar',
           cancelButtonText: 'Cancelar',
           cancelButtonColor: '#ef6f66',
           closeOnConfirm: true
@@ -420,7 +420,7 @@ $(function() {
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ef6f66',
-          confirmButtonText: 'Si, eliminar',
+          confirmButtonText: 'Sí, eliminar',
           cancelButtonText: 'Cancelar',
           cancelButtonColor: '#ef6f66',
           closeOnConfirm: true
@@ -546,7 +546,7 @@ $(function() {
           type: 'warning',
           showCancelButton: true,
           confirmButtonColor: '#ef6f66',
-          confirmButtonText: 'Si, eliminar',
+          confirmButtonText: 'Sí, eliminar',
           cancelButtonText: 'Cancelar',
           cancelButtonColor: '#ef6f66',
           closeOnConfirm: true

@@ -38,6 +38,15 @@
                               <span class="error fc-pink fs-min"><?= ($errors->has('title'))?$errors->first('title'):''?></span>  
                             </div>
                           </div>
+                          
+                          <div class="form-group">
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope <span class="fc-pink fs-med">*</span></label>  
+                            <div class="col-md-4  date">
+                              {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
+                              <label class="error fc-pink fs-min" style="display:none;"></label>
+                              <span class="error fc-pink fs-min"><?= ($errors->has('closing_date'))?$errors->first('closing_date'):''?></span>  
+                            </div>
+                          </div>                 
 
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Seleccione los principios: </label>  
@@ -120,6 +129,17 @@
 	    <!-- /#wrapper -->
 
 	@include('frontend.includes.javascript')
+  <script type="text/javascript">
+
+    $(document).ready(function() {
+        $('#calendar').datepicker({
+        format: 'dd-mm-yyyy',
+        language: 'es',
+        startDate: '0d'   
+        });
+    });
+
+  </script>
 
 	</body>
 

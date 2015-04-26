@@ -36,8 +36,7 @@
                           <span data-weight="{{$stormIdeasWord['weight']}}">{{$stormIdeasWord['word']}}</span> 
                         @endforeach
                         </div>
-                          <div class="pull-left btn-storm-ideas-edit common-btn btn-ii btn-yellow txt-center"> <a  href="{{URL::action('StormIdeasController@edit', array($stormIdeasId))}}"> <i class="fa fa-pencil fa-fw"></i> Editar</a></div>
-                          <div class="pull-left btn-download-storm-ideas common-btn btn-ii btn-turquoise txt-center "> <a id="download"> <i class="fa fa-cloud-download fa-fw"></i> Descargar</a></div>
+                          <div class="btn-download-storm-ideas common-btn btn-ii btn-turquoise txt-center "> <a id="download"> <i class="fa fa-cloud-download fa-fw"></i> Descargar</a></div>
                       </div>	                              	                               	   				
         						</div>
 					       </div>

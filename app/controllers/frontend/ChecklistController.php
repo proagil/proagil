@@ -29,6 +29,7 @@ class ChecklistController extends BaseController {
 	    	$project = (array) Project::getName($projectId); 
 
 			$checklists = (array) Checklist::enumerate($projectId);
+
 	    	 
 	    	return View::make('frontend.checklist.index')
 	    				->with('checklists', $checklists)
@@ -62,6 +63,7 @@ class ChecklistController extends BaseController {
 	            	
 	            	$rules =  array(
 			          'title'       		=> 'required',
+			          'closing_date'		=> 'required',		
 			          'checklistItems' 		=> 'required'
 		        	);
 
@@ -69,6 +71,7 @@ class ChecklistController extends BaseController {
 
 	            	$rules =  array(
 			          'title'       		=> 'required',
+			          'closing_date'		=> 'required'
 			          );
 	            }
 
@@ -82,6 +85,7 @@ class ChecklistController extends BaseController {
 	                  'project_id'          => $projectId,
 	                  'status'				=> Config::get('constant.checklist.not_checked'),
 	                  'title'             	=> $values['title'],
+	                  'closing_date'        => $values['closing_date'],
 	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
 	                ); 
 
@@ -248,14 +252,15 @@ class ChecklistController extends BaseController {
 	            	
 	            	$rules =  array(
 			          'title'       		=> 'required',
+			          'closing_date'		=> 'required',		
 			          'checklistItems' 		=> 'required'
 		        	);
-		        	$oldChecklistItems = array();
 
 	            }else{
 
 	            	$rules =  array(
 			          'title'       		=> 'required',
+			          'closing_date'		=> 'required'
 			          );
 	            }
 
@@ -265,7 +270,8 @@ class ChecklistController extends BaseController {
 		        if(!$validator->fails()){
 
 		        	$checklist = array(
-	                  'title'             	=> $values['title']
+	                  'title'             	=> $values['title'],
+	                  'closing_date'        => $values['closing_date']
 	                ); 
 
 	                // insert checklist on DB
