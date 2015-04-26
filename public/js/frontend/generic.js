@@ -1051,14 +1051,13 @@ $(function() {
 
     });
     
-    //Add Principle
     var htmlPrinciples = '',
-    principleCount = 0; 
+        principleCount =  $(document).find('.principles-content').attr('id');
 
     $('.btn-add-principle').on('click', function(){
 
-      principleCount++; 
-
+      //Add Principle
+      console.log(principleCount);
       htmlPrinciples +=  '<div class="form-group checklist-principle-'+principleCount+'" style="display:none">'+
                             '<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Principio</label>'+
                               '<div class="col-md-4">'+
@@ -1080,7 +1079,7 @@ $(function() {
                           '<div class="form-group checklist-principle-'+principleCount+'">'+
                             '<label class="col-md-4 title-label control-label"></label>'+
                             '<div class="col-md-4">'+
-                              '<div data-principle-id="'+principleCount+'" class="form-group btn-delete-principle circle activity-option txt-center fs-big fc-pink pull-right">'+
+                              '<div data-principle-id="'+principleCount+'" class="form-group btn-delete-principle-alert circle activity-option txt-center fs-big fc-pink pull-right">'+
                                 '<i class="fa fa-times fa-fw"></i>'+
                               '</div>'
                             '</div>'+
@@ -1088,13 +1087,14 @@ $(function() {
       ;  
 
       $(htmlPrinciples).appendTo('.principles-content').fadeIn('slow');
-
+      principleCount++;
+      
       htmlPrinciples = '';
+      $('.principles-content').attr('id',principleCount);
 
     });
 
     //DELETE: checklist
-        //DELETE: storm-ideas
     $('.btn-checklist-delete').on('click', function(){
 
     var checklistId = $(this).data('checklistId'),
@@ -1118,16 +1118,31 @@ $(function() {
 
     });
 
-    //DELETE: principle
-    $(document).on('click','.btn-delete-principle', function(){
+    $(document).on('click', '.btn-delete-principle-alert', function(e){
 
-      var principleId = $(this).data('principleId'); 
-    
-       $(document).find('.checklist-principle-'+principleId).fadeOut('slow', 
+        console.log('entro');
+        var principleId = $(this).data('principleId');  
+      
+        var showAlert = swal({
+          title: 'Eliminar principio',
+          text: '¿Realmente desea eliminarlo?',
+          type: 'warning',
+          showCancelButton: true,
+          confirmButtonColor: '#ef6f66',
+          confirmButtonText: 'Sí, eliminar',
+          cancelButtonText: 'Cancelar',
+          cancelButtonColor: '#ef6f66',
+          closeOnConfirm: true
+        },
+        function(){
+
+          $(document).find('.checklist-principle-'+principleId).fadeOut('slow', 
           function() { 
             $(this).remove()
           });
-    })
+
+        });             
+    }); 
 
     //EDIT: checklist
     $('.btn-edit-checklist').on('click', function(){

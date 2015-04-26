@@ -143,6 +143,7 @@ class ChecklistController extends BaseController {
                  		return View::make('frontend.project.create')
                               	->with('error_message', 'No se pudo crear la lista de comprobación')
                               	->with('values', $values)
+                              	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0)
                               	->with('checklistItems', $checklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
@@ -154,6 +155,7 @@ class ChecklistController extends BaseController {
               		return View::make('frontend.checklist.create')
 	                          	->withErrors($validator)
 	                          	->with('values', $values)
+	                          	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0)
 								->with('checklistItems', $checklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
@@ -165,6 +167,7 @@ class ChecklistController extends BaseController {
 	         	// render view first time 
 		        return View::make('frontend.checklist.create')
 			    				->with('checklistItems', $checklistItems)
+			    				->with('sizePrinciples',0)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -241,6 +244,9 @@ class ChecklistController extends BaseController {
 	    	if (!empty($newChecklistItems)) {
 	    		$values['new_principle'] = (array) $newChecklistItems;
 	    	}
+
+			$date = new DateTime($values['closing_date']);
+			$values['closing_date']	= $date->format('d-m-Y');
 
 	        if(Input::has('_token')){
 
@@ -343,7 +349,8 @@ class ChecklistController extends BaseController {
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-						    	->with('values', $values);
+						    	->with('values', $values)
+						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
               		}
 
 		        }else{
@@ -356,7 +363,8 @@ class ChecklistController extends BaseController {
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-						    	->with('values', $values);
+						    	->with('values', $values)
+						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
 
            		} 
 		    }else{
@@ -369,7 +377,8 @@ class ChecklistController extends BaseController {
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-						    	->with('values', $values);
+						    	->with('values', $values)
+						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
 		    }
 		}else{
 

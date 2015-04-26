@@ -64,7 +64,7 @@
                             </div>
                           </div> 
 
-                          <div class="principles-content">
+                          <div id="{{$sizePrinciples}}" class="principles-content">
                             @if(isset($values['new_principle']))
                               @foreach($values['new_principle'] as $index => $principle)
                               
@@ -89,8 +89,8 @@
                               <div class="form-group checklist-principle-{{$index}}">
                                 <label class="col-md-4 title-label control-label"></label>
                                 <div class="col-md-4">
-                                  <div data-principle-id="{{$index}}" class="form-group btn-delete-principle circle activity-option txt-center fs-big fc-pink pull-right">
-                                    <i class="fa fa-times fa-fw"></i>
+                                  <div class="form-group  circle activity-option txt-center fs-big fc-pink pull-right">
+                                    <i data-principle-id="{{$index}}"  class="fa btn-delete-principle-alert fa-times fa-fw"></i>
                                   </div>
                                 </div>
                               </div>

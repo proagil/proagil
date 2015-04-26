@@ -65,7 +65,7 @@
                             </div>
                           </div> 
 
-                          <div class="principles-content">
+                          <div id="{{$sizePrinciples}}" class="principles-content">
                             @if(isset($values['new_principle']))
                               @foreach($values['new_principle'] as $index => $principle)
                               
@@ -90,7 +90,7 @@
                               <div class="form-group checklist-principle-{{$index}}">
                                 <label class="col-md-4 title-label control-label"></label>
                                 <div class="col-md-4">
-                                  <div data-principle-id="{{$index}}" class="form-group btn-delete-principle circle activity-option txt-center fs-big fc-pink pull-right">
+                                  <div data-principle-id="{{$index}}" class="form-group btn-delete-principle-alert circle activity-option txt-center fs-big fc-pink pull-right">
                                     <i class="fa fa-times fa-fw"></i>
                                   </div>
                                 </div>
@@ -103,7 +103,7 @@
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">&nbsp;</label>  
                             <div class="col-md-4">
-                              <div class="btn-add-principle" style="cursor:pointer;">
+                              <div data-principle-id="{{ isset($values['new_principle']) ? count($values['new_principle']) : 0}}" class="btn-add-principle" style="cursor:pointer;">
                                 <div class="circle activity-option txt-center fs-big fc-turquoise">
                                   <i class="fa fa-plus fa-fw"></i>
                                 </div>
@@ -111,11 +111,10 @@
                               <span class="fs-min">Hacer clic para agregar un principio a la lista de comprobaci&oacute;n<i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="Puede agregar nuevos pricipios si lo desea" class="fc-turquoise fa fa-info-circle fa-fw"></i></span> 
                             </div> 
                           </div>      
-
                           <div class="form-group">
                                <div class="col-md-4 btn-save-dashboard common-btn btn-ii btn-green txt-center btn-create-checklist">Crear</div> 
                           </div>
-                         
+                  
                           {{Form::close()}}
                       </div>	                              	                               	   				
         						</div>
