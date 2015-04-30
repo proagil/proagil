@@ -63,7 +63,7 @@
 								<a href='http://postimage.org/' target='_blank'><img src='http://s11.postimg.org/duhv9zmv7/logo_sm.png' border='0' alt="logo sm" /></a>
 								<h2 style="text-align:center;color:#42c2b8" >INVITACIÓN A COLABORACIÓN EN PROYECTO</h2> 
 								<h3>¡¡¡ Hola !!!</h3>
-								<p style="line-height: 1.6" ><strong style = "text-transform: capitalize">{{$user_name}}</strong> te ha invitado a colaborar en el proyecto <strong style = "text-transform: capitalize">{{$project_name}}</strong> en ProAgil. Para formar parte del proyecto haz clic en el siguiente botón:</p>
+								<p style="line-height: 1.6" ><strong style = "text-transform: capitalize">{{$user_name}}</strong> te ha invitado a colaborar en la iteración <strong style = "text-transform: capitalize"> {{$iteration_name}} </strong> en el proyecto <strong style = "text-transform: capitalize">{{$project_name}}</strong> en ProAgil. Para formar parte del proyecto haz clic en el siguiente botón:</p>
 								<br>
 								<i style="float: right">
 									<a href="{{$url_token}}" style=" text-decoration: none;

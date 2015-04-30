@@ -13,7 +13,10 @@
             <!-- /.navbar-header -->
 
 			@if(isset(Session::get('project')['name']))
-			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{Session::get('project')['name']}}</span></div>
+			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{Session::get('project')['name']}}</span>
+            <span data-project-id="{{Session::get('project')['id']}}" class="btn-project-description cur-point fs-med fa fa-info-circle fc-green fa-fw"></span>
+            <span class="cur-point fs-med fa fa-pencil fc-yellow fa-fw"></span>
+            </div>
             @endif
 
             <div class="loader" style="display:none;">
@@ -46,3 +49,30 @@
                 @include('frontend.includes.side_menu')
         </nav>
         <!-- END TOP SECTION -->
+
+       <!-- INIT MODAL: artefact description -->
+      <div class="modal fade" id="project-info-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content" style="border-radius:0px;">
+                    <div class="modal-header">
+                      <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
+                      <div class="fs-med text-center f-bold fc-turquoise artefact-name-i" >Informaci&oacute;n</div>
+                    </div>
+                    <div class="modal-body">
+                      <div class="form-group-modal">
+                        <label  class=" control-label">Objetivos</label>
+                            <div class="artefact-description">
+                                {{Session::get('project')['objetive']}}
+                            </div>
+                        </div>
+                      <div class="form-group-modal">
+                        <label  class=" control-label">Cliente</label>
+                            <div class="artefact-description">
+                                {{Session::get('project')['client']}}
+                            </div>
+                        </div>                        
+                    </div>
+              </div>
+            </div>
+        </div>
+        <!-- END MODAL: artefact description -->           

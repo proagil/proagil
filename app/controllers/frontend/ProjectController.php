@@ -22,24 +22,25 @@ class ProjectController extends BaseController {
 
 		if(Input::has('_token')){
 
-	        // validation rules
-	        $rules =  array(
-	          'name'         	       => 'required',
-            'description'          => 'required',
-	        );
+          // get input valiues
+          $values = Input::get('values');
 
-	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
+          //print_r($values); die; 
 
-	        // get input valiues
-	        $values = Input::get('values');
+          // validation rules
+          $rules =  array(
+            'name'                 => 'required',
+          );
 
-           	if(!$validator->fails()){
+          // set validation rules to input values
+          $validator = Validator::make(Input::get('values'), $rules);
+
+          if(!$validator->fails()){
 
               $project = array(
-                'name'      	        => $values['name'],
-                'description'         => $values['description'],
-                'enabled'             => Config::get('constant.ENABLED')       
+                'name'                => isset($values['name'])?$values['name']:NULL,
+                'objetive'            => isset($values['client'])?$values['client']:NULL,
+                'client'              => isset($values['client'])?$values['client']:NULL    
               );
 
               // insert project on DB
@@ -47,91 +48,179 @@ class ProjectController extends BaseController {
 
               if($projectId>0) {
 
-                //save project artefacts
-                if(isset($values['artefacts'])){
+                //save project ITERATIONS
+                if(isset($values['iteration'])){
 
-                  foreach($values['artefacts'] as $index => $artefact){
+                   foreach($values['iteration'] as $index => $iteration){
 
-                      $projectArtefact = array(
-                          'project_id'      => $projectId,
-                          'artefact_id'     => $artefact,
-                          'iteration_id'      => 1//TODO : SAVE ITERATION ID
+                      $projectIteration = array(
+                          'name'        => $iteration['name'],
+                          'order'       => $iteration['order'],
+                          'init_date'   => $iteration['init_date'],
+                          'end_date'    => $iteration['end_date'],
+                          'project_id'  => $projectId
                       );
 
-                      Artefact::insertProjectArtefact($projectArtefact); 
-                  }
+                      // save ITERATION info
+                     $iterationId = Iteration::insert($projectIteration); 
 
-                }
+                      if(isset($iteration['artefacts']) && !empty($iteration['artefacts'])){
 
-                //save project activity categories
-                if(isset($values['new_category'])) {
+                          // save iteration ARTEFACTS
+                          foreach($iteration['artefacts'] as $index => $artefact){
 
-                  foreach($values['new_category'] as $index => $category){
+                              $projectArtefact = array(
+                                  'project_id'      => $projectId,
+                                  'artefact_id'     => $artefact,
+                                  'iteration_id'      => $iterationId
+                              );
 
-                      $activityCategory = array(
-                        'name'        => $category,
-                        'project_id'  => $projectId,
-                        'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
-                      );
+                              Artefact::insertProjectArtefact($projectArtefact);                             
 
-                      ActivityCategory::insert($activityCategory);
 
-                  }              
+                          } // end foreach artefacts
 
-                }
+                      } // end if artefacts
 
-                // get user on session
-                $user = Session::get('user');
+                      if(isset($iteration['colaborator']) && !empty($iteration['colaborator'])){
 
-                $userRole = array(
+                          // get iteration COLABORATORS 
+                          foreach($iteration['colaborator'] as $index => $colaborator){
 
-                  'user_role_id'        => Config::get('constant.project.owner'),
-                  'project_id'          => $projectId,
-                  'user_id'             => $user['id'],
-                  'iteration_id'        => 1 //TODO: ASIGNAR $iterationId
+                              $email = $colaborator['email']; 
 
-                );
+                              $userInvitation = array(
+                                  'email'         => $colaborator['email'],
+                                  'project_id'    => $projectId,
+                                  'iteration_id'  => $iterationId,
+                                  'user_role_id'  => $colaborator['role'],
+                                  'token'         => md5($colaborator['email'].date('H:i:s'))
+                              ); 
 
-                // save user on session as project owner
-                User::userBelongsToProject($userRole);
+                               // get user on session data
+                              $user = Session::get('user');
 
-                Session::flash('success_message', 'Se creó el proyecto'); 
+                              if(User::saveInvitation($userInvitation)>0){
 
-                // save created project ID on session
-                Session::put('created_project_id', $projectId);
+                                // verify if user email already exist on DB
+                                $savedUser = (array) User::getUserByEmail($colaborator['email']);
 
-                // redirect to invitation view
-                return Redirect::to(URL::action('ProjectController@invitation'));
+                                if(!empty($savedUser)){
+
+                                  // create email data
+                                  $emailData = array(
+                                    'url_token'       => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token'],
+                                    'user_name'       => $user['first_name'].' '.$user['last_name'],
+                                    'project_name'    =>  $values['name'],
+                                    'iteration_name'  => $iteration['name']
+
+                                  );
+
+                                  // send email with invitation to registered user
+                                  Mail::send('frontend.email_templates.validateInvitation', 
+
+                                  $emailData, 
+
+                                  function($message) use ($email){
+
+                                    $message->to($email);
+                                    $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
+                                  }); 
+
+
+                                }else{
+
+                                    // create email data for new user
+                                    $emailData = array(
+                                      'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token'],
+                                      'user_name'     => $user['first_name'].' '.$user['last_name'],
+                                      'project_name'  =>  $values['name'],
+                                      'iteration_name'  => $iteration['name']
+
+                                    );                          
+
+                                      // send email with invitation to unregistered user
+                                      Mail::send('frontend.email_templates.validateInvitation', 
+
+                                      $emailData, 
+
+                                      function($message) use ($email){
+
+                                        $message->to($email);
+                                        $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                                      });                                   
+
+
+                                } // end if !empty(savedUser)
+
+
+                              } // end if  User::saveInvitation                        
+
+
+
+                            } // end foreach colaborators
+
+                        }   // end if colaborators    
+
+                          $user = Session::get('user');    
+
+                          // save user on session as project iteratins OWNER
+                          $userRole = array(
+
+                            'user_role_id'        => Config::get('constant.project.owner'),
+                            'project_id'          => $projectId,
+                            'user_id'             => $user['id'],
+                            'iteration_id'        => $iterationId 
+
+                          );
+
+                          // save user on session as project owner
+                          User::userBelongsToProject($userRole);
+
+                   } // end foreach iterations
+
+
+                          Session::flash('success_message', 'Se ha creado el proyecto y sus iteraciones'); 
+
+                          // save created project ID on session
+                          Session::put('created_project_id', $projectId);
+
+                          // redirect to invitation view
+                          return Redirect::to(URL::action('DashboardController@index'));                   
+
+                } // end if iterations                
+
 
               }else{
 
-                 return View::make('frontend.project.create')
-                              ->with('error_message', 'No se pudo crear el proyecto')
-                              ->with('values', $values)
-                              ->with('artefacts', $artefacts)
-                              ->with('create_project', TRUE)
-                              ->with('roles', $roles);
-              }
-
-           	}else{
-
-              return View::make('frontend.project.create')
-                          ->withErrors($validator)
+               return View::make('frontend.project.create')
+                          ->with('error_message', 'No se pudo crear el proyecto')
                           ->with('values', $values)
                           ->with('artefacts', $artefacts)
-                          ->with('create_project', TRUE)
-                          ->with('roles', $roles);
+                          ->with('roles', $roles)
+                          ->with('create_project', TRUE);                     
 
-           	}
+              }            
 
-	      }else{
+          }else{
+
+              return View::make('frontend.project.create')
+                          ->with('error_message', 'No se pudo crear el proyecto')
+                          ->with('values', $values)
+                          ->with('artefacts', $artefacts)
+                          ->with('roles', $roles)
+                          ->with('create_project', TRUE);           
+
+          }
+
+	   }else{
 
           // render view first time 
 	        return View::make('frontend.project.create')
                       ->with('artefacts', $artefacts)
                       ->with('create_project', TRUE)
                       ->with('roles', $roles);
-	      }
+	   }
 
 	}
 
@@ -390,6 +479,7 @@ class ProjectController extends BaseController {
 
           'user_role_id'        => $invitation['user_role_id'],
           'project_id'          => $invitation['project_id'],
+          'iteration_id'        => $invitation['iteration_id'],
           'user_id'             => $user['id']
 
         );
@@ -397,10 +487,14 @@ class ProjectController extends BaseController {
         // get project name
         $project = (array) Project::getName($invitation['project_id']);
 
+
+        // get iteration name
+        $iteration = (array) Iteration::get($invitation['iteration_id']);   
+
         // save user as project member
         User::userBelongsToProject($userRole);    
 
-        Session::flash('success_message', 'Ya eres parte del proyecto '. $project['name']); 
+        Session::flash('success_message', 'Ya eres parte de la iteraci&oacute;n '. $iteration['name'].' del proyecto '. $project['name']); 
 
         // delete token on invitation
         User::updateInvitation($invitation['id'], array('token'=>NULL)); 
@@ -464,7 +558,8 @@ class ProjectController extends BaseController {
               $project = array(
                 'name'                => $values['name'],
                 'description'         => $values['description'],
-                'project_type_id'     => $values['project_type'],          
+                'project_type_id'     => $values['project_type'], 
+                'enabled'             => 1         
               );
 
               // update project on DB

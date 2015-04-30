@@ -115,6 +115,8 @@ class Project extends Eloquent{
 
 			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
 
+			->groupBy('p.id')
+
 			->get();
 
 
@@ -150,6 +152,8 @@ class Project extends Eloquent{
 			->where('ubtp.user_role_id', Config::get('constant.project.member'))
 
 			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
+
+			->groupBy('p.id')
 
 			->get();
 

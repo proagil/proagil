@@ -164,7 +164,6 @@ $(function() {
           }
         });
 
-        console.log('successValidation:'+ successValidation+' totalInputs '+totalInputs);
 
         // success validation, all inputs are valid
         if(successValidation==2){

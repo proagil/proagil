@@ -30,7 +30,7 @@
 							<div class="filters-content">
 							
 								<div class="section-title fc-blue-iii fs-big">
-									Proyectos creados por mi
+									Mis proyectos
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
@@ -55,7 +55,7 @@
 							<div class="filters-content">
 							
 								<div class="section-title section-title-green fc-blue-iii fs-big">
-									Proyectos en los que colaboro
+									Otros proyectos
 									<div class="section-arrow pull-right"></div>
 								</div>							
 

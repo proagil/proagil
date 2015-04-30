@@ -18,6 +18,10 @@
 
 {{ HTML::script('js/frontend/underscore.js') }}
 
+ {{ HTML::script('js/frontend/numeric.js') }} 
+
+  {{ HTML::script('js/frontend/jquery.validate.min.js') }}    
+
 {{ HTML::script('js/frontend/generic.js') }}
 
 {{ HTML::script('js/frontend/bootstrap-datepicker.js') }}

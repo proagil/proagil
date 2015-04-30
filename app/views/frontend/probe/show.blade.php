@@ -183,9 +183,6 @@
 
    		 	 rulesArray =_.object(rulesName,rulesValue); 
 
-   		 	 console.log(rulesArray); 
-
-
 	  		$('#form-save-probe-results').validate({
 	  			errorClass: 'error-input',
 				rules: rulesArray,
