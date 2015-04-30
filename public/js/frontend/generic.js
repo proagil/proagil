@@ -55,7 +55,7 @@ $(function() {
   $('.btn-project-description').on('click', function(){
 
     $('#project-info-modal').modal();
-    
+
   }) 
 
 /*----------------------------------------------------------------------
@@ -242,13 +242,13 @@ $(function() {
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio</label>'+  
                   '<div class="col-md-4">'+
-                    '<input class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin</label>'+  
                   '<div class="col-md-4">'+
-                    '<input class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
 
@@ -284,7 +284,7 @@ $(function() {
                             '<div class="form-group">'+
                               '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Colaborador</label>'+  
                               '<div class="col-md-4">'+
-                                '<input name="values[iteration]['+iterationId+'][colaborator]['+colaboratorCount+'][email]" placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii"  type="text" value="">'+
+                                '<input data-input-type="email" name="values[iteration]['+iterationId+'][colaborator]['+colaboratorCount+'][email]" placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii"  type="text" value="">'+
                                 '<select class="form-control app-input-ii" name="values[iteration]['+iterationId+'][colaborator]['+colaboratorCount+'][role]">';
                                     $.each(userRoles, function(index, role) {
                                         htmlColaborators += '<option value="'+index+'" selected>'+role+'</option>';
@@ -519,32 +519,68 @@ $(function() {
           });
 
         // CREATE PROJECT SEND FORM
-        $('.btn-create-project').on('click', function(){
+        $('.btn-create-project').on('click', function(e){
 
-           $(document).find('#form-create-project').submit();
+            e.preventDefault();
 
-          /*var successValidation = false,
-              totalCategories = 0;
+            // adding rules for inputs
+            $('input, textarea').each(function() {
+                $(this).rules('add', 
+                    {
+                        required: true
+                    })
 
-              //validate categories
-              $('.category-input').each(function(){
+                if($(this).data('inputType')=='email'){
+                  $(this).rules('add', 
+                      {
+                          email: true
+                      })                  
 
-                totalCategories++; 
-
-                if($(this).val() == ''){
-                  $(this).siblings('.error').removeClass('hidden'); 
-                }else{
-                   $(this).siblings('.error').addClass('hidden');
-                    successValidation++; 
                 }
-              });
+            }); 
 
-              // success validation, all categories are valid
-              if(successValidation==totalCategories){
-                $(document).find('#form-create-project').submit()
-              }    */          
+            if($('#form-create-project').validate().form()){
+                
+                if (iterationsCount>0){
 
-        });
+                   $('.btn-create-project').off('click').removeClass('btn-green').addClass('btn-green-disable'); 
+                   $('#form-create-project').submit();
+
+                   return false; 
+
+                }else{
+
+                  $('html, body').animate({ scrollTop: 0 }, 'slow');
+                  $('.error-alert').removeClass('hidden'); 
+                  $('.error-text').html('Debe indicar al menos una iteraci&oacute;n'); 
+                }
+
+            }else{
+                
+            }              
+
+       });
+
+
+        $(document).ready(function(){
+          $('#form-create-project').validate({
+              errorClass: 'error-input',
+              errorPlacement: function(error,element) {
+                  return true;
+              },
+              invalidHandler: function(event, validator){
+
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('.error-alert').removeClass('hidden'); 
+
+              },
+              submitHanlder: function(form){
+
+
+                }
+
+            });  
+        });       
 
 
         // DELETE SAVED CATEGORY FROM DB 

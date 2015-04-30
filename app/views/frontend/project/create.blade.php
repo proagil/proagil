@@ -21,7 +21,9 @@
 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-                      @endif       
+                      @endif      
+
+                    <div class="error-alert-dashboard error-alert hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> <span class="error-text"> Verifique los campos obligatorios</span></div>                      
                       
                       <div class="section-title fc-blue-iii fs-big">
         								Crear Proyecto
@@ -104,14 +106,17 @@
               </div>
             </div>
         </div>
-        <!-- END MODAL: artefact description -->   
+        <!-- END MODAL: artefact description -->  
+
+
 
   <script type="text/javascript">
 
   var userRoles = <?= json_encode($roles) ?>,
-      artefacts = <?= json_encode($artefacts) ?>; 
+      artefacts = <?= json_encode($artefacts) ?>;  
 
-  </script>         
+  </script>   
+
 
 	@include('frontend.includes.javascript')
 
