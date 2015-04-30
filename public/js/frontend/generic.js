@@ -193,18 +193,93 @@ $(function() {
       });      
   })
 
-  var colaboratorCount = 0; 
+  var colaboratorCount = 0,
+      iterationsCount = 0;  
+
+  $(document).on('click','.btn-add-iteration', function(e){
+
+    e.preventDefault();
+
+    iterationsCount++;
+    
+
+        var iterationHtml = '<div style="display:none" class="iteration-inputs iteration-'+iterationsCount+'">'+
+                '<div data-toggle="tooltip" data-placement="top" title="Eliminar" class="pull-right circle activity-option txt-center fs-big fc-pink btn-delete-new-iteration" data-iteration-id="'+iterationsCount+'">'+
+                  '<i class="fa fa-times fa-fw"></i>'+
+                '</div>'+                                
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">N&uacute;mero de iteraci&oacute;n</label>'+  
+                  '<div class="col-md-4">'+
+                    '<input placeholder="Ej,: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][order]" type="number">'+                           
+                  '</div>'+
+                '</div>'+                               
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Nombre de iteraci&oacute;n</label>'+  
+                  '<div class="col-md-4">'+
+                    '<input placeholder="Ej.: Pruebas" class="form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][name]" type="text" value="">'+                           
+                  '</div>'+
+                '</div>'+                           
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Artefactos a utilizar</label>'+  
+                  '<div class="col-md-4">';
+                    if(artefacts.length>0){
+                          $.each(artefacts, function(index, artefact) {
+                            iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
+                                              '<label>' +artefact.name +'</label>'+ 
+                                              '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
+                                              '<br>';
+                          });                           
+
+                    }                            
+                  iterationHtml += '</div>'+
+                '</div>'+ 
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio</label>'+  
+                  '<div class="col-md-4">'+
+                    '<input class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
+                  '</div>'+
+                '</div>'+ 
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin</label>'+  
+                  '<div class="col-md-4">'+
+                    '<input class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
+                  '</div>'+
+                '</div>'+ 
+
+                '<div class="colaborators-content colaborators-content-'+iterationsCount+'">'+
+                '</div>'+ 
+                                           
+                '<div class="form-group">'+
+                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">&nbsp;</labeL>'+
+                  '<div class="col-md-4">'+
+                    '<div class="btn-add-colaborator" data-iteration-id="'+iterationsCount+'" style="cursor:pointer;">'+
+                      '<div class="circle activity-option txt-center fs-big fc-turquoise">'+
+                        '<i class="fa fa-plus fa-fw"></i>'+
+                      '</div>'+
+                    '</div>'+
+                    '<span class="fs-min">Invitar a colaboradores a trabajar en esta iteraci&oacute;n</span>'+
+                  '</div>'+
+                '</div>'+                               
+              '</div>';
+
+              $('html, body').animate({scrollTop:$(document).height()}, 'slow');
+
+            $(iterationHtml).appendTo('.iterations-content').fadeIn('slow');
+  });
+
 
   $(document).on('click','.btn-add-colaborator', function(e){
 
     colaboratorCount++;
 
+    var iterationId = $(this).data('iterationId'); 
+
     var htmlColaborators = '<div style="display:none" class="each-colaborator new-colaborator-'+colaboratorCount+'">'+
                             '<div class="form-group">'+
                               '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Colaborador</label>'+  
                               '<div class="col-md-4">'+
-                                '<input placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii" name="values[name]" type="text" value="">'+
-                                '<select class="form-control app-input-ii" name="values[project_type]">';
+                                '<input name="values[iteration]['+iterationId+'][colaborator]['+colaboratorCount+'][email]" placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii"  type="text" value="">'+
+                                '<select class="form-control app-input-ii" name="values[iteration]['+iterationId+'][colaborator]['+colaboratorCount+'][role]">';
                                     $.each(userRoles, function(index, role) {
                                         htmlColaborators += '<option value="'+index+'" selected>'+role+'</option>';
                                     });                                
@@ -217,8 +292,22 @@ $(function() {
                             '</div>'+                                    
                           '</div>';
 
-                          $(htmlColaborators).appendTo('.colaborators-content').fadeIn('slow');
+                          $(htmlColaborators).appendTo('.colaborators-content-'+iterationId).fadeIn('slow');
   });
+
+
+    $(document).on('click', '.btn-delete-new-iteration', function(e){
+
+        e.preventDefault();
+
+        var iterationId = $(this).data('iterationId');
+
+          $(document).find('.iteration-'+iterationId).fadeOut('slow', 
+              function() { 
+                $(this).remove()
+          });
+     
+    });
 
 
     $(document).on('click', '.btn-delete-colaborator', function(e){
@@ -234,6 +323,22 @@ $(function() {
      
 
     });
+
+    $('body').on('focus','.input-date', function(){
+          $(this).datepicker({
+            format: 'dd-mm-yyyy',
+            language: 'es',
+            startDate: '0d'   
+          });
+    });
+
+    $('body').on('focus','.iteration-number', function(){
+          $(this).numeric(); 
+    });    
+
+
+   
+
 
 /*----------------------------------------------------------------------
 
@@ -410,7 +515,9 @@ $(function() {
         // CREATE PROJECT SEND FORM
         $('.btn-create-project').on('click', function(){
 
-          var successValidation = false,
+           $(document).find('#form-create-project').submit();
+
+          /*var successValidation = false,
               totalCategories = 0;
 
               //validate categories
@@ -429,7 +536,7 @@ $(function() {
               // success validation, all categories are valid
               if(successValidation==totalCategories){
                 $(document).find('#form-create-project').submit()
-              }              
+              }    */          
 
         });
 
