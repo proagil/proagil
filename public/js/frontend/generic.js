@@ -50,7 +50,13 @@ $(function() {
       if (e.keyCode == 13) {
           $('#form-login').submit();
       }
-  });   
+  });  
+
+  $('.btn-project-description').on('click', function(){
+
+    $('#project-info-modal').modal();
+    
+  }) 
 
 /*----------------------------------------------------------------------
 

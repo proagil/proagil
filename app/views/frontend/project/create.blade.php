@@ -85,7 +85,7 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-       <!-- INIT MODAL HTML TO REASSIGN ACTIVITY -->
+       <!-- INIT MODAL: artefact description -->
       <div class="modal fade" id="artefact-description-modal" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content" style="border-radius:0px;">
@@ -104,7 +104,7 @@
               </div>
             </div>
         </div>
-        <!-- END MODAL HTML TO REASSIGN ACTIVITY -->   
+        <!-- END MODAL: artefact description -->   
 
   <script type="text/javascript">
 
