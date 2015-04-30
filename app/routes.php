@@ -77,7 +77,7 @@ Route::any('proyecto/eliminar-usuario/{user_id}/{project_id}', 'ProjectControlle
 
 Route::any('proyecto/validar-invitacion/{token}', 'ProjectController@validateInvitation');
 
-Route::any('proyecto/detalle/{project_id}', 'ProjectController@detail');
+Route::any('proyecto/detalle/{project_id}/{iteration_id}', 'ProjectController@detail');
 
 Route::any('proyecto/editar/{project_id}', 'ProjectController@edit');
 

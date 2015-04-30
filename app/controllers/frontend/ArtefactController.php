@@ -27,30 +27,6 @@ class ArtefactController extends BaseController {
 
 	}
 
-	public function getArtefactInfo($artefactId){
-
-		$artefact = (array) Artefact::getById($artefactId); 
-
-
-	    if(!empty($artefact)){
-
-	      $result = array(
-	          'error'  			=> false,
-	          'data'			=> $artefact,
-	      );
-
-	    }else{
-
-	      $result = array(
-	          'error'     => true
-	      );
-
-	    }
-	      header('Content-Type: application/json');
-	      return Response::json($result);			
-
-	}
-
 	public function detail($friendlyUrl, $projectId){
 
 		$artefact = Artefact::getByFriendlyUrl($friendlyUrl);
@@ -101,6 +77,55 @@ class ArtefactController extends BaseController {
 			return Redirect::to(URL::action('LoginController@index'));
 		}
 
+
+	}
+
+	public function getArtefactInfo($artefactId){
+
+		$artefact = (array) Artefact::getById($artefactId); 
+
+
+	    if(!empty($artefact)){
+
+	      $result = array(
+	          'error'  			=> false,
+	          'data'			=> $artefact,
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
+
+	}
+
+
+	public function delete($artefactId, $iterationId){
+
+		$artefact = (array) Artefact::getById($artefactId); 
+
+
+	    if(!empty($artefact)){
+
+	      $result = array(
+	          'error'  			=> false,
+	          'data'			=> $artefact,
+	      );
+
+	    }else{
+
+	      $result = array(
+	          'error'     => true
+	      );
+
+	    }
+	      header('Content-Type: application/json');
+	      return Response::json($result);			
 
 	}
 

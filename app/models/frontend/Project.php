@@ -79,6 +79,30 @@ class Project extends Eloquent{
 
 	}
 
+	public static function getProjectIterations($userId, $projectId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$consult = DB::table('user_belongs_to_project AS ubtp')
+
+				->select('i.*')
+
+				->where('ubtp.user_id', $userId)
+
+				->where('ubtp.project_id', $projectId)
+
+				->leftJoin('iteration AS i', 'i.id', '=', 'ubtp.iteration_id')
+
+				->get();
+
+		foreach($consult as $row){
+			$result[$row['id']] = $row; 
+		}	
+
+		return $result; 
+
+	}	
+
 	public static function getOwnerProjects($userId){
 
 		return DB::table('user_belongs_to_project AS ubtp')
@@ -131,27 +155,25 @@ class Project extends Eloquent{
 
 	}
 
-	public static function getAllUsersOnProject($projectId){
+	public static function getAllUsersOnIteration($iterationId){
 
 		$result = DB::table('user_belongs_to_project AS ubtp')
 
 			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id')
 
-			->where('ubtp.project_id', $projectId)
+			->where('ubtp.iteration_id', $iterationId)
 
 			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
 
-			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
-
 			->get();
 
-		$usersOnProject = array(); 
+		$usersOnIteration = array(); 
 		
 		foreach($result as $index => $row){
-			$usersOnProject[$row->id] = $row->first_name;
+			$usersOnIteration[$row->id] = $row->first_name;
 		}
 
-		return $usersOnProject; 
+		return $usersOnIteration; 
 
 	}
 
@@ -174,21 +196,7 @@ class Project extends Eloquent{
 
 	}
 
-	public static function getActivitiesByProject($projectId) {
-
-		DB::setFetchMode(PDO::FETCH_ASSOC);
-
-		return DB::table('activity_belongs_to_project AS abtp')
-
-			->select('abtp.activity_id')
-
-			->where('abtp.project_id', $projectId)
-
-			->get(); 
-
-	}
-
-	public static function getProjectActivities($projectId, $filtersArray=NULL, $statusArray=NULL) {
+	public static function getIterationActivities($iterationId, $filtersArray=NULL, $statusArray=NULL) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
@@ -196,7 +204,7 @@ class Project extends Eloquent{
 
 			->select('u.id', 'u.first_name', 'a.*', 'cabtp.name AS category_name')
 
-			->where('abtp.project_id', $projectId);
+			->where('abtp.iteration_id', $iterationId);
 
 			// filter by activity category
 			if(!empty($filtersArray) && $filtersArray!=NULL){
@@ -219,6 +227,8 @@ class Project extends Eloquent{
 			return $query->get();		
 
 	}
+
+
 
 	public static function updateActivity($activityId, $values) {
 

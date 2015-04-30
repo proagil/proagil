@@ -538,121 +538,130 @@ class ProjectController extends BaseController {
 
   }
 
-  public function detail($projectId){
+  public function detail($projectId, $iterationId){
 
     $user = Session::get('user'); 
-
-    $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
-
-    //get user On project
-    $users =  array('0' => 'Seleccione un usuario'); 
-    $usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
-    $usersOnProject = $users+$usersOnProject;
-
+    $userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
     // save user role on session
     Session::put('user_role', $userRole);
-
 
     if(empty($userRole)){
 
       return Redirect::to(URL::action('DashboardController@index'));  
 
     }else{
-          // get project data
-          $project =  (array) Project::get($projectId); 
-
-          Session::put('project', $project); 
-          $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL');
-
-          // project list on sidebar
-          $ownerProjects = Project::getOwnerProjects($user['id']);
-          $ownerProjects = (count($ownerProjects)>=6)?array_slice($ownerProjects, 0, 6):$ownerProjects;
-
-          // get activity categories
-          $activityCategories = (array) ActivityCategory::get($projectId);
 
 
-          // get filters with categories and status
-          $filters = NULL;
-          $filtersArray = array();  
-          $status = NULL;
-          $statusArray = array(); 
+      // get project data
+      $project =  (array) Project::get($projectId);
+      Session::put('project', $project);  
 
-          if(Input::has('_token')){
+      //get user On iteration
+      $users =  array('0' => 'Seleccione un usuario'); 
+      $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+      $usersOnIteration = $users+$usersOnIteration;     
 
-             $filters = Input::get('filters');
+      // get activity categories
+      $activityCategories = (array) ActivityCategory::get($projectId);
 
-             if($filters['category']!=''){
-                 $filtersArray =  explode(',', $filters['category']);
-             }
+      // get project iterations
+      $projectIterations = (array) Project::getProjectIterations($user['id'], $projectId);
+      $iteration = $projectIterations[$iterationId];
 
-            if($filters['status']!=''){
-                 $statusArray =  explode(',', $filters['status']);
-             }
+      // format date
+      $date = new DateTime($iteration['init_date']);
+      $iteration['init_date'] = $date->format('d/m/Y');
+      $date = new DateTime($iteration['end_date']);
+      $iteration['end_date'] = $date->format('d/m/Y');
 
+      // get artefacts by iteration
+      $iterationArtefacts = (array) Iteration::getArtefactsByIteration($iterationId);
+
+      // get filters with categories and status
+      $filters = NULL;
+      $filtersArray = array();  
+      $status = NULL;
+      $statusArray = array(); 
+
+      if(Input::has('_token')){
+
+         $filters = Input::get('filters');
+
+         if($filters['category']!=''){
+             $filtersArray =  explode(',', $filters['category']);
+         }
+
+        if($filters['status']!=''){
+             $statusArray =  explode(',', $filters['status']);
+         }
+
+      }
+
+      // get activities
+      $activities = Project::getIterationActivities($iterationId, $filtersArray, $statusArray);
+
+      // echo "<pre>";
+      // print_r($iterationArtefacts);
+      // echo "</pre>";
+      // die;
+      // add activity status class and name
+      foreach($activities as $index => $activity){
+
+         switch($activity['status']) {
+          case 1:
+            $activities[$index]['status_class'] = 'fc-grey-iv';
+            $activities[$index]['status_name'] = 'Asignada';
+          break;
+
+          case 2:
+            $activities[$index]['status_class'] = 'fc-yellow';
+            $activities[$index]['status_name'] = 'Iniciada';
+          break;
+
+          case 3:
+            $activities[$index]['status_class'] = 'fc-green';
+            $activities[$index]['status_name'] = 'Terminada';
+          break;
+
+         }
+
+         // format activities date
+        $activities[$index]['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));  
+
+        // get activity comments
+        $activityComments = array();
+        $activityComments = Activity::getComments($activity['id']); 
+
+        //print_r($activityComments); die;
+
+        if(!empty($activityComments)) {
+           foreach($activityComments as $indexS => $comment){
+              $activityComments[$indexS]['editable'] = ($user['id']==$comment['user_id'])?TRUE:FALSE; 
+               $activityComments[$indexS]['date'] = date('d/m/Y', strtotime($comment['date']));  
           }
+        }
 
-          // get activities
-          $activities = Project::getProjectActivities($projectId, $filtersArray, $statusArray);
+        // save activity comments
+        $activities[$index]['comments'] = $activityComments;           
 
+      }
 
-          // add activity status class and name
-          foreach($activities as $index => $activity){
-
-             switch($activity['status']) {
-              case 1:
-                $activities[$index]['status_class'] = 'fc-grey-iv';
-                $activities[$index]['status_name'] = 'Asignada';
-              break;
-
-              case 2:
-                $activities[$index]['status_class'] = 'fc-yellow';
-                $activities[$index]['status_name'] = 'Iniciada';
-              break;
-
-              case 3:
-                $activities[$index]['status_class'] = 'fc-green';
-                $activities[$index]['status_name'] = 'Terminada';
-              break;
-
-             }
-
-             // format activities date
-            $activities[$index]['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));  
-
-            // get activity comments
-            $activityComments = array();
-            $activityComments = Activity::getComments($activity['id']); 
-
-            //print_r($activityComments); die;
-
-            if(!empty($activityComments)) {
-               foreach($activityComments as $indexS => $comment){
-                  $activityComments[$indexS]['editable'] = ($user['id']==$comment['user_id'])?TRUE:FALSE; 
-                   $activityComments[$indexS]['date'] = date('d/m/Y', strtotime($comment['date']));  
-              }
-            }
-
-            // save activity comments
-            $activities[$index]['comments'] = $activityComments;           
-
-          }
-
-          
-          return View::make('frontend.project.detail')
-                ->with('projectDetail', TRUE) 
-                ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-                ->with('project', $project)
-                ->with('projectArtefacts', $projectArtefacts)
-                ->with('activityCategories', $activityCategories)
-                ->with('ownerProjects', $ownerProjects)
-                ->with('activities', $activities)
-                ->with('filters', $filters)
-                ->with('filtersArray', $filtersArray)
-                ->with('statusArray', $statusArray)
-                ->with('usersOnProject', $usersOnProject)
-                ->with('projectId', $projectId)
-                ->with('projectArrows', count($projectArtefacts)>6);    
+      
+      return View::make('frontend.project.detail')
+            ->with('projectDetail', TRUE) 
+            ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+            ->with('project', $project)
+            ->with('projectId', $projectId)
+            ->with('iteration', $iteration)
+            ->with('iterationArtefacts', $iterationArtefacts)
+            ->with('projectIterations', $projectIterations)
+            ->with('activityCategories', $activityCategories)
+            ->with('activities', $activities)
+            ->with('filters', $filters)
+            ->with('filtersArray', $filtersArray)
+            ->with('statusArray', $statusArray)
+            ->with('usersOnIteration', $usersOnIteration)
+            ->with('projectArrows', count($iterationArtefacts)>6);    
 
     }
 

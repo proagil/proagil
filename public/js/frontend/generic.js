@@ -832,6 +832,21 @@ $(function() {
       });
 
 
+
+    // filter activities
+    $('.btn-filter-iteration').on('click', function(e){
+
+      e.preventDefault(); 
+
+      var projectId = $(this).data('projectId'),
+          iterationId = $(this).data('iterationId');
+
+      window.location.href = projectURL+'/proyecto/detalle/'+projectId+'/'+iterationId;
+ 
+    })
+
+
+
     // filter activities
     $('.btn-filter').on('click', function(e){
 

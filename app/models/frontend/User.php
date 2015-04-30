@@ -106,6 +106,13 @@ class User extends Eloquent{
 					->first();
 	}
 
+	public static function getUserRoleOnIteration($iterationId, $userId){
+		return DB::table('user_belongs_to_project')
+					->where('iteration_id', $iterationId)
+					->where('user_id', $userId)
+					->first();
+	}
+
 	public static function exist($email){
 
 		$result =  DB::table('user')->where('email', $email)->first();

@@ -15,7 +15,7 @@
 						<div class="activities-content">
 		                	
 							<div class="breadcrumbs-content">
-								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}
+								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}}
 							</div>
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>	
@@ -32,10 +32,17 @@
 
 								<div class="fs-med tags-list tags-list-i" style="margin: 2% 0 0 0">
 									<span class="fs-big fc-pink fa fa-rotate-right fa-fw"></span><span class="f-bold">Iteraciones </span>
-									
-									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="1"> 1 </a>
-									<a href="#" class="selected-tag tags-list-on btn-filter iteration-tag" data-iteration-id="2">Iteraci&oacute;n 2: Modulo de proyectos y actividades</a>
-									<a href="#" class="unselected-tag tags-list-off btn-filter iteration-tag" data-iteration-id="3"> 3</a>
+									@foreach($projectIterations as $projectIteration)
+										@if($projectIteration['id']==$iteration['id'])
+											<a class="selected-tag tags-list-on btn-filter-iteration iteration-tag" data-iteration-id="{{$projectIteration['id']}}" data-project-id="{{$projectId}}">
+												Iteraci&oacute;n {{$projectIteration['order']}}: {{$projectIteration['name']}}
+											</a>
+										@else 
+											<a href="#" class="unselected-tag tags-list-off btn-filter-iteration iteration-tag" data-iteration-id="{{$projectIteration['id']}}" data-project-id="{{$projectId}}">
+												{{$projectIteration['order']}}
+											</a>
+										@endif
+									@endforeach
 
 									@if($projectOwner)
 									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar iteraciones</span></a>
@@ -43,11 +50,11 @@
 									
 								</div>	
 
-								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde: 15/05/2015 a 30/05/2015															
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 															
 
 								<div class="section-title fc-blue-iii fs-big">
 									Artefactos
-									@if(!empty($projectArtefacts))
+									@if(!empty($iterationArtefacts))
 									<div data-section="section-artefatcs" class="section-arrow pull-right"><i class="fc-green fa fa-caret-down fa-fw"></i>
 									</div>
 									@endif
@@ -65,21 +72,21 @@
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
 
-									@if(!empty($projectArtefacts))
+									@if(!empty($iterationArtefacts))
 									<div class="artefacts-list">								
-										@foreach($projectArtefacts as $projectArtefact)
+										@foreach($iterationArtefacts as $iterationArtefact)
 										<div class="slide">
 											<div class="artefact">
 												@if($projectOwner)
 												<i class="fs-med fa fa-times fc-pink fa-fw pull-right"></i>
 												@endif
 
-												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
-													<img width="100%" src="{{URL::to('/').'/uploads/'.$projectArtefact->icon_file}}"/>
+												<div class="artefact-icon artefact-detail" data-project-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$projectArtefact->friendly_url}}">
-													{{$projectArtefact->name}} 
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+													{{$iterationArtefact['name']}} 
 												</div>
 
 											</div>
@@ -91,7 +98,7 @@
 										<i class="fa  fa-frown-o fc-yellow fa-fw"></i> A&uacute;n no hay artefactos asociados al proyecto. @if($projectOwner) Para crear alg&uacute;n artefacto haga clic 
 										
 										<a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
-										@endif
+									@endif
 									</div>
 									@endif
 
@@ -185,7 +192,7 @@
 																            	{{ Form::open(array('action' => array('ActivityController@reassign', $activity['id'] ), 'id' => 'form-reassign-activity-'.$activity['id'])) }}
 																	            	<label  class=" col-md-4 control-label">Reasignar actividad</label>
 																	            	<div class="col-md-8">
-																	           		{{ Form::select('values[assigned_user_id]', $usersOnProject, '' , array('class'=>'form-control app-input', 'id'=> 'assigned-user-'.$activity['id'])) }}
+																	           		{{ Form::select('values[assigned_user_id]', $usersOnIteration, '' , array('class'=>'form-control app-input', 'id'=> 'assigned-user-'.$activity['id'])) }}
 																	           		<span class="error-modal-{{$activity['id']}} fc-pink fs-min hidden">Debe seleccionar el usuario</span>
 																                	</div>
 																                {{Form::close()}}
