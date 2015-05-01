@@ -40,9 +40,9 @@
 							@if(!empty($ownerProjects))
 								@foreach($ownerProjects as $project)
 								<div class="project-item-content">
-									<div data-project-id="{{$project->id}}" class="list-item activity-info project-item">
+									<div data-project-id="{{$project['id']}}" data-iteration-id="{{$project['iteration_id']}}" class="list-item activity-info project-item">
 										<i class="fc-yellow fa fa-folder-open fa-fw"></i>
-											{{$project->name}}
+											{{$project['name']}}
 									</div>						
 								</div>
 								@endforeach
@@ -64,9 +64,9 @@
 							@if(!empty($memberProjects))
 								@foreach($memberProjects as $project)
 								<div class="project-item-content">
-									<div data-project-id="{{$project->id}}" class="project-item list-item activity-info">
+									<div data-project-id="{{$project['id']}}" data-iteration-id="{{$project['iteration_id']}}" class="project-item list-item activity-info">
 										<i class="fc-green fa fa-folder-open fa-fw"></i>
-										{{$project->name}}
+										{{$project['name']}}
 									</div>						
 								</div>	
 								@endforeach	
@@ -92,9 +92,10 @@
 
       $('.project-item').on('click', function(){
 
-      	projectId = $(this).data('projectId');
+      	var projectId = $(this).data('projectId'),
+      		iterationId = $(this).data('iterationId'); 
 
-      	 window.location.href = projectURL+'/proyecto/detalle/'+projectId;
+      	 window.location.href = projectURL+'/proyecto/detalle/'+projectId+'/'+iterationId;
 
       })
 

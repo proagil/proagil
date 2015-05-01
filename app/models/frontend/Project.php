@@ -105,7 +105,10 @@ class Project extends Eloquent{
 
 	public static function getOwnerProjects($userId){
 
-		return DB::table('user_belongs_to_project AS ubtp')
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+
+		$ownerProjects = DB::table('user_belongs_to_project AS ubtp')
 
 			->select('p.id', 'p.name')
 
@@ -118,6 +121,21 @@ class Project extends Eloquent{
 			->groupBy('p.id')
 
 			->get();
+
+			// get project iteration
+			foreach($ownerProjects as $index => $project){
+
+				$iterationId = DB::table('user_belongs_to_project AS ubtp')
+				->select('ubtp.iteration_id')
+				->where('ubtp.project_id', $project['id'])
+				->where('ubtp.user_id', $userId)
+				->first();
+
+				$ownerProjects[$index]['iteration_id'] = implode($iterationId);
+
+			}
+
+			return $ownerProjects; 
 
 
 	}
@@ -143,7 +161,7 @@ class Project extends Eloquent{
 
 	public static function getMemberProjects($userId) {
 
-		return DB::table('user_belongs_to_project AS ubtp')
+		$memberProjects =  DB::table('user_belongs_to_project AS ubtp')
 
 			->select('p.id', 'p.name')
 
@@ -156,6 +174,21 @@ class Project extends Eloquent{
 			->groupBy('p.id')
 
 			->get();
+
+			// get project iteration
+			foreach($memberProjects as $index => $project){
+
+				$iterationId = DB::table('user_belongs_to_project AS ubtp')
+				->select('ubtp.iteration_id')
+				->where('ubtp.project_id', $project['id'])
+				->where('ubtp.user_id', $userId)
+				->first();
+
+				$memberProjects[$index]['iteration_id'] = implode($iterationId);
+
+			}
+
+			return $memberProjects; 			
 
 	}
 

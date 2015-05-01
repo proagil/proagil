@@ -85,6 +85,8 @@ Route::any('proyecto/eliminar/{project_id}', 'ProjectController@delete');
 
 Route::any('proyecto/eliminar-artefacto/', 'ProjectController@deleteArtefact');
 
+Route::any('proyecto/configurar-iteraciones/{project_id}', 'IterationController@config');
+
 Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
