@@ -45,7 +45,9 @@
 									@endforeach
 
 									@if($projectOwner)
-									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar iteraciones</span></a>
+									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}">
+										<span data-toggle="tooltip" data-original-title="Configurar Iteraciones" class="fs-med fc-yellow fa fa-pencil fa-fw"></span>
+									</a>
 									@endif									
 									
 								</div>	
@@ -53,21 +55,64 @@
 								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 															
 
 								<div class="section-title fc-blue-iii fs-big">
-									Artefactos
-									@if(!empty($iterationArtefacts))
-									<div data-section="section-artefatcs" class="section-arrow pull-right"><i class="fc-green fa fa-caret-down fa-fw"></i>
+									<div class="pull-left">
+										Artefactos
 									</div>
-									@endif
+
+									<div data-section="section-artefatcs" class="section-arrow pull-right"><i class="fc-turquoise fa fa-caret-down fa-fw"></i></div>
+
+									@if($projectOwner)
+									<a href="#" data-toggle="modal" data-target="#addArtefactModal-{{$iteration['id']}}">
+										<div data-toggle="tooltip" data-original-title="Agregar Artefacto" class="circle txt-center fs-big pull-right">
+											<i class=" fc-green fs-big fa fa-plus fa-fw"></i>
+										</div>	
+									</a>
+									@endif								
 								</div>
 								
 								<div id="section-artefatcs" class="showed section-artefatcs">
-
-									@if($projectOwner)
-									<div class=" fs-med common-btn-ii btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
-										<i class="fs-big fa fa-plus fa-fw"></i>Agregar artefacto
-									</div>
-									@endif
-
+									<!-- INIT MODAL HTML TO ADD ARTEFACT -->
+	                                  <div class="modal fade" id="addArtefactModal-{{$iteration['id']}}" tabindex="-1" role="dialog" aria-labelledby="basicModal" aria-hidden="true">
+										    <div class="modal-dialog">
+										        <div class="modal-content" style="border-radius:0px;">
+										            <div class="modal-header">
+											            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
+											            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Agregar Artefacto a la Iteraci&oacute;n : {{$iteration['name']}}</h4>
+										            </div>
+										            <div class="modal-body">
+										            	<div class="form-group-modal">
+										            	{{ Form::open(array('action' => array('IterationController@addArtefact', $project['id'], $iteration['id'] ), 'id' => 'form-add-artefact')) }}
+											            	<label  class=" col-md-4 control-label">Agregar Artefacto</label>
+											            	<div class="col-md-8">
+									                          @if(count($iterationArtefacts) < count($allArtefacts))
+									                                <div id = "new-iteration-artefacts" class="project-artefact-list">
+									                                @foreach($allArtefacts as $artefact)
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)))									                                       
+									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
+									                                       {{ $artefact['name'] }}
+									                                       <br/>    
+									                                    @endif                               
+									                                @endforeach                             
+									                                </div>
+																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
+									                          @endif
+										                	</div>
+										                {{Form::close()}}
+										                </div>
+										            </div>
+										            <div class="modal-footer">
+										            	<div class="save-comment txt-center fs-med common-btn btn-modal-i btn-pink" data-dismiss="modal">
+				                          					Cerrar
+				                        				</div>
+										            	<div data-iteration-id="{{$iteration['id']}}" class="btn-add-iteration-artefact txt-center fs-med common-btn btn-modal-ii btn-yellow">
+				                          					Agregar
+				                        				</div>	
+										        	</div>
+										    	</div>
+										  	</div>
+									  </div>
+									  <!-- END MODAL HTML ADD ARTEFACT -->
+							
 									<div class="fc-grey-ii fs-xxbig arrow-left prev"  {{($projectArrows)?'style="visibility:visble"':'style="visibility:hidden"'}}>
 										<i class="fa fa-chevron-left fa-fw"></i>
 									</div>
@@ -109,15 +154,23 @@
 							</div>
 
 							<div class="section-title fc-blue-iii fs-big">
-								Actividades
-								<div data-section="section-activities" class="section-arrow pull-right"><i class="fc-green fa fa-caret-down fa-fw"></i></div>
+								<div class="pull-left">
+									Actividades
+								</div>
+								
+								<div data-section="section-activities" class="section-arrow pull-right"><i class="fc-turquoise fa fa-caret-down fa-fw"></i></div>
+								@if($projectOwner)
+									<div data-toggle="tooltip" data-original-title="Agregar Actividad" class="circle txt-center fs-big btn-add-activity pull-right" data-project-id="{{$project['id']}}">
+										<i class=" fc-green fs-big fa fa-plus fa-fw"></i>
+									</div>	
+								@endif									
 							</div>	
 
 							<div id="section-activities" class="showed detail-project-activities">
 
 								<div class="filters-content">
 							
-									{{ Form::open(array('action' => array('ProjectController@detail', $project['id']), 'id' => 'form-filter-activity')) }}
+									{{ Form::open(array('action' => array('ProjectController@detail', $project['id'], $iteration['id']), 'id' => 'form-filter-activity')) }}
                      					 {{ Form::hidden('filters[category]', (isset($filters['category']))?$filters['category']:'') }}
                      					  {{ Form::hidden('filters[status]', (isset($filters['status']))?$filters['status']:'') }}
                    					{{Form::close()}}															
@@ -148,11 +201,6 @@
 										<a href="#" class="{{(in_array('3', $statusArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-status" data-status-id="3">Terminadas</a>
 
 									</div>
-									@if($projectOwner)
-									<div class=" fs-med common-btn-ii btn-i btn-green pull-right btn-add-activity" data-project-id="{{$project['id']}}">
-										<i class="fs-big fa fa-plus fa-fw"></i>Agregar actividad
-									</div>
-									@endif
 								</div>	
 								
 								<div class="list-activities-content">
@@ -303,6 +351,35 @@
 	    <!-- /#wrapper -->
 
 		@include('frontend.includes.javascript')
+	<script type="text/javascript">
+	    $('.btn-add-iteration-artefact').on('click', function(){
+			var allVals = [],
+				iterationId = $(this).data('iterationId')
+				successValidation = false;
+
+		    $('#new-iteration-artefacts :checked').each(function() {
+		       allVals.push($(this).val());
+		     });
+
+			if (allVals.length === 0) {
+			    $('.error-modal-'+iterationId).removeClass('hidden'); 
+			}else{
+	       		$('.error-modal-'+iterationId).addClass('hidden');
+	          	successValidation=true; 
+	      	}
+	      if(successValidation){
+
+	        $(".btn-add-iteration-artefact").off("click");
+	        $('.btn-add-iteration-artefact').removeClass("btn-yellow");
+	        $('.btn-add-iteration-artefact').addClass("btn-yellow-disable");
+
+	        $('#form-add-artefact').submit();
+	      }
+	      return false;
+
+	    });       
+	</script>
+
   <script>
       (function() {
         var definition = {

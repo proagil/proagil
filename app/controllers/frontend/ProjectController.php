@@ -646,8 +646,6 @@ class ProjectController extends BaseController {
       return Redirect::to(URL::action('DashboardController@index'));  
 
     }else{
-
-
       // get project data
       $project =  (array) Project::get($projectId);
       Session::put('project', $project);  
@@ -671,7 +669,22 @@ class ProjectController extends BaseController {
       $iteration['end_date'] = $date->format('d/m/Y');
 
       // get artefacts by iteration
-      $iterationArtefacts = (array) Iteration::getArtefactsByIteration($iterationId);
+      $iterationArtefacts =  (array) Iteration::getArtefactsByIteration($iterationId); 
+
+      // get all artefacts
+      $allArtefacts = (array) Artefact::enumerate();
+      if (!empty($iterationArtefacts)) {
+         foreach ($iterationArtefacts as $key => $value) {
+          $iterationArtefactsSimple[$key] = $value['id'];
+        }
+      }else{
+        $iterationArtefactsSimple = $iterationArtefacts;
+      }
+
+      // echo "<pre>";
+      // print_r($allArtefacts);
+      // echo "</pre>";
+      // die;
 
       // get filters with categories and status
       $filters = NULL;
@@ -696,10 +709,6 @@ class ProjectController extends BaseController {
       // get activities
       $activities = Project::getIterationActivities($iterationId, $filtersArray, $statusArray);
 
-      // echo "<pre>";
-      // print_r($iterationArtefacts);
-      // echo "</pre>";
-      // die;
       // add activity status class and name
       foreach($activities as $index => $activity){
 
@@ -744,20 +753,22 @@ class ProjectController extends BaseController {
 
       
       return View::make('frontend.project.detail')
-            ->with('projectDetail', TRUE) 
-            ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-            ->with('project', $project)
-            ->with('projectId', $projectId)
-            ->with('iteration', $iteration)
-            ->with('iterationArtefacts', $iterationArtefacts)
-            ->with('projectIterations', $projectIterations)
+            ->with('activities', $activities)    
             ->with('activityCategories', $activityCategories)
-            ->with('activities', $activities)
+            ->with('allArtefacts', $allArtefacts)
             ->with('filters', $filters)
             ->with('filtersArray', $filtersArray)
+            ->with('iteration', $iteration)                    
+            ->with('iterationArtefacts', $iterationArtefacts)
+            ->with('iterationArtefactsSimple', $iterationArtefactsSimple)
+            ->with('project', $project)
+            ->with('projectArrows', count($iterationArtefacts)>6)
+            ->with('projectDetail', TRUE) 
+            ->with('projectId', $projectId)
+            ->with('projectIterations', $projectIterations)            
+            ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
             ->with('statusArray', $statusArray)
-            ->with('usersOnIteration', $usersOnIteration)
-            ->with('projectArrows', count($iterationArtefacts)>6);    
+            ->with('usersOnIteration', $usersOnIteration);   
 
     }
 

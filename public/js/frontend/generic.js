@@ -438,7 +438,35 @@ $(function() {
 
       $('#'+popOverId).find('.popover-content').attr('data-activity-id', activityId);  
   
-    });     
+    });  
+
+    //ADD: ARTEFACT
+      $('.btn-add-iteration-artefact').on('click', function(){
+        var allVals = [],
+          iterationId = $(this).data('iterationId')
+          successValidation = false;
+
+        $('#new-iteration-artefacts :checked').each(function() {
+           allVals.push($(this).val());
+         });
+
+        if (allVals.length === 0) {
+            $('.error-modal-'+iterationId).removeClass('hidden'); 
+        }else{
+            $('.error-modal-'+iterationId).addClass('hidden');
+              successValidation=true; 
+          }
+        if(successValidation){
+
+          $(".btn-add-iteration-artefact").off("click");
+          $('.btn-add-iteration-artefact').removeClass("btn-yellow");
+          $('.btn-add-iteration-artefact').addClass("btn-yellow-disable");
+
+          $('#form-add-artefact').submit();
+        }
+        return false;
+
+      });       
 
 /*----------------------------------------------------------------------
 
