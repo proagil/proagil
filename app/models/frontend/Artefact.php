@@ -18,6 +18,37 @@ class Artefact extends Eloquent{
 		return ($mode!=NULL)?$result:$consult; 
 	}
 
+	public static function getAll(){
+		
+		$consult =  DB::table('artefact')->where('enabled', TRUE)->get();
+
+		$result = array();
+
+		foreach($consult as $row){
+			$result[$row['id']] = $row; 
+		}	
+
+		return $result; 
+	}
+
+	public static function getArtefactOutIteration($iterationId){
+
+		$consult = DB::table('artefact AS a')
+					->select('a.*')
+			        
+			        ->leftjoin('artefact_belongs_to_project AS abtp', function($leftjoin)
+			        {
+			            $leftjoin	->on('abtp.artefact_id','=','a.id')
+			            			->on('abtp.iteration_id','=', 1)
+			            			->whereNull('abtp.iteration_id');
+			        })
+			        
+			        ->get();
+
+		return $consult; 
+	}
+
+
 	public static function countArtefacts(){
 		return DB::table('artefact')->where('enabled', TRUE)->count();
 	}

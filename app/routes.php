@@ -97,6 +97,8 @@ Route::any('proyecto/actividad/detalle/{activity_id}', 'ActivityController@detai
 
 Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
 
+Route::any('proyecto/iteracion/artefacto/{project_id}/{iteration_id}', 'IterationController@addArtefact');
+
 Route::any('recuperar-contrasena/{token}', 'LoginController@changePassword');
 
 Route::any('registro', 'UserController@register');

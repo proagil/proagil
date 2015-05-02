@@ -9,7 +9,7 @@ class Iteration extends Eloquent{
 
 	public static function getArtefactsByIteration($iterationId){
 
-		return DB::table('artefact_belongs_to_project AS abtp')
+		$consult = DB::table('artefact_belongs_to_project AS abtp')
 
 				->select('a.*','f.server_name AS icon_file')
 
@@ -20,6 +20,16 @@ class Iteration extends Eloquent{
 				->leftJoin('file AS f', 'f.id', '=', 'a.icon')
 			  	
 			  	->get();
+			  	
+		if (!empty($consult)){
+			foreach($consult as $row){
+				$result[$row['id']] = $row; 
+			}	
+			return $result;
+		}else{
+			return $consult;
+		} 	
+
 	}
 
 	public static function deleteActivity($iterationId){

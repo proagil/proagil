@@ -113,6 +113,7 @@
  .storm-ideas-options,
  .modal-storm-ideas, 
  .wordcloud,
+ .btn-add-artefact,
  .form-group-modal,
  .form-content,
  .form-group {
@@ -863,6 +864,7 @@ a.in-process-on{
 a.made-on{
 	background-color: #a8d76f;
 }
+
 
 .tags-list a.made-off:hover{
 	background-color: #a8d76f; 
