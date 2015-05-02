@@ -3,7 +3,7 @@
 class IterationController extends BaseController {
 
 
- 	public function __construct(){
+  public function __construct(){
 
       //not user on session
       $this->beforeFilter(function(){
@@ -12,18 +12,18 @@ class IterationController extends BaseController {
           return Redirect::to(URL::action('LoginController@index'));
         }
 
-      }
+      });
   }
 
+  public function config($projectId) {
+
+    //get project iterations
+
+    $projectIterations = Iteration::getIterationsByProject($projectId); 
+
+  }  
+
   public function addArtefact($projectId, $iterationId) {
-
-    // $user = Session::get('user');
-
-    // $activityInformation = (array) Activity::getActivityUserAndProject($activityId);
-
-    // $projectId = $activityInformation['project_id'];
-
-    // $abtpId = $activityInformation['abtp_id'];
 
     if(Input::has('_token')){
     
@@ -42,139 +42,31 @@ class IterationController extends BaseController {
 
         $newIterationArtefacts = $values['artefacts'];
         foreach ($newIterationArtefacts as $newIterationArtefact) {
-          $newIteration = array(
+          $newIterationArtefact = array(
               'project_id'      => $projectId,
               'artefact_id'     => $newIterationArtefact,
               'iteration_id'    => $iterationId
           );
-          
+          Artefact::insertProjectArtefact($newIterationArtefact);          
         }
 
          Session::flash('success_message', 'Se agregó un nuevo artefacto'); 
 
-        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $iterationId .'/'. $projectId);
+        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
       }else{
         Session::flash('error_message', 'Ocurrió un problema al agregar un nuevo artefacto'); 
 
                 // redirect to detail view
-                return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $iterationId .'/'. $projectId);
+                return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
 
       }
     
     }else{
         Session::flash('error_message', 'Ocurrió un problema al agregar un nuevo artefacto'); 
         // redirect to detail
-        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $iterationId .'/'. $projectId);
+        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
 
     }
-
-
-
-  }
-
-  public function edit($projectId){
-
-    // get view data
-    $artefacts = (array) Artefact::enumerate(); 
-    $totalArtefacts = Artefact::countArtefacts(); 
-    $projectTypes = (array) Project::selectProjectTypes(); 
-    $project = (array) Project::get($projectId); 
-    $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
-    $projectArtefactsSimple = (array) Project::getProjectArtefacts($projectId); 
-    $values =  (array) $project;
-
-    if(Input::has('_token')){
-
-          // validation rules
-          $rules =  array(
-            'name'                 => 'required',
-            'description'          => 'required',
-            'project_type'         => 'required'
-          );
-
-          // set validation rules to input values
-          $validator = Validator::make(Input::get('values'), $rules);
-
-          // get input valiues
-          $values = Input::get('values');
-
-            if(!$validator->fails()){
-
-              $project = array(
-                'name'                => $values['name'],
-                'description'         => $values['description'],
-                'project_type_id'     => $values['project_type'], 
-                'enabled'             => 1         
-              );
-
-              // update project on DB
-              $updatedProject = Project::edit($projectId, $project); 
-
-              if($updatedProject) {
-
-                //save new project artefacts
-                if(isset($values['artefacts'])){
-
-                  foreach($values['artefacts'] as $index => $artefact){
-
-                      $projectArtefact = array(
-                          'project_id'      => $projectId,
-                          'artefact_id'     => $artefact,
-                          'iteration_id'    => 1 //TODO: ASIGNAR $iterationId
-                      );
-
-                      //insert new project artefacts
-                      Artefact::insertProjectArtefact($projectArtefact); 
-                  }
-
-                }
-
-                  Session::flash('success_message', 'Se editó el proyecto'); 
-
-                 return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
-
-
-              }else{
-
-
-                  // show view with error message
-                 return View::make('frontend.project.edit')
-                              ->with('error_message', 'No se pudo editar el proyecto')
-                              ->with('values', $values)
-                              ->with('project', $project)
-                              ->with('artefacts', $artefacts)
-                              ->with('projectArtefacts', $projectArtefacts)
-                              ->with('projectTypes', $projectTypes)
-                              ->with('projectId', $projectId);
-              }
-
-            }else{
-
-              // show view with errors
-              return View::make('frontend.project.edit')
-                          ->withErrors($validator)
-                          ->with('values', $values)
-                          ->with('project', $project)
-                          ->with('artefacts', $artefacts)                      
-                          ->with('projectArtefacts', $projectArtefacts)
-                          ->with('projectTypes', $projectTypes)
-                          ->with('projectId', $projectId);
-
-            }
-
-        }else{
-
-          //render view first time 
-          return View::make('frontend.project.edit')
-                      ->with('artefacts', $artefacts)
-                      ->with('totalArtefacts', $totalArtefacts)
-                      ->with('projectTypes', $projectTypes)
-                      ->with('projectArtefacts', $projectArtefacts)
-                      ->with('projectArtefactsSimple', $projectArtefactsSimple)                             
-                      ->with('values', $values)
-                      ->with('project', $project)
-                      ->with('projectId', $projectId); 
-        }
 
   }
 
@@ -783,20 +675,5 @@ class IterationController extends BaseController {
               return Redirect::to(URL::action('DashboardController@index'));
   }
 
-
 }
-=======
- 	}	
 
-	public function config($projectId) {
-
-    //get project iterations
-
-    $projectIterations = Iteration::getIterationsByProject($projectId); 
-
-
-
-	}
-
-}
->>>>>>> b75edc016212f2411ee7655c0e9ccdf6f10e7b83
