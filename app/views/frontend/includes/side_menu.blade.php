@@ -12,7 +12,7 @@
 					<ul class="nav sidebar-menu nav-second-level">
 						@foreach($ownerProjects as $ownerProject)
 						<li>
-							<a class="fc-grey-iv" href="{{URL::action('ProjectController@detail', array($ownerProject->id))}}"> <i class="fc-yellow fa fa-bullseye"></i> {{$ownerProject->name}}</a>
+							<a class="fc-grey-iv" href="{{URL::action('ProjectController@detail', array($ownerProject['id']))}}"> <i class="fc-yellow fa fa-bullseye"></i> {{$ownerProject['name']}}</a>
 						</li>
 						@endforeach								
 						<li>
@@ -27,19 +27,7 @@
 					<li class="btn-sidebar">
 						<a class="fc-grey-iv" href="{{URL::action('ProjectController@create')}}"><img src="{{URL::to('/').'/images/add-project.png'}}"/> Crear proyecto</a>
 					</li>
-					@endif
-
-					@if(isset($projectDetail) && $projectDetail && $projectOwner)
-					<li class="btn-sidebar">
-						<a class="fc-grey-iv" href="{{URL::action('ProjectController@edit', array($project['id']))}}"><img src="{{URL::to('/').'/images/config-project.png'}}"/> Editar proyecto</a>
-					</li>	
-					@endif	
-
-					@if(isset($projectDetail) && $projectDetail && $projectOwner)
-					<li class="btn-sidebar">
-						<a class="fc-grey-iv" href="{{URL::action('ProjectController@editInvitation', array($project['id']))}}"><i class="fc-turquoise fs-big fa fa-users"></i> Invitar a colaboradores</a>
-					</li>	
-					@endif												
+					@endif											
 				</ul>		
 			</ul>
 		</div>

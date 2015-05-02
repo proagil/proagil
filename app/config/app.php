@@ -124,7 +124,9 @@ return array(
 
 		// custom providers
 		'Intervention\Image\ImageServiceProvider',
-		'Khill\Lavacharts\Laravel\LavachartsServiceProvider'
+		'Khill\Lavacharts\Laravel\LavachartsServiceProvider',
+		'Barryvdh\DomPDF\ServiceProvider',
+
 
 	),
 
@@ -194,7 +196,8 @@ return array(
 		'View'            => 'Illuminate\Support\Facades\View',
 
 		//custom aliases
-		'Image' => 'Intervention\Image\Facades\Image'
+		'Image' => 'Intervention\Image\Facades\Image',
+		'PDF' => 'Barryvdh\DomPDF\Facade'
 
 	),
 

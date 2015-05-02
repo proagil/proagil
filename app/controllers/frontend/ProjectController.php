@@ -40,7 +40,8 @@ class ProjectController extends BaseController {
               $project = array(
                 'name'                => isset($values['name'])?$values['name']:NULL,
                 'objetive'            => isset($values['client'])?$values['client']:NULL,
-                'client'              => isset($values['client'])?$values['client']:NULL    
+                'client'              => isset($values['client'])?$values['client']:NULL,
+                'enabled'             => 1    
               );
 
               // insert project on DB

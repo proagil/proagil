@@ -2,7 +2,8 @@
 
 class IterationController extends BaseController {
 
-  public function __construct(){
+
+ 	public function __construct(){
 
       //not user on session
       $this->beforeFilter(function(){
@@ -11,7 +12,7 @@ class IterationController extends BaseController {
           return Redirect::to(URL::action('LoginController@index'));
         }
 
-      });
+      }
   }
 
   public function addArtefact($projectId, $iterationId) {
@@ -784,3 +785,18 @@ class IterationController extends BaseController {
 
 
 }
+=======
+ 	}	
+
+	public function config($projectId) {
+
+    //get project iterations
+
+    $projectIterations = Iteration::getIterationsByProject($projectId); 
+
+
+
+	}
+
+}
+>>>>>>> b75edc016212f2411ee7655c0e9ccdf6f10e7b83

@@ -85,6 +85,8 @@ Route::any('proyecto/eliminar/{project_id}', 'ProjectController@delete');
 
 Route::any('proyecto/eliminar-artefacto/', 'ProjectController@deleteArtefact');
 
+Route::any('proyecto/configurar-iteraciones/{project_id}', 'IterationController@config');
+
 Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
@@ -144,6 +146,8 @@ Route::any('sondeo/guardar-nueva-pregunta', 'ProbeController@saveNewQuestion');
 Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
 Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
+
+Route::any('sondeo/exportar/{probe_id}', 'ProbeController@export');
 
 Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
 

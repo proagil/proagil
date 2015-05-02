@@ -599,6 +599,7 @@ $(function() {
               invalidHandler: function(event, validator){
 
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('.error-text').html('Verifique los campos indicados')
                 $('.error-alert').removeClass('hidden'); 
 
               },
