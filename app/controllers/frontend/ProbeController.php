@@ -514,13 +514,10 @@ class ProbeController extends BaseController {
 		// get probe results 
 		$probeResults = Probe::getProbeResults($probeId); 
 
-		//print_r($probeResults); die; 
-
 		$graphicsArray = array();
 		$openQuestions = array();
 		$questionResults = array();
 
-		//print_r($probeResults['elements']); die;  
 
 		foreach($probeResults['elements'] as $index => $element){
 
@@ -567,13 +564,70 @@ class ProbeController extends BaseController {
 
 		}
 
-		//print_r($questionResults); die; 
-
 
 		return View::make('frontend.probe.results')->with('questionResults', $questionResults)
 												 	->with('probeTitle', $probeResults['title'])
 												 	->with('probeResponses', $probeResults['responses']);              	
+	}
+
+	public function export($probeId){
+
+		// get probe results 
+		$probeResults = Probe::getProbeResults($probeId); 
+
+		//print_r($probeResults); die; 
+
+		$PDFData = array(); 
+		$PDFData['title'] = $probeResults['title'];
+		$PDFData['total_responses'] = $probeResults['responses'];
+
+		foreach($probeResults['elements'] as $index => $element){
+
+			$PDFResponses[$index]['question'] = $element['question'];
+			$PDFResponses[$index]['form_element'] = $element['form_element'];
+
+			if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+
+				$totalResponses = 0;
+
+				foreach($element['results'] as $j=> $result){
+
+					$totalResponses += $result['result_count'];
+
+				}
+
+				foreach($element['results'] as $j=> $result){
+
+					$PDFResponses[$index]['results'][$j]['percent'] = round(($result['result_count']*100)/$totalResponses, 1);    
+					$PDFResponses[$index]['results'][$j]['result_count'] = $result['result_count'];   
+					$PDFResponses[$index]['results'][$j]['name'] = $result['name'];   
+
+				}											
+
+			}
+
+			if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
+
+				foreach($element['results'] as $j=> $result){
+
+					$PDFResponses[$index]['results'][$j] = $result['value'];  
+
+				}				
+			}
+
+
+		}
+
+		$PDFData['responses'] = $PDFResponses; 
+
+		//print_r($PDFData); die; 
+ 
+        $pdf = PDF::loadView('frontend.probe.export', $PDFData);
+
+        return $pdf->stream("Hello.pdf");
+      	
 	}	
+
 
 
 }

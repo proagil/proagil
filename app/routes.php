@@ -145,6 +145,8 @@ Route::any('sondeo/eliminar/{probe_id}', 'ProbeController@deleteProbe');
 
 Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
 
+Route::any('sondeo/exportar/{probe_id}', 'ProbeController@export');
+
 Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
 
 Route::any('tormenta-de-ideas/eliminar/{storm_ideas_id}', 'StormIdeasController@delete');
