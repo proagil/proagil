@@ -138,6 +138,32 @@ class HeuristicEvaluationController extends BaseController {
 
 	}
 
+	public function export($evaluationId){
+
+		$evaluation = HeuristicEvaluation::getEvaluationData($evaluationId);
+
+		if(!empty($evaluation)){
+
+			// get project data
+			 $project = (array) Project::getName($evaluation['project_id']); 	
+
+			 //print_r($evaluation); die; 	
+
+        $pdf = PDF::loadView('frontend.heuristicEvaluation.export', $evaluation);
+
+        return $pdf->download('proagil-'.$evaluation['name'].'.pdf');			 
+
+			//return View::make('frontend.heuristicEvaluation.export');
+			
+
+		}else{
+
+			return Redirect::to(URL::action('DashboardController@index'));
+
+		}
+
+	}	
+
 	public function edit($evaluationId) {
 
 		$evaluation = HeuristicEvaluation::getEvaluationData($evaluationId);

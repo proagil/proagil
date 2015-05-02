@@ -189,6 +189,8 @@ Route::any('/evaluacion-heuristica/guardar/', 'HeuristicEvaluationController@sav
 
 Route::any('/evaluacion-heuristica/detalle/{evaluation_id}', 'HeuristicEvaluationController@getEvaluation');
 
+Route::any('/evaluacion-heuristica/exportar/{evaluation_id}', 'HeuristicEvaluationController@export');
+
 Route::any('/evaluacion-heuristica/editar/{evaluation_id}', 'HeuristicEvaluationController@edit');
 
 Route::any('/evaluacion-heuristica/obtener-problema/{element_id}', 'HeuristicEvaluationController@getElement');

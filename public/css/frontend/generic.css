@@ -815,6 +815,7 @@ a.login-link:hover  {
 	margin: 2% auto; 
 }
 
+.btn-export,
 .tags-list a {
 	cursor: pointer; 
 	color: #35404d;
@@ -824,8 +825,13 @@ a.login-link:hover  {
 	padding: 5px 8px;
 }
 
+.btn-export,
 a.tags-list-off {
 	background-color: #f2f2f2;
+}
+
+.btn-export {
+	margin-bottom: 7px; 
 }
 
 a.tags-list-on {
