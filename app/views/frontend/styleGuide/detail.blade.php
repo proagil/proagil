@@ -39,7 +39,7 @@
 							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$styleGuide['name']}}</div>
 
 							<div class="btn-export pull-right">
-								<a class="unselected-tag tags-list-off" href="{{URL::action('HeuristicEvaluationController@export', array($styleGuide['id']))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+								<a class="unselected-tag tags-list-off" href="{{URL::action('StyleGuideController@export', array($styleGuide['id']))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
 							</div>									
 
 							<div class="e-system-table-content">

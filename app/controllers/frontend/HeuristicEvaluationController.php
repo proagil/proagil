@@ -152,9 +152,7 @@ class HeuristicEvaluationController extends BaseController {
         $pdf = PDF::loadView('frontend.heuristicEvaluation.export', $evaluation);
 
         return $pdf->download('proagil-'.$evaluation['name'].'.pdf');			 
-
-			//return View::make('frontend.heuristicEvaluation.export');
-			
+		
 
 		}else{
 

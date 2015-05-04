@@ -221,6 +221,8 @@ Route::any('/guia-de-estilos/eliminar-color/{color_id}', 'StyleGuideController@d
 
 Route::any('/guia-de-estilos/detalle/{style_guide_id}', 'StyleGuideController@detail');
 
+Route::any('/guia-de-estilos/exportar/{style_guide_id}', 'StyleGuideController@export');
+
 Route::any('/guia-de-estilos/eliminar-fuente/{font_id}', 'StyleGuideController@deleteFont');
 
 Route::any('/guia-de-estilos/eliminar/{style_guide_id}', 'StyleGuideController@deleteStyleGuide');
