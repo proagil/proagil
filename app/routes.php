@@ -191,6 +191,8 @@ Route::any('/evaluacion-heuristica/guardar/', 'HeuristicEvaluationController@sav
 
 Route::any('/evaluacion-heuristica/detalle/{evaluation_id}', 'HeuristicEvaluationController@getEvaluation');
 
+Route::any('/evaluacion-heuristica/exportar/{evaluation_id}', 'HeuristicEvaluationController@export');
+
 Route::any('/evaluacion-heuristica/editar/{evaluation_id}', 'HeuristicEvaluationController@edit');
 
 Route::any('/evaluacion-heuristica/obtener-problema/{element_id}', 'HeuristicEvaluationController@getElement');
@@ -218,6 +220,8 @@ Route::any('/guia-de-estilos/editar/{style_guide_id}', 'StyleGuideController@edi
 Route::any('/guia-de-estilos/eliminar-color/{color_id}', 'StyleGuideController@deleteColor');
 
 Route::any('/guia-de-estilos/detalle/{style_guide_id}', 'StyleGuideController@detail');
+
+Route::any('/guia-de-estilos/exportar/{style_guide_id}', 'StyleGuideController@export');
 
 Route::any('/guia-de-estilos/eliminar-fuente/{font_id}', 'StyleGuideController@deleteFont');
 

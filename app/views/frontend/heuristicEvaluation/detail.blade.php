@@ -38,6 +38,10 @@
 
 							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$evaluation['name']}}</div>
 
+							<div class="btn-export pull-right">
+								<a class="unselected-tag tags-list-off" href="{{URL::action('HeuristicEvaluationController@export', array($evaluation['id']))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+							</div>							
+
 							<div class="heuristic-evaluation-table-content">
 								<div class="heuristic-evaluation-row">
 									<div class="txt-center f-bold f-med heuristic-evaluation-value heuristic-evaluation-head row-head">

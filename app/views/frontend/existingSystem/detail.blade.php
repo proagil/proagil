@@ -38,6 +38,10 @@
 
 							<div class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$existingSystem['name']}}</div>
 
+							<div class="btn-export pull-right">
+								<a class="unselected-tag tags-list-off" href="{{URL::action('HeuristicEvaluationController@export', array($existingSystem['id']))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+							</div>									
+
 							@if($existingSystem['interface']!='')
 							<div class="e-system-table-head">
 								<div class="system-interface txt-center">

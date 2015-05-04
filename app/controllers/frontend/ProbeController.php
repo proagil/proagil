@@ -619,12 +619,11 @@ class ProbeController extends BaseController {
 		}
 
 		$PDFData['responses'] = $PDFResponses; 
-
-		//print_r($PDFData); die; 
- 
         $pdf = PDF::loadView('frontend.probe.export', $PDFData);
 
-        return $pdf->stream("Hello.pdf");
+        return $pdf->stream('proagil-resultados-'.$PDFData['title'].'.pdf');
+
+        //download
       	
 	}	
 

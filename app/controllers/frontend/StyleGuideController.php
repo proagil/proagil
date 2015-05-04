@@ -383,6 +383,28 @@ class StyleGuideController extends BaseController {
 
 	}	
 
+	function export($styleGuideId){
+
+		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
+
+			if(!empty($styleGuide)){
+
+
+				 $project = (array) Project::getName($styleGuide['project_id']); 
+
+		        $pdf = PDF::loadView('frontend.styleGuide.export', $styleGuide);
+
+		        return $pdf->download('proagil-'.$styleGuide['name'].'.pdf');						 
+
+			}else{
+
+				return Redirect::to(URL::action('DashboardController@index'));
+
+			}		
+
+	}	
+
+
 	public function deleteStyleGuide($styleGuideId){
 
 

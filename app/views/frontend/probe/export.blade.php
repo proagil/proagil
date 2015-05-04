@@ -15,14 +15,12 @@
 
 			img {
 				display: block;
-				margin-left: auto;
-				margin-right: auto;
-				width: 20%;
+				width: 10%;
 			}
 
 			body {
 			  width: 100%;
-			  height: 100%;
+			  height: auto;
 
 			}
 
@@ -31,7 +29,6 @@
 
 	<body>
 		<div style="text-align:center; background-color:#F6F6F6">
-			<img style="text-align:center;color:#42c2b8" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png"/>
 			<h2 style="text-align:center;color:#42c2b8" >Resultados de Sondeo</h2> 
 			<h4 style="text-align:center" >{{$title}}</h2> 			
 		</div>
@@ -50,6 +47,12 @@
 			@endif					
 		</div>
 		@endforeach
+
+		<div style="text-align:center; background-color:#F6F6F6">
+			Generado con: 
+			<img style="text-align:center;color:#42c2b8" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png">	
+		</div>
+
 		
 	</body>
 </html>
