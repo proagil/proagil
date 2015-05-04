@@ -509,9 +509,10 @@ $(function() {
     
     //ADD: new activity
     $('.btn-add-activity').on('click', function(){
-      var projectId = $(this).data('projectId'); 
+      var projectId = $(this).data('projectId'),
+          iterationId = $(this).data('iterationId'); 
 
-      window.location.href = projectURL+'/proyecto/actividad/crear/'+projectId;
+      window.location.href = projectURL+'/proyecto/actividad/crear/'+projectId+'/'+iterationId;
 
     });       
 

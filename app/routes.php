@@ -91,7 +91,7 @@ Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryContr
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 
-Route::any('proyecto/actividad/crear/{project_id}', 'ActivityController@create');
+Route::any('proyecto/actividad/crear/{project_id}/{iteration_id}', 'ActivityController@create');
 
 Route::any('proyecto/actividad/eliminar/{activity_id}', 'ActivityController@delete');
 

@@ -51,7 +51,7 @@
 	                          <div class="form-group">
 	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad <span class="fc-pink fs-med">*</span></label>  
 	                            <div class="col-md-4">
-	                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['user_id']))?$values['user_id']:'' , array('class'=>'form-control app-input')) }}
+	                              {{ Form::select('values[assigned_user_id]', $usersOnIteration, (isset($values['user_id']))?$values['user_id']:'' , array('class'=>'form-control app-input')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
 	                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
 	                            </div>
