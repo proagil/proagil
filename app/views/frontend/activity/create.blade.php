@@ -15,7 +15,7 @@
 	                <div class="col-lg-12">
 						<div class="section-content">
 							<div class="breadcrumbs-content">
-								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Crear Actividad
+								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Crear Actividad
 							</div>
 
                       		<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>                         
@@ -25,7 +25,7 @@
                       		<div class="section-title fc-blue-iii fs-big">Crear Actividad </div>
 
                        		<div class="form-content">
-	                        	{{ Form::open(array('action' => array('ActivityController@create', $project['id'] ), 'id' => 'form-create-activity')) }}							
+	                        	{{ Form::open(array('action' => array('ActivityController@create', $project['id'], $iteration['id'] ), 'id' => 'form-create-activity')) }}							
 								{{ Form::hidden('values[projectId]', $project['id'])}}	                          
 
 	                         	<div class="form-group">
@@ -49,7 +49,7 @@
 	                          	<div class="form-group">
 		                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Asignar actividad <span class="fc-pink fs-med">*</span></label>  
 		                            <div class="col-md-4">
-		                              {{ Form::select('values[assigned_user_id]', $usersOnProject, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
+		                              {{ Form::select('values[assigned_user_id]', $usersOnIteration, (isset($values['assigned_user_id']))?$values['assigned_user_id']:'' , array('class'=>'form-control app-input')) }}
 		                              <label class="error fc-pink fs-min" style="display:none;"></label>
 		                              <span class="error fc-pink fs-min"><?= ($errors->has('assigned_user_id'))?$errors->first('assigned_user_id'):''?></span>  
 		                            </div>

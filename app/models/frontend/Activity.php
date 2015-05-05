@@ -47,12 +47,12 @@ class Activity extends Eloquent{
 
 	}		
 
-	public static function deleteProjectActivity($activityId, $projectId){
+	public static function deleteIterationActivity($activityId, $iterationId){
 
 		try{
 			return DB::table('activity_belongs_to_project')
 					->where('activity_id', $activityId)
-					->where('project_id', $projectId)
+					->where('iteration_id', $iterationId)
 					->delete();
 		}catch(\Exception $e){
 
@@ -65,7 +65,7 @@ class Activity extends Eloquent{
 
 		return DB::table('activity AS a')
 
-				->select('a.*', 'u.first_name', 'cabtp.name AS category_name', 'p.id AS project_id', 'p.name AS project_name')
+				->select('a.*', 'u.first_name', 'cabtp.name AS category_name', 'p.id AS project_id', 'p.name AS project_name', 'abtp.id AS abtp_id','abtp.iteration_id', 'abtp.user_id')
 
 			  	->where('a.id', $activityId)
 
@@ -86,7 +86,7 @@ class Activity extends Eloquent{
 
 		return DB::table('activity_belongs_to_project AS abtp')
 
-				->select('a.*', 'abtp.id AS abtp_id','abtp.user_id', 'abtp.project_id' )
+				->select('a.*', 'abtp.id AS abtp_id','abtp.user_id', 'abtp.project_id', 'abtp.iteration_id' )
 
 				->where('abtp.activity_id', $activityId)
 								

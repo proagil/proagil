@@ -160,9 +160,11 @@
 								
 								<div data-section="section-activities" class="section-arrow pull-right"><i class="fc-turquoise fa fa-caret-down fa-fw"></i></div>
 								@if($projectOwner)
-									<div data-toggle="tooltip" data-original-title="Agregar Actividad" class="circle txt-center fs-big btn-add-activity pull-right" data-project-id="{{$project['id']}}">
-										<i class=" fc-green fs-big fa fa-plus fa-fw"></i>
-									</div>	
+									<a href="#">
+										<div data-toggle="tooltip" data-original-title="Agregar Actividad" class="circle txt-center fs-big btn-add-activity pull-right" data-project-id="{{$project['id']}}" data-iteration-id="{{$iteration['id']}}">
+											<i class=" fc-green fs-big fa fa-plus fa-fw"></i>
+										</div>
+									</a>	
 								@endif									
 							</div>	
 
@@ -351,32 +353,7 @@
 
 		@include('frontend.includes.javascript')
 	<script type="text/javascript">
-	    $('.btn-add-iteration-artefact').on('click', function(){
-			var allVals = [],
-				iterationId = $(this).data('iterationId')
-				successValidation = false;
-
-		    $('#new-iteration-artefacts :checked').each(function() {
-		       allVals.push($(this).val());
-		     });
-
-			if (allVals.length === 0) {
-			    $('.error-modal-'+iterationId).removeClass('hidden'); 
-			}else{
-	       		$('.error-modal-'+iterationId).addClass('hidden');
-	          	successValidation=true; 
-	      	}
-	      if(successValidation){
-
-	        $(".btn-add-iteration-artefact").off("click");
-	        $('.btn-add-iteration-artefact').removeClass("btn-yellow");
-	        $('.btn-add-iteration-artefact').addClass("btn-yellow-disable");
-
-	        $('#form-add-artefact').submit();
-	      }
-	      return false;
-
-	    });       
+      
 	</script>
 
   <script>

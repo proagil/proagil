@@ -15,21 +15,21 @@ class ActivityController extends BaseController {
 	}	
 
 
-	public function create($projectId) {
+	public function create($projectId, $iterationId) {
 		//get user
 	    $user = Session::get('user');
-    	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
+    	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
 
-    	//get view data
-
-    	//get user On project
-    	$users =  array('0' => 'Seleccione un usuario'); 
-		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
-		$usersOnProject = $users+$usersOnProject;
+	    //get user On iteration
+	    $users =  array('0' => 'Seleccione un usuario'); 
+	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+	    $usersOnIteration = $users+$usersOnIteration; 
 
 		//get categories On project
-		$typeCategories = array('0' => 'Seleccione una categoria');
+		$typeCategories = array('0' => 'Seleccione una categoría');
     	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
+
+    	$iteration = (array) Iteration::get($iterationId);
 
     	if (!empty($categories)){
     		$categories = $typeCategories+$categories;
@@ -80,7 +80,7 @@ class ActivityController extends BaseController {
 			            'project_id'    => $projectId,
 			            'activity_id'   => $activityId,
 			            'user_id'		=> $assignedUserId,
-			            'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
+			            'iteration_id'  => $iterationId 
 			        );
 			
 					//save project activity
@@ -89,10 +89,11 @@ class ActivityController extends BaseController {
 		            $assignedUser = (array) User::getUserById($assignedUserId);
 
 	                $emailData = array(
-	                	'user_name'     				=> $user['first_name'],
 		                'assigned_user_name'     		=> $assignedUser['first_name'],
 		                'activity_title'     			=> $values['title'],
-		                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId
+		                'iteration_name'				=> $iteration['name'],
+	                	'user_name'     				=> $user['first_name'],
+		                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId . '/'. $iterationId 
 		            );
 
 					$email = $assignedUser['email'];
@@ -108,7 +109,7 @@ class ActivityController extends BaseController {
 	                  $message->subject('PROAGIL: Notificación de actividad asignada');
 	                });  
 					Session::flash('success_message', 'Se ha creado la actividad: '.$activity['title']); 
-					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);
                 
                 }
 
@@ -116,10 +117,11 @@ class ActivityController extends BaseController {
 
               	return View::make('frontend.activity.create')
                         ->with('categories', $categories)
+                        ->with('iteration', $iteration)
 		        		->with('project', $project)
 		        		->with('projectDetail', TRUE)
 		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-		        		->with('usersOnProject',$usersOnProject)
+		        		->with('usersOnIteration',$usersOnIteration)
 		        		->withErrors($validator)
                         ->with('values', $values);
 		    }			
@@ -129,10 +131,11 @@ class ActivityController extends BaseController {
 	        // render view first time 
 	        return View::make('frontend.activity.create') 
 	        		->with('categories', $categories)
+	        		->with('iteration', $iteration)
 	        		->with('project', $project)
 	        		->with('projectDetail', TRUE)
 	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	        		->with('usersOnProject',$usersOnProject);
+	        		->with('usersOnIteration',$usersOnIteration);
 	    }
 		
 
@@ -140,18 +143,21 @@ class ActivityController extends BaseController {
 
 	public function edit($activityId)
 	{
-	    $activity = (array) Activity::getById($activityId);
+		$activity = (array) Activity::get($activityId);
+
+		$iterationId = $activity['iteration_id'];
+		
+		$iteration = (array) Iteration::get($iterationId);
 
 		$projectId = $activity['project_id'];
 
 		//get user
 	    $user = Session::get('user');
-    	$userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
+    	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
 
-    	//get view data
+	    //get user On iteration
+	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
 
-    	//get user On project
-		$usersOnProject = (array) Project::getAllUsersOnProject($projectId, $user['id']);
 
 		//get categories On project
 		$typeCategories = array('0' => 'Seleccione una categoria');
@@ -209,11 +215,13 @@ class ActivityController extends BaseController {
 
 			            $assignedUser = (array) User::getUserById($assignedUserId);
 
-		                $emailData = array(
+
+						$emailData = array(
 			                'assigned_user_name'     		=> $assignedUser['first_name'],
 			                'activity_title'     			=> $values['title'],
-			                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId,
-			                'user_name'     				=> $user['first_name']
+			                'iteration_name'				=> $iteration['name'],
+		                	'user_name'     				=> $user['first_name'],
+			                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId . '/'. $iterationId 
 			            );
 
 						$email = $assignedUser['email'];
@@ -228,10 +236,11 @@ class ActivityController extends BaseController {
 		                  $message->to($email);
 		                  $message->subject('PROAGIL: Notificación de actividad asignada');
 		                });  
-	            	}
+		            }
 
-					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
-                
+					Session::flash('success_message', 'Se ha editó la actividad: '.$values['title']); 
+					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);                
+                	
                 }
 
 		    }else{
@@ -242,7 +251,7 @@ class ActivityController extends BaseController {
 		        		->with('project', $project)
 		        		->with('projectDetail', TRUE)
 		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-		        		->with('usersOnProject',$usersOnProject)
+		        		->with('usersOnIteration',$usersOnIteration)
 		        		->withErrors($validator)
                         ->with('values', $values);
 		    }			
@@ -260,7 +269,7 @@ class ActivityController extends BaseController {
 	        		->with('project', $project)
 	        		->with('projectDetail', TRUE)
 	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	        		->with('usersOnProject',$usersOnProject)
+	        		->with('usersOnIteration',$usersOnIteration)
 	        		->with('values', $values);
 	    }
 		
@@ -271,34 +280,31 @@ class ActivityController extends BaseController {
 	{
 		$activity = (array) Activity::getById($activityId);
 
-		$activityId = $activity['id'];
-
 		$projectId = $activity['project_id'];
+
+		$iterationId = $activity['iteration_id'];
 
 		$deleteCommets = Activity::deleteActivityComment($activityId);
 
-		$deleteProjectActivity = Activity::deleteProjectActivity($activityId, $projectId);
-/*		echo "<pre>";	
-		print_r($deleteProjectActivity);
-		echo "</pre>";
-		die;*/	
-		if($deleteProjectActivity){
+		$deleteIterationActivity = Activity::deleteIterationActivity($activityId, $iterationId);
+
+		if($deleteIterationActivity){
 
 			$deleteActivity = (array) Activity::deleteActivity($activityId);
 			if($deleteActivity){
 
 				Session::flash('success_message', 'Se ha eliminado la actividad: '.$activity['title']); 
-				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
 			}else{
 				
 				Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
-				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
 			}
 
 		}else{
 				
 			Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
-			return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+			return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
 		}
 	
 
@@ -434,6 +440,10 @@ class ActivityController extends BaseController {
 
 		$activityInformation = (array) Activity::getActivityUserAndProject($activityId);
 
+		$iterationId = $activityInformation['iteration_id'];
+		
+		$iteration = (array) Iteration::get($iterationId);
+
 		$projectId = $activityInformation['project_id'];
 
 		$abtpId = $activityInformation['abtp_id'];
@@ -470,28 +480,29 @@ class ActivityController extends BaseController {
 
 
 		        $emailData = array(
-		            'assigned_user_name'     		=> $assignedUser['first_name'],
-		            'activity_title'     			=> $activityInformation['title'],
-		            'url_token'     				=> URL::to('/'). '/proyecto/detalle/'.$projectId,
-		            'user_name'     				=> $user['first_name']
-		        );
+	                'assigned_user_name'     		=> $assignedUser['first_name'],
+	                'activity_title'     			=> $activityInformation['title'],
+	                'iteration_name'				=> $iteration['name'],
+                	'user_name'     				=> $user['first_name'],
+	                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId . '/'. $iterationId 
+	            );
 
 				$email = $assignedUser['email'];
 
-		        // send email with assigned activity
-		        Mail::send('frontend.email_templates.assignedUserActivity', 
+                // send email with assigned activity
+                Mail::send('frontend.email_templates.assignedUserActivity', 
 
-		        $emailData, 
+                $emailData, 
 
-		        function($message) use ($email){
+                function($message) use ($email){
 
-		          $message->to($email);
-		          $message->subject('PROAGIL: Notificación de actividad asignada');
-		        });  
+                  $message->to($email);
+                  $message->subject('PROAGIL: Notificación de actividad asignada');
+                });  
 
-		        Session::flash('success_message', 'Se reasignó la actividad'); 
-
-		        return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId);
+				Session::flash('success_message', 'Se ha reasignado la actividad: '.$activityInformation['title']); 
+				
+				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);
 			}else{
 				Session::flash('error_message', 'Ocurrió un problema al reasignar la actividad'); 
 
