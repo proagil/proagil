@@ -81,11 +81,19 @@ Route::any('proyecto/detalle/{project_id}/{iteration_id}', 'ProjectController@de
 
 Route::any('proyecto/editar/{project_id}', 'ProjectController@edit');
 
+Route::any('proyecto/editar-informacion/{project_id}', 'ProjectController@editInfo');
+
+Route::any('proyecto/editar-iteraciones/{project_id}', 'IterationController@index');
+
 Route::any('proyecto/eliminar/{project_id}', 'ProjectController@delete');
 
 Route::any('proyecto/eliminar-artefacto/', 'ProjectController@deleteArtefact');
 
+Route::any('proyecto/agregar-iteracion/', 'IterationController@create');
+
 Route::any('proyecto/configurar-iteraciones/{project_id}', 'IterationController@config');
+
+Route::any('proyecto/editar-iteracion/{iteration_id}', 'IterationController@edit');
 
 Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
 

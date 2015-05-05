@@ -15,8 +15,13 @@
 			@if(isset(Session::get('project')['name']))
 			<div class="project-name-content hidden-xs">Proyecto: <span class="fc-pink">{{Session::get('project')['name']}}</span>
             <span data-project-id="{{Session::get('project')['id']}}" class="btn-project-description cur-point fs-med fa fa-info-circle fc-green fa-fw"></span>
-            <span class="cur-point fs-med fa fa-pencil fc-yellow fa-fw"></span>
-            </div>
+
+                @if(isset($projectOwner)  && $projectOwner)
+                <a href="{{URL::action('ProjectController@editInfo', array(Session::get('project')['id']))}}">
+                    <span class="cur-point fs-med fa fa-pencil fc-yellow fa-fw"></span>
+                </a> 
+                @endif
+             </div>   
             @endif
 
             <div class="loader" style="display:none;">

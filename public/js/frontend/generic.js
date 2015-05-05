@@ -130,6 +130,16 @@ $(function() {
 
     }); 
 
+
+    // EDIT PROJECT INFO 
+    $('.btn-edit-project-info').on('click', function(){
+
+        $('#form-edit-project-info').submit();
+
+        return false;
+
+    }); 
+
 /*----------------------------------------------------------------------
 
         DASHBOARD FUNCTIONS
@@ -546,7 +556,7 @@ $(function() {
 
           });
 
-        // CREATE PROJECT SEND FORM
+        // CREATE PROJECT: SEND FORM
         $('.btn-create-project').on('click', function(e){
 
             e.preventDefault();
@@ -584,6 +594,10 @@ $(function() {
                 }
 
             }else{
+
+                  $('html, body').animate({ scrollTop: 0 }, 'slow');
+                  $('.error-alert').removeClass('hidden'); 
+                  $('.error-text').html('Verifique los campos indicados');               
                 
             }              
 
@@ -700,7 +714,104 @@ $(function() {
                 $(document).find('#form-edit-categories').submit()
               }              
 
-        }); 
+        });
+
+
+/*----------------------------------------------------------------------
+
+        CREATE ITERATION FUNCTIONS
+
+----------------------------------------------------------------------*/           
+
+
+        // CREATE PROJECT: SEND FORM
+        $('.btn-create-iteration').on('click', function(e){
+
+            e.preventDefault();
+
+            // adding rules for inputs
+            $('input, textarea').each(function() {
+                $(this).rules('add', 
+                    {
+                        required: true
+                    })
+
+                if($(this).data('inputType')=='email'){
+                  $(this).rules('add', 
+                      {
+                          email: true
+                      })                  
+
+                }
+            }); 
+
+            if($('#form-create-iteration').validate().form()){
+                
+                    $('.btn-create-iteration').off('click').removeClass('btn-green').addClass('btn-green-disable'); 
+                   $('#form-create-iteration').submit();
+
+            }else{
+
+                  $('html, body').animate({ scrollTop: 0 }, 'slow');
+                  $('.error-alert').removeClass('hidden'); 
+                  $('.error-text').html('Verifique los campos indicados');               
+                
+            }              
+
+       });
+
+
+        $(document).ready(function(){
+          $('#form-create-iteration').validate({
+              errorClass: 'error-input',
+              errorPlacement: function(error,element) {
+                  return true;
+              },
+              invalidHandler: function(event, validator){
+
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('.error-text').html('Verifique los campos indicados')
+                $('.error-alert').removeClass('hidden'); 
+
+              },
+              submitHanlder: function(form){
+
+
+                }
+
+            });  
+        });
+
+        var addColaboratorsCount = 0; 
+
+  // ADD COLABORATORS
+   $(document).on('click','.btn-add-new-colaborator', function(e){
+
+    addColaboratorsCount++;
+
+    var iterationId = $(this).data('iterationId'); 
+
+    var htmlNewColaborators = '<div style="display:none" class="each-colaborator new-colaborator-'+addColaboratorsCount+'">'+
+                            '<div class="form-group">'+
+                              '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Colaborador</label>'+  
+                              '<div class="col-md-4">'+
+                                '<input data-input-type="email" name="values[colaborator]['+addColaboratorsCount+'][email]" placeholder="Correo electr&oacute;nico" class="form-control app-input app-input-ii"  type="text" value="">'+
+                                '<select class="form-control app-input-ii" name="values[colaborator]['+addColaboratorsCount+'][role]">';
+                                    $.each(userRoles, function(index, role) {
+                                        htmlNewColaborators += '<option value="'+index+'" selected>'+role+'</option>';
+                                    });                                
+
+                                htmlNewColaborators += '</select>'+
+                                '<div data-colaborator-id="'+addColaboratorsCount+'" class="btn-delete-colaborator circle activity-option txt-center fs-big fc-pink">'+
+                                  '<i class="fa fa-times fa-fw"></i>'+
+                                '</div>'+                                                              
+                              '</div>'+                                
+                            '</div>'+                                    
+                          '</div>';
+
+                          $(htmlNewColaborators).appendTo('.colaborators-content-'+iterationId).fadeIn('slow');
+  });              
+
 
 /*----------------------------------------------------------------------
 

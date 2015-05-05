@@ -55,6 +55,16 @@ class Iteration extends Eloquent{
 				  	->where('id', $iterationId)
 				  	->first();
 	}	
+
+		public static function getIterationsByProject($projectId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		return DB::table('iteration')
+				  	->where('project_id', $projectId)
+				  	->orderBy('order')
+				  	->get();
+	}	
 	
 }
 

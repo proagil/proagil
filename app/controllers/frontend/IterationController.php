@@ -15,11 +15,228 @@ class IterationController extends BaseController {
       });
   }
 
-  public function config($projectId) {
+  public function index($projectId){
 
-    //get project iterations
-
+    // get info
     $projectIterations = Iteration::getIterationsByProject($projectId); 
+    $project = (array) Project::get($projectId);
+
+    //get user role
+    $userRole = Session::get('user_role');
+
+
+    if(!empty($projectIterations)){
+
+          return View::make('frontend.iteration.index')
+                ->with('projectIterations', $projectIterations)
+                ->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+                ->with('projectName', $project['name'])
+                ->with('projectId', $projectId); 
+
+    }else{
+
+      return Redirect::to(URL::action('DashboardController@index'));
+
+    }
+
+  }
+
+  public function create(){
+
+    $artefacts = (array) Artefact::enumerate(); 
+    $roles = User::getRoles(); 
+    $project = (array) Project::get(Session::get('project')['id']);
+
+     if(Input::has('_token')){
+
+      // validation rules
+      $rules =  array(
+          'order'     => 'required',
+          'name'      => 'required',
+          'init_date' => 'required',
+          'end_date'  => 'required'
+      );
+
+      // set validation rules to input values
+      $validator = Validator::make(Input::get('values'), $rules);
+
+      // get input valiues
+      $values = Input::get('values');
+
+      if(!$validator->fails()){
+
+        $projectId = $values['project_id']; 
+
+        $iterationInfo = array(
+            'name'        => $values['name'],
+            'order'       => $values['order'],
+            'init_date'   => $values['init_date'],
+            'end_date'    => $values['end_date'],
+            'project_id'  => $projectId 
+          );
+
+        $newIterationId = Iteration::insert($iterationInfo);
+
+        if($newIterationId>0){
+
+          if(isset($values['artefacts']) && !empty($values['artefacts'])){
+
+              foreach($values['artefacts'] as $artefact){
+
+                $artefactInfo = array(
+
+                  'project_id'    => $projectId,
+                  'artefact_id'   => $artefact,
+                  'iteration_id'  => $newIterationId
+                );
+
+                Artefact::insertProjectArtefact($artefactInfo);    
+
+              }
+
+          } // end if artefacts
+
+          if(isset($values['colaborator']) && !empty($values['colaborator'])){
+
+            // get iteration COLABORATORS 
+            foreach($values['colaborator'] as $index => $colaborator){
+
+                $email = $colaborator['email']; 
+
+                $userInvitation = array(
+                    'email'         => $colaborator['email'],
+                    'project_id'    => $projectId,
+                    'iteration_id'  => $newIterationId,
+                    'user_role_id'  => $colaborator['role'],
+                    'token'         => md5($colaborator['email'].date('H:i:s'))
+                ); 
+
+                 // get user on session data
+                $user = Session::get('user');
+
+                if(User::saveInvitation($userInvitation)>0){
+
+                  // verify if user email already exist on DB
+                  $savedUser = (array) User::getUserByEmail($colaborator['email']);
+
+                  if(!empty($savedUser)){
+
+                    // create email data
+                    $emailData = array(
+                      'url_token'       => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token'],
+                      'user_name'       => $user['first_name'].' '.$user['last_name'],
+                      'project_name'    =>  $project['name'],
+                      'iteration_name'  => $values['name']
+
+                    );
+
+                    // send email with invitation to registered user
+                    Mail::send('frontend.email_templates.validateInvitation', 
+
+                    $emailData, 
+
+                    function($message) use ($email){
+
+                      $message->to($email);
+                      $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
+                    }); 
+
+
+                  }else{
+
+                      // create email data for new user
+                      $emailData = array(
+                        'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token'],
+                        'user_name'     => $user['first_name'].' '.$user['last_name'],
+                        'project_name'  =>  $project['name'],
+                        'iteration_name'  => $values['name']
+
+                      );                          
+
+                        // send email with invitation to unregistered user
+                        Mail::send('frontend.email_templates.validateInvitation', 
+
+                        $emailData, 
+
+                        function($message) use ($email){
+
+                          $message->to($email);
+                          $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                        });                                   
+
+
+                  } // end if !empty(savedUser)
+
+
+                } // end if  User::saveInvitation                        
+
+              } // end foreach colaborators            
+
+
+          }  // end if colaborators 
+
+              $user = Session::get('user');    
+
+              // save user on session as project iteratins OWNER
+              $userRole = array(
+
+                'user_role_id'        => Config::get('constant.project.owner'),
+                'project_id'          => $projectId,
+                'user_id'             => $user['id'],
+                'iteration_id'        => $newIterationId 
+
+              );
+
+              // save user on session as project owner
+              User::userBelongsToProject($userRole);
+
+              Session::flash('success_message', 'Se ha creado la nueva iteraci&oacute;n en '. $project['name']); 
+
+              // redirect to invitation view
+              return Redirect::to(URL::action('DashboardController@index'));          
+
+
+        }else{
+
+              Session::flash('error_message', 'No se ha podido crear la iteraci&oacute;n en  '. $project['name']); 
+
+              // redirect to invitation view
+              return Redirect::to(URL::action('DashboardController@index'));          
+
+        }
+
+
+      }else{
+
+          return View::make('frontend.iteration.create')
+                ->with('artefacts', $artefacts)
+                ->with('roles', $roles)
+                ->with('projectName', $project['name'])
+                ->with('projectId', $project['id']);        
+
+      }
+
+
+     }else{
+
+          return View::make('frontend.iteration.create')
+                ->with('artefacts', $artefacts)
+                ->with('roles', $roles)
+                ->with('projectName', $project['name'])
+                ->with('projectId', $project['id']);
+
+
+     }
+
+
+  }
+
+  public function edit($iterationId) {
+
+    return View::make('frontend.iteration.edit')
+                ->with('iterationId', $iterationId);
+
+    
 
   }  
 
@@ -50,11 +267,11 @@ class IterationController extends BaseController {
           Artefact::insertProjectArtefact($newIterationArtefact);          
         }
 
-         Session::flash('success_message', 'Se agregó un nuevo artefacto'); 
+         Session::flash('success_message', 'Se agreg&oacute; un nuevo artefacto'); 
 
         return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
       }else{
-        Session::flash('error_message', 'Ocurrió un problema al agregar un nuevo artefacto'); 
+        Session::flash('error_message', 'Ocurri&oacute; un problema al agregar un nuevo artefacto'); 
 
                 // redirect to detail view
                 return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
@@ -62,7 +279,7 @@ class IterationController extends BaseController {
       }
     
     }else{
-        Session::flash('error_message', 'Ocurrió un problema al agregar un nuevo artefacto'); 
+        Session::flash('error_message', 'Ocurri&oacute; un problema al agregar un nuevo artefacto'); 
         // redirect to detail
         return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId .'/'. $iterationId);
 

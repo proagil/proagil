@@ -16,6 +16,8 @@ class DashboardController extends BaseController {
 
 	public function index(){
 
+    Session::forget('project');
+
 		$sessionUser = Session::get('user');
 
 		// get owner and member projects

@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> Crear Proyecto
+        								Inicio <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Crear iteraci&oacute;n
         							</div>
                    
         							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
@@ -26,25 +26,73 @@
                     <div class="error-alert-dashboard error-alert hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> <span class="error-text"> Verifique los campos obligatorios</span></div>                      
                       
                       <div class="section-title fc-blue-iii fs-big">
-        								Crear Proyecto
+        								Crear iteraci&oacute;n
         							</div>           
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('IterationController@edit'), 'id' => 'form-edit-iterations')) }}	
-
-                      <div class="question-number  text-center f-bold fs-fmed text-uppercase"> <i class="fs-big fc-green fa fa-rotate-right fa-fw"></i> Iteraciones </div>                                                 
-
+                        {{ Form::open(array('action' => array('IterationController@create'), 'id' => 'form-create-iteration')) }}	   <input name="values[project_id]" value="{{$projectId}}" type="hidden">                                             
                           <div class="iterations-content">
+                               <div class="iteration-inputs iteration-'+iterationsCount+'">                           
+                                  <div class="form-group">
+                                  <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">N&uacute;mero de iteraci&oacute;n <span class="fc-pink fs-med">*</span></label>
+                                  <div class="col-md-4">
+                                    <input placeholder="Ej.: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[order]" type="number">                         
+                                  </div>
+                                </div>                               
+                                <div class="form-group">
+                                  <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Nombre de iteraci&oacute;n <span class="fc-pink fs-med">*</span></label>  
+                                  <div class="col-md-4">
+                                    <input placeholder="Ej.: Pruebas" class="form-control app-input app-input-ii" name="values[name]" type="text">                        
+                                  </div>
+                                </div>                         
+                                <div class="form-group">
+                                  '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Artefactos a utilizar</label>  
+                                  '<div class="col-md-4">
+                                    @if(!empty($artefacts))
+                                      @foreach($artefacts as $artefact)
+                                          <input name="values[artefacts][]" type="checkbox" value="{{$artefact->id}}">
+                                          <label>{{$artefact->name}}</label>
+                                          <i style="cursor:pointer;" data-artefact-id="{{$artefact->id}}" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>
+                                          <br>
+                                       @endforeach                           
+                                    @endif                            
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio<span class="fc-pink fs-med">*</span></label>  
+                                  <div class="col-md-4">
+                                    <input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[init_date]" type="text" value="">                           
+                                  </div>
+                                </div>
+                                <div class="form-group">
+                                  <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin<span class="fc-pink fs-med">*</span></label>  
+                                  <div class="col-md-4">
+                                    <input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[end_date]" type="text" value="">                           
+                                  </div>
+                                </div> 
+
+                                <div class="colaborators-content colaborators-content-NEW">
+                                </div> 
+                                                                    
+                                <div class="form-group">
+                                  <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">&nbsp;</labeL>
+                                  <div class="col-md-4">
+                                    <div class="btn-add-new-colaborator" data-iteration-id="NEW" style="cursor:pointer;">
+                                      <div class="circle activity-option txt-center fs-big fc-turquoise">
+                                        <i class="fa fa-plus fa-fw"></i>
+                                      </div>
+                                    </div>
+                                    <span class="fs-min">Invitar a colaboradores a trabajar en esta iteraci&oacute;n</span>
+                                  </div>
+                                </div>                             
+                              </div>
                           </div> 
 
                           <div class="probe-general-buttons">
 
-                            <div class="btn-create-project txt-center fs-med common-btn btn-iii btn-green pull-right txt-center">
-                              Guardar proyecto
-                            </div>                  
-                            <div class="btn-add-iteration fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
-                              <a href="#">Agregar iteraci&oacute;n</a>
-                            </div>              
+                            <div class="btn-create-iteration txt-center fs-med common-btn btn-iii btn-green pull-right txt-center">
+                              Guardar iteraci&oacute;n
+                            </div>                             
                           </div>
                          
                           {{Form::close()}}
@@ -80,12 +128,9 @@
         </div>
         <!-- END MODAL: artefact description -->  
 
-
-
   <script type="text/javascript">
 
-  var userRoles = <?= json_encode($roles) ?>,
-      artefacts = <?= json_encode($artefacts) ?>;  
+  var userRoles = <?= json_encode($roles) ?>; 
 
   </script>   
 

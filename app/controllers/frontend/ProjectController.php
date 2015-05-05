@@ -73,7 +73,7 @@ class ProjectController extends BaseController {
                               $projectArtefact = array(
                                   'project_id'      => $projectId,
                                   'artefact_id'     => $artefact,
-                                  'iteration_id'      => $iterationId
+                                  'iteration_id'    => $iterationId
                               );
 
                               Artefact::insertProjectArtefact($projectArtefact);                             
@@ -163,31 +163,32 @@ class ProjectController extends BaseController {
 
                         }   // end if colaborators    
 
-                          $user = Session::get('user');    
-
-                          // save user on session as project iteratins OWNER
-                          $userRole = array(
-
-                            'user_role_id'        => Config::get('constant.project.owner'),
-                            'project_id'          => $projectId,
-                            'user_id'             => $user['id'],
-                            'iteration_id'        => $iterationId 
-
-                          );
-
-                          // save user on session as project owner
-                          User::userBelongsToProject($userRole);
 
                    } // end foreach iterations
 
+                   
+                    $user = Session::get('user');    
 
-                          Session::flash('success_message', 'Se ha creado el proyecto y sus iteraciones'); 
+                    // save user on session as project iteratins OWNER
+                    $userRole = array(
 
-                          // save created project ID on session
-                          Session::put('created_project_id', $projectId);
+                      'user_role_id'        => Config::get('constant.project.owner'),
+                      'project_id'          => $projectId,
+                      'user_id'             => $user['id'],
+                      'iteration_id'        => $iterationId 
 
-                          // redirect to invitation view
-                          return Redirect::to(URL::action('DashboardController@index'));                   
+                    );
+
+                    // save user on session as project owner
+                    User::userBelongsToProject($userRole);
+
+                    Session::flash('success_message', 'Se ha creado el proyecto y sus iteraciones'); 
+
+                    // save created project ID on session
+                    Session::put('created_project_id', $projectId);
+
+                    // redirect to invitation view
+                    return Redirect::to(URL::action('DashboardController@index'));                   
 
                 } // end if iterations                
 
@@ -524,6 +525,61 @@ class ProjectController extends BaseController {
     }
       header('Content-Type: application/json');
       return Response::json($result);
+
+
+  }
+
+  public function editInfo($projectId){
+
+    $project = (array) Project::get($projectId); 
+
+    
+    if(Input::has('_token')){
+
+          // get input valiues
+          $values = Input::get('values');
+
+
+          // validation rules
+          $rules =  array(
+            'name'                 => 'required'
+          );
+
+          // set validation rules to input values
+          $validator = Validator::make(Input::get('values'), $rules);
+
+          if(!$validator->fails()){
+
+            $projectInfo = array(
+              'name'          => $values['name'],
+              'objetive'      => $values['objetive'],
+              'client'        => $values['client']
+            );
+
+            Project::edit($projectId, $projectInfo);
+
+            Session::flash('success_message', 'Se ha editado el proyecto'); 
+
+            return Redirect::to(URL::action('DashboardController@index'));            
+
+          }else{
+
+            // show errors
+            return View::make('frontend.project.editInfo')
+                  ->with('values', $project)
+                  ->withErrors($validator)
+                  ->with('projectName', $project['name'])
+                  ->with('projectId', $projectId); 
+    }      
+
+    }else{
+
+      return View::make('frontend.project.editInfo')
+                  ->with('values', $project)
+                  ->with('projectName', $project['name'])
+                  ->with('projectId', $projectId); 
+
+    }
 
 
   }

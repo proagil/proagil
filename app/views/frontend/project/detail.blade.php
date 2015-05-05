@@ -45,8 +45,8 @@
 									@endforeach
 
 									@if($projectOwner)
-									<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}">
-										<span data-toggle="tooltip" data-original-title="Configurar Iteraciones" class="fs-med fc-yellow fa fa-pencil fa-fw"></span>
+									<a href="{{URL::action('IterationController@index', array($project['id']))}}">
+										<span data-toggle="tooltip" data-original-title="Configurar Iteraciones" class="fs-med fc-turquoise fa fa-cog fa-fw"></span>
 									</a>
 									@endif									
 									
@@ -178,7 +178,6 @@
 									<div class="fs-med tags-list">
 										<span class="fs-big fc-pink fa fa-filter fa-fw"></span><span class="f-bold">Categor&iacute;a </span>
 										
-
 										<a href="#" data-category-id="ALL" class="hidden btn-filter tags-list-on">Todas</a>
 
 										@if(!empty($activityCategories))
@@ -188,7 +187,7 @@
 										@endif
 
 										@if($projectOwner)
-										<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw"></span><span class="fs-min">Configurar categor&iacute;as</span></a>
+										<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw" data-toggle="tooltip" data-original-title="Configurar categorías"></span></a>
 										@endif
 
 									</div>
