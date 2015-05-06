@@ -15,7 +15,7 @@ class StormIdeasController extends BaseController {
 	}
 
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -29,10 +29,14 @@ class StormIdeasController extends BaseController {
 	    	 // get project data
 	    	$project = (array) Project::getName($projectId); 
 
-			$stormsIdeas = (array) StormIdeas::enumerate($projectId);
+	    	 // get iteration data
+	    	$iteration = (array) Iteration::get($iterationId); 
+
+			$stormsIdeas = (array) StormIdeas::enumerate($iterationId);
 	    	 
 	    	return View::make('frontend.stormIdeas.index')
 	    				->with('stormsIdeas', $stormsIdeas)
+	    				->with('iteration', $iteration)
 	    				->with('project', $project)
 	        			->with('projectDetail', TRUE)
 						->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);	    	
@@ -40,7 +44,7 @@ class StormIdeasController extends BaseController {
 
 	}
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
@@ -49,7 +53,8 @@ class StormIdeasController extends BaseController {
 
 	    	// get project data
 	    	$project = (array) Project::getName($projectId); 
-
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($iterationId);
 	    	
 	        if(Input::has('_token')){
 
@@ -77,7 +82,7 @@ class StormIdeasController extends BaseController {
 	                  'project_id'          => $projectId,
 	                  'name'             	=> $values['name'],
 	                  'ideas'				=> $ideas,
-	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
+	                  'iteration_id'  		=> $iterationId
 	                );
 
 	                // insert checklist on DB
@@ -101,6 +106,7 @@ class StormIdeasController extends BaseController {
 	                  	}
 
                  		return View::make('frontend.stormIdeas.show')
+                 				->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -113,6 +119,7 @@ class StormIdeasController extends BaseController {
                  		return View::make('frontend.stormIdeas.create')
                               	->with('error_message', 'No se pudo crear la tormenta de ideas')
                               	->with('values', $values)
+                              	->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -123,6 +130,7 @@ class StormIdeasController extends BaseController {
               		return View::make('frontend.stormIdeas.create')
 	                          	->withErrors($validator)
 	                          	->with('values', $values)
+	                          	->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -132,6 +140,7 @@ class StormIdeasController extends BaseController {
 
 	         	// render view first time 
 		        return View::make('frontend.stormIdeas.create')
+		        				->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -147,6 +156,7 @@ class StormIdeasController extends BaseController {
     	//get comprobation_list by id data
     	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
     	$projectId = $stormIdeas['project_id'];
+    	$iterationId = $stormIdeas['iteration_id'];
 
 		$this->deleteFile($stormIdeas['storm_ideas_image'], $stormIdeas['image']); 
 		$stormIdeas = StormIdeas::deleteStormIdeas($stormIdeasId);
@@ -159,7 +169,7 @@ class StormIdeasController extends BaseController {
 	        Session::put('created_project_id', $projectId);
 
 	        // redirect to invitation viee
-	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId);
+	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId . '/' . $iterationId);
 	        
 		}else{
 
@@ -169,7 +179,7 @@ class StormIdeasController extends BaseController {
 	        Session::put('created_project_id', $projectId);
 
 	        // redirect to invitation viee
-	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId);
+	        return Redirect::to(URL::to('/'). '/tormenta-de-ideas/listado/'. $projectId . '/' . $iterationId);
 		}
     
 	}
@@ -179,10 +189,14 @@ class StormIdeasController extends BaseController {
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
 
-    	// get project data
     	$stormIdeas = (array) StormIdeas::get($stormIdeasId);
     	$projectId = $stormIdeas['project_id'];
+		$iterationId = $stormIdeas['iteration_id'];
+
+    	// get project data
     	$project = (array) Project::getName($projectId);
+		// get iteration data
+    	$iteration = (array) Iteration::get($iterationId);		
 
     	$values = $stormIdeas;
     	
@@ -214,7 +228,7 @@ class StormIdeasController extends BaseController {
                   'project_id'          => $projectId,
                   'name'             	=> $values['name'],
                   'ideas'				=> $ideas,
-                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
+                  'iteration_id'  		=> $iterationId
                 );
 
                 // insert checklist on DB
@@ -237,6 +251,7 @@ class StormIdeasController extends BaseController {
                   	}
 
              		return View::make('frontend.stormIdeas.show')
+             				->with('iteration', $iteration) 
 					    	->with('project', $project) 
 					    	->with('projectDetail', TRUE)
 					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -249,6 +264,7 @@ class StormIdeasController extends BaseController {
              		return View::make('frontend.stormIdeas.edit')
                           	->with('error_message', 'No se pudo editar la tormenta de ideas')
                           	->with('values', $values)
+                          	->with('iteration', $iteration)
 					    	->with('project', $project) 
 					    	->with('projectDetail', TRUE)
 					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -259,6 +275,7 @@ class StormIdeasController extends BaseController {
           		return View::make('frontend.stormIdeas.edit')
                           	->withErrors($validator)
                           	->with('values', $values)
+                          	->with('iteration', $iteration)
 					    	->with('project', $project) 
 					    	->with('projectDetail', TRUE)
 					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -269,6 +286,7 @@ class StormIdeasController extends BaseController {
          	// render view first time 
 	        return View::make('frontend.stormIdeas.edit')
 	        				->with('values', $values)
+	        				->with('iteration', $iteration)
 					    	->with('project', $project) 
 					    	->with('projectDetail', TRUE)
 					    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);

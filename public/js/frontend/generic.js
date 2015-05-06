@@ -427,9 +427,10 @@ $(function() {
       $('.artefact-detail').on('click', function(){
 
         var friendlyUrl = $(this).data('friendlyUrl'),
+            iterationId = $(this).data('iterationId')
             projectId = $(this).data('projectId');
 
-         window.location.href = projectURL+'/artefacto/'+friendlyUrl+'/proyecto/'+projectId;
+         window.location.href = projectURL+'/artefacto/'+friendlyUrl+'/proyecto/'+projectId+'/iteracion/'+iterationId;
 
       }); 
 
@@ -1318,9 +1319,10 @@ $(function() {
     //ADD: new activity
     $('.btn-add-checklist').on('click', function(){
 
-      var projectId = $(this).data('projectId'); 
-      console.log(projectId); 
-      window.location.href = projectURL+'/listas-de-comprobacion/crear/'+projectId;
+      var projectId = $(this).data('projectId'),
+          iterationId = $(this).data('iterationId'); 
+
+      window.location.href = projectURL+'/listas-de-comprobacion/crear/'+projectId+'/'+iterationId;
 
     });   
 
@@ -1377,7 +1379,7 @@ $(function() {
                               '<div class="col-md-4">'+
                                   '<textarea class="form-control principle-input app-input" name="values[new_principle]['+principleCount+'][description]" type="text"></textarea>'+
                                 '<br><br>'+
-                                '<span class="error fc-pink fs-min hidden">Debe indicar una descripcici&oacute;n del principio</span>'+
+                                '<span class="error fc-pink fs-min hidden">Debe indicar una descripci&oacute;n del principio</span>'+
                               '</div>'+
                           '</div>'+
 
@@ -1567,9 +1569,10 @@ $(function() {
     //ADD: new storm-ideas
     $('.btn-add-storm-ideas').on('click', function(){
 
-      var projectId = $(this).data('projectId'); 
+      var projectId = $(this).data('projectId'),
+          iterationId = $(this).data('iterationId'); 
        
-      window.location.href = projectURL+'/tormenta-de-ideas/crear/'+projectId;
+      window.location.href = projectURL+'/tormenta-de-ideas/crear/'+projectId+'/'+iterationId;
 
     }); 
 

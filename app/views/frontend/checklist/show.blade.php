@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación
         							</div>
         							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
                       <div class="section-title fc-blue-iii fs-big">

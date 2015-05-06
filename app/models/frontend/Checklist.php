@@ -65,12 +65,12 @@ class Checklist extends Eloquent{
 		}
 	}	
 
-	public static function enumerate($projectId) {
+	public static function enumerate($iterationId) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		return DB::table('comprobation_list')
-				   ->where('project_id', $projectId)
+				   ->where('iteration_id', $iterationId)
 				   ->orderBy('id', 'asc')
 				   ->get();
 	}

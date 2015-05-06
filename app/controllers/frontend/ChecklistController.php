@@ -15,7 +15,7 @@ class ChecklistController extends BaseController {
 	  }
 
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -28,11 +28,14 @@ class ChecklistController extends BaseController {
 	    	 // get project data
 	    	$project = (array) Project::getName($projectId); 
 
-			$checklists = (array) Checklist::enumerate($projectId);
+	    	$iteration = (array) Iteration::get($iterationId); 
+
+			$checklists = (array) Checklist::enumerate($iterationId);
 
 	    	 
 	    	return View::make('frontend.checklist.index')
 	    				->with('checklists', $checklists)
+	    				->with('iteration', $iteration)
 	    				->with('project', $project)
 	        			->with('projectDetail', TRUE)
 						->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -41,7 +44,7 @@ class ChecklistController extends BaseController {
 	}
 	
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
@@ -51,7 +54,9 @@ class ChecklistController extends BaseController {
 	    	// get project data
 	    	$project = (array) Project::getName($projectId); 
 
-	    	$checklistItems = (array) Checklist::enumerateDefaultItems($projectId);
+	    	$iteration = (array) Iteration::get($iterationId); 
+
+	    	$checklistItems = (array) Checklist::enumerateDefaultItems();
 
 	        if(Input::has('_token')){
 
@@ -86,7 +91,7 @@ class ChecklistController extends BaseController {
 	                  'status'				=> Config::get('constant.checklist.not_checked'),
 	                  'title'             	=> $values['title'],
 	                  'closing_date'        => $values['closing_date'],
-	                  'iteration_id'  		=> 1 //TODO: ASIGNAR $iterationId
+	                  'iteration_id'  		=> $iterationId
 	                ); 
 
 	                // insert checklist on DB
@@ -136,30 +141,32 @@ class ChecklistController extends BaseController {
 		                Session::put('created_project_id', $projectId);
 
 		                // redirect to invitation viee
-		                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+		                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/' . $iterationId);
 
 		            }else{
 
                  		return View::make('frontend.project.create')
-                              	->with('error_message', 'No se pudo crear la lista de comprobación')
-                              	->with('values', $values)
-                              	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0)
                               	->with('checklistItems', $checklistItems)
+                              	->with('error_message', 'No se pudo crear la lista de comprobación')
+                              	->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+                              	->with('sizePrinciples', isset($values['new_principle']) ? count($values['new_principle']) : 0)
+                              	->with('values', $values);
               		}
 
 		        }else{
 
               		return View::make('frontend.checklist.create')
 	                          	->withErrors($validator)
-	                          	->with('values', $values)
-	                          	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0)
 								->with('checklistItems', $checklistItems)
+								->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+	                          	->with('sizePrinciples', isset($values['new_principle']) ? count($values['new_principle']) : 0)
+	                          	->with('values', $values);
 
            		} 
 		    }else{
@@ -167,10 +174,11 @@ class ChecklistController extends BaseController {
 	         	// render view first time 
 		        return View::make('frontend.checklist.create')
 			    				->with('checklistItems', $checklistItems)
-			    				->with('sizePrinciples',0)
+						    	->with('iteration', $iteration) 
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
-						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
+						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+			    				->with('sizePrinciples',0);
 		    }
 		}else{
 
@@ -185,6 +193,7 @@ class ChecklistController extends BaseController {
     	//get comprobation_list by id data
     	$checklist = (array) Checklist::get($checklistId);
     	$projectId = $checklist['project_id'];
+    	$iterationId = $checklist['iteration_id'];
 
     	$newChecklistItems = (array) Checklist::enumerateNewItems($checklist['id']);
 
@@ -201,13 +210,13 @@ class ChecklistController extends BaseController {
 
 		if($checklist>0){
 
-	        Session::flash('success_message', 'Se ha eliminando la lista de comprobación'); 
+	        Session::flash('success_message', 'Se eliminó la lista de comprobación'); 
 
 	        // save created project ID on session
 	        Session::put('created_project_id', $projectId);
 
 	        // redirect to invitation viee
-	        return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+	        return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/' . $iterationId);
 		}else{
 
 			Session::flash('error_message', 'No se pudo eliminar la lista de comprobación'); 
@@ -216,7 +225,7 @@ class ChecklistController extends BaseController {
 	        Session::put('created_project_id', $projectId);
 
 	        // redirect to invitation viee
-	        return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+	        return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/' . $iterationId);
 		}
     
 	}	
@@ -230,6 +239,12 @@ class ChecklistController extends BaseController {
 
 	    	//get comprobation_list by id data
 	    	$checklist = (array) Checklist::get($checklistId);
+
+	    	$iterationId = $checklist['iteration_id'];
+
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($iterationId); 
+
 	    	$projectId = $checklist['project_id'];
 
 	    	// get project data
@@ -338,19 +353,20 @@ class ChecklistController extends BaseController {
 		                Session::put('created_project_id', $projectId);
 
 		                // redirect to invitation viee
-		                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+		                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/'. $iterationId);
 
 		            }else{
 
                  		return View::make('frontend.checklist.edit')
                               	->with('checklist', $checklist)
                               	->with('error_message', 'No se pudo editar la lista de comprobación')
+                              	->with('iteration', $iteration)
                               	->with('oldChecklistItems', $oldChecklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 						    	->with('values', $values)
-						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
+						    	->with('sizePrinciples', isset($values['new_principle']) ? count($values['new_principle']) : 0);
               		}
 
 		        }else{
@@ -359,12 +375,13 @@ class ChecklistController extends BaseController {
 	                          	->withErrors($validator)
 	                          	->with('checklist', $checklist)
 								->with('checklistItems', $checklistItems)
+								->with('iteration', $iteration)
 								->with('oldChecklistItems', $oldChecklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 						    	->with('values', $values)
-						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
+						    	->with('sizePrinciples', isset($values['new_principle']) ? count($values['new_principle']) : 0);
 
            		} 
 		    }else{
@@ -373,12 +390,13 @@ class ChecklistController extends BaseController {
 		        return View::make('frontend.checklist.edit')
 		        				->with('checklist', $checklist)
 			    				->with('checklistItems', $checklistItems)
+			    				->with('iteration', $iteration)
 			    				->with('oldChecklistItems', $oldChecklistItems)
 						    	->with('project', $project) 
 						    	->with('projectDetail', TRUE)
 						    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 						    	->with('values', $values)
-						    	->with('sizePrinciples', isset($values) ? count($values['new_principle']) : 0);
+						    	->with('sizePrinciples', isset($values['new_principle']) ? count($values['new_principle']) : 0);
 		    }
 		}else{
 
@@ -395,16 +413,22 @@ class ChecklistController extends BaseController {
 
     	//get comprobation_list by id data
     	$checklist = (array) Checklist::get($checklistId);
+    	$iterationId = $checklist['iteration_id'];
     	$projectId = $checklist['project_id'];
-    	$checklistItems = (array) Checklist::enumerateAllItemsByChecklistId($checklistId);
+
+    	// get iteration data
+    	$iteration = (array) Iteration::get($iterationId);
 
     	// get project data
     	$project = (array) Project::getName($projectId);
+    	
+    	$checklistItems = (array) Checklist::enumerateAllItemsByChecklistId($checklistId);
 	    
 	    // render view first time 
     	return View::make('frontend.checklist.show')
 				->with('checklist', $checklist)
 				->with('checklistItems', $checklistItems)
+				->with('iteration', $iteration)
 		    	->with('project', $project) 
 		    	->with('projectDetail', TRUE)
 		    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -419,12 +443,17 @@ class ChecklistController extends BaseController {
 
     	//get comprobation_list by id data
     	$checklist = (array) Checklist::get($checklistId);
-    	$projectId = $checklist['project_id'];
-    	$checklistItems = (array) Checklist::enumerateAllItemsByChecklistId($checklistId);
+
+    	$projectId = $checklist['project_id'];    	
+    	$iterationId = $checklist['iteration_id'];
+
+    	// get iteration data
+    	$iteration = (array) Iteration::get($iterationId); 
 	    
     	// get project data
     	$project = (array) Project::getName($projectId);
 
+    	$checklistItems = (array) Checklist::enumerateAllItemsByChecklistId($checklistId);
         if(Input::has('_token')){
 
     		// get input valiues
@@ -454,19 +483,20 @@ class ChecklistController extends BaseController {
 	        		Session::flash('success_message', 'Se verificó la lista de comprobación'); 
 
 	                // redirect to invitation viee
-	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/' . $iterationId);
 	        	
 	        	}else{
 	        		Session::flash('error_message', 'No se pudo realizar la verificación de la lista de comprobación'); 
 
 	                // redirect to invitation viee
-	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId);
+	                return Redirect::to(URL::to('/'). '/listas-de-comprobacion/listado/'. $projectId . '/' . $iterationId);
 	        	}
 	    	}else {
 	    	    // render view with errors 
 	    		return View::make('frontend.checklist.verify')
 	    				->with('checklist', $checklist)
 	    				->with('checklistItems', $checklistItems)
+	    				->with('iteration', $iteration)
 	    				->with('error_message', 'Debe verificar todos los principios')
 				    	->with('project', $project) 
 				    	->with('projectDetail', TRUE)
@@ -479,6 +509,7 @@ class ChecklistController extends BaseController {
     		return View::make('frontend.checklist.verify')
     				->with('checklist', $checklist)
     				->with('checklistItems', $checklistItems)
+    				->with('iteration', $iteration)
 			    	->with('project', $project) 
 			    	->with('projectDetail', TRUE)
 			    	->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);

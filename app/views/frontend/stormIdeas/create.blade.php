@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Tormenta de Ideas  <span class="fc-green"> &raquo; </span> Crear
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}} <span class="fc-green"> &raquo; </span> Tormenta de Ideas  <span class="fc-green"> &raquo; </span> Crear
         							</div>
 
         							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
@@ -32,7 +32,7 @@
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('StormIdeasController@create', $project['id'] ), 'id' => 'form-create-storm-ideas')) }}				
+                        {{ Form::open(array('action' => array('StormIdeasController@create', $project['id'], $iteration['id'] ), 'id' => 'form-create-storm-ideas')) }}				
                           
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Nombre: <span class="fc-pink fs-med">*</span></label>  

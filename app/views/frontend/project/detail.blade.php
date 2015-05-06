@@ -126,11 +126,11 @@
 												<i class="fs-med fa fa-times fc-pink fa-fw pull-right"></i>
 												@endif
 
-												<div class="artefact-icon artefact-detail" data-project-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													{{$iterationArtefact['name']}} 
 												</div>
 

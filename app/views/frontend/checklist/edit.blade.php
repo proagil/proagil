@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación <span class="fc-green"> &raquo; </span> Editar
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación <span class="fc-green"> &raquo; </span> Editar
         							</div>
                      
         							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
@@ -82,7 +82,7 @@
                                   <div class="col-md-4">
                                     {{ Form::text('values[new_principle]['.$index.'][description]', $principle['description'], array('class'=>'form-control principle-input app-input')) }}
                                     <br><br>
-                                    <span class="error fc-pink fs-min hidden">Debe indicar una descripcici&oacute;n del principio</span>
+                                    <span class="error fc-pink fs-min hidden">Debe indicar una descripci&oacute;n del principio</span>
                                   </div>
                               </div>
 

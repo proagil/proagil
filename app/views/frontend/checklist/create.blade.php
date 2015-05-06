@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
         						<div class="section-content">
         							<div class="breadcrumbs-content">
-        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación <span class="fc-green"> &raquo; </span> Crear 
+        								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}} <span class="fc-green"> &raquo; </span> Lista de Comprobación <span class="fc-green"> &raquo; </span> Crear 
         							</div>
                         
         							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
@@ -28,7 +28,7 @@
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('ChecklistController@create', $project['id'] ), 'id' => 'form-create-checklist')) }}				
+                        {{ Form::open(array('action' => array('ChecklistController@create', $project['id'], $iteration['id'] ), 'id' => 'form-create-checklist')) }}				
                           
                           <div class="form-group">
                             <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Título: <span class="fc-pink fs-med">*</span></label>  
@@ -83,7 +83,7 @@
                                   <div class="col-md-4">
                                     {{ Form::text('values[new_principle]['.$index.'][description]', $principle['description'], array('class'=>'form-control principle-input app-input')) }}
                                     <br><br>
-                                    <span class="error fc-pink fs-min hidden">Debe indicar una descripcici&oacute;n del principio</span>
+                                    <span class="error fc-pink fs-min hidden">Debe indicar una descripci&oacute;n del principio</span>
                                   </div>
                               </div>
 

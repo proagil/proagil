@@ -27,7 +27,7 @@ class ArtefactController extends BaseController {
 
 	}
 
-	public function detail($friendlyUrl, $projectId){
+	public function detail($friendlyUrl, $projectId, $iterationId){
 
 		$artefact = Artefact::getByFriendlyUrl($friendlyUrl);
 
@@ -42,7 +42,7 @@ class ArtefactController extends BaseController {
 	              break;
 	              case Config::get('constant.artefact.storm_ideas'):
 
-	              	return Redirect::to(URL::action('StormIdeasController@index', array($projectId)));
+	              	return Redirect::to(URL::action('StormIdeasController@index', array($projectId, $iterationId)));
 
 	              break;	              
 	              case Config::get('constant.artefact.probe'):
@@ -62,7 +62,7 @@ class ArtefactController extends BaseController {
 	              break;
 	              case Config::get('constant.artefact.checklist'):
 
-	              	return Redirect::to(URL::action('ChecklistController@index', array($projectId)));
+	              	return Redirect::to(URL::action('ChecklistController@index', array($projectId, $iterationId)));
 
 	              break;
 	              case Config::get('constant.artefact.use_case'):

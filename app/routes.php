@@ -41,7 +41,7 @@ Route::any('actividad/eliminar-comentario/{comment_id}', 'ActivityController@del
 
 Route::any('actividad/reasignar/{activity_id}', 'ActivityController@reassign');
 
-Route::any('artefacto/{friendly_url}/proyecto/{project_id}', 'ArtefactController@detail');
+Route::any('artefacto/{friendly_url}/proyecto/{project_id}/iteracion/{iteracion_id}', 'ArtefactController@detail');
 
 Route::any('artefacto/obtener-informacion/{artefact_id}', 'ArtefactController@getArtefactInfo');
 
@@ -51,13 +51,13 @@ Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
 
 Route::any('inicio', 'DashboardController@index');
 
-Route::any('listas-de-comprobacion/crear/{project_id}', 'ChecklistController@create');
+Route::any('listas-de-comprobacion/crear/{project_id}/{iteration_id}', 'ChecklistController@create');
 
 Route::any('listas-de-comprobacion/eliminar/{checklist_id}', 'ChecklistController@delete');
 
 Route::any('listas-de-comprobacion/editar/{checklist_id}', 'ChecklistController@edit');
 
-Route::any('listas-de-comprobacion/listado/{project_id}', 'ChecklistController@index');
+Route::any('listas-de-comprobacion/listado/{project_id}/{iteration_id}', 'ChecklistController@index');
 
 Route::any('listas-de-comprobacion/mostrar/{checklist_id}', 'ChecklistController@show');
 
@@ -157,13 +157,13 @@ Route::any('sondeo/resultados/{probe_id}', 'ProbeController@getProbeResults');
 
 Route::any('sondeo/exportar/{probe_id}', 'ProbeController@export');
 
-Route::any('tormenta-de-ideas/crear/{storm_ideas_id}', 'StormIdeasController@create');
+Route::any('tormenta-de-ideas/crear/{project_id}/{iteration_id}', 'StormIdeasController@create');
 
 Route::any('tormenta-de-ideas/eliminar/{storm_ideas_id}', 'StormIdeasController@delete');
 
 Route::any('tormenta-de-ideas/editar/{storm_ideas_id}', 'StormIdeasController@edit');
 
-Route::any('tormenta-de-ideas/listado/{project_id}', 'StormIdeasController@index');
+Route::any('tormenta-de-ideas/listado/{project_id}/{iteration_id}', 'StormIdeasController@index');
 
 Route::any('tormenta-de-ideas/guardar-imagen/{storm_ideas_id}/{storm_ideas_name}', 'StormIdeasController@saveStormIdeasImage');
 

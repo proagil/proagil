@@ -17,7 +17,7 @@ class StormIdeas extends Eloquent{
 
 	}
 
-	public static function enumerate($projectId) {
+	public static function enumerate($iteration_id) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
@@ -25,7 +25,7 @@ class StormIdeas extends Eloquent{
 
 				->select('si.*', 'f.server_name AS storm_ideas_image')
 
-				->where('si.project_id', $projectId)
+				->where('si.iteration_id', $iteration_id)
 
 				->where('si.enabled', TRUE)
 
