@@ -36,7 +36,7 @@
                                   <div class="form-group">
                                   <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">N&uacute;mero de iteraci&oacute;n <span class="fc-pink fs-med">*</span></label>
                                   <div class="col-md-4">
-                                    <input placeholder="Ej.: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[order]" type="number">                         
+                                    <input  placeholder="Ej.: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[order]" type="number">                         
                                   </div>
                                 </div>                               
                                 <div class="form-group">

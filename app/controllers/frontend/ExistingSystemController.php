@@ -119,7 +119,7 @@ class ExistingSystemController extends BaseController {
 
 		   		Session::flash('error_message', 'No se pudo crear el análisis de sistema existente'); 
 
-		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+		   		return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));
 		}
 
 	}
@@ -171,6 +171,28 @@ class ExistingSystemController extends BaseController {
 		}		
 
 	}
+
+	public function export($existingSystemId){
+
+		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
+
+		if(!empty($existingSystem)){
+
+			// get project data
+			 $project = (array) Project::getName($existingSystem['project_id']); 	
+
+        $pdf = PDF::loadView('frontend.existingSystem.export', $existingSystem);
+
+        return $pdf->download('proagil-'.$existingSystem['name'].'.pdf');			 
+		
+
+		}else{
+
+			return Redirect::to(URL::action('DashboardController@index'));
+
+		}
+
+	}		
 
 	public function saveSystemInfo($existingSystemId) {
 

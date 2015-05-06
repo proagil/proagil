@@ -177,6 +177,8 @@ Route::any('analisis-sistemas-existentes/detalle/{system_id}', 'ExistingSystemCo
 
 Route::any('analisis-sistemas-existentes/editar/{system_id}', 'ExistingSystemController@edit');
 
+Route::any('analisis-sistemas-existentes/exportar/{system_id}', 'ExistingSystemController@export');
+
 Route::any('/analisis-sistemas-existente/obtener-caracteristica/{element_id}', 'ExistingSystemController@getElement');
 
 Route::any('/analisis-sistemas-existente/guardar-elemento/', 'ExistingSystemController@saveElement');

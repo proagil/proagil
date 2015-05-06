@@ -233,10 +233,160 @@ class IterationController extends BaseController {
 
   public function edit($iterationId) {
 
-    return View::make('frontend.iteration.edit')
-                ->with('iterationId', $iterationId);
+    $roles = User::getRoles();
+    $project = (array) Project::get(Session::get('project')['id']);
+    $iteration = Iteration::get($iterationId); 
 
-    
+    $colaborators = Iteration::getColaboratorOnIteration($iterationId); 
+
+
+    if(!empty($iteration)){
+
+      if(Input::has('_token')){
+
+        // validation rules
+        $rules =  array(
+            'order'     => 'required',
+            'name'      => 'required',
+            'init_date' => 'required',
+            'end_date'  => 'required'
+        );
+
+        // set validation rules to input values
+        $validator = Validator::make(Input::get('values'), $rules);
+
+        // get input valiues
+        $values = Input::get('values');
+
+          if(!$validator->fails()){
+
+            $iterationId = $values['iteration_id'];
+            $projectId = $values['project_id'];            
+
+              $iterationInfo = array(
+                  'name'        => $values['name'],
+                  'order'       => $values['order'],
+                  'init_date'   => $values['init_date'],
+                  'end_date'    => $values['end_date'],
+                );
+
+              Iteration::_update($iterationId, $iterationInfo);
+
+
+              if(isset($values['colaborator']) && !empty($values['colaborator'])){
+
+                // get iteration COLABORATORS 
+                foreach($values['colaborator'] as $index => $colaborator){
+
+                    $email = $colaborator['email']; 
+
+                    $userInvitation = array(
+                        'email'         => $colaborator['email'],
+                        'project_id'    => $projectId,
+                        'iteration_id'  => $IterationId,
+                        'user_role_id'  => $colaborator['role'],
+                        'token'         => md5($colaborator['email'].date('H:i:s'))
+                    ); 
+
+                     // get user on session data
+                    $user = Session::get('user');
+
+                    if(User::saveInvitation($userInvitation)>0){
+
+                      // verify if user email already exist on DB
+                      $savedUser = (array) User::getUserByEmail($colaborator['email']);
+
+                      if(!empty($savedUser)){
+
+                        // create email data
+                        $emailData = array(
+                          'url_token'       => URL::to('/'). '/proyecto/validar-invitacion/'. $userInvitation['token'],
+                          'user_name'       => $user['first_name'].' '.$user['last_name'],
+                          'project_name'    =>  $project['name'],
+                          'iteration_name'  => $values['name']
+
+                        );
+
+                        // send email with invitation to registered user
+                        Mail::send('frontend.email_templates.validateInvitation', 
+
+                        $emailData, 
+
+                        function($message) use ($email){
+
+                          $message->to($email);
+                          $message->subject('PROAGIL: Invitación a formar parte de un proyecto');
+                        }); 
+
+
+                      }else{
+
+                          // create email data for new user
+                          $emailData = array(
+                            'url_token'     => URL::to('/'). '/registro/validar-invitacion/'. $userInvitation['token'],
+                            'user_name'     => $user['first_name'].' '.$user['last_name'],
+                            'project_name'  =>  $project['name'],
+                            'iteration_name'  => $values['name']
+
+                          );                          
+
+                            // send email with invitation to unregistered user
+                            Mail::send('frontend.email_templates.validateInvitation', 
+
+                            $emailData, 
+
+                            function($message) use ($email){
+
+                              $message->to($email);
+                              $message->subject('PROAGIL: Invitación a registrarte para formar parte de un proyecto');
+                            });                                   
+
+
+                      } // end if !empty(savedUser)
+
+
+                    } // end if  User::saveInvitation                        
+
+                  } // end foreach colaborators            
+
+
+              }  // end if colaborators   
+
+              Session::flash('success_message', 'Se ha editado la iteraci&oacute;n'); 
+
+              // redirect to iteration view
+              return Redirect::to(URL::action('ProjectController@detail', array($projectId, $iterationId)));               
+
+
+          }else{
+
+              // error validation alde
+              Session::flash('error_message', 'No se ha podido editar la iteraci&oacute;n'); 
+
+              // redirect to iteration view
+              return Redirect::to(URL::action('ProjectController@detail', array($projectId, $iterationId)));   
+
+          }
+
+      }else{
+
+        // first time
+        return View::make('frontend.iteration.edit')
+                    ->with('iterationId', $iterationId)
+                    ->with('projectId', $project['id'])
+                    ->with('values', $iteration)
+                    ->with('roles', $roles)
+                    ->with('colaborators', $colaborators);
+
+      }
+
+
+    }else{
+
+       return Redirect::to(URL::action('LoginController@index'));
+
+    }
+  
 
   }  
 
