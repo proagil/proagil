@@ -7,6 +7,18 @@ class ProjectController extends BaseController {
       //not user on session
       $this->beforeFilter(function(){
 
+        $user = Session::get('user'); 
+        $project = Session::get('project'); 
+
+        //print_r( Route::currentRouteAction()); die; 
+
+        if($project!=NULL){
+          $userRole = (array) User::getUserRoleOnProject($project['id'], $user['id']);
+          if(!($userRole['user_id']==$user['id'])){
+              return Redirect::to(URL::action('LoginController@index'));
+          }
+        } 
+
         if(is_null(Session::get('user'))){
           return Redirect::to(URL::action('LoginController@index'));
         }
@@ -531,56 +543,65 @@ class ProjectController extends BaseController {
 
   public function editInfo($projectId){
 
-    $project = (array) Project::get($projectId); 
+    $user = Session::get('user'); 
+    $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-    
-    if(Input::has('_token')){
+    if(empty($userRole) || $userRole['user_role_id'] == Config::get('constant.project.member')){
 
-          // get input valiues
-          $values = Input::get('values');
+      return Redirect::to(URL::action('DashboardController@index')); 
+
+    }else{ 
+
+      $project = (array) Project::get($projectId); 
+
+      if(Input::has('_token')){
+
+            // get input valiues
+            $values = Input::get('values');
 
 
-          // validation rules
-          $rules =  array(
-            'name'                 => 'required'
-          );
-
-          // set validation rules to input values
-          $validator = Validator::make(Input::get('values'), $rules);
-
-          if(!$validator->fails()){
-
-            $projectInfo = array(
-              'name'          => $values['name'],
-              'objetive'      => $values['objetive'],
-              'client'        => $values['client']
+            // validation rules
+            $rules =  array(
+              'name'                 => 'required'
             );
 
-            Project::edit($projectId, $projectInfo);
+            // set validation rules to input values
+            $validator = Validator::make(Input::get('values'), $rules);
 
-            Session::flash('success_message', 'Se ha editado el proyecto'); 
+            if(!$validator->fails()){
 
-            return Redirect::to(URL::action('DashboardController@index'));            
+              $projectInfo = array(
+                'name'          => $values['name'],
+                'objetive'      => $values['objetive'],
+                'client'        => $values['client']
+              );
 
-          }else{
+              Project::edit($projectId, $projectInfo);
 
-            // show errors
-            return View::make('frontend.project.editInfo')
-                  ->with('values', $project)
-                  ->withErrors($validator)
-                  ->with('projectName', $project['name'])
-                  ->with('projectId', $projectId); 
-    }      
+              Session::flash('success_message', 'Se ha editado el proyecto'); 
 
-    }else{
+              return Redirect::to(URL::action('DashboardController@index'));            
 
-      return View::make('frontend.project.editInfo')
-                  ->with('values', $project)
-                  ->with('projectName', $project['name'])
-                  ->with('projectId', $projectId); 
+            }else{
+
+              // show errors
+              return View::make('frontend.project.editInfo')
+                    ->with('values', $project)
+                    ->withErrors($validator)
+                    ->with('projectName', $project['name'])
+                    ->with('projectId', $projectId); 
+      }      
+
+      }else{
+
+        return View::make('frontend.project.editInfo')
+                    ->with('values', $project)
+                    ->with('projectName', $project['name'])
+                    ->with('projectId', $projectId); 
+
+      }
 
     }
-
 
   }
 

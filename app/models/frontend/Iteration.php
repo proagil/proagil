@@ -49,14 +49,32 @@ class Iteration extends Eloquent{
 		return DB::table('iteration')->insertGetId($values);
 	}
 
+	public static function _update($id, $values){
+
+		return DB::table('iteration')->where('id', $id)->update($values);
+	}	
+
 	public static function get($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		return DB::table('iteration')
 				  	->where('id', $iterationId)
 				  	->first();
 	}	
 
-		public static function getIterationsByProject($projectId){
+	public static function getColaboratorOnIteration($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		return DB::table('user_belongs_to_project AS ubtp')
+					->select('u.*')
+				  	->where('ubtp.iteration_id', $iterationId)
+				  	->leftJoin('user AS u', 'ubtp.user_id', '=', 'u.id')
+				  	->get();
+	}		
+
+	public static function getIterationsByProject($projectId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 

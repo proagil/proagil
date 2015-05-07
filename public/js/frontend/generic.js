@@ -726,7 +726,7 @@ $(function() {
 ----------------------------------------------------------------------*/           
 
 
-        // CREATE PROJECT: SEND FORM
+        // CREATE ITERATION: SEND FORM
         $('.btn-create-iteration').on('click', function(e){
 
             e.preventDefault();
@@ -812,7 +812,74 @@ $(function() {
                           '</div>';
 
                           $(htmlNewColaborators).appendTo('.colaborators-content-'+iterationId).fadeIn('slow');
-  });              
+  }); 
+
+
+/*----------------------------------------------------------------------
+
+        EDIT ITERATION FUNCTIONS
+
+----------------------------------------------------------------------*/           
+
+
+        // EDIT ITERATION: SEND FORM
+        $('.btn-edit-iteration').on('click', function(e){
+
+            e.preventDefault();
+
+            // adding rules for inputs
+            $('input, textarea').each(function() {
+                $(this).rules('add', 
+                    {
+                        required: true
+                    })
+
+                if($(this).data('inputType')=='email'){
+                  $(this).rules('add', 
+                      {
+                          email: true
+                      })                  
+
+                }
+            }); 
+
+            if($('#form-edit-iteration').validate().form()){
+                
+                    $('.btn-edit-iteration').off('click').removeClass('btn-green').addClass('btn-green-disable'); 
+                   $('#form-edit-iteration').submit();
+
+            }else{
+
+                  $('html, body').animate({ scrollTop: 0 }, 'slow');
+                  $('.error-alert').removeClass('hidden'); 
+                  $('.error-text').html('Verifique los campos indicados');               
+                
+            }              
+
+       });
+
+
+        $(document).ready(function(){
+          $('#form-edit-iteration').validate({
+              errorClass: 'error-input',
+              errorPlacement: function(error,element) {
+                  return true;
+              },
+              invalidHandler: function(event, validator){
+
+                $('html, body').animate({ scrollTop: 0 }, 'slow');
+                $('.error-text').html('Verifique los campos indicados')
+                $('.error-alert').removeClass('hidden'); 
+
+              },
+              submitHanlder: function(form){
+
+
+                }
+
+            });  
+        });
+                         
 
 
 /*----------------------------------------------------------------------
