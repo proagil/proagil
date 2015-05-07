@@ -26,6 +26,9 @@
                               <p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$checklist['title']}}</p>
                             </div>
                           </div>
+                          <div class="btn-export pull-right">
+                            <a class="unselected-tag tags-list-off" href="{{URL::action('ChecklistController@export', array($checklist['id']))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+                          </div>                              
                           <div class="form-group">
                             <div class="col-md-8 col-md-push-4 ">
                                 </br>
