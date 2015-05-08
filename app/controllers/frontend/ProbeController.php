@@ -14,7 +14,7 @@ class ProbeController extends BaseController {
 	      });
 	 }
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -27,10 +27,13 @@ class ProbeController extends BaseController {
 
 	    	 // get project data
 	    	 $project = (array) Project::getName($projectId); 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);
 
-	    	 $probes = Probe::enumerate($projectId);
+	    	 $probes = Probe::enumerate($iterationId);
 
 	    	return View::make('frontend.probe.index')
+	    				->with('iteration', $iteration)
 	    				->with('projectName', $project['name'])
 	    				->with('projectId', $projectId)
 	    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
@@ -40,7 +43,7 @@ class ProbeController extends BaseController {
 
 	}
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		// get user role
 	    $userRole = Session::get('user_role');
@@ -50,12 +53,16 @@ class ProbeController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);
+
 	    	 // get answer types 
 	    	 $types = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open'))); 
 
 	    	return View::make('frontend.probe.create')
-	    		    	->with('projectName', $project['name'])
 	    		    	->with('answerTypes', $types)
+	    				->with('iteration', $iteration)
+	    		    	->with('projectName', $project['name'])
 	    				->with('projectId', $projectId); 
 
 	    }else{
@@ -78,7 +85,7 @@ class ProbeController extends BaseController {
 		   		'url'				=> md5($values['title'].date('H:i:s')),
 		   		'project_id'		=> $values['project_id'],
 		   		'responses'			=> 0,
-		   		'iteration_id'  	=> 1 //TODO: ASIGNAR $iterationId
+		   		'iteration_id'  	=> $values['iteration_id']
 
 		   	);
 
@@ -136,14 +143,14 @@ class ProbeController extends BaseController {
 		   		Session::flash('success_message', 'Se creó el Sondeo'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+                return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));
 		   	}
 
 		   }else{
 
 		   		Session::flash('error_message', 'No se pudo crear el Sondeo'); 
 
-		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+		   		return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));
 
 		   }
 	}
@@ -157,6 +164,10 @@ class ProbeController extends BaseController {
 			// get project data
 		   	$project = (array) Project::getName($probeData['project_id']);
 
+		   	// get iteration data
+	    	$iteration = (array) Iteration::get($probeData['iteration_id']);
+
+
 		   	//probe status
 		   	$probeStatus = array(
 		   		'1'			=> 'Cerrado',
@@ -169,6 +180,7 @@ class ProbeController extends BaseController {
 	    	 $answerTypes = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open')));   	 
 
 			return View::make('frontend.probe.edit')
+						->with('iteration', $iteration)
 						->with('projectName', $project['name'])
 						->with('projectId', $project['id'])
 						->with('probeId', $probeId)
@@ -254,13 +266,13 @@ class ProbeController extends BaseController {
 
 			Session::flash('success_message', 'Se ha eliminado el sondeo correctamente'); 
 
-		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));
+		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));
 
 		}else{
 		   	
 		   	Session::flash('error_message', 'No se pudo eliminar el sondeo'); 
 
-		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'])));			
+		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));			
 		} 
 
 	}
@@ -514,6 +526,9 @@ class ProbeController extends BaseController {
 		// get probe results 
 		$probeResults = Probe::getProbeResults($probeId); 
 
+	   	// get iteration data
+    	$iteration = (array) Iteration::get($probeResults['iteration_id']);
+
 		$graphicsArray = array();
 		$openQuestions = array();
 		$questionResults = array();
@@ -566,6 +581,7 @@ class ProbeController extends BaseController {
 
 
 		return View::make('frontend.probe.results')->with('questionResults', $questionResults)
+													->with('iteration', $iteration)
 												 	->with('probeTitle', $probeResults['title'])
 												 	->with('probeResponses', $probeResults['responses']);              	
 	}

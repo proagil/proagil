@@ -2,11 +2,11 @@
 
 class StyleGuide extends Eloquent{
 
-	public static function enumerate($projectId){
+	public static function enumerate($iterationId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('style_guide')->where('project_id', $projectId)->get();
+		return DB::table('style_guide')->where('iteration_id', $iterationId)->get();
 	}
 
 	public static function insert($values){

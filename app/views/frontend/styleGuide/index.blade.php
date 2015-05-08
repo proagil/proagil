@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>  Gu&iacute;a de estilos
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
@@ -33,7 +33,7 @@
 							</div>	
 							@if($projectOwner)
 							<div style="width:160px" class=" fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('StyleGuideController@create', array($projectId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear gu&iacute;a de estilos</a>
+								<a href="{{URL::action('StyleGuideController@create', array($projectId,$iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear gu&iacute;a de estilos</a>
 							</div>
 							@endif
 							

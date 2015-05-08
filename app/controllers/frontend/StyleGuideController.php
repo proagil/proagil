@@ -19,7 +19,7 @@ class StyleGuideController extends BaseController {
 	}
 
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -32,10 +32,13 @@ class StyleGuideController extends BaseController {
 
 	    	 // get project data
 	    	 $project = (array) Project::getName($projectId); 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);	    	 
 
-	    	 $stylesGuide = StyleGuide::enumerate($projectId);  
+	    	 $stylesGuide = StyleGuide::enumerate($iterationId);  
 
 	    	return View::make('frontend.styleGuide.index')
+	    		    	->with('iteration', $iteration)
 	    		    	->with('projectName', $project['name'])
 	    				->with('projectId', $projectId)
 	    				->with('stylesGuide', $stylesGuide)
@@ -45,7 +48,7 @@ class StyleGuideController extends BaseController {
 
 	}
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		// get user role
 	    $userRole = Session::get('user_role');
@@ -54,9 +57,12 @@ class StyleGuideController extends BaseController {
 
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);		    	 
 
 
 	    	return View::make('frontend.styleGuide.create')
+	    				->with('iteration', $iteration)
 	    		    	->with('projectName', $project['name'])
 	    				->with('projectId', $projectId); 
 
@@ -76,6 +82,7 @@ class StyleGuideController extends BaseController {
 
 		// get project data
 		$project = (array) Project::getName($values['project_id']);	
+		$iterationId = $values['iteration_id'];
 
        	// get style guide logo
        	$logo = Input::file('logo');
@@ -100,7 +107,7 @@ class StyleGuideController extends BaseController {
 			'project_id'	=> $values['project_id'],
 			'logo'			=> (isset($logoId))?$logoId:NULL,
 			'interface'		=> (isset($interfaceId))?$interfaceId:NULL,
-			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
+			'iteration_id'  => $iterationId 
 
 		);
 
@@ -162,14 +169,14 @@ class StyleGuideController extends BaseController {
 		   		Session::flash('success_message', 'Se creó la gu&iacute;a de estilos'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));										
+                return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'], $iterationId)));										
 
 		}else{
 
 
 		   		Session::flash('error_message', 'No se pudo crear la gu&iacute;a de estilos'); 
 
-		   		return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));			
+		   		return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'], $iterationId)));			
 
 		}
 
@@ -177,7 +184,10 @@ class StyleGuideController extends BaseController {
 
 	public function edit($styleGuideId){
 
-		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
+		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);
+
+		// get iteration data
+    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);	
 
 		if(Input::has('_token')){
 
@@ -218,7 +228,7 @@ class StyleGuideController extends BaseController {
 				'project_id'	=> $values['project_id'],
 				'logo'			=> (isset($logoId))?$logoId:$styleGuide['logo'],
 				'interface'		=> (isset($interfaceId))?$interfaceId:$styleGuide['interface'],
-				'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
+				'iteration_id'  => $values['iteration_id']
 
 			);
 
@@ -290,14 +300,12 @@ class StyleGuideController extends BaseController {
 			Session::flash('success_message', 'Se editó la gu&iacute;a de estilos'); 
 
 	        // redirect to index style guide view
-	        return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'])));										
+	        return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'], $iteration['id'])));										
 
 		
 		}else{
 
 			if(!empty($styleGuide)){
-
-				//print_r($styleGuide); die; 
 
 				// get project data
 				 $project = (array) Project::getName($styleGuide['project_id']); 
@@ -305,6 +313,7 @@ class StyleGuideController extends BaseController {
 
 				return View::make('frontend.styleGuide.edit')
 							->with('values', $styleGuide)
+							->with('iteration', $iteration)
 							->with('projectName', $project['name'])
 							->with('projectId', $project['id'])
 							->with('styleGuideId', $styleGuideId);   			
@@ -367,12 +376,15 @@ class StyleGuideController extends BaseController {
 			if(!empty($styleGuide)){
 
 				 $project = (array) Project::getName($styleGuide['project_id']); 
+				// get iteration data
+		    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);					 
 
 
 				return View::make('frontend.styleGuide.detail')
-							->with('styleGuide', $styleGuide)
+							->with('iteration', $iteration)
 							->with('projectName', $project['name'])
 							->with('projectId', $project['id'])
+							->with('styleGuide', $styleGuide)
 							->with('styleGuideId', $styleGuideId);   			
 
 			}else{
@@ -426,13 +438,13 @@ class StyleGuideController extends BaseController {
 
 					Session::flash('success_message', 'Se ha eliminado la gu&iacute;a de estilos correctamente'); 
 
-		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'])));					
+		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));					
 
 				}else{
 
 		   			Session::flash('error_message', 'No se ha podido eliminar la gu&iacute;a de estilos'); 
 
-		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'])));							
+		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));							
 
 				}
 

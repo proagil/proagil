@@ -2,11 +2,11 @@
 
 class ExistingSystem extends Eloquent{
 
-	public static function enumerate($projectId) {
+	public static function enumerate($iterationId) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('existing_system')->where('project_id', $projectId)->orderby('existing_system.id', 'ASC')->get();
+		return DB::table('existing_system')->where('iteration_id', $iterationId)->orderby('existing_system.id', 'ASC')->get();
 	}
 
 	public static function getExistingSystemTopics(){

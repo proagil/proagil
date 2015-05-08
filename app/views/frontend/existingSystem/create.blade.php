@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> An&aacute;lisis de sistemas existentes <span class="fc-green"> &raquo; </span> Crear
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> An&aacute;lisis de sistemas existentes <span class="fc-green"> &raquo; </span> Crear
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -40,6 +40,7 @@
 								<label class="probe-label txt-right">Nombre:</label>
 							
 								<input type="hidden" name="esystem[project_id]" value="{{$projectId}}">	
+								<input type="hidden" name="esystem[iteration_id]" value="{{$iteration['id']}}">	
 								<input type="text" name="esystem[name]"  class="probe-input-name probe-input form-control">	
 
 								<label class="probe-label txt-right">Interfaz:</label>

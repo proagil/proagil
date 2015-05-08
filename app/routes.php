@@ -117,9 +117,9 @@ Route::any('registro/validar/{token}', 'UserController@validateRegister');
 
 Route::any('registro/validar-invitacion/{token}', 'UserController@validateRegisterInvitation');
 
-Route::any('sondeo/listado/{project_id}', 'ProbeController@index');
+Route::any('sondeo/listado/{project_id}/{iteration_id}', 'ProbeController@index');
 
-Route::any('sondeo/crear/{project_id}', 'ProbeController@create');
+Route::any('sondeo/crear/{project_id}/{iteration_id}', 'ProbeController@create');
 
 Route::any('sondeo/guardar/', 'ProbeController@save');
 
@@ -167,9 +167,9 @@ Route::any('tormenta-de-ideas/listado/{project_id}/{iteration_id}', 'StormIdeasC
 
 Route::any('tormenta-de-ideas/guardar-imagen/{storm_ideas_id}/{storm_ideas_name}', 'StormIdeasController@saveStormIdeasImage');
 
-Route::any('analisis-sistemas-existentes/listado/{project_id}', 'ExistingSystemController@index');
+Route::any('analisis-sistemas-existentes/listado/{project_id}/{iteration_id}', 'ExistingSystemController@index');
 
-Route::any('analisis-sistemas-existentes/crear/{project_id}', 'ExistingSystemController@create');
+Route::any('analisis-sistemas-existentes/crear/{project_id}/{iteration_id}', 'ExistingSystemController@create');
 
 Route::any('analisis-sistemas-existentes/guardar/', 'ExistingSystemController@save');
 
@@ -193,9 +193,9 @@ Route::any('/analisis-sistemas-existente/guardar-informacion/{system_id}', 'Exis
 
 Route::any('/analisis-sistemas-existente/guardar-nueva-observacion/', 'ExistingSystemController@saveNewElement');
 
-Route::any('/evaluacion-heuristica/listado/{project_id}', 'HeuristicEvaluationController@index');
+Route::any('/evaluacion-heuristica/listado/{project_id}/{iteration_id}', 'HeuristicEvaluationController@index');
 
-Route::any('/evaluacion-heuristica/crear/{project_id}', 'HeuristicEvaluationController@create');
+Route::any('/evaluacion-heuristica/crear/{project_id}/{iteration_id}', 'HeuristicEvaluationController@create');
 
 Route::any('/evaluacion-heuristica/guardar/', 'HeuristicEvaluationController@save');
 
@@ -219,9 +219,9 @@ Route::any('/evaluacion-heuristica/guardar-informacion/', 'HeuristicEvaluationCo
 
 Route::any('/evaluacion-heuristica/guardar-nuevo-problema/', 'HeuristicEvaluationController@saveNewElement');
 
-Route::any('/guia-de-estilos/listado/{project_id}', 'StyleGuideController@index');
+Route::any('/guia-de-estilos/listado/{project_id}/{iteration_id}', 'StyleGuideController@index');
 
-Route::any('/guia-de-estilos/crear/{project_id}', 'StyleGuideController@create');
+Route::any('/guia-de-estilos/crear/{project_id}/{iteration_id}', 'StyleGuideController@create');
 
 Route::any('/guia-de-estilos/guardar', 'StyleGuideController@save');
 

@@ -14,10 +14,10 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}} <span class="fc-green"> &raquo; </span> Editar
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span>{{$iteration['name']}}  <span class="fc-green"> &raquo; </span> {{$existingSystem['name']}} <span class="fc-green"> &raquo; </span> Editar
 							</div>	
 
-							<i class="fc-green glyphicon  glyphicon-chevron-left"> </i> <a href="{{URL::action('ExistingSystemController@index', array($projectId))}}" class="cur-point btn-back-i"> Volver</a>			
+							<i class="fc-green glyphicon  glyphicon-chevron-left"> </i> <a href="{{URL::action('ExistingSystemController@index', array($projectId, $iteration['id']))}}" class="cur-point btn-back-i"> Volver</a>			
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text"></span> </div>	
 
 							<div class="success-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="success-alert-text"> Success Alert</span> </div>		
@@ -91,7 +91,7 @@
 					            </div>
 
 							<div class="probe-general-buttons">								
-								<div data-project-id="{{$projectId}}" data-system-id="{{$existingSystemId}}" class="add-new-element-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
+								<div data-project-id="{{$projectId}}"  data-iteration-id="{{$iteration['id']}}" data-system-id="{{$existingSystemId}}" class="add-new-element-row fs-med common-btn btn-iii btn-turquoise pull-right txt-center">
 									<a href="#">Nueva observaci&oacute;n</a>
 								</div>							
 							</div>							 

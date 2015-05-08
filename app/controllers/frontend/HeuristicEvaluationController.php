@@ -15,7 +15,7 @@ class HeuristicEvaluationController extends BaseController {
 	 }
 
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -29,19 +29,24 @@ class HeuristicEvaluationController extends BaseController {
 	    	 // get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 $evaluations = HeuristicEvaluation::enumerate($projectId); 
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($iterationId);
+
+	    	$evaluations = HeuristicEvaluation::enumerate($iterationId); 
 
 	    	return View::make('frontend.heuristicEvaluation.index')
+	    				->with('evaluations', $evaluations)
+	    				->with('iteration', $iteration)
+	    				->with('projectId', $projectId)
 	    		    	->with('projectName', $project['name'])
 	    				->with('projectId', $projectId)
-	    				->with('evaluations', $evaluations)
 	    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE); 
 
 	    }
 
 	}
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		// get user role
 	    $userRole = Session::get('user_role');
@@ -52,17 +57,21 @@ class HeuristicEvaluationController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 // get heuristics
-	    	 $heuristics = HeuristicEvaluation::getHeuristics(); 
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($iterationId);	    	 
 
-	    	 // get valorations
-	    	 $valorations = HeuristicEvaluation::getValorations(); 	    	
+	    	// get heuristics
+	    	$heuristics = HeuristicEvaluation::getHeuristics(); 
+
+	    	// get valorations
+	    	$valorations = HeuristicEvaluation::getValorations(); 	    	
 
 	    	return View::make('frontend.heuristicEvaluation.create')
-	    		    	->with('projectName', $project['name'])
 	    		    	->with('heuristics', $heuristics)
-	    		    	->with('valorations', $valorations)
-	    				->with('projectId', $projectId); 
+	    		    	->with('iteration', $iteration)
+	    				->with('projectId', $projectId)
+	    		    	->with('projectName', $project['name'])
+	    		    	->with('valorations', $valorations);
 
 	    }else{
 
@@ -77,9 +86,9 @@ class HeuristicEvaluationController extends BaseController {
 
 
 		$evaluation = array(
-			'name'			=> 	$values['name'],
+			'name'			=> $values['name'],
 			'project_id'	=> $values['project_id'],
-			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
+			'iteration_id'  => $values['iteration_id']
 		);
 
 		$evaluationId = HeuristicEvaluation::insert($evaluation);
@@ -101,18 +110,16 @@ class HeuristicEvaluationController extends BaseController {
 
 			}
 
-		 		// get project data
-			    $project = (array) Project::getName($values['project_id']); 	 
-		   		Session::flash('success_message', 'Se creó la evaluaci&oacute;n heur&iacute;stica'); 
+	   		Session::flash('success_message', 'Se creó la evaluaci&oacute;n heur&iacute;stica'); 
 
-                // redirect to index probre view
-                return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));			
+	        // redirect to index probre view
+	        return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'], $values['iteration_id'])));			
 
 		}else{
 
-		   		Session::flash('error_message', 'No se creó la evaluaci&oacute;n heur&iacute;stica'); 
+	   		Session::flash('error_message', 'Ocurrió un problema y no se creó la evaluaci&oacute;n heur&iacute;stica'); 
 
-		   		return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));
+	   		return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'], $values['iteration_id'])));
 		}
 
 	}
@@ -124,10 +131,15 @@ class HeuristicEvaluationController extends BaseController {
 		if(!empty($evaluation)){
 
 			// get project data
-			 $project = (array) Project::getName($evaluation['project_id']); 		
+			 $project = (array) Project::getName($evaluation['project_id']);
+
+
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($evaluation['iteration_id']);	    		
 
 			return View::make('frontend.heuristicEvaluation.detail')
 						->with('evaluation', $evaluation)
+						->with('iteration', $iteration)
 						->with('projectName', $project['name']);  			
 
 		}else{
@@ -169,7 +181,10 @@ class HeuristicEvaluationController extends BaseController {
 		if(!empty($evaluation)){
 
 			// get project data
-			 $project = (array) Project::getName($evaluation['project_id']); 
+			 $project = (array) Project::getName($evaluation['project_id']);
+
+	    	// get iteration data
+	    	$iteration = (array) Iteration::get($evaluation['iteration_id']);	  
 
 	    	 // get heuristics
 	    	 $heuristics = HeuristicEvaluation::getHeuristics(); 
@@ -179,11 +194,12 @@ class HeuristicEvaluationController extends BaseController {
 
 			return View::make('frontend.heuristicEvaluation.edit')
 						->with('evaluation', $evaluation)
-						->with('projectName', $project['name'])
-						->with('projectId', $project['id'])
+						->with('evaluationId', $evaluationId)   			
 						->with('heuristics', $heuristics)
-						->with('valorations', $valorations)
-						->with('evaluationId', $evaluationId);   			
+						->with('iteration', $iteration)
+						->with('projectId', $project['id'])
+						->with('projectName', $project['name'])
+						->with('valorations', $valorations);
 
 		}else{
 
@@ -284,13 +300,13 @@ class HeuristicEvaluationController extends BaseController {
 
 			Session::flash('success_message', 'Se ha eliminado la evaluaci&oacute;n heur&iacute;stica correctamente'); 
 
-		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));
+		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'], $values['iteration_id'])));
 
 		}else{
 		   	
 		   	Session::flash('error_message', 'No se pudo eliminar el evaluaci&oacute;n heur&iacute;stica'); 
 
-		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'])));			
+		   	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($values['project_id'], $values['iteration_id'])));			
 		} 
 
 	}

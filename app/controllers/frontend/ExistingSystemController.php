@@ -15,7 +15,7 @@ class ExistingSystemController extends BaseController {
 	  }
 
 
-	public function index($projectId){
+	public function index($projectId, $iterationId){
 
 	    if(is_null(Session::get('user'))){
 
@@ -29,9 +29,13 @@ class ExistingSystemController extends BaseController {
 	    	 // get project data
 	    	 $project = (array) Project::getName($projectId); 
 
-	    	 $existingSystems = ExistingSystem::enumerate($projectId); 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);
+
+	    	 $existingSystems = ExistingSystem::enumerate($iterationId); 
 
 	    	return View::make('frontend.existingSystem.index')
+	    				->with('iteration', $iteration)
 	    		    	->with('projectName', $project['name'])
 	    				->with('projectId', $projectId)
 	    				->with('existingSystems', $existingSystems)
@@ -41,7 +45,7 @@ class ExistingSystemController extends BaseController {
 
 	}
 
-	public function create($projectId){
+	public function create($projectId, $iterationId){
 
 		// get user role
 	    $userRole = Session::get('user_role');
@@ -52,14 +56,18 @@ class ExistingSystemController extends BaseController {
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
 
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($iterationId);
+
 	    	 // get existing system types
 	    	 $topics = ExistingSystem::getExistingSystemTopics(); 
 
 
 	    	return View::make('frontend.existingSystem.create')
+	    				->with('projectId', $projectId)
 	    		    	->with('projectName', $project['name'])
-	    		    	->with('topics', $topics)
-	    				->with('projectId', $projectId); 
+	    		    	->with('iteration', $iteration)
+	    		    	->with('topics', $topics);
 
 	    }else{
 
@@ -86,7 +94,7 @@ class ExistingSystemController extends BaseController {
 			'enabled'		=>  Config::get('constant.ENABLED'),
 			'interface'		=> (isset($imageId))?$imageId:NULL,
 			'project_id'	=> $values['project_id'],
-			'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
+			'iteration_id'  => $values['iteration_id']
 		);
 
 		$existingSystemId = ExistingSystem::insert($exystingSystem);
@@ -100,7 +108,7 @@ class ExistingSystemController extends BaseController {
 					'existing_system_topic_id' 	=> $observation['topic'],
 					'existing_system_id'		=> $existingSystemId,
 					'project_id'				=> $values['project_id'],
-					'iteration_id'  			=> 1 //TODO: ASIGNAR $iterationId
+					'iteration_id'  			=> $values['iteration_id']
 
 				);
 
@@ -113,13 +121,13 @@ class ExistingSystemController extends BaseController {
 		   		Session::flash('success_message', 'Se ha creado el análisis de sistema existente'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
+                return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));			
 
 		}else{
 
 		   		Session::flash('error_message', 'No se pudo crear el análisis de sistema existente'); 
 
-		   		return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));
+		   		return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));
 		}
 
 	}
@@ -131,10 +139,15 @@ class ExistingSystemController extends BaseController {
 		if(!empty($existingSystem)){
 
 			// get project data
-			 $project = (array) Project::getName($existingSystem['project_id']); 		
+			 $project = (array) Project::getName($existingSystem['project_id']); 
+
+	    	 // get iteration data
+	    	 $iteration = (array) Iteration::get($existingSystem['iteration_id']);
+		
 
 			return View::make('frontend.existingSystem.detail')
 						->with('existingSystem', $existingSystem)
+						->with('iteration', $iteration)
 						->with('projectName', $project['name']);  			
 
 		}else{
@@ -154,11 +167,15 @@ class ExistingSystemController extends BaseController {
 			// get project data
 			 $project = (array) Project::getName($existingSystem['project_id']); 
 
+			 // get iteration data
+	    	 $iteration = (array) Iteration::get($existingSystem['iteration_id']);
+
 			 // get existing system types
 	    	 $topics = ExistingSystem::getExistingSystemTopics(); 
 
 			return View::make('frontend.existingSystem.edit')
 						->with('existingSystem', $existingSystem)
+						->with('iteration', $iteration)
 						->with('projectName', $project['name'])
 						->with('projectId', $project['id'])
 						->with('topics', $topics)
@@ -246,7 +263,7 @@ class ExistingSystemController extends BaseController {
 			'existing_system_topic_id' 	=> $values['topic'],
 			'existing_system_id'		=> $values['system_id'],
 			'project_id'				=> $values['project_id'],
-			'iteration_id'  			=> 1 //TODO: ASIGNAR $iterationId
+			'iteration_id'  			=> $values['iteration_id']
 
 		);
 
@@ -296,13 +313,13 @@ class ExistingSystemController extends BaseController {
 
 			Session::flash('success_message', 'Se ha eliminado el sistema existente correctamente'); 
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));
+		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));
 
 		}else{
 		   	
 		   	Session::flash('error_message', 'No se pudo eliminar el sistema existente'); 
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'])));			
+		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));			
 		} 
 
 	}

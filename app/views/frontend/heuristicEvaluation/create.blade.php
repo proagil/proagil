@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica <span class="fc-green"> &raquo; </span> Crear
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span>  {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica <span class="fc-green"> &raquo; </span> Crear
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -39,7 +39,8 @@
 
 								<label class="probe-label txt-right">Nombre:</label>
 							
-								<input type="hidden" name="evaluation[project_id]" value="{{$projectId}}">	
+								<input type="hidden" name="evaluation[project_id]" value="{{$projectId}}">
+								<input type="hidden" name="evaluation[iteration_id]" value="{{$iteration['id']}}">	
 								<input type="text" name="evaluation[name]"  class="evaluation-title probe-input-name probe-input form-control">																
 
 								<div class="list-content evaluation-list">

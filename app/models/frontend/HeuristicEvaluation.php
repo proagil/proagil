@@ -2,11 +2,11 @@
 
 class HeuristicEvaluation extends Eloquent{
 
-	public static function enumerate($projectId) {
+	public static function enumerate($iterationId) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('heuristic_evaluation')->where('project_id', $projectId)->orderby('heuristic_evaluation.id', 'ASC')->get();
+		return DB::table('heuristic_evaluation')->where('iteration_id', $iterationId)->orderby('heuristic_evaluation.id', 'ASC')->get();
 	}
 
 	public static function getHeuristics(){

@@ -17,7 +17,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$values['name']}} <span class="fc-green"> &raquo; </span> Editar
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span>  {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> {{$values['name']}} <span class="fc-green"> &raquo; </span> Editar
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -40,6 +40,7 @@
 							</div>	
 							{{ Form::open(array('action' => array('StyleGuideController@edit', $values['id']), 'files' => true, 'id' => 'form-edit-guide-style')) }}
 								<input name="values[project_id]" type="hidden" value="{{$projectId}}">
+								<input name="values[iteration_id]" type="hidden" value="{{$iteration['id']}}">
 								<input name="values[style_guide_id]" type="hidden" value="{{$values['id']}}">									
 
 							<div class="style-guide-content">

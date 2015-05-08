@@ -37,7 +37,7 @@ class ArtefactController extends BaseController {
 			switch($friendlyUrl) {
 	              case Config::get('constant.artefact.heuristic_evaluation'):
 
-	              	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($projectId)));
+	              	return Redirect::to(URL::action('HeuristicEvaluationController@index', array($projectId, $iterationId)));
 
 	              break;
 	              case Config::get('constant.artefact.storm_ideas'):
@@ -47,17 +47,17 @@ class ArtefactController extends BaseController {
 	              break;	              
 	              case Config::get('constant.artefact.probe'):
 
-	              	return Redirect::to(URL::action('ProbeController@index', array($projectId)));
+	              	return Redirect::to(URL::action('ProbeController@index', array($projectId, $iterationId)));
 
 	              break;
 	              case Config::get('constant.artefact.style_guide'):
 	              	
-	              	return Redirect::to(URL::action('StyleGuideController@index', array($projectId)));
+	              	return Redirect::to(URL::action('StyleGuideController@index', array($projectId, $iterationId)));
 
 	              break;
 	              case Config::get('constant.artefact.existing_system'):
 
-	              return Redirect::to(URL::action('ExistingSystemController@index', array($projectId)));
+	              return Redirect::to(URL::action('ExistingSystemController@index', array($projectId, $iterationId)));
 
 	              break;
 	              case Config::get('constant.artefact.checklist'):

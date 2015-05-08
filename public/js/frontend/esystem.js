@@ -337,6 +337,7 @@ $(function() {
 
         var html = '',
             projectId =  $(this).data('projectId'),
+            iterationId = $(this).data('iterationId'),
             systemId =  $(this).data('systemId');
 
 
@@ -358,7 +359,8 @@ $(function() {
                   '<div class="pull-right edit-btn-esystem-options element-options-edit-'+observationCount+'">'+                  
                     '<div data-element-id="'+observationCount+'" class="cancel-edit-new-element common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>'+                           
                     '<div data-element-id="'+observationCount+'" class="save-edit-new-element common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>'+          
-                   '<input type="hidden" name="esystem[project_id]" value="'+projectId+'">'+
+                    '<input type="hidden" name="esystem[project_id]" value="'+projectId+'">'+
+                    '<input type="hidden" name="esystem[iteration_id]" value="'+iterationId+'">'+
                     '<input type="hidden" name="esystem[system_id]" value="'+systemId+'">'+
                   '</form>'+
                   '</div>';  

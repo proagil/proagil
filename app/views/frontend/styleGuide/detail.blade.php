@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Gu&iacute;a de estilos <span class="fc-green"> &raquo; </span> {{$styleGuide['name']}} <span class="fc-green"> &raquo; </span> Detalle
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>Gu&iacute;a de estilos <span class="fc-green"> &raquo; </span> {{$styleGuide['name']}} <span class="fc-green"> &raquo; </span> Detalle
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			

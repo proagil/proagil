@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Evaluaci&oacute;n heur&iacute;stica
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>						
@@ -34,7 +34,7 @@
 							</div>	
 							@if($projectOwner)
 							<div class=" fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('HeuristicEvaluationController@create', array($projectId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear evaluaci&oacute;n</a>
+								<a href="{{URL::action('HeuristicEvaluationController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear evaluaci&oacute;n</a>
 							</div>
 							@endif
 							
