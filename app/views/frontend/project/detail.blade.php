@@ -96,6 +96,7 @@
 									                                </div>
 																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
 									                          @endif
+									                          
 										                	</div>
 										                {{Form::close()}}
 										                </div>

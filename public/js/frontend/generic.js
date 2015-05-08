@@ -721,6 +721,40 @@ $(function() {
 
 /*----------------------------------------------------------------------
 
+        LIST ITERATION FUNCTIONS
+
+----------------------------------------------------------------------*/         
+
+    $('.btn-delete-iteration').on('click', function(e){
+
+         e.preventDefault(); 
+
+         var iterationId = $(this).data('iterationId'); 
+
+
+          var showAlert = swal({
+            title: 'Eliminar iteración',
+            text: 'Al eliminar una iteracióm se eliminan las actividades, colaboradores y artefactos asociados. ¿Realmente desea eliminarla?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'/proyecto/iteracion/eliminar/'+iterationId;
+
+          });               
+
+       
+      }); 
+
+
+/*----------------------------------------------------------------------
+
         CREATE ITERATION FUNCTIONS
 
 ----------------------------------------------------------------------*/           

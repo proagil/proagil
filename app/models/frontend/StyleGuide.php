@@ -120,6 +120,54 @@ class StyleGuide extends Eloquent{
 
 	}	
 
+	public static function getStyleGuideByIteration($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get existing system data
+		 $styleGuides = DB::table('style_guide AS sg')
+
+		->select('sg.*', 'f.server_name AS logo_image', 'f2.server_name AS interface_image')
+
+		->where('sg.iteration_id', $iterationId)
+
+		->leftJoin('file AS f', 'f.id', '=', 'sg.logo')
+
+		->leftJoin('file AS f2', 'f2.id', '=', 'sg.interface')
+
+		->get();
+
+		foreach($styleGuides as $index => $styleGuide){
+
+			// get style guide colors
+			$styleGuideColors = DB::table('style_guide_color AS sgc')
+
+			->select('sgc.*')
+
+			->where('sgc.style_guide_id', $styleGuide['id'])
+
+			->get();
+
+			$styleGuides[$index]['colors'] = $styleGuideColors; 	
+
+
+			// get style guide fonts
+			$styleGuideFotns = DB::table('style_guide_font AS sgf')
+
+			->select('sgf.*')
+
+			->where('sgf.style_guide_id', $styleGuide['id'])
+
+			->get();
+
+			$styleGuides[$index]['fonts'] = $styleGuideFotns; 				
+
+		}
+		
+			return $styleGuides; 		
+
+	}	
+
 	public static function deleteColor($colorId) {
 
 		try{

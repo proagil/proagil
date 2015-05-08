@@ -38,7 +38,7 @@ class Project extends Eloquent{
 				  	->first();
 	}
 
-	public function _delete($projectId){
+	public static function _delete($projectId){
 
 		try{
 
@@ -239,7 +239,7 @@ class Project extends Eloquent{
 
 		$query =  DB::table('activity_belongs_to_project AS abtp')
 
-			->select('u.id', 'u.first_name', 'a.*', 'cabtp.name AS category_name')
+			->select('u.id AS user_id', 'u.first_name', 'a.id AS activity_id', 'a.*', 'cabtp.name AS category_name')
 
 			->where('abtp.iteration_id', $iterationId);
 
@@ -264,6 +264,38 @@ class Project extends Eloquent{
 			return $query->get();		
 
 	}
+
+	public static function getProjectActivities($projectId, $filtersArray=NULL, $statusArray=NULL) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$query =  DB::table('activity_belongs_to_project AS abtp')
+
+			->select('u.id', 'u.first_name', 'a.*', 'cabtp.name AS category_name')
+
+			->where('abtp.project_id', $projectId);
+
+			// filter by activity category
+			if(!empty($filtersArray) && $filtersArray!=NULL){
+				$query->whereIn('a.category_id', $filtersArray); 
+			}
+
+			// filter by  status
+			if(!empty($statusArray) && $statusArray!=NULL){
+				$query->whereIn('a.status', $statusArray); 
+			}
+
+			$query->join('user AS u', 'abtp.user_id', '=', 'u.id')
+
+				  ->join('activity AS a', 'a.id', '=', 'abtp.activity_id')
+
+				  ->leftJoin('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
+
+				  ->orderBy('a.id', 'ASC');
+
+			return $query->get();		
+
+	}	
 
 
 

@@ -61,6 +61,20 @@ class Activity extends Eloquent{
 		}		
 	}
 
+	public static function deleteProjectActivity($activityId, $projectId){
+
+		try{
+			return DB::table('activity_belongs_to_project')
+					->where('activity_id', $activityId)
+					->where('project_id', $projectId)
+					->delete();
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	}	
+
 	public static function get($activityId){
 
 		return DB::table('activity AS a')

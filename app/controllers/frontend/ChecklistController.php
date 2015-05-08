@@ -435,6 +435,28 @@ class ChecklistController extends BaseController {
 	    
 	}
 
+	public function export($checklistId){
+
+		//get user and user role
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
+
+    	//get comprobation_list by id data
+    	$checklist = (array) Checklist::get($checklistId);
+
+    	$checklistItems = (array) Checklist::enumerateAllItemsByChecklistId($checklistId);
+
+    	$checkListData['info'] = $checklist; 
+    	$checkListData['items'] = $checklistItems; 
+
+
+	    $pdf = PDF::loadView('frontend.checklist.export', $checkListData);
+
+	    return $pdf->stream('proagil-'.$checklist['title'].'.pdf');		    	
+	    
+	}
+
+
 	public function verify($checklistId){
 		
 		//get user and user role

@@ -61,6 +61,8 @@ Route::any('listas-de-comprobacion/listado/{project_id}/{iteration_id}', 'Checkl
 
 Route::any('listas-de-comprobacion/mostrar/{checklist_id}', 'ChecklistController@show');
 
+Route::any('listas-de-comprobacion/exportar/{checklist_id}', 'ChecklistController@export');
+
 Route::any('listas-de-comprobacion/verificar/{checklist_id}', 'ChecklistController@verify');
 
 Route::any('olvido-contrasena', 'LoginController@forgotPassword');
@@ -108,6 +110,8 @@ Route::any('proyecto/actividad/detalle/{activity_id}', 'ActivityController@detai
 Route::any('proyecto/actividad/editar/{activity_id}', 'ActivityController@edit');
 
 Route::any('proyecto/iteracion/artefacto/{project_id}/{iteration_id}', 'IterationController@addArtefact');
+
+Route::any('proyecto/iteracion/eliminar/{project_id}', 'IterationController@delete');
 
 Route::any('recuperar-contrasena/{token}', 'LoginController@changePassword');
 

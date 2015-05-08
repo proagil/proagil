@@ -259,6 +259,55 @@ class Probe extends Eloquent{
 
 	}
 
+	public static function getProbeElementsByIteration($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get probe data
+		 $probesData = DB::table('probe AS p')
+
+		->select('p.*')
+
+		->where('p.iteration_id', $iterationId)
+
+		->get();
+
+		foreach($probesData  as $index => $probeData){
+
+			// get probe form elements
+			$probeElements = DB::table('probe_template_element AS pte')
+
+			->select('pte.*','pat.name as form_element_name')
+
+			->where('pte.probe_id', $probeData['id'])
+
+			->join('probe_answer_type AS pat', 'pte.form_element', '=', 'pat.id')
+
+			->orderBy('pte.id', 'ASC')
+
+			->get();
+
+			foreach($probeElements as $index2 => $probeElement){
+
+				$probeOptions = DB::table('probe_template_option AS pto')
+
+				->select('pto.*')
+
+				->where('pto.probe_template_element_id', $probeElement['id'])
+
+				->get();
+
+				$probeElements[$index2]['options'] = $probeOptions; 
+
+			}
+
+			$probesData[$index]['elements'] = $probeElements; 
+		}
+
+		return $probesData;
+
+	}		
+
 	public static function getProbeElementsByProject($projectId){
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
