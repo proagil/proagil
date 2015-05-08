@@ -72,6 +72,45 @@ class ExistingSystem extends Eloquent{
 
 	}
 
+	public static function getExistingSystemDataByIteration($iterationId) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get existing system data
+		 $existingSystems = DB::table('existing_system AS es')
+
+		->select('es.*', 'f.server_name AS interface_image')
+
+		->where('es.iteration_id', $iterationId)
+
+		->leftJoin('file AS f', 'f.id', '=', 'es.interface')
+
+		->get();
+
+			foreach($existingSystems as $index => $esystem){
+
+				// get existing system form elements
+				$existingSystemElements = DB::table('existing_system_topic_belogns_to_existing_system AS estbtes')
+
+				->select('estbtes.*', 'est.name AS topic_name')
+
+				->where('estbtes.existing_system_id', $esystem['id'])
+
+				->join('existing_system_topic AS est', 'estbtes.existing_system_topic_id', '=', 'est.id')
+
+				->orderBy('estbtes.id', 'ASC')
+
+				->get();
+
+				$existingSystems[$index]['elements'] = $existingSystemElements; 					
+
+			}
+
+			return $existingSystems; 
+
+	}			
+
+
 	public static function getExistingSystemDataByProject($projectId) {
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);

@@ -37,6 +37,25 @@ class StormIdeas extends Eloquent{
 	}
 
 
+	public static function enumerateByProject($projectId) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		return DB::table('storm_ideas AS si')
+
+				->select('si.*', 'f.server_name AS storm_ideas_image')
+
+				->where('si.project_id', $projectId)
+
+				->where('si.enabled', TRUE)
+
+				->leftJoin('file AS f', 'f.id', '=', 'si.image')
+
+				->orderBy('si.id', 'asc')
+
+				->get();									   
+	}
+
 	public static function get($stormIdeasId){
 
 		return DB::table('storm_ideas AS si')

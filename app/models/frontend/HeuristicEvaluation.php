@@ -124,7 +124,46 @@ class HeuristicEvaluation extends Eloquent{
 
 		return $evaluationsData; 
 
-	}		
+	}
+
+	public static function getEvaluationDataByIteration($iterationId) {
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		 // get existing system data
+		 $evaluationsData = DB::table('heuristic_evaluation AS he')
+
+		->select('he.*')
+
+		->where('he.iteration_id', $iterationId)
+
+		->get();
+
+		foreach($evaluationsData as $index => $evaluationData){
+
+			// get existing system form elements
+			$evaluationElements = DB::table('heuristic_evaluation_item AS hei')
+
+			->select('hei.*', 'h.name AS heuristic_name', 'hv.name AS valoration_name')
+
+			->where('hei.heuristic_evaluation_id', $evaluationData['id'])
+
+			->join('heuristic AS h', 'hei.heuristic_id', '=', 'h.id')
+
+			->join('heuristic_valoration AS hv', 'hei.valoration_id', '=', 'hv.id')
+
+			->orderBy('hei.id', 'ASC')
+
+			->get();
+
+			$evaluationsData[$index]['elements'] = $evaluationElements; 				
+
+		}
+
+
+		return $evaluationsData; 
+
+	}				
 
 	public static function getElementData($elementId){
 

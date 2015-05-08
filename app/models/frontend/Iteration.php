@@ -7,7 +7,9 @@ class Iteration extends Eloquent{
 		return DB::table('iteration')->where('enabled', TRUE)->get();
 	}
 
-	public static function getArtefactsByIteration($iterationId){
+	public static function getArtefactsByIteration($iterationId, $mode=NULL){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		$consult = DB::table('artefact_belongs_to_project AS abtp')
 
@@ -21,14 +23,17 @@ class Iteration extends Eloquent{
 			  	
 			  	->get();
 			  	
-		if (!empty($consult)){
-			foreach($consult as $row){
+		$result = array();
+
+		if($mode==NULL){
+
+			foreach($consult as $index => $row){
 				$result[$row['id']] = $row; 
-			}	
-			return $result;
-		}else{
-			return $consult;
-		} 	
+			}			
+		}
+
+		return ($mode==NULL)?$result:$consult; 
+
 
 	}
 
@@ -83,6 +88,66 @@ class Iteration extends Eloquent{
 				  	->orderBy('order')
 				  	->get();
 	}	
+
+	public static function userIsOwner($userId, $iterationId){
+
+		return DB::table('user_belongs_to_project AS ubtp')
+
+			->select('i.id', 'i.name')
+
+			->where('ubtp.user_id', $userId)
+
+			->where('ubtp.iteration_id', $iterationId)
+
+			->where('ubtp.user_role_id', Config::get('constant.project.owner'))
+
+			->join('iteration AS i', 'i.id', '=', 'ubtp.iteration_id')
+
+			->get();
+
+	}
+
+	public static function deleteIterationInvitations($iterationId){
+
+		try{
+
+			return DB::table('user_invitation')->where('iteration_id', $iterationId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}			
+
+	public static function deleteUsers($iterationId){
+
+		try{
+
+			return DB::table('user_belongs_to_project')->where('iteration_id', $iterationId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}		
+
+	public static function _delete($iterationId){
+
+		try{
+
+			return DB::table('iteration')->where('id', $iterationId)->delete();
+		
+		}catch(\Exception $e){
+
+			return false; 
+
+		}		
+	
+	}				
 	
 }
 

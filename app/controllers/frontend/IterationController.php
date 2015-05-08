@@ -733,12 +733,12 @@ class IterationController extends BaseController {
 
   }
 
-  public function delete($projectId){
+  public function delete($iterationId){
 
       // get user on session
       $user = Session::get('user');   
 
-      $isOwner = Project::userIsOwner($user['id'], $projectId);
+      $isOwner = Iteration::userIsOwner($user['id'], $iterationId);
 
       // verify if user on session is owner of project
       if(empty($isOwner)) {
@@ -747,35 +747,37 @@ class IterationController extends BaseController {
 
       }else{
 
-          Project::deleteUsers($projectId); 
-          Project::deleteCategoriesActivity($projectId); 
+        $iteration = Iteration::get($iterationId);
 
-              // delete project activities
-              $activities = Project::getActivitiesByProject($projectId); 
+        $IterationProjectId = $iteration['project_id']; 
+
+
+              // delete iteration activities
+              $activities = Project::getIterationActivities($iterationId); 
 
               if(!empty($activities)){
 
                 foreach($activities as $activity){
                   Activity::deleteActivityComment($activity['activity_id']);
-                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
+                  Activity::deleteIterationActivity($activity['activity_id'], $iterationId);
                   Activity::deleteActivity($activity['activity_id']); 
                 
                 }
 
               }
 
-              // get project artefacts
-              $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
+              // get iteration artefacts
+              $iterationArtefacts = (array) Iteration::getArtefactsByIteration($iterationId, 'ALL'); 
 
-              if(!empty($projectArtefacts)){
+              if(!empty($iterationArtefacts)){
 
-                foreach( $projectArtefacts as $index => $projectArtefact){
+                foreach($iterationArtefacts as $index => $iterationArtefact){
 
-                       switch($projectArtefact['friendly_url']) {
+                       switch($iterationArtefact['friendly_url']) {
 
                             case Config::get('constant.artefact.heuristic_evaluation'):
 
-                               $artefactList = HeuristicEvaluation::getEvaluationDataByProject($projectId); 
+                               $artefactList = HeuristicEvaluation::getEvaluationDataByIteration($iterationId); 
 
                                 if(!empty($artefactList)){
 
@@ -799,15 +801,15 @@ class IterationController extends BaseController {
 
                                     } 
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                  //delete relation artefact -iteration
+                                  Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -817,7 +819,7 @@ class IterationController extends BaseController {
 
                             case Config::get('constant.artefact.storm_ideas'):
 
-                                $artefactList = StormIdeas::enumerate($projectId); 
+                                $artefactList = StormIdeas::enumerate($iterationId); 
                               
                                 if(!empty($artefactList)){
 
@@ -836,15 +838,15 @@ class IterationController extends BaseController {
                                                   
                                   }
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -854,7 +856,7 @@ class IterationController extends BaseController {
 
                             case Config::get('constant.artefact.probe'):
 
-                               $artefactList = Probe::getProbeElementsByProject($projectId); 
+                               $artefactList = Probe::getProbeElementsByIteration($iterationId); 
 
                                 if(!empty($artefactList)){
 
@@ -878,15 +880,15 @@ class IterationController extends BaseController {
 
                                     } 
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                   //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -896,7 +898,7 @@ class IterationController extends BaseController {
 
                             case Config::get('constant.artefact.style_guide'):
 
-                                $artefactList = StyleGuide::getStyleGuideByProject($projectId); 
+                                $artefactList = StyleGuide::getStyleGuideByIteration($iterationId); 
                               
                                 if(!empty($artefactList)){
 
@@ -929,15 +931,15 @@ class IterationController extends BaseController {
 
                                     } 
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                   //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -947,7 +949,7 @@ class IterationController extends BaseController {
 
                             case Config::get('constant.artefact.existing_system'):
 
-                               $artefactList = ExistingSystem::getExistingSystemDataByProject($projectId); 
+                               $artefactList = ExistingSystem::getExistingSystemDataByIteration($iterationId); 
 
                                 if(!empty($artefactList)){
 
@@ -971,15 +973,15 @@ class IterationController extends BaseController {
 
                                     } 
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -989,7 +991,7 @@ class IterationController extends BaseController {
 
                             case Config::get('constant.artefact.checklist'):
 
-                               $artefactList = Checklist::getChecklistsByProject($projectId);
+                               $artefactList = Checklist::getChecklistsByIterarion($iterationId);
 
                                 if(!empty($artefactList)){
 
@@ -1013,15 +1015,15 @@ class IterationController extends BaseController {
 
                                     } 
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                      $deletedData = TRUE;                        
 
                                 }else{
 
-                                    //delete relation artefact - project
-                                    Artefact::deleteProjectArtefact($projectArtefact['id'], $projectId);
+                                    //delete relation artefact -iteration
+                                    Artefact::deleteIterationArtefact($iterationArtefact['id'], $iterationId);
 
                                     $deletedData = TRUE;    
 
@@ -1036,10 +1038,26 @@ class IterationController extends BaseController {
               }
 
           }
+              // delete user invitations
+              Iteration::deleteIterationInvitations($iterationId);
 
-              Session::flash('success_message', 'Se ha eliminado el proyecto correctamente'); 
+              // delete users on iteration
+              Iteration::deleteUsers($iterationId); 
 
-              return Redirect::to(URL::action('DashboardController@index'));
+
+              if(Iteration::_delete($iterationId)){
+
+                  Session::flash('success_message', 'Se ha eliminado la iteraci&oacute;n correctamente'); 
+
+                  return Redirect::to(URL::action('IterationController@index', array($IterationProjectId)));
+              }else{
+
+                  Session::flash('error_message', 'No se pudo eliminar la iteraci&oacute;n'); 
+
+                  return Redirect::to(URL::action('IterationController@index', array($IterationProjectId)));
+              } 
+
+
   }
 
 }

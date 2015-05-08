@@ -68,6 +68,15 @@ class Artefact extends Eloquent{
 
 	}
 
+	public static function deleteIterationArtefact($artefactId, $iterationId){
+
+		return DB::table('artefact_belongs_to_project')
+					->where('iteration_id', $iterationId)
+					->where('artefact_id', $artefactId)
+					->delete();
+
+	}	
+
 	public static function updateProjectArtefact($projectId, $artefact){
 
 		return DB::table('artefact_belongs_to_project')->insertGetId($artefact);
