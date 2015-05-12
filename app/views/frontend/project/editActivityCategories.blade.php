@@ -28,7 +28,7 @@
         							</div>
 
                       <div class="form-content">
-                        {{ Form::open(array('action' => array('ActivityCategoryController@edit', $projectId), 'id' => 'form-edit-categories')) }}							
+                        {{ Form::open(array('action' => array('ActivityCategoryController@edit', $projectId, $iterationId), 'id' => 'form-edit-categories')) }}							
                          
                           <div class="categories-content">
                             @if (isset($categories))

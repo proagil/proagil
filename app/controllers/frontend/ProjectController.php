@@ -10,7 +10,6 @@ class ProjectController extends BaseController {
         $user = Session::get('user'); 
         $project = Session::get('project'); 
 
-        //print_r( Route::currentRouteAction()); die; 
 
         if($project!=NULL){
           $userRole = (array) User::getUserRoleOnProject($project['id'], $user['id']);
@@ -173,26 +172,27 @@ class ProjectController extends BaseController {
 
                             } // end foreach colaborators
 
-                        }   // end if colaborators    
+                        }   // end if colaborators 
+
+                          // add user on iteration 
+                          $user = Session::get('user');    
+
+                          // save user on session as project iteratins OWNER
+                          $userRole = array(
+
+                            'user_role_id'        => Config::get('constant.project.owner'),
+                            'project_id'          => $projectId,
+                            'user_id'             => $user['id'],
+                            'iteration_id'        => $iterationId 
+
+                          );
+
+                          // save user on session as project owner
+                          User::userBelongsToProject($userRole);                        
 
 
                    } // end foreach iterations
 
-                   
-                    $user = Session::get('user');    
-
-                    // save user on session as project iteratins OWNER
-                    $userRole = array(
-
-                      'user_role_id'        => Config::get('constant.project.owner'),
-                      'project_id'          => $projectId,
-                      'user_id'             => $user['id'],
-                      'iteration_id'        => $iterationId 
-
-                    );
-
-                    // save user on session as project owner
-                    User::userBelongsToProject($userRole);
 
                     Session::flash('success_message', 'Se ha creado el proyecto y sus iteraciones'); 
 
@@ -758,11 +758,6 @@ class ProjectController extends BaseController {
         $iterationArtefactsSimple = $iterationArtefacts;
       }
 
-      // echo "<pre>";
-      // print_r($allArtefacts);
-      // echo "</pre>";
-      // die;
-
       // get filters with categories and status
       $filters = NULL;
       $filtersArray = array();  
@@ -814,8 +809,6 @@ class ProjectController extends BaseController {
         $activityComments = array();
         $activityComments = Activity::getComments($activity['id']); 
 
-        //print_r($activityComments); die;
-
         if(!empty($activityComments)) {
            foreach($activityComments as $indexS => $comment){
               $activityComments[$indexS]['editable'] = ($user['id']==$comment['user_id'])?TRUE:FALSE; 
@@ -827,7 +820,6 @@ class ProjectController extends BaseController {
         $activities[$index]['comments'] = $activityComments;           
 
       }
-
       
       return View::make('frontend.project.detail')
             ->with('activities', $activities)    
@@ -838,6 +830,7 @@ class ProjectController extends BaseController {
             ->with('iteration', $iteration)                    
             ->with('iterationArtefacts', $iterationArtefacts)
             ->with('iterationArtefactsSimple', $iterationArtefactsSimple)
+            ->with('iterationId', $iterationId)
             ->with('project', $project)
             ->with('projectArrows', count($iterationArtefacts)>6)
             ->with('projectDetail', TRUE) 
@@ -861,11 +854,15 @@ class ProjectController extends BaseController {
 
           if(!empty($artefact)){  
 
+            $iterationId = $values['iteration_id'];
+            $projectId = $values['project_id'];
+            $artefactId = $values['artefact_id']; 
+
              switch($values['artefact_friendly_url']) {
 
                   case Config::get('constant.artefact.heuristic_evaluation'):
 
-                     $artefactList = HeuristicEvaluation::getEvaluationDataByProject($values['project_id']); 
+                     $artefactList = HeuristicEvaluation::getEvaluationDataByIteration($iterationId); 
 
                       if(!empty($artefactList)){
 
@@ -889,15 +886,15 @@ class ProjectController extends BaseController {
 
                           } 
 
-                          //delete relation artefact - project
-                          Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                        //delete relation artefact -iteration
+                        Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -907,7 +904,7 @@ class ProjectController extends BaseController {
 
                   case Config::get('constant.artefact.storm_ideas'):
 
-                      $artefactList = StormIdeas::enumerate($values['project_id']); 
+                      $artefactList = StormIdeas::enumerate($iterationId); 
                     
                       if(!empty($artefactList)){
 
@@ -926,15 +923,15 @@ class ProjectController extends BaseController {
                                         
                         }
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -944,7 +941,7 @@ class ProjectController extends BaseController {
 
                   case Config::get('constant.artefact.probe'):
 
-                     $artefactList = Probe::getProbeElementsByProject($values['project_id']); 
+                     $artefactList = Probe::getProbeElementsByIteration($iterationId); 
 
                       if(!empty($artefactList)){
 
@@ -968,15 +965,15 @@ class ProjectController extends BaseController {
 
                           } 
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                          Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                         //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -986,7 +983,7 @@ class ProjectController extends BaseController {
 
                   case Config::get('constant.artefact.style_guide'):
 
-                      $artefactList = StyleGuide::getStyleGuideByProject($values['project_id']); 
+                      $artefactList = StyleGuide::getStyleGuideByIteration($iterationId); 
                     
                       if(!empty($artefactList)){
 
@@ -1019,15 +1016,15 @@ class ProjectController extends BaseController {
 
                           } 
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                         //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -1037,7 +1034,7 @@ class ProjectController extends BaseController {
 
                   case Config::get('constant.artefact.existing_system'):
 
-                     $artefactList = ExistingSystem::getExistingSystemDataByProject($values['project_id']); 
+                     $artefactList = ExistingSystem::getExistingSystemDataByIteration($iterationId); 
 
                       if(!empty($artefactList)){
 
@@ -1061,15 +1058,15 @@ class ProjectController extends BaseController {
 
                           } 
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -1079,7 +1076,7 @@ class ProjectController extends BaseController {
 
                   case Config::get('constant.artefact.checklist'):
 
-                     $artefactList = Checklist::getChecklistsByProject($values['project_id']);
+                     $artefactList = Checklist::getChecklistsByIterarion($iterationId);
 
                       if(!empty($artefactList)){
 
@@ -1090,7 +1087,7 @@ class ProjectController extends BaseController {
 
                             foreach($artefactValue['elements'] as $element){
 
-                              Checklist::deleteChecklitsElement($element['id']);
+                                Checklist::deleteChecklitsElement($element['id']);
 
                             }
                           }                    
@@ -1103,15 +1100,15 @@ class ProjectController extends BaseController {
 
                           } 
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                            $deletedData = TRUE;                        
 
                       }else{
 
-                          //delete relation artefact - project
-                           Artefact::deleteProjectArtefact($values['artefact_id'], $values['project_id']);
+                          //delete relation artefact -iteration
+                          Artefact::deleteIterationArtefact($artefactId, $iterationId);
 
                           $deletedData = TRUE;    
 
@@ -1120,30 +1117,28 @@ class ProjectController extends BaseController {
                         break;
             }                       
 
+              if($deletedData){
 
+                $result = array(
+                    'error'   => false,
+                );
 
-          if($deletedData){
+              }else{
 
-            $result = array(
-                'error'   => false,
-            );
+                $result = array(
+                    'error'     => true
+                );
+
+              }
+
+              header('Content-Type: application/json');
+              return Response::json($result);             
+
 
           }else{
 
-            $result = array(
-                'error'     => true
-            );
-
-          }
-
-          header('Content-Type: application/json');
-          return Response::json($result);             
-
-
-    }else{
-
-      return Redirect::to(URL::action('LoginController@index'));
-    }    
+            return Redirect::to(URL::action('LoginController@index'));
+          }    
 
   }
 

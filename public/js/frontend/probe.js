@@ -171,7 +171,6 @@ $(function() {
           $('.error-alert-text').html(' Debe especificar al menos una pregunta para el sondeo').parent().removeClass('hidden');
         }else if(successValidation==totalInputs){
           $('#form-create-probe').submit(); 
-          $('.error-alert-text').parent().removeClass('hidden'); 
         }  
     });  
 

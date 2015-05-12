@@ -426,7 +426,7 @@ $(function() {
       // go to artefact detail
       $('.artefact-detail').on('click', function(){
 
-        var friendlyUrl = $(this).data('friendlyUrl'),
+        var friendlyUrl = $(this).data('artefactFriendlyUrl'),
             iterationId = $(this).data('iterationId')
             projectId = $(this).data('projectId');
 
@@ -1339,12 +1339,13 @@ $(function() {
 ----------------------------------------------------------------------*/
 
 
-        $(document).on('click', '.delete-project-artefact', function(){
+        $(document).on('click', '.delete-iteration-artefact', function(){
 
            var artefactId = $(this).data('artefactId'), 
                artefactFriendlyUrl = $(this).data('artefactFriendlyUrl'),
                artefactName = $(this).data('artefactName'),
-               projectId = $(this).data('projectId'); 
+               projectId = $(this).data('projectId'),
+               iterationId =  $(this).data('iterationId'); 
 
 
             var showAlert = swal({
@@ -1363,7 +1364,8 @@ $(function() {
                 var parameters = {
                     'values[artefact_friendly_url]'      : artefactFriendlyUrl,
                     'values[artefact_id]'                : artefactId, 
-                    'values[project_id]'                 : projectId 
+                    'values[project_id]'                 : projectId,
+                    'values[iteration_id]'               : iterationId 
                 };
 
                 // show ajax loader
@@ -1378,7 +1380,7 @@ $(function() {
 
                         if(!response.error){
 
-                         $(document).find('.artefact-'+artefactId).fadeOut('slow', 
+                         $(document).find('#'+artefactFriendlyUrl).fadeOut('slow', 
                             function() { 
                               $(this).remove();
                           });

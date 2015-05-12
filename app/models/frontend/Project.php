@@ -93,6 +93,8 @@ class Project extends Eloquent{
 
 				->leftJoin('iteration AS i', 'i.id', '=', 'ubtp.iteration_id')
 
+				->orderBy('i.order')
+
 				->get();
 
 		foreach($consult as $row){

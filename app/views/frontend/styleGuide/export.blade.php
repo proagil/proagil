@@ -32,6 +32,11 @@
 				display: block;
 			}
 
+			.proagil{
+				width: 10%;
+				display: block;
+			}
+
 			.color-bg-style-guide {
 				float: left; 
 				width: 70px;
@@ -141,7 +146,7 @@
 
 		<div style="text-align:center; background-color:#F6F6F6">
 			Generado con: 
-			<img style="text-align:center;color:#42c2b8;witdh:10%" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png">	
+			<img class="proagil" style="text-align:center;color:#42c2b8" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png">	
 		</div>				
 		
 	</body>

@@ -97,7 +97,7 @@ Route::any('proyecto/configurar-iteraciones/{project_id}', 'IterationController@
 
 Route::any('proyecto/editar-iteracion/{iteration_id}', 'IterationController@edit');
 
-Route::any('proyecto/configurar-categorias/{project_id}', 'ActivityCategoryController@edit');
+Route::any('proyecto/configurar-categorias/{project_id}/{iteration_id}', 'ActivityCategoryController@edit');
 
 Route::any('proyecto/eliminar-categorias/{category_id}/{project_id}', 'ActivityCategoryController@delete');
 

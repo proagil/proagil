@@ -122,12 +122,12 @@
 									<div class="artefacts-list">								
 										@foreach($iterationArtefacts as $iterationArtefact)
 										<div class="slide">
-											<div class="artefact">
+											<div class="artefact" id="{{$iterationArtefact['friendly_url']}}">
 												@if($projectOwner)
-												<i class="fs-med fa fa-times fc-pink fa-fw pull-right"></i>
+												<i data-artefact-id="{{$iterationArtefact['id']}}" data-artefact-name="{{$iterationArtefact['name']}}" data-iteration-id="{{$iterationId}}" data-project-id="{{$projectId}}" data-artefact-friendly-url="{{$iterationArtefact['friendly_url']}}" class="fs-med fa fa-times fc-pink fa-fw pull-right delete-iteration-artefact"></i>
 												@endif
 
-												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-icon artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-artefact-id="{{$iterationArtefact['id']}}" data-artefact-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
@@ -190,7 +190,7 @@
 										@endif
 
 										@if($projectOwner)
-										<a href="{{URL::action('ActivityCategoryController@edit', array($project['id']))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw" data-toggle="tooltip" data-original-title="Configurar categorías"></span></a>
+										<a href="{{URL::action('ActivityCategoryController@edit', array($project['id'],$iterationId))}}"><span class="fs-med fc-turquoise fa fa-cog fa-fw" data-toggle="tooltip" data-original-title="Configurar categorías"></span></a>
 										@endif
 
 									</div>
@@ -210,7 +210,7 @@
 										@foreach($activities as $activity)
 										<div class="each-activity-content activity-{{$activity['id']}}">
 											<div class="btn-change-status">
-												<i class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
+												<i data-toggle="tooltip" data-original-title="Cambiar estado" class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 											</div>
 											<div style="width:{{($projectOwner)?'88%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
 												<div data-activity-id="{{$activity['id']}}" class="activity-info btn-activity-description">

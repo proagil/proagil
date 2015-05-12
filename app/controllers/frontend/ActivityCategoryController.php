@@ -15,7 +15,7 @@ class ActivityCategoryController extends BaseController {
   }
 
 
-  public function edit($projectId){
+  public function edit($projectId, $iterationId){
 
     $user = Session::get('user'); 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
@@ -58,7 +58,6 @@ class ActivityCategoryController extends BaseController {
                     $newCategory = array(
                         'name'          => $category,
                         'project_id'    => $projectId, 
-                        'iteration_id'  => 1 //TODO: ASIGNAR $iterationId
                     );
 
                     ActivityCategory::insert($newCategory);
@@ -67,13 +66,9 @@ class ActivityCategoryController extends BaseController {
               
             }
 
-            // --
+            Session::flash('success_message', 'Se han editado las categor&iacute;s del proyecto'); 
 
-            // -- T O D O: Message
-
-            // --
-
-            return Redirect::to(URL::action('ProjectController@detail', array($projectId)));
+            return Redirect::to(URL::action('ProjectController@detail', array($projectId, $iterationId)));
 
 
        }else{
@@ -81,7 +76,8 @@ class ActivityCategoryController extends BaseController {
           return View::make('frontend.project.editActivityCategories')
                       ->with('categories', $categories)
                       ->with('project', $project)
-                      ->with('projectId', $projectId); 
+                      ->with('projectId', $projectId)
+                      ->with('iterationId', $iterationId); 
 
        }
 
