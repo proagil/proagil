@@ -122,6 +122,8 @@ class Project extends Eloquent{
 
 			->groupBy('p.id')
 
+			->orderBy('p.id', 'des')
+
 			->get();
 
 			// get project iteration
@@ -174,6 +176,8 @@ class Project extends Eloquent{
 			->join('project AS p', 'p.id', '=', 'ubtp.project_id')
 
 			->groupBy('p.id')
+
+			->orderBy('p.id', 'des')
 
 			->get();
 

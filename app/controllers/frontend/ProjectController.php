@@ -64,7 +64,7 @@ class ProjectController extends BaseController {
                 if(isset($values['iteration'])){
 
                    foreach($values['iteration'] as $index => $iteration){
-
+                      $orderIteration = 1;
                       $projectIteration = array(
                           'name'        => $iteration['name'],
                           'order'       => $iteration['order'],
