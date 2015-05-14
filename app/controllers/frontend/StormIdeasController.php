@@ -76,7 +76,7 @@ class StormIdeasController extends BaseController {
 		        	$words = preg_split("/[\s,]+/", $ideas);
 
 		        	$countWords = array_count_values($words);
-
+					
 		        	$stormIdeas = array(
 	                  'enabled'        		=> Config::get('constant.ENABLED'),
 	                  'project_id'          => $projectId,
@@ -94,7 +94,7 @@ class StormIdeasController extends BaseController {
 
 	                	foreach($countWords as $index => $countWord){
 
-	                		if($index!=''){
+	                		if($index != ''){
 	                			$stormIdeasWord = array(
 			                    	'word'      			=> $index,
 			                      	'storm_ideas_id'       	=> $stormIdeasId,
@@ -104,6 +104,7 @@ class StormIdeasController extends BaseController {
 	                		}
 
 	                  	}
+
 
                  		return View::make('frontend.stormIdeas.show')
                  				->with('iteration', $iteration) 

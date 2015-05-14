@@ -22,7 +22,7 @@ class ActivityController extends BaseController {
 
 	    //get user On iteration
 	    $users =  array('0' => 'Seleccione un usuario'); 
-	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId);
 	    $usersOnIteration = $users+$usersOnIteration; 
 
 		//get categories On project
@@ -41,22 +41,26 @@ class ActivityController extends BaseController {
 			
 			// validation rules
 	        $rules =  array(
-	        'title'											=> 'required',
-	        'closing_date'									=> 'required',
-            'description'									=> 'required',
-            'assigned_user_id'								=> 'integer|min:1'
+		        'title'									=> 'required',
+		        'start_date'							=> 'required|date_format:"d-m-Y"',
+		        'closing_date'							=> 'required|date_format:"d-m-Y"|after:start_date',
+	            'description'							=> 'required',
+	            'assigned_user_id'						=> 'integer|min:1'
 	        );
 
-
+	        $message =  array(
+		        'after'			=> 'La fecha fin debe ser mayor a la fecha inicio'
+	        );
 	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
+	        $validator = Validator::make(Input::get('values'), $rules, $message);
+
 
 	        // get input valiues
 	        $values = Input::get('values');
 
 	        if(!$validator->fails()){
 
-		        $nowDate = (array) new DateTime('today');
+		        // $nowDate = (array) new DateTime('today');
 
 		        $activity = array(
 	                'title'      	    						=> $values['title'],
@@ -64,7 +68,7 @@ class ActivityController extends BaseController {
 					'enabled'           						=> Config::get('constant.ENABLED'),
 	                'status'   									=> Config::get('constant.activity.not_initiated'),
 	                'category_id'   							=> (isset($values['category_id']))?$values['category_id']:null,
-	                'start_date'								=> $nowDate['date'],
+	                'start_date'								=> $values['start_date'],
 	                'closing_date'     							=> $values['closing_date']
 	            );
 
@@ -156,12 +160,12 @@ class ActivityController extends BaseController {
     	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
 
 	    //get user On iteration
-	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
-
+	    $usersOnIteration = (array) Project::getUsersOnIteration($iterationId);
 
 		//get categories On project
 		$typeCategories = array('0' => 'Seleccione una categoria');
-    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
+    	$categories = (array) ActivityCategory::getAllCategoriesByProjectId($projectId);
+
     	if (!empty($categories)){
     		$categories = $typeCategories+$categories;
     	} 
@@ -174,13 +178,17 @@ class ActivityController extends BaseController {
 			// validation rules
 	        $rules =  array(
 		        'title'									=> 'required',
-		        'closing_date'							=> 'required',
+		        'start_date'							=> 'required|date_format:"d-m-Y"',
+		        'closing_date'							=> 'required|date_format:"d-m-Y"|after:start_date',
 	            'description'							=> 'required',
 	            'assigned_user_id'						=> 'integer|min:1'
 	        );
 
+	        $message =  array(
+		        'after'			=> 'La fecha fin debe ser mayor a la fecha inicio'
+	        );
 	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
+	        $validator = Validator::make(Input::get('values'), $rules, $message);
 
 	        // get input valiues
 	        $values = Input::get('values');
@@ -193,6 +201,7 @@ class ActivityController extends BaseController {
 	                'title'      	    	=> $values['title'],
 	                'description'       	=> $values['description'],
 	                'category_id'   		=> (isset($values['category_id']))?$values['category_id']:null,
+	                'start_date'     		=> $values['start_date'],
 	                'closing_date'     		=> $values['closing_date']
 	            );
 
@@ -258,6 +267,9 @@ class ActivityController extends BaseController {
 
 		}else{
 			$values = $activity;
+
+			$date = new DateTime($values['start_date']);
+			$values['start_date']	= $date->format('d-m-Y');
 
 			$date = new DateTime($values['closing_date']);
 			$values['closing_date']	= $date->format('d-m-Y');

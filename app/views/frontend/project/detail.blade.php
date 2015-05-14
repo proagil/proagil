@@ -261,7 +261,7 @@
 															  </div>
 															  <!-- END MODAL HTML TO REASSIGN ACTIVITY -->
 														  @endif
-						                                  <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} 
+						                                  <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Duraci&oacute;n:</span> {{$activity['interval']}} 
 						                                  <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} 
 						                                  <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
 						                              </div>  

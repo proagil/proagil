@@ -57,10 +57,19 @@
 	                            </div>
 	                          </div>
 
+							  <div class="form-group">
+							  	<label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha inicio <span class="fc-pink fs-med">*</span></label>  
+								<div class="col-md-4  date">
+								  {{ Form::text('values[start_date]',(isset($values['start_date']))?$values['start_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar-start-date')) }}
+								  <label class="error fc-pink fs-min" style="display:none;"></label>
+								  <span class="error fc-pink fs-min"><?= ($errors->has('start_date'))?$errors->first('start_date'):''?></span>  
+								</div>
+	  						  </div> 	                          
+
 	                          <div class="form-group">
-	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha tope <span class="fc-pink fs-med">*</span></label>  
+	                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Fecha fin <span class="fc-pink fs-med">*</span></label>  
 	                            <div class="col-md-4  date">
-	                            {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar')) }}
+	                            {{ Form::text('values[closing_date]',(isset($values['closing_date']))?$values['closing_date']:'', array('type' => 'text', 'class' => 'form-control app-input datepicker', 'id' => 'calendar-closing-date')) }}
 	                              <label class="error fc-pink fs-min" style="display:none;"></label>
 	                              <span class="error fc-pink fs-min"><?= ($errors->has('closing_date'))?$errors->first('closing_date'):''?></span>  
 	                            </div>
@@ -97,13 +106,45 @@
 
 		@include('frontend.includes.javascript')
 		<script type="text/javascript">
+		
+			var startDate = null;
+			var closingDate = null;	
 
 			$(document).ready(function() {
-			    $('#calendar').datepicker({
+			    $('#calendar-start-date').datepicker({
 					format: 'dd-mm-yyyy',
 					language: 'es',
-					startDate: '0d'		
-			    });
+					startDate: '0d',			
+					daysOfWeekDisabled: [0,6]
+
+			    }).on('changeDate', function(ev){
+					startDate=new Date(ev.date.getFullYear(),ev.date.getMonth(),ev.date.getDate(),0,0,0);
+					if(closingDate!=null&&closingDate!='undefined'){
+
+						if(closingDate<startDate){
+
+							swal("La fecha fin debe ser mayor a la fecha inicio");
+							$("#calendar-start-date").val("");
+						}
+					}
+				});
+
+			   	$('#calendar-closing-date').datepicker({
+					format: 'dd-mm-yyyy',
+					language: 'es',
+					startDate: '0d',			
+					daysOfWeekDisabled: [0,6]
+	
+			    }).on("changeDate", function(ev){
+					closingDate=new Date(ev.date.getFullYear(),ev.date.getMonth(),ev.date.getDate(),0,0,0);
+					if(startDate!=null&&startDate!='undefined'){
+						if(closingDate<startDate){
+							swal("La fecha fin debe ser mayor a la fecha inicio");
+							$("#calendar-closing-date").val("");
+							closingDate=null;
+						}
+					}
+				});
 			});
 
 		</script>
