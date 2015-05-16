@@ -131,7 +131,7 @@
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-artefact-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													{{$iterationArtefact['name']}} 
 												</div>
 

@@ -896,7 +896,7 @@ $(function() {
           $.ajax({
             url:'http://api.bit.ly/v3/shorten',
             data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
-            dataType:"jsonp",
+            dataType:'jsonp',
             success:function(response){
 
               if(response.status_text == 'OK'){
@@ -955,7 +955,9 @@ $(function() {
                 FB.ui(
                 {
                   method: 'share',
-                  href: 'www.google.com',
+                  href: 'http://proagil.dev:8000/',
+                  caption: message, 
+                  link: bitLyUrl
 
                 });
 
