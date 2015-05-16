@@ -122,6 +122,8 @@ class Project extends Eloquent{
 
 			->groupBy('p.id')
 
+			->orderBy('p.id', 'des')
+
 			->get();
 
 			// get project iteration
@@ -175,6 +177,8 @@ class Project extends Eloquent{
 
 			->groupBy('p.id')
 
+			->orderBy('p.id', 'des')
+
 			->get();
 
 			// get project iteration
@@ -194,17 +198,44 @@ class Project extends Eloquent{
 
 	}
 
-	public static function getAllUsersOnIteration($iterationId){
+	public static function getUsersOnIteration($iterationId){
+		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		$result = DB::table('user_belongs_to_project AS ubtp')
 
-			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id')
+			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id', 'ubtp.iteration_id')
 
 			->where('ubtp.iteration_id', $iterationId)
 
 			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
 
 			->get();
+
+
+
+		$usersOnIteration = array(); 
+		
+		foreach($result as $index => $row){
+			$usersOnIteration[$row['id']] = $row['first_name'];
+		}
+
+		return $usersOnIteration; 
+
+	}
+
+	public static function getAllUsersOnIteration($iterationId){
+
+		$result = DB::table('user_belongs_to_project AS ubtp')
+
+			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id', 'ubtp.iteration_id')
+
+			->where('ubtp.iteration_id', $iterationId)
+
+			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
+
+			->get();
+
+
 
 		$usersOnIteration = array(); 
 		

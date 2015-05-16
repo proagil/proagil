@@ -252,13 +252,13 @@ $(function() {
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio</label>'+  
                   '<div class="col-md-4">'+
-                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" id="init-date-'+iterationsCount+'" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin</label>'+  
                   '<div class="col-md-4">'+
-                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" id="end-date-'+iterationsCount+'" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
 
@@ -344,7 +344,8 @@ $(function() {
           $(this).datepicker({
             format: 'dd-mm-yyyy',
             language: 'es',
-            startDate: '0d'   
+            startDate: '0d',
+            daysOfWeekDisabled: [0,6]   
           });
     });
 
@@ -562,6 +563,8 @@ $(function() {
         $('.btn-create-project').on('click', function(e){
 
             e.preventDefault();
+            var startDate = null;
+            var endDate = null;
 
             // adding rules for inputs
             $('input, textarea').each(function() {
@@ -574,14 +577,31 @@ $(function() {
                   $(this).rules('add', 
                       {
                           email: true
-                      })                  
-
+                      })           
                 }
-            }); 
+
+            });
 
             if($('#form-create-project').validate().form()){
                 
                 if (iterationsCount>0){
+                  for ( var i = 1, l = iterationsCount; i <= l; i++ ) {
+                    var initDate = $('#init-date-'+i).val().split("-");
+                    var endDate = $('#end-date-'+i).val().split("-");
+
+                    initDate = new Date(initDate[2], initDate[1] - 1, initDate[0]);
+                    endDate = new Date(endDate[2], endDate[1] - 1, endDate[0]);
+
+                    initDate = new Date(initDate);
+                    endDate = new Date(endDate);
+ 
+                    if (endDate < initDate){    
+                      swal("La fecha fin debe ser mayor que la fecha de inicio");
+                      $('#init-date-'+i).val("");
+                      $('#end-date-'+i).val("");
+                      return false;
+                    }
+                  }
 
                    $('.btn-create-project').off('click').removeClass('btn-green').addClass('btn-green-disable'); 
                    $('#form-create-project').submit();

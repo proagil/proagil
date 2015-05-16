@@ -64,7 +64,7 @@ class ProjectController extends BaseController {
                 if(isset($values['iteration'])){
 
                    foreach($values['iteration'] as $index => $iteration){
-
+                      $orderIteration = 1;
                       $projectIteration = array(
                           'name'        => $iteration['name'],
                           'order'       => $iteration['order'],
@@ -729,7 +729,7 @@ class ProjectController extends BaseController {
 
       //get user On iteration
       $users =  array('0' => 'Seleccione un usuario'); 
-      $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+      $usersOnIteration = Project::getAllUsersOnIteration($iterationId);
       $usersOnIteration = $users+$usersOnIteration;     
 
       // get activity categories
@@ -803,8 +803,7 @@ class ProjectController extends BaseController {
          }
 
          // format activities date
-        $activities[$index]['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));  
-
+       
         // get activity comments
         $activityComments = array();
         $activityComments = Activity::getComments($activity['id']); 
@@ -817,9 +816,18 @@ class ProjectController extends BaseController {
         }
 
         // save activity comments
-        $activities[$index]['comments'] = $activityComments;           
+        $activities[$index]['comments'] = $activityComments;      
+
+        // format activities intervals
+        $start_date = new DateTime($activity['start_date']);
+        $closing_date = new DateTime($activity['closing_date']);
+
+        $interval = $start_date->diff($closing_date);
+
+        $activities[$index]['interval'] = $interval->format('%a d&iacute;as');
 
       }
+
       
       return View::make('frontend.project.detail')
             ->with('activities', $activities)    
