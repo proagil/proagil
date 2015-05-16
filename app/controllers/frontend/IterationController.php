@@ -53,12 +53,16 @@ class IterationController extends BaseController {
       $rules =  array(
           'order'     => 'required',
           'name'      => 'required',
-          'init_date' => 'required',
-          'end_date'  => 'required'
+          'init_date' => 'required|date_format:"d-m-Y"',
+          'end_date'  => 'required|date_format:"d-m-Y"|after:init_date'
+      );
+
+      $message =  array(
+        'after'     => 'La fecha fin debe ser mayor a la fecha inicio'
       );
 
       // set validation rules to input values
-      $validator = Validator::make(Input::get('values'), $rules);
+      $validator = Validator::make(Input::get('values'), $rules, $message);
 
       // get input valiues
       $values = Input::get('values');
@@ -211,6 +215,8 @@ class IterationController extends BaseController {
           return View::make('frontend.iteration.create')
                 ->with('artefacts', $artefacts)
                 ->with('roles', $roles)
+                ->withErrors($validator)
+                ->with('values', $values)                
                 ->with('projectName', $project['name'])
                 ->with('projectId', $project['id']);        
 
