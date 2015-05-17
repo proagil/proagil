@@ -75,6 +75,7 @@ class Activity extends Eloquent{
 		}		
 	}	
 
+
 	public static function get($activityId){
 
 		return DB::table('activity AS a')

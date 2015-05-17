@@ -154,7 +154,7 @@
 									<div class="txt-center fs-med">
 										<i class="fa  fa-frown-o fc-yellow fa-fw"></i> A&uacute;n no hay artefactos asociados al proyecto. @if($projectOwner) Para crear alg&uacute;n artefacto haga clic 
 										
-										<a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+										<a data-toggle="modal" data-target="#addArtefactModal-{{$iteration['id']}}" class="txt-undrln" href="#"> aqu&iacute; </a> 
 									@endif
 									</div>
 									@endif
@@ -299,31 +299,33 @@
 													</div>													
 
 							                         @if(!empty($activity['comments']))			                         
-							                        <div class="comment-list comment-list-{{$activity['id']}}">
-							                            @foreach($activity['comments'] as $comment)                       
-							                            <div class="comment-content" id="comment-{{$comment['id']}}">
-							                                <div class="user-avatar">
-							                                    @if($comment['user_avatar']>0)
-							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/uploads/'. $comment['avatar_file']}}"/>
-							                                    @else
-							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
-							                                    @endif
-							                                </div>
-							                                <span class="f-bold fs-min"> {{$comment['user_first_name']}} <i class="fs-med fa fa-calendar-o fc-green fa-fw"></i> {{$comment['date']}}</span>
-							                                <div class="comment-text">
-							                                    {{$comment['comment']}}
-							                                </div>
-							                                @if($comment['editable'])
-							                                <div class="comment-action">
-							                                  <div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="{{$comment['id']}}">
-							                                    <i class="fa fa-times fc-pink fa-fw"></i>
-							                                  </div>                               
-							                                </div>
-							                                @endif
-							                            </div> 
-							                            @endforeach
-							                        </div> 
-							                        @endif  					                              	
+								                        <div class="comment-list comment-list-{{$activity['id']}}">
+								                            @foreach($activity['comments'] as $comment)                       
+								                            <div class="comment-content" id="comment-{{$comment['id']}}">
+								                                <div class="user-avatar">
+								                                    @if($comment['user_avatar']>0)
+								                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/uploads/'. $comment['avatar_file']}}"/>
+								                                    @else
+								                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
+								                                    @endif
+								                                </div>
+								                                <span class="f-bold fs-min"> {{$comment['user_first_name']}} <i class="fs-med fa fa-calendar-o fc-green fa-fw"></i> {{$comment['date']}}</span>
+								                                <div class="comment-text">
+								                                    {{$comment['comment']}}
+								                                </div>
+								                                @if($comment['editable'])
+								                                <div class="comment-action">
+								                                  <div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="{{$comment['id']}}">
+								                                    <i class="fa fa-times fc-pink fa-fw"></i>
+								                                  </div>                               
+								                                </div>
+								                                @endif
+								                            </div> 
+								                            @endforeach
+								                        </div> 
+							                        @else 
+							                        	<div class="comment-list comment-list-{{$activity['id']}}"></div>
+							                        @endif 					                              	
 
 												</div>							
 											</div>							

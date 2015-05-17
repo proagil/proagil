@@ -834,11 +834,7 @@ class IterationController extends BaseController {
 
                                     if(!empty($artefactValue)){
 
-                                      foreach($artefactList as $artefactValue){
-
                                         StormIdeas::deleteStormIdeas($artefactValue['id']);
-
-                                      }  
 
                                     }                  
                                                   

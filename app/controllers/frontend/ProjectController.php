@@ -921,11 +921,7 @@ class ProjectController extends BaseController {
 
                           if(!empty($artefactValue)){
 
-                            foreach($artefactList as $artefactValue){
-
                               StormIdeas::deleteStormIdeas($artefactValue['id']);
-
-                            }  
 
                           }                  
                                         
@@ -1160,26 +1156,35 @@ class ProjectController extends BaseController {
       // verify if user on session is owner of project
       if(empty($isOwner)) {
 
-        return Redirect::to(URL::action('DashboardController@index'));
+        return Redirect::to(URL::action('DashboardController@index')); 
 
       }else{
 
-          Project::deleteUsers($projectId); 
-          Project::deleteCategoriesActivity($projectId); 
+          // get project iterations
+          $iterations = Project::getProjectIterations($user['id'], $projectId);
 
-              // delete project activities
-              $activities = Project::getActivitiesByProject($projectId); 
+           Project::deleteCategoriesActivity($projectId); 
 
-              if(!empty($activities)){
+          if(!empty($iterations)){
 
-                foreach($activities as $activity){
-                  Activity::deleteActivityComment($activity['activity_id']);
-                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
-                  Activity::deleteActivity($activity['activity_id']); 
+            foreach($iterations as $iteration){
+
+                // delete project activities
+                $activities = Project::getIterationActivities($iteration['id']);    
                 
-                }
+                if(!empty($activities)){
+
+                  foreach($activities as $activity){
+                    Activity::deleteActivityComment($activity['activity_id']);
+                    Activity::deleteProjectActivity($activity['activity_id'], $itetation['id']);
+                    Activity::deleteActivity($activity['activity_id']); 
+                  
+                  }
+
+                }                           
 
               }
+          }
 
               // get project artefacts
               $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
@@ -1243,11 +1248,7 @@ class ProjectController extends BaseController {
 
                                     if(!empty($artefactValue)){
 
-                                      foreach($artefactList as $artefactValue){
-
                                         StormIdeas::deleteStormIdeas($artefactValue['id']);
-
-                                      }  
 
                                     }                  
                                                   
@@ -1445,7 +1446,24 @@ class ProjectController extends BaseController {
                                 }  
 
                                   break;
-                      }                       
+                      } 
+
+
+                      // delete iterations info
+                      if(!empty($iterations)){
+                        foreach($iterations as $iteration){
+
+                          // delete user invitations
+                          Iteration::deleteUsers($iteration['id']); 
+                          Iteration::deleteIterationInvitations($iteration['id']);
+                          Iteration::_delete($iteration['id']); 
+
+                        }
+                      }
+
+
+                      // delete project info 
+                      Project::_delete($projectId);                      
                                                  
                                 
                 }

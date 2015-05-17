@@ -10,7 +10,7 @@
 	                    <div class="panel-body">
 	                    	  <div class="login-title fc-turquoise txt-center fs-big">
 	                    	  		Sondeo enviado <br>
-	                    	  		<span class=" fc-blue-i f-bold fs-med">Muchas gracias por responder el Sondeo. Sus respuestas se han guardado correctamente </span>                 	  		
+	                    	  		<span class=" fc-blue-i f-bold fs-med">Muchas gracias por responder el sondeo. Sus respuestas se han guardado correctamente </span>                 	  		
 	                    	  </div>
 				                <div class="brand-img pull-right">
 				                	 <span class="login-title txt-center fs-min"> Sondeo generado con: 
