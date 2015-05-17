@@ -133,9 +133,9 @@ class Project extends Eloquent{
 				->select('ubtp.iteration_id')
 				->where('ubtp.project_id', $project['id'])
 				->where('ubtp.user_id', $userId)
-				->first();
+				->get();
 
-				$ownerProjects[$index]['iteration_id'] = implode($iterationId);
+				$ownerProjects[$index]['iteration_id'] = implode(min($iterationId));
 
 			}
 

@@ -583,6 +583,7 @@ class ProbeController extends BaseController {
 		return View::make('frontend.probe.results')->with('questionResults', $questionResults)
 													->with('iteration', $iteration)
 												 	->with('probeTitle', $probeResults['title'])
+												 	->with('probeId', $probeId)
 												 	->with('probeResponses', $probeResults['responses']);              	
 	}
 
@@ -606,13 +607,13 @@ class ProbeController extends BaseController {
 
 				$totalResponses = 0;
 
-				foreach($element['results'] as $j=> $result){
+				foreach($element['results'] as $j => $result){
 
 					$totalResponses += $result['result_count'];
 
 				}
 
-				foreach($element['results'] as $j=> $result){
+				foreach($element['results'] as $j => $result){
 
 					$PDFResponses[$index]['results'][$j]['percent'] = round(($result['result_count']*100)/$totalResponses, 1);    
 					$PDFResponses[$index]['results'][$j]['result_count'] = $result['result_count'];   
@@ -637,9 +638,7 @@ class ProbeController extends BaseController {
 		$PDFData['responses'] = $PDFResponses; 
         $pdf = PDF::loadView('frontend.probe.export', $PDFData);
 
-        return $pdf->stream('proagil-resultados-'.$PDFData['title'].'.pdf');
-
-        //download
+        return $pdf->download('proagil-resultados-'.$PDFData['title'].'.pdf');
       	
 	}	
 

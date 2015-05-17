@@ -57,7 +57,7 @@
                                 <div class="form-group">
                                   
                                   <div class="fs-med" >
-                                      <i class="fs-med fa fa-bullseye fc-turquoise fa-fw f-bold"></i>
+                                      <i class="fs-med fa fa-bullseye fc-green fa-fw f-bold"></i>
                                       {{$checklistItem['rule']}}
                                       <span class="fc-pink">*</span>
                                       <i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="{{$checklistItem['description']}}" class="fc-turquoise fa fa-info-circle fa-fw"></i>

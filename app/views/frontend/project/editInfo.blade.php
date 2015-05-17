@@ -66,7 +66,11 @@
                                 Editar proyecto
                               </div>     
                             </div>
-                          </div>                              
+                          </div>
+
+                          <div class="form-group">
+                            <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput"><i class="fs-med fa fa-times fc-pink fa-fw"></i> <a href="#" class="txt-undrln btn-delete-project" data-project-id="{{$projectId}}"> Eliminar proyecto</a></label>  
+                          </div>                                                              
 
                           <div class="probe-general-buttons">
                          

@@ -78,8 +78,6 @@ class StyleGuideController extends BaseController {
 
 		$values = Input::get('values');
 
-		//print_r(	$values); die; 
-
 		// get project data
 		$project = (array) Project::getName($values['project_id']);	
 		$iterationId = $values['iteration_id'];

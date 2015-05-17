@@ -42,7 +42,7 @@
 				@endforeach
 			@else
 				@foreach($response['results'] as $result)
-					<p> {{$result['name']}} - {{$result['result_count']}} respuesta(s) ({{$result['percent']}}%)  <p>
+					<p> Opci&oacute;n {{$result['name']}} - {{$result['result_count']}} respuesta(s) ({{$result['percent']}}%)  <p>
 				@endforeach	
 			@endif					
 		</div>

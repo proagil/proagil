@@ -35,7 +35,7 @@
 
 
 							@if($projectOwner)
-								<div class=" fs-med common-btn-i btn-iii btn-green pull-right btn-add-storm-ideas" data-project-id="{{$project['id']}}"  data-iteration-id="{{$iteration['id']}}">
+								<div class="txt-center fs-med common-btn-i btn-iii btn-green pull-right btn-add-storm-ideas" data-project-id="{{$project['id']}}"  data-iteration-id="{{$iteration['id']}}">
 									<i class="fs-big fa fa-plus fa-fw"></i> Crear Tormenta de Ideas
 								</div>
 							@endif

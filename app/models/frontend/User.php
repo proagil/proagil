@@ -137,6 +137,40 @@ class User extends Eloquent{
 		return DB::table('user_invitation')->where('id', $id)->update($values);
 	}
 
+	public static function userHasPermissionOnArtefact($artefactId, $artefactTable, $userId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$iterationId = DB::table($artefactTable. ' AS t')
+		->select('t.iteration_id')
+		->where('t.id', $artefactId)
+		->first();
+
+		$permission = DB::table('user_belongs_to_project as ubtp')
+		->select('ubtp.*')
+		->where('ubtp.iteration_id', $iterationId)
+		->where('ubtp.user_id', $userId)
+		->first();
+
+		return (empty($permission))?FALSE:TRUE; 
+
+	}
+
+	public static function userHasPermissionOnProjectIteration($projectId, $iterationId, $userId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$permission = DB::table('user_belongs_to_project as ubtp')
+		->select('ubtp.*')
+		->where('ubtp.iteration_id', $iterationId)
+		->where('ubtp.project_id', $projectId)
+		->where('ubtp.user_id', $userId)
+		->first();
+
+		return (empty($permission))?FALSE:TRUE; 
+
+	}	
+
 }
 
 ?>

@@ -77,7 +77,7 @@
 										        <div class="modal-content" style="border-radius:0px;">
 										            <div class="modal-header">
 											            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
-											            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Agregar Artefacto a la Iteraci&oacute;n : {{$iteration['name']}}</h4>
+											            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Agregar Artefacto a la Iteraci&oacute;n {{$iteration['name']}}</h4>
 										            </div>
 										            <div class="modal-body">
 										            	<div class="form-group-modal">
@@ -106,6 +106,8 @@
 									                                @endforeach  									                                                            
 									                                </div>
 																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
+									                          @else
+									                          	<label class="fc-grey-iv">Se han agregado todos los artefactos disponibles</label>
 									                          @endif
 									                          
 										                	</div>
@@ -116,9 +118,11 @@
 										            	<div class="save-comment txt-center fs-med common-btn btn-modal-i btn-pink" data-dismiss="modal">
 				                          					Cerrar
 				                        				</div>
+				                        				@if(count($iterationArtefacts) < count($allArtefacts))
 										            	<div data-iteration-id="{{$iteration['id']}}" class="btn-add-iteration-artefact txt-center fs-med common-btn btn-modal-ii btn-yellow">
 				                          					Agregar
 				                        				</div>	
+				                        				@endif
 										        	</div>
 										    	</div>
 										  	</div>
@@ -198,6 +202,8 @@
 											@foreach($activityCategories as $activityCategory)
 												<a href="#" data-category-id="{{$activityCategory->id}}" class="{{(in_array($activityCategory->id, $filtersArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-filter">{{$activityCategory->name}}</a>
 											@endforeach									
+										@else
+											<label class="fs-min fc-turquoise">No hay categor&iacute;as creadas</label>
 										@endif
 
 										@if($projectOwner)

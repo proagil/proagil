@@ -7,7 +7,7 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand proagil-logo" href="{{URL::to('/')}}"><img width="33%" src="{{URL::to('/').'/images/logo-sm.png'}}"/></a>
+                <a class="hidden-xs navbar-brand proagil-logo" href="{{URL::to('/')}}"><img width="33%" src="{{URL::to('/').'/images/logo-sm.png'}}"/></a>
 				
             </div>
             <!-- /.navbar-header -->

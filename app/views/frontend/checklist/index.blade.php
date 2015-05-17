@@ -36,7 +36,7 @@
 							</div>	
 
 							@if($projectOwner)
-								<div class=" fs-med common-btn-i btn-iii btn-green pull-right btn-add-checklist" data-project-id="{{$project['id']}}" data-iteration-id="{{$iteration['id']}}">
+								<div class="txt-center fs-med common-btn-i btn-iii btn-green pull-right btn-add-checklist" data-project-id="{{$project['id']}}" data-iteration-id="{{$iteration['id']}}">
 									<i class="fs-big fa fa-plus fa-fw"></i>Crear lista de comprobación
 								</div>
 							@endif
@@ -51,12 +51,12 @@
 										</div>
 										@else
 										<div data-checklist-id="{{$checklist['id']}}" class="checklist-status txt-center btn-checklist-verify">
-											<span class="fs-min pull-left"><i class="fs-med fa fa-square-o fc-yellow fa-fw"></i>Por Verificar</span>
+											<span class="fs-min pull-left"><i class="fs-med fa fa-square-o fc-yellow fa-fw"></i> Verificar</span>
 										</div>
 										@endif	
 									
 									<div style="width:{{($projectOwner)?'82%':'90%'}}" class="checklist-item-content">
-										<i class="fc-yellow fa  fa-th fa-fw"></i>
+										<i class="fc-yellow fa  fa-calendar fa-fw"></i>
 											<?php $date = new DateTime($checklist['closing_date']);?>
 											{{$checklist['closing_date']= $date->format('d-m-Y')}}
 											 &nbsp; &nbsp;

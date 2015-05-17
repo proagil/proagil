@@ -37,6 +37,11 @@
 							</div>	
 
 							<p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$probeTitle}}</p>
+
+							<div class="btn-export pull-right">
+								<a class="unselected-tag tags-list-off" href="{{URL::action('ProbeController@export', array($probeId))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+							</div>	
+
 							<p class="text-center f-bold fs-fmed text-uppercase">{{$probeResponses}} Respuestas </p>													
 
 							<div class="list-content">
