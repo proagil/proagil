@@ -155,7 +155,7 @@ class AdminArtefactController extends AdminBaseController {
       $entities = AdminArtefact::enumerate(); 
 
       // return with error message
-      return View::make('admin.project_type.enumerate')
+      return View::make('admin.artefact.enumerate')
             ->with('error_message', 'No se pudo eliminar la entidad')
             ->with('entities', $entities);
     }

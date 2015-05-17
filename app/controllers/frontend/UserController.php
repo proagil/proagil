@@ -352,7 +352,7 @@ class UserController extends BaseController {
 
                  Session::put('user', $sessionUser);
 
-                 Session::flash('success_message', 'Se editó su perfil'); 
+                 Session::flash('success_message', 'Se edit&oacute; su perfil'); 
 
                  // update user session
 				return Redirect::to(URL::action('DashboardController@index'));
@@ -360,7 +360,7 @@ class UserController extends BaseController {
               }else{
 
               	// update on DB fail
-                return View::make('frontend.user.edit')->with('error_message', 'No se editó el perfil');
+                return View::make('frontend.user.edit')->with('error_message', 'No se edit&oacute; el perfil');
 
               }
 

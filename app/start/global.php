@@ -51,6 +51,12 @@ App::error(function(Exception $exception, $code)
 	Log::error($exception);
 });
 
+
+App::missing(function($exception){
+    return Redirect::to(URL::action('LoginController@index'));
+});
+
+
 /*
 |--------------------------------------------------------------------------
 | Maintenance Mode Handler
@@ -79,3 +85,6 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+

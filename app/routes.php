@@ -10,14 +10,6 @@ Route::any('/admin/cerrar-sesion', 'AdminLoginController@logout');
 
 Route::any('/admin/inicio', 'AdminDashboardController@index');
 
-Route::any('/admin/tipo-de-proyecto', 'AdminProjectTypeController@enumerate');
-
-Route::any('/admin/tipo-de-proyecto/agregar', 'AdminProjectTypeController@add');
-
-Route::any('/admin/tipo-de-proyecto/editar/{id}', 'AdminProjectTypeController@edit');
-
-Route::any('/admin/tipo-de-proyecto/eliminar/{id}', 'AdminProjectTypeController@delete');
-
 Route::any('/admin/artefacto', 'AdminArtefactController@enumerate');
 
 Route::any('/admin/artefacto/agregar', 'AdminArtefactController@add');

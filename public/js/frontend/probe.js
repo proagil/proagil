@@ -158,8 +158,6 @@ $(function() {
             $(this).addClass('error-probe-input');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
-             $(this).removeClass('error-probe-input');
-             $('.error-alert-text').parent().removeClass('hidden'); 
               successValidation++; 
           }
         });
@@ -950,14 +948,17 @@ $(function() {
                 var urlToShare = bitLyUrl,
                 message = 'Les comparto este sondeo, me gustaría que lo respondieran';
 
-                message = message.replace(/\s/g,'+');
+                //message = message.replace(/\s/g,'+');
             
                 FB.ui(
                 {
-                  method: 'share',
+                  method: 'feed',
                   href: 'http://proagil.dev:8000/',
-                  caption: message, 
-                  link: bitLyUrl
+                  description: message,
+                  message: message,
+                  caption: 'Sondeo', 
+                  link: bitLyUrl,
+                  picture: 'http://s11.postimg.org/duhv9zmv7/logo_sm.png'
 
                 });
 
