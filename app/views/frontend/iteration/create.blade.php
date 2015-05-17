@@ -79,7 +79,11 @@
                                 <div class="form-group">
                                   <label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin<span class="fc-pink fs-med">*</span></label>  
                                   <div class="col-md-4">
-                                    <input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[end_date]" type="text" value="">                           
+                                    <input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[end_date]" type="text" value=""> 
+                                    </br>
+                                    </br>
+                                    <label class="error fc-pink fs-min" style="display:none;"></label>
+                                    <span class="error fc-pink fs-min"><?= ($errors->has('end_date'))?$errors->first('end_date'):''?></span> 
                                   </div>
                                 </div> 
 
