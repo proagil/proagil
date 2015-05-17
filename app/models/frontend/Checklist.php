@@ -71,7 +71,7 @@ class Checklist extends Eloquent{
 
 		return DB::table('comprobation_list')
 				   ->where('iteration_id', $iterationId)
-				   ->orderBy('id', 'asc')
+				   ->orderBy('id', 'DES')
 				   ->get();
 	}
 
@@ -140,7 +140,7 @@ class Checklist extends Eloquent{
 	}
 
 	public static function enumerateDefaultItems() {
-		
+		DB::setFetchMode(PDO::FETCH_ASSOC);
 		return DB::table('comprobation_list_item')->where('enabled', TRUE)
 												  ->where('default', 1)
 												  ->get();

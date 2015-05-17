@@ -39,7 +39,7 @@
 									<div class="question-title-{{$probeId}} fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value"> {{$values['title']}}</span>
 									</div>
 									
-									<div class="question-status-{{$probeId}} fc-turquoise">Estado: <span class="fc-blue-i probe-label-value"> {{($values['status']==1)?'Cerrado':'Abierto'}} </span>
+									<div class="question-status-{{$probeId}} fc-turquoise">Estado: <span class="fc-blue-i probe-label-value"> {{($values['status']==1)?'Privado':'P&uacute;blico'}} </span>
 									</div>
 
 									<div class="question-description-{{$probeId}} fc-turquoise">Descripci&oacute;n: <span class="fc-blue-i probe-label-value"> {{$values['description']}}</span>

@@ -292,7 +292,7 @@ class Project extends Eloquent{
 
 				  ->leftJoin('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
 
-				  ->orderBy('a.id', 'ASC');
+				  ->orderBy('a.id', 'DES');
 
 			return $query->get();		
 

@@ -171,6 +171,7 @@ class ChecklistController extends BaseController {
            		} 
 		    }else{
 
+
 	         	// render view first time 
 		        return View::make('frontend.checklist.create')
 			    				->with('checklistItems', $checklistItems)

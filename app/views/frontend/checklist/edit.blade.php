@@ -53,9 +53,9 @@
                               @if (!is_null($checklistItems))
                                 @foreach($checklistItems as $checklistItem)
 
-                                  {{Form::checkbox('values[checklistItems][]', $checklistItem->id, (in_array($checklistItem->id, $oldChecklistItems))?TRUE:FALSE) }} 
-                                  <label> {{ $checklistItem->rule }} </label> 
-                                  <i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="{{$checklistItem->description}}" class="fc-turquoise fa fa-info-circle fa-fw"></i>
+                                  {{Form::checkbox('values[checklistItems][]', $checklistItem['id'], FALSE) }} 
+                                  <label> {{ $checklistItem['rule']}} </label> 
+                                  <i style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="right" data-content="{{$checklistItem['description']}}" class="fc-turquoise fa fa-info-circle fa-fw"></i>
                                   <br>
 
                                 @endforeach
@@ -134,7 +134,8 @@
         $('#calendar').datepicker({
         format: 'dd-mm-yyyy',
         language: 'es',
-        startDate: '0d'   
+        startDate: '0d',      
+        daysOfWeekDisabled: [0,6]   
         });
     });
 

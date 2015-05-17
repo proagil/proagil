@@ -31,7 +31,7 @@ class StormIdeas extends Eloquent{
 
 				->leftJoin('file AS f', 'f.id', '=', 'si.image')
 
-				->orderBy('si.id', 'asc')
+				->orderBy('si.id', 'DES')
 
 				->get();									   
 	}
