@@ -226,7 +226,7 @@ $(function() {
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">N&uacute;mero de iteraci&oacute;n</label>'+  
                   '<div class="col-md-4">'+
-                    '<input placeholder="Ej,: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][order]" type="number">'+                           
+                    '<input value="'+iterationsCount+'" placeholder="Ej,: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][order]" type="number">'+                           
                   '</div>'+
                 '</div>'+                               
                 '<div class="form-group">'+
@@ -239,12 +239,25 @@ $(function() {
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Artefactos a utilizar</label>'+  
                   '<div class="col-md-4">';
                     if(artefacts.length>0){
+                      iterationHtml += '<label class="fc-turquoise">Indagaci&oacute;n</label><br>'; 
                           $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='1'){
                             iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
                                               '<label>' +artefact.name +'</label>'+ 
                                               '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
                                               '<br>';
-                          });                           
+                            }
+                          }); 
+
+                      iterationHtml += '<label class="fc-turquoise">Inspecci&oacute;n</label><br>'; 
+                          $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='2'){
+                            iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
+                                              '<label>' +artefact.name +'</label>'+ 
+                                              '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
+                                              '<br>';
+                            }
+                          });                                                       
 
                     }                            
                   iterationHtml += '</div>'+
@@ -346,12 +359,18 @@ $(function() {
             language: 'es',
             startDate: '0d',
             daysOfWeekDisabled: [0,6]   
-          });
+          })
+          .attr('readonly', true);  
     });
 
     $('body').on('focus','.iteration-number', function(){
           $(this).numeric(); 
     });    
+
+
+    $('.datepicker').on('focus', function(){
+      $(this).attr('readonly', true);
+    })
 
 
    

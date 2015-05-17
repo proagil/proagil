@@ -85,14 +85,25 @@
 											            	<label  class=" col-md-4 control-label">Agregar Artefacto</label>
 											            	<div class="col-md-8">
 									                          @if(count($iterationArtefacts) < count($allArtefacts))
+									                          		
 									                                <div id = "new-iteration-artefacts" class="project-artefact-list">
+									                               	<label class="fc-turquoise">Indagaci&oacute;n</label><br>
 									                                @foreach($allArtefacts as $artefact)
-									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)))									                                       
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 1)									                                       
 									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
 									                                       {{ $artefact['name'] }}
 									                                       <br/>    
 									                                    @endif                               
-									                                @endforeach                             
+									                                @endforeach 
+
+									                               	<label class="fc-turquoise">Inspecci&oacute;n</label><br>
+									                                @foreach($allArtefacts as $artefact)
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 2)									                                       
+									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
+									                                       {{ $artefact['name'] }}
+									                                       <br/>    
+									                                    @endif                               
+									                                @endforeach  									                                                            
 									                                </div>
 																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
 									                          @endif
@@ -131,7 +142,7 @@
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-artefact-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													{{$iterationArtefact['name']}} 
 												</div>
 

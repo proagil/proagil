@@ -60,7 +60,7 @@
 					<table>
 						<tr>
 							<td>
-								<a href='http://postimage.org/' target='_blank'><img src='http://s11.postimg.org/duhv9zmv7/logo_sm.png' border='0' alt="logo sm" /></a>
+								<a  target='_blank'><img src='http://s11.postimg.org/duhv9zmv7/logo_sm.png' border='0' alt="logo sm" /></a>
 								<h2 style="text-align:center;color:#42c2b8" >ACTIVAR CUENTA</h2> 
 								<h3>¡¡¡ Hola <font style = "text-transform: capitalize">{{$user_name}}</font> !!!</h3>
 								<p style="line-height: 1.6" >Para activar tu cuenta debes hacer clic en el siguiente botón:</p>

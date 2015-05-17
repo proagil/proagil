@@ -49,19 +49,31 @@
                                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Artefactos a utilizar</label>  
                                   '<div class="col-md-4">
                                     @if(!empty($artefacts))
+                                      <label class="fc-turquoise">Indagaci&oacute;n</label><br>
                                       @foreach($artefacts as $artefact)
+                                        @if($artefact->type==1)
                                           <input name="values[artefacts][]" type="checkbox" value="{{$artefact->id}}">
                                           <label>{{$artefact->name}}</label>
                                           <i style="cursor:pointer;" data-artefact-id="{{$artefact->id}}" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>
                                           <br>
-                                       @endforeach                           
+                                        @endif
+                                       @endforeach
+                                      <label class="fc-turquoise">Inspeci&oacute;n</label><br>
+                                      @foreach($artefacts as $artefact)
+                                        @if($artefact->type==2)
+                                          <input name="values[artefacts][]" type="checkbox" value="{{$artefact->id}}">
+                                          <label>{{$artefact->name}}</label>
+                                          <i style="cursor:pointer;" data-artefact-id="{{$artefact->id}}" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>
+                                          <br>
+                                        @endif
+                                       @endforeach                                                                        
                                     @endif                            
                                   </div>
                                 </div>
                                 <div class="form-group">
                                   <label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio<span class="fc-pink fs-med">*</span></label>  
                                   <div class="col-md-4">
-                                    <input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[init_date]" type="text" value="">                           
+                                    <input  data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[init_date]" type="text" value="">                           
                                   </div>
                                 </div>
                                 <div class="form-group">

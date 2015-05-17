@@ -38,7 +38,7 @@
 						  </tr>
 						  @foreach ($entities as $entity)
 						  <tr>
-						  	<td><img width="20%" src="{{URL::to('/').'/uploads/'.$entity->icon_file}}"/></td>
+						  	<td><img src="{{URL::to('/').'/uploads/'.$entity->icon_file}}"/></td>
 							<td>{{$entity->name}}</td>
 							<td>{{$entity->description}}</td>
 							<td><?=($entity->enabled==TRUE)?'<i class="glyphicon glyphicon-ok"></i>':'<i class="glyphicon glyphicon-remove"></i>'?></td>

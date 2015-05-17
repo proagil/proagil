@@ -217,8 +217,10 @@ class StyleGuideController extends BaseController {
 	       	if($interface!=NULL){
 
 	       		//delete old interface file
-	       		$this->deleteFile($styleGuide['interface_image'], $styleGuide['interface']); 
-
+	       		if($styleGuide['interface']!=''){
+	       			$this->deleteFile($styleGuide['interface_image'], $styleGuide['interface']); 
+	       		}
+	       		
 	       		// save style guide interface
 	       		$interfaceId = $this->uploadAndResizeFile($interface, 700, 700); 
 	       	}
