@@ -6,7 +6,9 @@ class StyleGuide extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('style_guide')->where('iteration_id', $iterationId)->get();
+		return DB::table('style_guide')->where('iteration_id', $iterationId)
+										->orderBy('id', 'DES')
+										->get();
 	}
 
 	public static function insert($values){
