@@ -238,7 +238,7 @@ $(function() {
                 var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                 $('.question-title-'+probeId).replaceWith(htmlTitle);
 
-                var probeStatus = (response.data.status==1)?'Cerrado':'Abierto'; 
+                var probeStatus = (response.data.status==1)?'Privado':'P&uacute;blico'; 
                 var htmlProbeType = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+probeStatus+'</span>';
    
                 $('.question-status-'+probeId).replaceWith(htmlProbeType);   
@@ -303,7 +303,7 @@ $(function() {
                     var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                     $('.question-title-'+probeId).replaceWith(htmlTitle);
 
-                    var statusText = (response.data.status==1)?'Cerrado':'Abierto';
+                    var statusText = (response.data.status==1)?'Privado':'P&uacute;blico';
                     var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
                       $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
 

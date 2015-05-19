@@ -25,7 +25,7 @@
         								Tormenta de Ideas
         							</div>
 
-                      <div class="form-content">
+                      <div class="form-content" style="padding-bottom: 5%;">
                         <div class="form-group">
                           <div class="col-md-12">
                             <p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$stormIdeas['name']}}</p>

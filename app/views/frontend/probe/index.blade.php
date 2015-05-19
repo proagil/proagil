@@ -57,7 +57,7 @@
 
 							</div>	
 							@if($projectOwner)
-							<div class=" fs-med common-btn btn-i btn-green pull-right">
+							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
 								<a href="{{URL::action('ProbeController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear sondeo</a>
 							</div>
 							@endif
@@ -68,12 +68,12 @@
 									<div class="probe-item-content" {{(!$projectOwner)?'style=width:100%':''}} data-probe-url="{{$probe['url']}}">
 										<i class="fc-green fa fa-th-list fa-fw"></i>
 
-											<span class="f-bold"> {{$probe['title']}} </span>		
+											<span> {{$probe['title']}} </span>		
 
 											@if($probe['status']==1)
-												<i class="fc-turquoise fa fa-lock fa-fw"></i> Cerrado
+												<i class="fc-turquoise fa fa-lock fa-fw"></i> Privado
 											@else
-												<i class="fc-turquoise fa fa-unlock fa-fw"></i> Abierto
+												<i class="fc-turquoise fa fa-unlock fa-fw"></i> P&uacute;blico
 											@endif	
 
 											 <i class="fc-turquoise fa fa-comments-o fa-fw"> </i> {{$probe['responses']}}	Respuestas				

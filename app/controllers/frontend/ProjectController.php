@@ -50,7 +50,7 @@ class ProjectController extends BaseController {
 
               $project = array(
                 'name'                => isset($values['name'])?$values['name']:NULL,
-                'objetive'            => isset($values['client'])?$values['client']:NULL,
+                'objetive'            => isset($values['objetive'])?$values['objetive']:NULL,
                 'client'              => isset($values['client'])?$values['client']:NULL,
                 'enabled'             => 1    
               );

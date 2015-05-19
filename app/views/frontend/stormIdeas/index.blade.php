@@ -102,7 +102,7 @@
 																		
 								@endforeach
 							@else
-								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay Tormenta de Ideas creadas</div>
+								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tormentas de ideas creadas</div>
 							@endif
 											
 							</div>											

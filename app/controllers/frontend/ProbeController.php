@@ -170,8 +170,8 @@ class ProbeController extends BaseController {
 
 		   	//probe status
 		   	$probeStatus = array(
-		   		'1'			=> 'Cerrado',
-		   		'2'			=> 'Abierto'
+		   		'1'			=> 'Privado',
+		   		'2'			=> 'P&uacuteblico'
 		   	);
 
 	    	 // get answer types
@@ -283,8 +283,8 @@ class ProbeController extends BaseController {
 
 		//probe status
 	   	$probeStatus = array(
-	   		'1'			=> 'Cerrado',
-	   		'2'			=> 'Abierto'
+	   		'1'			=> 'Privado',
+	   		'2'			=> 'P&uacute;blico'
 	   	);
 
 	    if(!empty($probe)){

@@ -85,7 +85,7 @@ class ActivityController extends BaseController {
 
 		            if($activityId>0) {
 
-		            	$assignedUserId = $values['assigned_user_id'];
+		            	$assignedUserId = isset($values['assigned_user_id'])$values['assigned_user_id']:NULL;
 
 
 				        $projectActivity = array(
