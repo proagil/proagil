@@ -199,6 +199,7 @@ class Project extends Eloquent{
 	}
 
 	public static function getUsersOnIteration($iterationId){
+
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		$result = DB::table('user_belongs_to_project AS ubtp')
@@ -210,8 +211,6 @@ class Project extends Eloquent{
 			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
 
 			->get();
-
-
 
 		$usersOnIteration = array(); 
 		
@@ -225,6 +224,8 @@ class Project extends Eloquent{
 
 	public static function getAllUsersOnIteration($iterationId){
 
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
 		$result = DB::table('user_belongs_to_project AS ubtp')
 
 			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id', 'ubtp.iteration_id')
@@ -235,12 +236,10 @@ class Project extends Eloquent{
 
 			->get();
 
-
-
 		$usersOnIteration = array(); 
 		
 		foreach($result as $index => $row){
-			$usersOnIteration[$row->id] = $row->first_name;
+			$usersOnIteration[$row['id']] = $row['first_name'];
 		}
 
 		return $usersOnIteration; 

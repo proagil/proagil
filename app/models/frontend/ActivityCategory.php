@@ -15,6 +15,8 @@ class ActivityCategory extends Eloquent{
 
 	public static function get($projectId){
 
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
 		return DB::table('category_activity_belongs_to_project')
 				  	->where('project_id', $projectId)
 				  	->get();
@@ -22,13 +24,15 @@ class ActivityCategory extends Eloquent{
 
 	public static function getCategoriesByProjectId($projectId){
 
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
 		$result = DB::table('category_activity_belongs_to_project')
 				  	->where('project_id', $projectId)
 				  	->get();
 
 		$categories = array(); 
 		foreach($result as $index => $row){
-			$categories[$row->id] = $row->name;
+			$categories[$row['id']] = $row['name'];
 		}
 
 		return $categories; 

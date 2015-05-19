@@ -44,16 +44,19 @@
 								<input type="text" name="probe[title]"  class="probe-input-name probe-input form-control">	
 								
 
-								<label class="probe-label txt-right">Estado:</label>
+								<label class="probe-label txt-right">Estado
+								<span style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Privado: No est&aacute; disponible el sondeo en la web y P&uacute;blico: est&aacute; disponible el sondeo en la web" class="fc-turquoise fa fa-info-circle fa-fw"></span>:
+								</label>
+
 
 								<select name="probe[status]" class="probe-input-status probe-input  form-control">
 									<option value="1">Privado</option>
 									<option value="2">P&uacute;blico</option>
 								</select>
 								<br/>
-								<span style="cursor:pointer;" data-container="body" data-toggle="popover" data-placement="bottom" data-content="Privado: No est&aacute; disponible el sondeo en la web y P&uacute;blico: est&aacute; disponible el sondeo en la web" class="fc-turquoise fa fa-info-circle fa-fw"></span>
+	
 
-								<textarea name="probe[description]" placeholder="Especifique una breve descripci&oacute;n para el Sondeo" class="probe-input-description probe-input form-control"></textarea>																	
+								<textarea name="probe[description]" placeholder="Especifique una breve descripci&oacute;n para el sondeo" class="probe-input-description probe-input form-control"></textarea>																	
 
 								<div class="list-content probe-questions-lists">
 					 																				

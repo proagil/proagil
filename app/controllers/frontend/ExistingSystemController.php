@@ -17,7 +17,11 @@ class ExistingSystemController extends BaseController {
 
 	public function index($projectId, $iterationId){
 
-	    if(is_null(Session::get('user'))){
+		$user = Session::get('user');
+
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 		
+
+	    if(!$permission || is_null(Session::get('user'))){
 
 	          return Redirect::to(URL::action('DashboardController@index'));
 
@@ -47,11 +51,15 @@ class ExistingSystemController extends BaseController {
 
 	public function create($projectId, $iterationId){
 
+		$user = Session::get('user');
+
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 	
+
 		// get user role
 	    $userRole = Session::get('user_role');
    
 
-	    if($userRole['user_role_id']==Config::get('constant.project.owner')){
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){
 
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
@@ -134,9 +142,13 @@ class ExistingSystemController extends BaseController {
 
 	public function getExistingSystem($existingSystemId){
 
+		$user = Session::get('user');
+
+		$permission = User::userHasPermissionOnArtefact($existingSystemId, 'existing_system', $user['id']); 
+
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
-		if(!empty($existingSystem)){
+		if(!empty($existingSystem) && $permission){
 
 			// get project data
 			 $project = (array) Project::getName($existingSystem['project_id']); 
@@ -160,9 +172,13 @@ class ExistingSystemController extends BaseController {
 
 	public function edit($existingSystemId) {
 
+		$user = Session::get('user');
+
+		$permission = User::userHasPermissionOnArtefact($existingSystemId, 'existing_system', $user['id']); 
+
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
-		if(!empty($existingSystem)){
+		if($permission && !empty($existingSystem)){
 
 			// get project data
 			 $project = (array) Project::getName($existingSystem['project_id']); 
@@ -191,9 +207,13 @@ class ExistingSystemController extends BaseController {
 
 	public function export($existingSystemId){
 
+		$user = Session::get('user');
+
+		$permission = User::userHasPermissionOnArtefact($existingSystemId, 'existing_system', $user['id']); 		
+
 		$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
-		if(!empty($existingSystem)){
+		if($permission  && !empty($existingSystem)){
 
 			// get project data
 			 $project = (array) Project::getName($existingSystem['project_id']); 	
@@ -213,43 +233,55 @@ class ExistingSystemController extends BaseController {
 
 	public function saveSystemInfo($existingSystemId) {
 
-		$values = Input::get('esystem');
+		$user = Session::get('user');
 
-	   	// get system interface
-	   	$interfaceFile = Input::file('interface');
+		$permission = User::userHasPermissionOnArtefact($existingSystemId, 'existing_system', $user['id']); 	
+		
+		if(!$permission){
 
-	   	$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
+			return Redirect::to(URL::action('DashboardController@index'));
 
-	   	if($interfaceFile!=NULL){
 
-	   		// save user avatar
-	   		$imageId = $this->uploadAndResizeFile($interfaceFile, 500, 300); 
+		}else{	
 
-	   		//delete old interface
-       		if($existingSystem['interface']!=NULL || $existingSystem['interface']!=''){
-       			$this->deleteFile($existingSystem['interface_image'], $existingSystem['interface']); 
-       		}	   		
-	   	}
+			$values = Input::get('esystem');
 
-	   	$values['interface_id'] = ($values['interface_id']==NULL)? NULL: $values['interface_id']; 		
+		   	// get system interface
+		   	$interfaceFile = Input::file('interface');
 
-		$exystingSystem = array(
-			'name'			=> 	$values['name'],
-			'interface'		=> (isset($imageId))?$imageId:$values['interface_id'],
-		);
+		   	$existingSystem = ExistingSystem::getExistingSystemData($existingSystemId);
 
-		if(ExistingSystem::edit($existingSystemId, $exystingSystem)){
+		   	if($interfaceFile!=NULL){
 
-		 	//Session::flash('success_message', 'Se creó el análisis de sistema existente'); 
- 
-            // redirect to edit existing system view
-            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
+		   		// save user avatar
+		   		$imageId = $this->uploadAndResizeFile($interfaceFile, 500, 300); 
 
-		}else{
+		   		//delete old interface
+	       		if($existingSystem['interface']!=NULL || $existingSystem['interface']!=''){
+	       			$this->deleteFile($existingSystem['interface_image'], $existingSystem['interface']); 
+	       		}	   		
+		   	}
 
-            // redirect to edit existing system view
-            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
+		   	$values['interface_id'] = ($values['interface_id']==NULL)? NULL: $values['interface_id']; 		
 
+			$exystingSystem = array(
+				'name'			=> 	$values['name'],
+				'interface'		=> (isset($imageId))?$imageId:$values['interface_id'],
+			);
+
+			if(ExistingSystem::edit($existingSystemId, $exystingSystem)){
+
+			 	//Session::flash('success_message', 'Se creó el análisis de sistema existente'); 
+	 
+	            // redirect to edit existing system view
+	            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
+
+			}else{
+
+	            // redirect to edit existing system view
+	            return Redirect::to(URL::action('ExistingSystemController@edit', $existingSystemId));				
+
+			}
 		}
 
 	}
@@ -301,25 +333,38 @@ class ExistingSystemController extends BaseController {
 
 	public function deleteExistingSystem($systemId){
 
-		$values = ExistingSystem::getExistingSystemData($systemId); 
-		
-		// delete all existing system values for each existing system element
-		foreach($values['elements'] as $element){
+		$user = Session::get('user');
 
-			ExistingSystem::deleteElement($element['id']); 
-		}
+		$permission = User::userHasPermissionOnArtefact($systemId, 'existing_system', $user['id']); 	
 
-		if(ExistingSystem::_delete($systemId)){
+		if(!$permission){
 
-			Session::flash('success_message', 'Se ha eliminado el sistema existente correctamente'); 
+			return Redirect::to(URL::action('DashboardController@index'));
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));
 
-		}else{
-		   	
-		   	Session::flash('error_message', 'No se pudo eliminar el sistema existente'); 
+		}else{	
 
-		   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));			
+			$values = ExistingSystem::getExistingSystemData($systemId); 
+			
+			// delete all existing system values for each existing system element
+			foreach($values['elements'] as $element){
+
+				ExistingSystem::deleteElement($element['id']); 
+			}
+
+			if(ExistingSystem::_delete($systemId)){
+
+				Session::flash('success_message', 'Se ha eliminado el sistema existente correctamente'); 
+
+			   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));
+
+			}else{
+			   	
+			   	Session::flash('error_message', 'No se pudo eliminar el sistema existente'); 
+
+			   	return Redirect::to(URL::action('ExistingSystemController@index', array($values['project_id'], $values['iteration_id'])));			
+			}
+
 		} 
 
 	}

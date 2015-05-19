@@ -200,7 +200,7 @@
 
 										@if(!empty($activityCategories))
 											@foreach($activityCategories as $activityCategory)
-												<a href="#" data-category-id="{{$activityCategory->id}}" class="{{(in_array($activityCategory->id, $filtersArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-filter">{{$activityCategory->name}}</a>
+												<a href="#" data-category-id="{{$activityCategory['id']}}" class="{{(in_array($activityCategory['id'], $filtersArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-filter">{{$activityCategory['name']}}</a>
 											@endforeach									
 										@else
 											<label class="fs-min fc-turquoise">No hay categor&iacute;as creadas</label>

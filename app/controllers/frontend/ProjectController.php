@@ -718,7 +718,9 @@ class ProjectController extends BaseController {
     // save user role on session
     Session::put('user_role', $userRole);
 
-    if(empty($userRole)){
+    $permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']);   
+
+    if(empty($userRole) || !$permission){
 
       return Redirect::to(URL::action('DashboardController@index'));  
 
@@ -1475,7 +1477,7 @@ class ProjectController extends BaseController {
               Session::flash('success_message', 'Se ha eliminado el proyecto correctamente'); 
 
               return Redirect::to(URL::action('DashboardController@index'));
-}
+  }
 
   public function friendlyURL($str) {
 
