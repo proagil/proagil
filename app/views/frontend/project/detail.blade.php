@@ -52,7 +52,7 @@
 									
 								</div>	
 
-								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 															
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} ({{$iteration['duration']}})															
 
 								<div class="section-title fc-blue-iii fs-big">
 									<div class="pull-left">
@@ -278,7 +278,7 @@
 															  </div>
 															  <!-- END MODAL HTML TO REASSIGN ACTIVITY -->
 														  @endif
-						                                  <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Duraci&oacute;n:</span> {{$activity['interval']}} 
+						                                  <i class="fs-med fa fa-clock-o fc-turquoise fa-fw"></i> <span class="fc-pink"> Duraci&oacute;n:</span> {{$activity['interval']}} 
 						                                  <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} 
 						                                  <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
 						                              </div>  

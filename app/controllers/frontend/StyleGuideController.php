@@ -9,8 +9,6 @@ class StyleGuideController extends BaseController {
 
 	      	 $userRole = Session::get('user_role');
 
-	      	 //print_r( $userRole ); die; 
-
 	        if(is_null(Session::get('user'))){
 	          return Redirect::to(URL::action('LoginController@index'));
 	        }
@@ -20,6 +18,8 @@ class StyleGuideController extends BaseController {
 
 
 	public function index($projectId, $iterationId){
+
+		// get user
 		$user = Session::get('user');
 
 		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
@@ -59,6 +59,7 @@ class StyleGuideController extends BaseController {
 
 	public function create($projectId, $iterationId){
 
+		// get user
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
 

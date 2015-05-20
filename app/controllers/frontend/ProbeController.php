@@ -547,7 +547,7 @@ class ProbeController extends BaseController {
 
 	public function deleteOption($optionId) {
 
-		 if(Probe::deleteOptionResponses($optionId) && Probe::deleteOption($optionId)) {
+		 if(Probe::deleteOption($optionId)) {
 
 		      $result = array(
 		          'error'   => false

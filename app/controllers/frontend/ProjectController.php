@@ -546,7 +546,9 @@ class ProjectController extends BaseController {
     $user = Session::get('user'); 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-    if(empty($userRole) || $userRole['user_role_id'] == Config::get('constant.project.member')){
+    $permission = User::userHasPermissionOnProject($projectId, $user['id']); 
+
+    if(!$permission || empty($userRole) || $userRole['user_role_id'] == Config::get('constant.project.member')){
 
       return Redirect::to(URL::action('DashboardController@index')); 
 
@@ -727,6 +729,7 @@ class ProjectController extends BaseController {
     }else{
       // get project data
       $project =  (array) Project::get($projectId);
+
       Session::put('project', $project);  
 
       //get user On iteration
@@ -741,11 +744,15 @@ class ProjectController extends BaseController {
       $projectIterations = (array) Project::getProjectIterations($user['id'], $projectId);
       $iteration = $projectIterations[$iterationId];
 
-      // format date
-      $date = new DateTime($iteration['init_date']);
-      $iteration['init_date'] = $date->format('d/m/Y');
-      $date = new DateTime($iteration['end_date']);
-      $iteration['end_date'] = $date->format('d/m/Y');
+      // format date and generate iteration interval days
+      $startDateIteration = new DateTime($iteration['init_date']);
+      $iteration['init_date'] = $startDateIteration->format('d-m-Y');
+      $endDateIteration = new DateTime($iteration['end_date']);
+      $iteration['end_date'] = $endDateIteration->format('d-m-Y'); 
+
+      $durationIteration = $startDateIteration->diff($endDateIteration);
+      $iteration['duration'] = $durationIteration->format('%a d&iacute;as');   
+
 
       // get artefacts by iteration
       $iterationArtefacts =  (array) Iteration::getArtefactsByIteration($iterationId); 
@@ -1178,7 +1185,7 @@ class ProjectController extends BaseController {
 
                   foreach($activities as $activity){
                     Activity::deleteActivityComment($activity['activity_id']);
-                    Activity::deleteProjectActivity($activity['activity_id'], $itetation['id']);
+                    Activity::deleteProjectActivity($activity['activity_id'], $iteration['id']);
                     Activity::deleteActivity($activity['activity_id']); 
                   
                   }
