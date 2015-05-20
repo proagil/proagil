@@ -263,17 +263,17 @@ $(function() {
 
        var probeId = $(this).data('probeId'); 
 
-       if($('input[name="values[title]').val()=='' || 
-          $('textarea[name="values[description]').val() == ''){
+       if($('input[name="values[title]"]').val()=='' || 
+          $('textarea[name="values[description]"]').val() == ''){
 
             $('html, body').animate({ scrollTop: 0 }, 'slow');
 
-            if($('input[name="values[title]').val()==''){
-              $('input[name="values[title]').addClass('error-probe-input');
+            if($('input[name="values[title]"]').val()==''){
+              $('input[name="values[title]"]').addClass('error-probe-input');
             }   
 
-            if($('textarea[name="values[description]').val()==''){
-              $('textarea[name="values[description]').addClass('error-probe-input');
+            if($('textarea[name="values[description]"]').val()==''){
+              $('textarea[name="values[description]"]').addClass('error-probe-input');
             }                                 
             
             $('.error-alert-text').html(' Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
@@ -283,9 +283,9 @@ $(function() {
 
             var parameters = {
                 'values[probe_id]'    : probeId,
-                'values[title]'       : $('input[name="values[title]').val(),
-                'values[status]'      : $('select[name="values[status]').val(), 
-                'values[description]' : $('textarea[name="values[description]').val(),
+                'values[title]'       : $('input[name="values[title]"]').val(),
+                'values[status]'      : $('select[name="values[status]"]').val(), 
+                'values[description]' : $('textarea[name="values[description]"]').val(),
             };
 
 

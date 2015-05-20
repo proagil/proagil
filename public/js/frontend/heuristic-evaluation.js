@@ -195,14 +195,14 @@ $(function() {
 
        var evaluationId = $(this).data('evaluationId'); 
 
-       if($('input[name="evaluation[name]').val()!=''){
+       if($('input[name="evaluation[name]"]').val()!=''){
 
-          $('input[name="evaluation[name]').removeClass('error-probe-input');
+          $('input[name="evaluation[name]"]').removeClass('error-probe-input');
           $('.error-alert-text').html(' Debe especificar un valor para los campos de texto indicados').parent().addClass('hidden');        
 
             var parameters = {
                 'values[evaluation_id]'    : evaluationId,
-                'values[name]'             : $('input[name="evaluation[name]').val()
+                'values[name]'             : $('input[name="evaluation[name]"]').val()
             };
 
 
@@ -235,7 +235,7 @@ $(function() {
 
       }else{
 
-        $('input[name="evaluation[name]').addClass('error-probe-input');
+        $('input[name="evaluation[name]"]').addClass('error-probe-input');
         $('.error-alert-text').html(' Debe especificar un valor para los campos de texto indicados').parent().removeClass('hidden'); 
 
       }   
