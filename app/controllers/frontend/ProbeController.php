@@ -16,60 +16,83 @@ class ProbeController extends BaseController {
 
 	public function index($projectId, $iterationId){
 
-	    if(is_null(Session::get('user'))){
+		$user = Session::get('user');
 
-	          return Redirect::to(URL::action('DashboardController@index'));
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
 
-	    }else{
+		if(!$permission){
 
-	    	//get user role
-	    	 $userRole = Session::get('user_role');
+			 return Redirect::to(URL::action('LoginController@index'));
 
-	    	 // get project data
-	    	 $project = (array) Project::getName($projectId); 
-	    	 // get iteration data
-	    	 $iteration = (array) Iteration::get($iterationId);
+		}else{
+			if(is_null(Session::get('user'))){
 
-	    	 $probes = Probe::enumerate($iterationId);
+		          return Redirect::to(URL::action('DashboardController@index'));
 
-	    	return View::make('frontend.probe.index')
-	    				->with('iteration', $iteration)
-	    				->with('projectName', $project['name'])
-	    				->with('projectId', $projectId)
-	    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	    				->with('probes', $probes);
+		    }else{
 
-	    }
+		    	//get user role
+		    	 $userRole = Session::get('user_role');
+
+		    	 // get project data
+		    	 $project = (array) Project::getName($projectId); 
+		    	 // get iteration data
+		    	 $iteration = (array) Iteration::get($iterationId);
+
+		    	 $probes = Probe::enumerate($iterationId);
+
+		    	return View::make('frontend.probe.index')
+		    				->with('iteration', $iteration)
+		    				->with('projectName', $project['name'])
+		    				->with('projectId', $projectId)
+		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+		    				->with('probes', $probes);
+
+		    }			
+
+		}
+	    
 
 	}
 
 	public function create($projectId, $iterationId){
+		
+		$user = Session::get('user');
 
-		// get user role
-	    $userRole = Session::get('user_role');
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
 
-	    if($userRole['user_role_id']==Config::get('constant.project.owner')){
+		if(!$permission){
 
-	    	// get project data
-	    	 $project = (array) Project::getName($projectId); 
+			 return Redirect::to(URL::action('LoginController@index'));
 
-	    	 // get iteration data
-	    	 $iteration = (array) Iteration::get($iterationId);
+		}else{
 
-	    	 // get answer types 
-	    	 $types = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open'))); 
+			// get user role
+		    $userRole = Session::get('user_role');
 
-	    	return View::make('frontend.probe.create')
-	    		    	->with('answerTypes', $types)
-	    				->with('iteration', $iteration)
-	    		    	->with('projectName', $project['name'])
-	    				->with('projectId', $projectId); 
+		    if($userRole['user_role_id']==Config::get('constant.project.owner')){
 
-	    }else{
+		    	// get project data
+		    	 $project = (array) Project::getName($projectId); 
 
-	    	 return Redirect::to(URL::action('DashboardController@index'));
+		    	 // get iteration data
+		    	 $iteration = (array) Iteration::get($iterationId);
 
-	    }
+		    	 // get answer types 
+		    	 $types = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open'))); 
+
+		    	return View::make('frontend.probe.create')
+		    		    	->with('answerTypes', $types)
+		    				->with('iteration', $iteration)
+		    		    	->with('projectName', $project['name'])
+		    				->with('projectId', $projectId); 
+
+		    }else{
+
+		    	 return Redirect::to(URL::action('DashboardController@index'));
+
+		    }
+		}
 	}
 
 	public function save(){
@@ -157,41 +180,52 @@ class ProbeController extends BaseController {
 
 	public function edit($probeId){
 
-		$probeData = Probe::getProbeElements($probeId); 
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
 
-		if(!empty($probeData)){
+	    $permission = User::userHasPermissionOnArtefact($probeId, 'probe', $user['id']); 
 
-			// get project data
-		   	$project = (array) Project::getName($probeData['project_id']);
-
-		   	// get iteration data
-	    	$iteration = (array) Iteration::get($probeData['iteration_id']);
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
 
 
-		   	//probe status
-		   	$probeStatus = array(
-		   		'1'			=> 'Privado',
-		   		'2'			=> 'P&uacuteblico'
-		   	);
+			$probeData = Probe::getProbeElements($probeId); 
 
-	    	 // get answer types
-	    	 $answerTypesOpen = Probe::getAnswerTypes(array((Config::get('constant.probe.question.open')))); 
-	    	 $answerTypesClose = Probe::getAnswerTypes(array((Config::get('constant.probe.question.closed'))));	
-	    	 $answerTypes = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open')));   	 
+			if(!empty($probeData)){
 
-			return View::make('frontend.probe.edit')
-						->with('iteration', $iteration)
-						->with('projectName', $project['name'])
-						->with('projectId', $project['id'])
-						->with('probeId', $probeId)
-						->with('answerTypesOpen', $answerTypesOpen)
-						->with('answerTypesClose', $answerTypesClose)
-						->with('answerTypes', $answerTypes)
-						->with('values', $probeData)
-						->with('probeStatus', $probeStatus); 			
+				// get project data
+			   	$project = (array) Project::getName($probeData['project_id']);
 
+			   	// get iteration data
+		    	$iteration = (array) Iteration::get($probeData['iteration_id']);
+
+
+			   	//probe status
+			   	$probeStatus = array(
+			   		'1'			=> 'Privado',
+			   		'2'			=> 'P&uacuteblico'
+			   	);
+
+		    	 // get answer types
+		    	 $answerTypesOpen = Probe::getAnswerTypes(array((Config::get('constant.probe.question.open')))); 
+		    	 $answerTypesClose = Probe::getAnswerTypes(array((Config::get('constant.probe.question.closed'))));	
+		    	 $answerTypes = Probe::getAnswerTypes(array(Config::get('constant.probe.question.closed'),Config::get('constant.probe.question.open')));   	 
+
+				return View::make('frontend.probe.edit')
+							->with('iteration', $iteration)
+							->with('projectName', $project['name'])
+							->with('projectId', $project['id'])
+							->with('probeId', $probeId)
+							->with('answerTypesOpen', $answerTypesOpen)
+							->with('answerTypesClose', $answerTypesClose)
+							->with('answerTypes', $answerTypes)
+							->with('values', $probeData)
+							->with('probeStatus', $probeStatus); 			
+
+			}else{
+				 return Redirect::to(URL::action('LoginController@index'));
+			}
 		}else{
-
+			 return Redirect::to(URL::action('LoginController@index'));
 		}
 
 	}
@@ -254,26 +288,37 @@ class ProbeController extends BaseController {
 
 	public function deleteProbe($probeId){
 
-		$values = Probe::getProbeElements($probeId); 
+		$user = Session::get('user');
 
-		// delete all probe values for each probe element
-		foreach($values['elements'] as $element){
+	    $permission = User::userHasPermissionOnArtefact($probeId, 'probe', $user['id']); 
 
-			Probe::deleteQuestion($element['id']); 
+	    if(!$permission){
+
+	    	return Redirect::to(URL::action('LoginController@index'));
+
+	    }else{    
+
+			$values = Probe::getProbeElements($probeId); 
+
+			// delete all probe values for each probe element
+			foreach($values['elements'] as $element){
+
+				Probe::deleteQuestion($element['id']); 
+			}
+
+			if(Probe::_delete($probeId)){
+
+				Session::flash('success_message', 'Se ha eliminado el sondeo correctamente'); 
+
+			   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));
+
+			}else{
+			   	
+			   	Session::flash('error_message', 'No se pudo eliminar el sondeo'); 
+
+			   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));			
+			} 
 		}
-
-		if(Probe::_delete($probeId)){
-
-			Session::flash('success_message', 'Se ha eliminado el sondeo correctamente'); 
-
-		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));
-
-		}else{
-		   	
-		   	Session::flash('error_message', 'No se pudo eliminar el sondeo'); 
-
-		   	return Redirect::to(URL::action('ProbeController@index', array($values['project_id'], $values['iteration_id'])));			
-		} 
 
 	}
 
@@ -522,126 +567,145 @@ class ProbeController extends BaseController {
 	}
 
 	public function getProbeResults($probeId){
+		$user = Session::get('user');
 
-		// get probe results 
-		$probeResults = Probe::getProbeResults($probeId); 
+	    $permission = User::userHasPermissionOnArtefact($probeId, 'probe', $user['id']); 
 
-	   	// get iteration data
-    	$iteration = (array) Iteration::get($probeResults['iteration_id']);
+	    if(!$permission){
 
-		$graphicsArray = array();
-		$openQuestions = array();
-		$questionResults = array();
+	    	return Redirect::to(URL::action('LoginController@index'));
+
+	    }else{   		
+
+			// get probe results 
+			$probeResults = Probe::getProbeResults($probeId); 
+
+		   	// get iteration data
+	    	$iteration = (array) Iteration::get($probeResults['iteration_id']);
+
+			$graphicsArray = array();
+			$openQuestions = array();
+			$questionResults = array();
 
 
-		foreach($probeResults['elements'] as $index => $element){
+			foreach($probeResults['elements'] as $index => $element){
 
-			if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+				if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
 
-				// create table with results for closed questions
-				$tableResults = Lava::DataTable();
+					// create table with results for closed questions
+					$tableResults = Lava::DataTable();
 
-				$tableResults->addStringColumn('Opcion')
-		       				 ->addNumberColumn('Resultados');
+					$tableResults->addStringColumn('Opcion')
+			       				 ->addNumberColumn('Resultados');
 
-				foreach($element['results'] as $result){
+					foreach($element['results'] as $result){
 
-					// add rows to table with data
-					$tableResults->addRow(array($result['name'], $result['result_count'])); 
+						// add rows to table with data
+						$tableResults->addRow(array($result['name'], $result['result_count'])); 
+
+					}
+
+					// create graphic for each question
+					$piechart = Lava::PieChart('graphic-'.$index)
+					                 ->setOptions(array(
+					                   'datatable' 		=> $tableResults,
+					                   'title' 			=> $element['question'],
+					                   'is3D' 			=> true,
+					                   'colors' 		=> Config::get('constant.probe.colors')
+					                  ));	
+
+					// save each graphic on global array
+					$questionResults[$index] = $piechart; 
 
 				}
 
-				// create graphic for each question
-				$piechart = Lava::PieChart('graphic-'.$index)
-				                 ->setOptions(array(
-				                   'datatable' 		=> $tableResults,
-				                   'title' 			=> $element['question'],
-				                   'is3D' 			=> true,
-				                   'colors' 		=> Config::get('constant.probe.colors')
-				                  ));	
+				if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
 
-				// save each graphic on global array
-				$questionResults[$index] = $piechart; 
+					$questionResults[$index]['question'] = $element['question']; 
+
+					foreach($element['results'] as $j=> $result){
+
+						$questionResults[$index]['results'][$j] = $result['value'];  
+
+					}				
+				}
+
 
 			}
 
-			if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
 
-				$questionResults[$index]['question'] = $element['question']; 
-
-				foreach($element['results'] as $j=> $result){
-
-					$questionResults[$index]['results'][$j] = $result['value'];  
-
-				}				
-			}
-
-
+			return View::make('frontend.probe.results')->with('questionResults', $questionResults)
+														->with('iteration', $iteration)
+													 	->with('probeTitle', $probeResults['title'])
+													 	->with('probeId', $probeId)
+													 	->with('probeResponses', $probeResults['responses']);              	
 		}
-
-
-		return View::make('frontend.probe.results')->with('questionResults', $questionResults)
-													->with('iteration', $iteration)
-												 	->with('probeTitle', $probeResults['title'])
-												 	->with('probeId', $probeId)
-												 	->with('probeResponses', $probeResults['responses']);              	
 	}
 
 	public function export($probeId){
+		$user = Session::get('user');
 
-		// get probe results 
-		$probeResults = Probe::getProbeResults($probeId); 
+	    $permission = User::userHasPermissionOnArtefact($probeId, 'probe', $user['id']); 
 
-		//print_r($probeResults); die; 
+	    if(!$permission){
 
-		$PDFData = array(); 
-		$PDFData['title'] = $probeResults['title'];
-		$PDFData['total_responses'] = $probeResults['responses'];
+	    	return Redirect::to(URL::action('LoginController@index'));
 
-		foreach($probeResults['elements'] as $index => $element){
+	    }else{   		
 
-			$PDFResponses[$index]['question'] = $element['question'];
-			$PDFResponses[$index]['form_element'] = $element['form_element'];
+			// get probe results 
+			$probeResults = Probe::getProbeResults($probeId); 
 
-			if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+			//print_r($probeResults); die; 
 
-				$totalResponses = 0;
+			$PDFData = array(); 
+			$PDFData['title'] = $probeResults['title'];
+			$PDFData['total_responses'] = $probeResults['responses'];
 
-				foreach($element['results'] as $j => $result){
+			foreach($probeResults['elements'] as $index => $element){
 
-					$totalResponses += $result['result_count'];
+				$PDFResponses[$index]['question'] = $element['question'];
+				$PDFResponses[$index]['form_element'] = $element['form_element'];
+
+				if($element['form_element']==Config::get('constant.probe.element.checkbox') || $element['form_element']==Config::get('constant.probe.element.radio')) {
+
+					$totalResponses = 0;
+
+					foreach($element['results'] as $j => $result){
+
+						$totalResponses += $result['result_count'];
+
+					}
+
+					foreach($element['results'] as $j => $result){
+
+						$PDFResponses[$index]['results'][$j]['percent'] = round(($result['result_count']*100)/$totalResponses, 1);    
+						$PDFResponses[$index]['results'][$j]['result_count'] = $result['result_count'];   
+						$PDFResponses[$index]['results'][$j]['name'] = $result['name'];   
+
+					}											
 
 				}
 
-				foreach($element['results'] as $j => $result){
+				if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
 
-					$PDFResponses[$index]['results'][$j]['percent'] = round(($result['result_count']*100)/$totalResponses, 1);    
-					$PDFResponses[$index]['results'][$j]['result_count'] = $result['result_count'];   
-					$PDFResponses[$index]['results'][$j]['name'] = $result['name'];   
+					foreach($element['results'] as $j=> $result){
 
-				}											
+						$PDFResponses[$index]['results'][$j] = $result['value'];  
+
+					}				
+				}
+
 
 			}
 
-			if($element['form_element']==Config::get('constant.probe.element.input') || $element['form_element']==Config::get('constant.probe.element.textarea')){
+			$PDFData['responses'] = $PDFResponses; 
+	        $pdf = PDF::loadView('frontend.probe.export', $PDFData);
 
-				foreach($element['results'] as $j=> $result){
+	        return $pdf->download('proagil-resultados-'.$PDFData['title'].'.pdf');
+	      	
+		}	
 
-					$PDFResponses[$index]['results'][$j] = $result['value'];  
-
-				}				
-			}
-
-
-		}
-
-		$PDFData['responses'] = $PDFResponses; 
-        $pdf = PDF::loadView('frontend.probe.export', $PDFData);
-
-        return $pdf->download('proagil-resultados-'.$PDFData['title'].'.pdf');
-      	
-	}	
-
-
+	}
 
 }
