@@ -1,0 +1,30 @@
+@media(min-width:768px) and (max-width:1024px) {
+	#page-wrapper{
+		padding: 0 6px;
+		margin: 0 0 0 204px; 
+	}
+
+	.activity{
+		width: 84%; 
+	}
+
+	.activity-options{
+		width: 10%; 
+	}
+
+	.subtitle-label {
+		width: 19%; 
+	}
+
+	.probe-label{
+		width: 16%; 
+	}
+
+	.detail-color{
+		width: 17%; 
+	}
+
+	.tab {
+		width: 21%; 
+	}
+} 
