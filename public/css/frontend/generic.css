@@ -1090,7 +1090,7 @@ textarea{
 }
 
 .probe-item-content {
-	width: 85%;
+	width: 81%;
 	background-color: #f2f2f2;
 	margin: 1% 0 0 0; 
 	padding: 10px 4px; 
@@ -1102,7 +1102,7 @@ textarea{
 }
 
 .probe-options {
-	width: 15%;
+	width: 19%;
 	margin: 1% 0 0 0;
 	background-color: #f2f2f2;
 	padding: 5px 4px; 

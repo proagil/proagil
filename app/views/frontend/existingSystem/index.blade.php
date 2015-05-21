@@ -38,12 +38,12 @@
 							<div class="list-content">
 								@if(!empty($existingSystems))
 									@foreach($existingSystems as $system)
-									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content e-system" data-existing-system-id="{{$system['id']}}">
+									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:89%;"'}} class="probe-item-content e-system" data-existing-system-id="{{$system['id']}}">
 										<i class="fc-yellow fa fa-desktop fa-fw"></i>
 											{{$system['name']}}
 					
 									</div>
-									<div class="probe-options txt-center" {{(!$projectOwner)?'style="width:4%;"':'style="width:8%;"'}}>
+									<div class="probe-options txt-center" {{(!$projectOwner)?'style="width:4%;"':'style="width:11%;"'}}>
 																		
 										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-yellow">
 											<a href="{{URL::action('ExistingSystemController@edit', array($system['id']))}}">

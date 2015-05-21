@@ -52,7 +52,7 @@
 									
 								</div>	
 
-								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} ({{$iteration['duration']}})															
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 
 
 								<div class="section-title fc-blue-iii fs-big">
 									<div class="pull-left">
@@ -229,7 +229,7 @@
 											<div class="btn-change-status">
 												<i data-toggle="tooltip" data-original-title="Cambiar estado" class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 											</div>
-											<div style="width:{{($projectOwner)?'88%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
+											<div style="width:{{($projectOwner)?'84%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
 												<div data-activity-id="{{$activity['id']}}" class="activity-info btn-activity-description">
 						
 													<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </span>

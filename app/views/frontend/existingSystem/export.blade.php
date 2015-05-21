@@ -61,8 +61,7 @@
 		</table>
 
 		<div style="text-align:center; background-color:#F6F6F6">
-			Generado con: 
-			<img style="text-align:center;color:#42c2b8" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png">	
+			Generado con: PROAGIL
 		</div>				
 
 		

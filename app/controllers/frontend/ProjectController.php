@@ -753,7 +753,6 @@ class ProjectController extends BaseController {
       $durationIteration = $startDateIteration->diff($endDateIteration);
       $iteration['duration'] = $durationIteration->format('%a d&iacute;as');   
 
-
       // get artefacts by iteration
       $iterationArtefacts =  (array) Iteration::getArtefactsByIteration($iterationId); 
 

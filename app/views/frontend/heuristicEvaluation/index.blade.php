@@ -41,12 +41,12 @@
 							<div class="list-content">
 								@if(!empty($evaluations))
 									@foreach($evaluations as $evaluation)
-									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:92%;"'}} class="probe-item-content evaluation" data-evaluation-id="{{$evaluation['id']}}">
+									<div {{(!$projectOwner)?'style="width:96%;"':'style="width:89%;"'}} class="probe-item-content evaluation" data-evaluation-id="{{$evaluation['id']}}">
 										<i class="fc-yellow fa fa-file-text fa-fw"></i>
 											{{$evaluation['name']}}
 					
 									</div>
-									<div class="probe-options txt-center" {{(!$projectOwner)?'style="width:4%;"':'style="width:8%;"'}}>
+									<div class="probe-options txt-center" {{(!$projectOwner)?'style="width:4%;"':'style="width:11%;"'}}>
 																		
 										<div data-toggle="tooltip" data-placement="top" title="Editar" class="circle activity-option txt-center fs-big fc-yellow">
 											<a href="{{URL::action('HeuristicEvaluationController@edit', array($evaluation['id']))}}">
