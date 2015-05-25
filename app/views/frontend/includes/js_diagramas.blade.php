@@ -1,7 +1,10 @@
 
 <!--javascript para los diagramas-->
 
+
 {{ HTML::script('js/frontend/joint-master/lib/jquery.js') }} 
+
+{{ HTML::script('js/frontend/jquery-ui-1.11.4.custom/jquery-ui.js') }} 
 
 {{ HTML::script('js/frontend/joint-master/lib/lodash.js') }} 
 
@@ -40,3 +43,5 @@
 {{ HTML::script('js/frontend/DiagramJS.js') }}  
 
 {{ HTML::script('js/frontend/jquery.ddslick.min.js') }}  
+
+{{ HTML::script('js/frontend/objectDiagram.js') }}  

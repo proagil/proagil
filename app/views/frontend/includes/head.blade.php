@@ -14,7 +14,7 @@
 
     <title>PROAGIL - Apoyando la agilidad de los proyectos de software</title>
 	
-
+    {{ HTML::style('js/frontend/jquery-ui-1.11.4.custom/jquery-ui.min.css') }}
     {{ HTML::style('bower_components/bootstrap/dist/css/bootstrap.min.css') }}
     {{ HTML::style('css/frontend/sb-admin-2.css') }}
      {{ HTML::style('css/frontend/datepicker3.css') }}
@@ -26,6 +26,7 @@
 	{{ HTML::style('css/frontend/generic.css') }}
     {{ HTML::style('css/frontend/style_diagram.css') }}
     {{ HTML::style('js/frontend/joint-master/dist/joint.css') }}
+
 
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->

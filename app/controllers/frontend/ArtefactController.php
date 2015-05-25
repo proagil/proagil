@@ -69,7 +69,13 @@ class ArtefactController extends BaseController {
 
 	              	return Redirect::to(URL::action('UseCaseController@index', array($projectId)));
 
-	              break;	       	              	              
+	              break;	
+
+	              case Config::get('constant.artefact.domain_object'):
+
+	              	return Redirect::to(URL::action('DomainObjectController@index', array($projectId)));
+
+	              break;       	              	              
 	        }
 
 

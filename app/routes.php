@@ -47,8 +47,6 @@ Route::any('artefacto/obtener-informacion/{artefact_id}', 'ArtefactController@ge
 
 Route::any('/cerrar-sesion', 'LoginController@logout');
 
-Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
-
 Route::any('inicio', 'DashboardController@index');
 
 Route::any('listas-de-comprobacion/crear/{project_id}/{iteration_id}', 'ChecklistController@create');
@@ -245,4 +243,6 @@ Route::any('/guia-de-estilos/eliminar/{style_guide_id}', 'StyleGuideController@d
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 
 Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
+
+Route::any('/diagrama-de-objetos-de-dominio/{project_id}', 'DomainObjectController@index');
 

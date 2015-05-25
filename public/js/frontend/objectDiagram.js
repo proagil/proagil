@@ -64,74 +64,14 @@ var paper2 = new joint.dia.Paper({
 });
 
 
-//var rect = joint.shapes.basic.Rect;
-var path = joint.shapes.basic.Path;
-var circle = joint.shapes.basic.Circle;
-var text = joint.shapes.basic.Text;
-
-
-/*joint.shapes.basic.actor = joint.shapes.basic.Generic.extend({
-
-    markup: '<g class="rotatable"><g class="scalable"><rect/></g><image/><text/></g>',
-
-    defaults: joint.util.deepSupplement({
-
-        type: 'basic.actor',
-        size: { width: 100, height: 100 },
-        attrs: {
-            
-            'image': { "xlink:href" : "../../images/actor.png",
-            width : 100,
-            height : 100 }
-        }
-
-    }, joint.shapes.basic.Generic.prototype.defaults)
-});
+var erd = joint.shapes.erd;
 
 
 
 
+var obj= {
 
-var usuario = new joint.shapes.basic.actor({
-    position : {
-        x : 30,
-        y : 20
-    },
-    size : {
-        width : 100,
-        height : 100
-    },
-    attrs : {
-        image : {
-            "xlink:href" : "../../images/actor.png",
-            rx: 10,
-            ry: 10,
-            width : 100,
-            height : 100
-
-        }
-    }
-});*/
-
-var image = new joint.shapes.basic.Image({
-    position : {
-        x : 30,
-        y : 20
-    },
-    size : {
-        width : 100,
-        height : 100
-    },
-    attrs : {
-        image : {
-            "xlink:href" : "../../images/actor.png",
-            width : 100,
-            height : 100
-        }
-    }
-});
-
-var rect= new joint.shapes.basic.Rect({
+    entidad: new erd.entity({
         size: {
             width: 100,
             height: 98
@@ -142,7 +82,7 @@ var rect= new joint.shapes.basic.Rect({
 
         },
         attrs: {
-            rect: {
+            entidad: {
                 rx: 10,
                 ry: 10,
                 width: 800,
@@ -194,7 +134,7 @@ var circle= new joint.shapes.basic.Circle({
     });
 
 /*Se agregan las imagenes en el stencil*/
-graph.addCell(image)
+graph.addCell(obj)
 graph.addCell(rect)
 graph.addCell(circle)
 

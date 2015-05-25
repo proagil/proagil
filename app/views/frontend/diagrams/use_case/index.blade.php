@@ -43,15 +43,19 @@
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Rehacer">
 										 <p class="fa fa-share fa_icons"></p>  
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar">
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">
 										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Aumentar">
-										 <p class="glyphicon glyphicon-zoom-in fa_icons" ></p>
-									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Disminuir">
-										 <p class="glyphicon glyphicon-zoom-out fa_icons" ></p>
-									</button>
+
+										 <!--
+									
+										<input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+										        
+									 
+									<p class="glyphicon glyphicon-zoom-in fa_icons" ></p>-->
+										 
+									
+									
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Guardar">
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
@@ -60,6 +64,8 @@
 									</button>
 
 									<div class= "separador"> </div> 
+
+
 
 									<!--<form role="form">
 									    <div class="form-group dropdownlineas">
@@ -76,25 +82,42 @@
 																		
 
 
-											
-										
-
-
 									
 								</div>
+								
+
+								
+								<!-- Canvas-->
+								<div class="paper"> </div>
 
 								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
-								
-								<div class="paper"> 
-
-
-
-								</div>
-
-								<div class="stencil_container" >
-									
-								</div>
-									
+								<div class="stencil_container" ></div>
+								 
+								 <div class="panel primario"  id="draggable">
+								      <div class="cabecera"><h3>Atributos</h3></div>
+								      <div class="cuerpo">
+								        <div class="row">
+								         
+								         
+								          <div class="form-group atributos">
+								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
+								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
+								            
+								          </div>
+								          <div class="form-group atributos">
+								          
+								            <label for="texto" id="texto" data-tooltip="Texto del elemento">Texto</label>
+								         <input id= "texto" class="form-control" type="text" value="texteando" />
+								         
+								      
+								            
+								          </div>
+								          
+								          
+								       	 </div>
+								     	 </div>
+								   		 </div>	
+								    
 											
 							</div>											
 						</div>
@@ -111,6 +134,7 @@
 	
 
 	<script>
+
 
     $(function() {
 
@@ -144,7 +168,7 @@
         selected: false,
         imageSrc: "../images/NormalPunta.png"
     }
-];
+	];
 
     $('#dropdownlineas').ddslick({
     data: ddData,
@@ -160,7 +184,14 @@
        document.getElementById("dropdownlineas").className= index;
    		
     }
-});
+	});
+
+	$(function() {
+   	 	$( "#draggable" ).draggable();
+  	});
+
+
+	
 	</script>
 	</body>
 
