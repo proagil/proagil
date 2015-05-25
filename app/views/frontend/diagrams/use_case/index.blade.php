@@ -93,32 +93,19 @@
 								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
 								<div class="stencil_container" ></div>
 								 
-								 <div class="panel primario"  id="draggable">
-								      <div class="cabecera"><h3>Atributos</h3></div>
+								 <div class="panel primario attributes-panel"  id="draggable">
+								    <div class="cabecera"><h3>Atributos</h3></div>
 								      <div class="cuerpo">
-								        <div class="row">
-								         
-								         
 								          <div class="form-group atributos">
 								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
 								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
-								            
 								          </div>
 								          <div class="form-group atributos">
-								          
-								            <label for="texto" id="texto" data-tooltip="Texto del elemento">Texto</label>
-								         <input id= "texto" class="form-control" type="text" value="texteando" />
-								         
-								      
-								            
-								          </div>
-								          
-								          
-								       	 </div>
-								     	 </div>
-								   		 </div>	
-								    
-											
+								            <label for="texto" id="texto" data-tooltip="Texto del elemento">Nombre</label>
+								         	<input id= "texto" class="form-control app-input" type="text" />
+								          </div>								          
+								     </div>
+								  </div>				
 							</div>											
 						</div>
 					</div>

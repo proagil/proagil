@@ -257,7 +257,30 @@ $(function() {
                                               '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
                                               '<br>';
                             }
-                          });                                                       
+
+                          });  
+
+                      iterationHtml += '<label class="fc-turquoise">Diagramaci&oacute;n</label><br>'; 
+                          $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='3'){
+                            iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
+                                              '<label>' +artefact.name +'</label>'+ 
+                                              '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
+                                              '<br>';
+                            }
+                            
+                          });   
+                          
+                      iterationHtml += '<label class="fc-turquoise">Prototipaje</label><br>'; 
+                          $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='4'){
+                            iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
+                                              '<label>' +artefact.name +'</label>'+ 
+                                              '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
+                                              '<br>';
+                            }
+                            
+                          });                                                                                                        
 
                     }                            
                   iterationHtml += '</div>'+
