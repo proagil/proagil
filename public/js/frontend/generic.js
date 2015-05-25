@@ -226,7 +226,7 @@ $(function() {
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">N&uacute;mero de iteraci&oacute;n</label>'+  
                   '<div class="col-md-4">'+
-                    '<input placeholder="Ej,: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][order]" type="number">'+                           
+                    '<input value="'+iterationsCount+'" placeholder="Ej,: 1" style="width: 80px;" class="iteration-number form-control app-input app-input-ii" name="values[iteration]['+iterationsCount+'][order]" type="number">'+                           
                   '</div>'+
                 '</div>'+                               
                 '<div class="form-group">'+
@@ -239,12 +239,25 @@ $(function() {
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Artefactos a utilizar</label>'+  
                   '<div class="col-md-4">';
                     if(artefacts.length>0){
+                      iterationHtml += '<label class="fc-turquoise">Indagaci&oacute;n</label><br>'; 
                           $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='1'){
                             iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
                                               '<label>' +artefact.name +'</label>'+ 
                                               '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
                                               '<br>';
-                          });                           
+                            }
+                          }); 
+
+                      iterationHtml += '<label class="fc-turquoise">Inspecci&oacute;n</label><br>'; 
+                          $.each(artefacts, function(index, artefact) {
+                            if(artefact.type=='2'){
+                            iterationHtml += '<input name="values[iteration]['+iterationsCount+'][artefacts][]" type="checkbox" value="'+artefact.id+'">'+
+                                              '<label>' +artefact.name +'</label>'+ 
+                                              '<i style="cursor:pointer;" data-artefact-id="'+artefact.id+'" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>'+
+                                              '<br>';
+                            }
+                          });                                                       
 
                     }                            
                   iterationHtml += '</div>'+
@@ -252,13 +265,13 @@ $(function() {
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label " for="textinput">Fecha inicio</label>'+  
                   '<div class="col-md-4">'+
-                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" id="init-date-'+iterationsCount+'" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][init_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
                 '<div class="form-group">'+
                   '<label class="col-md-4 subtitle-label fc-grey-iv control-label" for="textinput">Fecha fin</label>'+  
                   '<div class="col-md-4">'+
-                    '<input data-input-type="date" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
+                    '<input data-input-type="date" id="end-date-'+iterationsCount+'" class="form-control app-input app-input-ii input-date" name="values[iteration]['+iterationsCount+'][end_date]" type="text" value="">'+                           
                   '</div>'+
                 '</div>'+ 
 
@@ -344,13 +357,20 @@ $(function() {
           $(this).datepicker({
             format: 'dd-mm-yyyy',
             language: 'es',
-            startDate: '0d'   
-          });
+            startDate: '0d',
+            daysOfWeekDisabled: [0,6]   
+          })
+          .attr('readonly', true);  
     });
 
     $('body').on('focus','.iteration-number', function(){
           $(this).numeric(); 
     });    
+
+
+    $('.datepicker').on('focus', function(){
+      $(this).attr('readonly', true);
+    })
 
 
    
@@ -562,6 +582,8 @@ $(function() {
         $('.btn-create-project').on('click', function(e){
 
             e.preventDefault();
+            var startDate = null;
+            var endDate = null;
 
             // adding rules for inputs
             $('input, textarea').each(function() {
@@ -574,14 +596,31 @@ $(function() {
                   $(this).rules('add', 
                       {
                           email: true
-                      })                  
-
+                      })           
                 }
-            }); 
+
+            });
 
             if($('#form-create-project').validate().form()){
                 
                 if (iterationsCount>0){
+                  for ( var i = 1, l = iterationsCount; i <= l; i++ ) {
+                    var initDate = $('#init-date-'+i).val().split("-");
+                    var endDate = $('#end-date-'+i).val().split("-");
+
+                    initDate = new Date(initDate[2], initDate[1] - 1, initDate[0]);
+                    endDate = new Date(endDate[2], endDate[1] - 1, endDate[0]);
+
+                    initDate = new Date(initDate);
+                    endDate = new Date(endDate);
+ 
+                    if (endDate < initDate){    
+                      swal("La fecha fin debe ser mayor que la fecha de inicio");
+                      $('#init-date-'+i).val("");
+                      $('#end-date-'+i).val("");
+                      return false;
+                    }
+                  }
 
                    $('.btn-create-project').off('click').removeClass('btn-green').addClass('btn-green-disable'); 
                    $('#form-create-project').submit();

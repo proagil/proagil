@@ -37,8 +37,15 @@
 							</div>	
 
 							<p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$probeTitle}}</p>
-							<p class="text-center f-bold fs-fmed text-uppercase">{{$probeResponses}} Respuestas </p>													
 
+							@if($probeResponses>0)
+							<div class="btn-export pull-right">
+								<a class="unselected-tag tags-list-off" href="{{URL::action('ProbeController@export', array($probeId))}}"><span class="fs-med fc-turquoise fa fa-cloud-download fa-fw"></span><span class="fs-min">Exportar</span></a>
+							</div>
+							@endif	
+
+							<p class="text-center f-bold fs-fmed text-uppercase">{{$probeResponses}} Respuestas </p>													
+							@if($probeResponses>0)
 							<div class="list-content">
 								@foreach($questionResults as $index => $result)
 
@@ -83,6 +90,9 @@
 								@endforeach
 																						
 							</div>
+							@else
+								<p class="text-center f-bold fs-fmed text-uppercase fc-green"> A&uacute;n no se han registrado respuestas en este sondeo</p>	
+							@endif
 
 
 																	

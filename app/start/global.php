@@ -48,8 +48,15 @@ Log::useFiles(storage_path().'/logs/laravel.log');
 
 App::error(function(Exception $exception, $code)
 {
-	Log::error($exception);
+	//Log::error($exception);
+	return Redirect::to(URL::action('LoginController@index'));
 });
+
+
+App::missing(function($exception){
+    return Redirect::to(URL::action('LoginController@index'));
+});
+
 
 /*
 |--------------------------------------------------------------------------
@@ -79,3 +86,6 @@ App::down(function()
 */
 
 require app_path().'/filters.php';
+
+
+

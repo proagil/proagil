@@ -50,7 +50,7 @@ class ProjectController extends BaseController {
 
               $project = array(
                 'name'                => isset($values['name'])?$values['name']:NULL,
-                'objetive'            => isset($values['client'])?$values['client']:NULL,
+                'objetive'            => isset($values['objetive'])?$values['objetive']:NULL,
                 'client'              => isset($values['client'])?$values['client']:NULL,
                 'enabled'             => 1    
               );
@@ -64,7 +64,7 @@ class ProjectController extends BaseController {
                 if(isset($values['iteration'])){
 
                    foreach($values['iteration'] as $index => $iteration){
-
+                      
                       $projectIteration = array(
                           'name'        => $iteration['name'],
                           'order'       => $iteration['order'],
@@ -546,7 +546,9 @@ class ProjectController extends BaseController {
     $user = Session::get('user'); 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-    if(empty($userRole) || $userRole['user_role_id'] == Config::get('constant.project.member')){
+    $permission = User::userHasPermissionOnProject($projectId, $user['id']); 
+
+    if(!$permission || empty($userRole) || $userRole['user_role_id'] == Config::get('constant.project.member')){
 
       return Redirect::to(URL::action('DashboardController@index')); 
 
@@ -718,18 +720,21 @@ class ProjectController extends BaseController {
     // save user role on session
     Session::put('user_role', $userRole);
 
-    if(empty($userRole)){
+    $permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']);   
+
+    if(empty($userRole) || !$permission){
 
       return Redirect::to(URL::action('DashboardController@index'));  
 
     }else{
       // get project data
       $project =  (array) Project::get($projectId);
+
       Session::put('project', $project);  
 
       //get user On iteration
       $users =  array('0' => 'Seleccione un usuario'); 
-      $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+      $usersOnIteration = Project::getAllUsersOnIteration($iterationId);
       $usersOnIteration = $users+$usersOnIteration;     
 
       // get activity categories
@@ -739,11 +744,14 @@ class ProjectController extends BaseController {
       $projectIterations = (array) Project::getProjectIterations($user['id'], $projectId);
       $iteration = $projectIterations[$iterationId];
 
-      // format date
-      $date = new DateTime($iteration['init_date']);
-      $iteration['init_date'] = $date->format('d/m/Y');
-      $date = new DateTime($iteration['end_date']);
-      $iteration['end_date'] = $date->format('d/m/Y');
+      // format date and generate iteration interval days
+      $startDateIteration = new DateTime($iteration['init_date']);
+      $iteration['init_date'] = $startDateIteration->format('d-m-Y');
+      $endDateIteration = new DateTime($iteration['end_date']);
+      $iteration['end_date'] = $endDateIteration->format('d-m-Y'); 
+
+      $durationIteration = $startDateIteration->diff($endDateIteration);
+      $iteration['duration'] = $durationIteration->format('%a d&iacute;as');   
 
       // get artefacts by iteration
       $iterationArtefacts =  (array) Iteration::getArtefactsByIteration($iterationId); 
@@ -803,8 +811,7 @@ class ProjectController extends BaseController {
          }
 
          // format activities date
-        $activities[$index]['closing_date'] = date('d/m/Y', strtotime($activity['closing_date']));  
-
+       
         // get activity comments
         $activityComments = array();
         $activityComments = Activity::getComments($activity['id']); 
@@ -817,9 +824,18 @@ class ProjectController extends BaseController {
         }
 
         // save activity comments
-        $activities[$index]['comments'] = $activityComments;           
+        $activities[$index]['comments'] = $activityComments;      
+
+        // format activities intervals
+        $start_date = new DateTime($activity['start_date']);
+        $closing_date = new DateTime($activity['closing_date']);
+
+        $interval = $start_date->diff($closing_date);
+
+        $activities[$index]['interval'] = $interval->format('%a d&iacute;as');
 
       }
+
       
       return View::make('frontend.project.detail')
             ->with('activities', $activities)    
@@ -913,11 +929,7 @@ class ProjectController extends BaseController {
 
                           if(!empty($artefactValue)){
 
-                            foreach($artefactList as $artefactValue){
-
                               StormIdeas::deleteStormIdeas($artefactValue['id']);
-
-                            }  
 
                           }                  
                                         
@@ -1152,26 +1164,35 @@ class ProjectController extends BaseController {
       // verify if user on session is owner of project
       if(empty($isOwner)) {
 
-        return Redirect::to(URL::action('DashboardController@index'));
+        return Redirect::to(URL::action('DashboardController@index')); 
 
       }else{
 
-          Project::deleteUsers($projectId); 
-          Project::deleteCategoriesActivity($projectId); 
+          // get project iterations
+          $iterations = Project::getProjectIterations($user['id'], $projectId);
 
-              // delete project activities
-              $activities = Project::getActivitiesByProject($projectId); 
+           Project::deleteCategoriesActivity($projectId); 
 
-              if(!empty($activities)){
+          if(!empty($iterations)){
 
-                foreach($activities as $activity){
-                  Activity::deleteActivityComment($activity['activity_id']);
-                  Activity::deleteProjectActivity($activity['activity_id'], $projectId);
-                  Activity::deleteActivity($activity['activity_id']); 
+            foreach($iterations as $iteration){
+
+                // delete project activities
+                $activities = Project::getIterationActivities($iteration['id']);    
                 
-                }
+                if(!empty($activities)){
+
+                  foreach($activities as $activity){
+                    Activity::deleteActivityComment($activity['activity_id']);
+                    Activity::deleteProjectActivity($activity['activity_id'], $iteration['id']);
+                    Activity::deleteActivity($activity['activity_id']); 
+                  
+                  }
+
+                }                           
 
               }
+          }
 
               // get project artefacts
               $projectArtefacts = (array) Project::getProjectArtefacts($projectId, 'ALL'); 
@@ -1235,11 +1256,7 @@ class ProjectController extends BaseController {
 
                                     if(!empty($artefactValue)){
 
-                                      foreach($artefactList as $artefactValue){
-
                                         StormIdeas::deleteStormIdeas($artefactValue['id']);
-
-                                      }  
 
                                     }                  
                                                   
@@ -1437,7 +1454,24 @@ class ProjectController extends BaseController {
                                 }  
 
                                   break;
-                      }                       
+                      } 
+
+
+                      // delete iterations info
+                      if(!empty($iterations)){
+                        foreach($iterations as $iteration){
+
+                          // delete user invitations
+                          Iteration::deleteUsers($iteration['id']); 
+                          Iteration::deleteIterationInvitations($iteration['id']);
+                          Iteration::_delete($iteration['id']); 
+
+                        }
+                      }
+
+
+                      // delete project info 
+                      Project::_delete($projectId);                      
                                                  
                                 
                 }
@@ -1449,7 +1483,7 @@ class ProjectController extends BaseController {
               Session::flash('success_message', 'Se ha eliminado el proyecto correctamente'); 
 
               return Redirect::to(URL::action('DashboardController@index'));
-}
+  }
 
   public function friendlyURL($str) {
 

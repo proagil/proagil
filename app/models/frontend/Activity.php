@@ -75,11 +75,12 @@ class Activity extends Eloquent{
 		}		
 	}	
 
+
 	public static function get($activityId){
 
 		return DB::table('activity AS a')
 
-				->select('a.*', 'u.first_name', 'cabtp.name AS category_name', 'p.id AS project_id', 'p.name AS project_name', 'abtp.id AS abtp_id','abtp.iteration_id', 'abtp.user_id')
+				->select('a.*', 'u.first_name', 'cabtp.name AS category_name', 'p.id AS project_id', 'p.name AS project_name', 'abtp.id AS abtp_id','abtp.iteration_id AS iteration_id', 'abtp.user_id')
 
 			  	->where('a.id', $activityId)
 

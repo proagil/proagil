@@ -24,6 +24,7 @@
     {{ HTML::style('css/frontend/owl.carousel.css') }}
     {{ HTML::style('css/frontend/emoticons/emoticons.css') }}
 	{{ HTML::style('css/frontend/generic.css') }}
+    {{ HTML::style('css/frontend/responsive.css') }}
     {{ HTML::style('css/frontend/style_diagram.css') }}
     {{ HTML::style('js/frontend/joint-master/dist/joint.css') }}
 

@@ -9,8 +9,6 @@ class StyleGuideController extends BaseController {
 
 	      	 $userRole = Session::get('user_role');
 
-	      	 //print_r( $userRole ); die; 
-
 	        if(is_null(Session::get('user'))){
 	          return Redirect::to(URL::action('LoginController@index'));
 	        }
@@ -21,39 +19,54 @@ class StyleGuideController extends BaseController {
 
 	public function index($projectId, $iterationId){
 
-	    if(is_null(Session::get('user'))){
+		// get user
+		$user = Session::get('user');
 
-	          return Redirect::to(URL::action('DashboardController@index'));
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
 
-	    }else{
+		if(!$permission){
 
-	    	//get user role
-	    	 $userRole = Session::get('user_role');
+			 return Redirect::to(URL::action('LoginController@index'));
 
-	    	 // get project data
-	    	 $project = (array) Project::getName($projectId); 
-	    	 // get iteration data
-	    	 $iteration = (array) Iteration::get($iterationId);	    	 
+		}else{			
 
-	    	 $stylesGuide = StyleGuide::enumerate($iterationId);  
+		    if(is_null(Session::get('user'))){
 
-	    	return View::make('frontend.styleGuide.index')
-	    		    	->with('iteration', $iteration)
-	    		    	->with('projectName', $project['name'])
-	    				->with('projectId', $projectId)
-	    				->with('stylesGuide', $stylesGuide)
-	    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE); 	    	
+		          return Redirect::to(URL::action('DashboardController@index'));
 
-	    }
+		    }else{
 
+		    	//get user role
+		    	 $userRole = Session::get('user_role');
+
+		    	 // get project data
+		    	 $project = (array) Project::getName($projectId); 
+		    	 // get iteration data
+		    	 $iteration = (array) Iteration::get($iterationId);	    	 
+
+		    	 $stylesGuide = StyleGuide::enumerate($iterationId);  
+
+		    	return View::make('frontend.styleGuide.index')
+		    		    	->with('iteration', $iteration)
+		    		    	->with('projectName', $project['name'])
+		    				->with('projectId', $projectId)
+		    				->with('stylesGuide', $stylesGuide)
+		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE); 	    	
+
+		    }
+		}
 	}
 
 	public function create($projectId, $iterationId){
 
-		// get user role
+		// get user
+		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
-   
-	    if($userRole['user_role_id']==Config::get('constant.project.owner')){
+
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
+
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){
+
 
 	    	// get project data
 	    	 $project = (array) Project::getName($projectId); 
@@ -68,7 +81,7 @@ class StyleGuideController extends BaseController {
 
 	    }else{
 
-	    	 return Redirect::to(URL::action('DashboardController@index'));
+	    	 return Redirect::to(URL::action('LoginController@index'));
 
 	    }
 
@@ -77,8 +90,6 @@ class StyleGuideController extends BaseController {
 	public function save(){
 
 		$values = Input::get('values');
-
-		//print_r(	$values); die; 
 
 		// get project data
 		$project = (array) Project::getName($values['project_id']);	
@@ -183,147 +194,160 @@ class StyleGuideController extends BaseController {
 	}
 
 	public function edit($styleGuideId){
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
 
-		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);
+	    $permission = User::userHasPermissionOnArtefact($styleGuideId, 'style_guide', $user['id']); 
 
-		// get iteration data
-    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);	
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
 
-		if(Input::has('_token')){
+			$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);
 
-			$values = Input::get('values');
+			// get iteration data
+	    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);	
 
-			// get project data
-			$project = (array) Project::getName($values['project_id']);	
+			if(Input::has('_token')){
 
-	       	// get style guide logo
-	       	$logo = Input::file('logo');
-
-	       	// get style guide  interface
-	       	$interface = Input::file('interface');       	
-
-	       	if($logo!=NULL){
-
-	       		//delete old interface file
-	       		if($styleGuide['logo']!=''){
-	       			$this->deleteFile($styleGuide['logo_image'], $styleGuide['logo']); 
-	       		}
-	       		
-
-	       		// save style guide logo
-	       		$logoId = $this->uploadAndResizeFile($logo, 300, 300); 
-	       	}
-
-	       	if($interface!=NULL){
-
-	       		//delete old interface file
-	       		$this->deleteFile($styleGuide['interface_image'], $styleGuide['interface']); 
-
-	       		// save style guide interface
-	       		$interfaceId = $this->uploadAndResizeFile($interface, 700, 700); 
-	       	}
-
-			$styleGuide = array(
-				'name'			=> $values['name'],
-				'project_id'	=> $values['project_id'],
-				'logo'			=> (isset($logoId))?$logoId:$styleGuide['logo'],
-				'interface'		=> (isset($interfaceId))?$interfaceId:$styleGuide['interface'],
-				'iteration_id'  => $values['iteration_id']
-
-			);
-
-			// update style guide info
-			StyleGuide::_update($values['style_guide_id'], $styleGuide);
-
-			// save primary colors
-			if(isset($values['primary_color'])){
-
-				// delete old primary colors
-				if (StyleGuide::deletePrimaryColors($values['style_guide_id'])){
-
-					foreach($values['primary_color'] as $color){
-
-						$primaryColor = array(
-							'hexadecimal'		=> $color,
-							'type'				=> Config::get('constant.style_guide.color.primary'),
-							'style_guide_id'	=> $values['style_guide_id']
-						);
-
-						$primaryColorId = StyleGuide::saveColor($primaryColor);
-
-					}					
-				}
-
-			}
-
-			// save secundary colors
-			if(isset($values['secundary_color'])){
-
-				// delete old secundary colors
-				if(StyleGuide::deleteSecundaryColors($values['style_guide_id'])){
-
-					foreach($values['secundary_color'] as $color){
-
-						$secundaryColor = array(
-							'hexadecimal'		=> $color,
-							'type'				=> Config::get('constant.style_guide.color.secundary'),
-							'style_guide_id'	=> $values['style_guide_id']
-						);
-
-						$secundaryColorId = StyleGuide::saveColor($secundaryColor);
-
-					}
-				}				
-				
-			}
-
-			// save fonts values
-			if(isset($values['font_name'])){
-
-				// delete old fonts
-				StyleGuide::deleteFonts($values['style_guide_id']);
-
-				foreach($values['font_name'] as $index => $font){
-
-					$fontValue = array(
-						'name'				=> $font,
-						'size'				=> $values['font_size'][$index],
-						'style_guide_id'	=> $styleGuideId
-					);
-
-					$secundaryColorId = StyleGuide::saveFont($fontValue);
-
-				}				
-				
-			}
-
-			Session::flash('success_message', 'Se editó la gu&iacute;a de estilos'); 
-
-	        // redirect to index style guide view
-	        return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'], $iteration['id'])));										
-
-		
-		}else{
-
-			if(!empty($styleGuide)){
+				$values = Input::get('values');
 
 				// get project data
-				 $project = (array) Project::getName($styleGuide['project_id']); 
+				$project = (array) Project::getName($values['project_id']);	
 
+		       	// get style guide logo
+		       	$logo = Input::file('logo');
 
-				return View::make('frontend.styleGuide.edit')
-							->with('values', $styleGuide)
-							->with('iteration', $iteration)
-							->with('projectName', $project['name'])
-							->with('projectId', $project['id'])
-							->with('styleGuideId', $styleGuideId);   			
+		       	// get style guide  interface
+		       	$interface = Input::file('interface');       	
 
+		       	if($logo!=NULL){
+
+		       		//delete old interface file
+		       		if($styleGuide['logo']!=''){
+		       			$this->deleteFile($styleGuide['logo_image'], $styleGuide['logo']); 
+		       		}
+		       		
+
+		       		// save style guide logo
+		       		$logoId = $this->uploadAndResizeFile($logo, 300, 300); 
+		       	}
+
+		       	if($interface!=NULL){
+
+		       		//delete old interface file
+		       		if($styleGuide['interface']!=''){
+		       			$this->deleteFile($styleGuide['interface_image'], $styleGuide['interface']); 
+		       		}
+		       		
+		       		// save style guide interface
+		       		$interfaceId = $this->uploadAndResizeFile($interface, 700, 700); 
+		       	}
+
+				$styleGuide = array(
+					'name'			=> $values['name'],
+					'project_id'	=> $values['project_id'],
+					'logo'			=> (isset($logoId))?$logoId:$styleGuide['logo'],
+					'interface'		=> (isset($interfaceId))?$interfaceId:$styleGuide['interface'],
+					'iteration_id'  => $values['iteration_id']
+
+				);
+
+				// update style guide info
+				StyleGuide::_update($values['style_guide_id'], $styleGuide);
+
+				// save primary colors
+				if(isset($values['primary_color'])){
+
+					// delete old primary colors
+					if (StyleGuide::deletePrimaryColors($values['style_guide_id'])){
+
+						foreach($values['primary_color'] as $color){
+
+							$primaryColor = array(
+								'hexadecimal'		=> $color,
+								'type'				=> Config::get('constant.style_guide.color.primary'),
+								'style_guide_id'	=> $values['style_guide_id']
+							);
+
+							$primaryColorId = StyleGuide::saveColor($primaryColor);
+
+						}					
+					}
+
+				}
+
+				// save secundary colors
+				if(isset($values['secundary_color'])){
+
+					// delete old secundary colors
+					if(StyleGuide::deleteSecundaryColors($values['style_guide_id'])){
+
+						foreach($values['secundary_color'] as $color){
+
+							$secundaryColor = array(
+								'hexadecimal'		=> $color,
+								'type'				=> Config::get('constant.style_guide.color.secundary'),
+								'style_guide_id'	=> $values['style_guide_id']
+							);
+
+							$secundaryColorId = StyleGuide::saveColor($secundaryColor);
+
+						}
+					}				
+					
+				}
+
+				// save fonts values
+				if(isset($values['font_name'])){
+
+					// delete old fonts
+					StyleGuide::deleteFonts($values['style_guide_id']);
+
+					foreach($values['font_name'] as $index => $font){
+
+						$fontValue = array(
+							'name'				=> $font,
+							'size'				=> $values['font_size'][$index],
+							'style_guide_id'	=> $styleGuideId
+						);
+
+						$secundaryColorId = StyleGuide::saveFont($fontValue);
+
+					}				
+					
+				}
+
+				Session::flash('success_message', 'Se editó la gu&iacute;a de estilos'); 
+
+		        // redirect to index style guide view
+		        return Redirect::to(URL::action('StyleGuideController@index', array($values['project_id'], $iteration['id'])));										
+
+			
 			}else{
 
-				return Redirect::to(URL::action('DashboardController@index'));
+				if(!empty($styleGuide)){
 
+					// get project data
+					 $project = (array) Project::getName($styleGuide['project_id']); 
+
+
+					return View::make('frontend.styleGuide.edit')
+								->with('values', $styleGuide)
+								->with('iteration', $iteration)
+								->with('projectName', $project['name'])
+								->with('projectId', $project['id'])
+								->with('styleGuideId', $styleGuideId);   			
+
+				}else{
+
+					return Redirect::to(URL::action('DashboardController@index'));
+
+				}
 			}
-		}	
+		}else{
+
+			return Redirect::to(URL::action('LoginController@index'));
+
+		}
 
 	}
 
@@ -370,34 +394,54 @@ class StyleGuideController extends BaseController {
 	}	
 
 	function detail($styleGuideId){
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
 
-		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
+	    $permission = User::userHasPermissionOnArtefact($styleGuideId, 'style_guide', $user['id']); 
 
-			if(!empty($styleGuide)){
-
-				 $project = (array) Project::getName($styleGuide['project_id']); 
-				// get iteration data
-		    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);					 
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
 
 
-				return View::make('frontend.styleGuide.detail')
-							->with('iteration', $iteration)
-							->with('projectName', $project['name'])
-							->with('projectId', $project['id'])
-							->with('styleGuide', $styleGuide)
-							->with('styleGuideId', $styleGuideId);   			
+			$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
 
-			}else{
+				if(!empty($styleGuide)){
 
-				return Redirect::to(URL::action('DashboardController@index'));
+					 $project = (array) Project::getName($styleGuide['project_id']); 
+					// get iteration data
+			    	$iteration = (array) Iteration::get($styleGuide['iteration_id']);					 
 
-			}		
+
+					return View::make('frontend.styleGuide.detail')
+								->with('iteration', $iteration)
+								->with('projectName', $project['name'])
+								->with('projectId', $project['id'])
+								->with('styleGuide', $styleGuide)
+								->with('styleGuideId', $styleGuideId);   			
+
+				}else{
+
+					return Redirect::to(URL::action('DashboardController@index'));
+
+				}		
+		}else{
+
+			return Redirect::to(URL::action('LoginController@index'));
+
+		}					
 
 	}	
 
 	function export($styleGuideId){
 
-		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
+
+	    $permission = User::userHasPermissionOnArtefact($styleGuideId, 'style_guide', $user['id']); 
+
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
+
+
+			$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
 
 			if(!empty($styleGuide)){
 
@@ -413,47 +457,63 @@ class StyleGuideController extends BaseController {
 				return Redirect::to(URL::action('DashboardController@index'));
 
 			}		
+		}else{
+
+			return Redirect::to(URL::action('LoginController@index'));
+
+		}					
 
 	}	
 
 
 	public function deleteStyleGuide($styleGuideId){
+		$user = Session::get('user');
+	    $userRole = Session::get('user_role');
+
+	    $permission = User::userHasPermissionOnArtefact($styleGuideId, 'style_guide', $user['id']); 
+
+	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
 
 
-		$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
+			$styleGuide = StyleGuide::getSyleGuideData($styleGuideId);	
 
-			if(!empty($styleGuide)){
+				if(!empty($styleGuide)){
 
-				if(StyleGuide::deleteStyleGuide($styleGuideId)){
+					if(StyleGuide::deleteStyleGuide($styleGuideId)){
 
-					//delete files
-					if($styleGuide['logo']!= ''){
-						$this->deleteFile($styleGuide['logo_image'], $styleGuide['logo']); 
+						//delete files
+						if($styleGuide['logo']!= ''){
+							$this->deleteFile($styleGuide['logo_image'], $styleGuide['logo']); 
+						}
+
+						if($styleGuide['interface']!= ''){
+							$this->deleteFile($styleGuide['interface_logo'], $styleGuide['interface']); 
+						}
+											
+
+						Session::flash('success_message', 'Se ha eliminado la gu&iacute;a de estilos correctamente'); 
+
+			   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));					
+
+					}else{
+
+			   			Session::flash('error_message', 'No se ha podido eliminar la gu&iacute;a de estilos'); 
+
+			   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));							
+
 					}
 
-					if($styleGuide['interface']!= ''){
-						$this->deleteFile($styleGuide['interface_logo'], $styleGuide['interface']); 
-					}
-										
-
-					Session::flash('success_message', 'Se ha eliminado la gu&iacute;a de estilos correctamente'); 
-
-		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));					
 
 				}else{
 
-		   			Session::flash('error_message', 'No se ha podido eliminar la gu&iacute;a de estilos'); 
+					return Redirect::to(URL::action('DashboardController@index'));
 
-		   			return Redirect::to(URL::action('StyleGuideController@index', array($styleGuide['project_id'], $styleGuide['iteration_id'])));							
+				}	
+		}else{
 
-				}
+			return Redirect::to(URL::action('LoginController@index'));
 
-
-			}else{
-
-				return Redirect::to(URL::action('DashboardController@index'));
-
-			}				
+		}	
 
 	}
 

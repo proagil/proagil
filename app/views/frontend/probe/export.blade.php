@@ -42,15 +42,14 @@
 				@endforeach
 			@else
 				@foreach($response['results'] as $result)
-					<p> {{$result['name']}} - {{$result['result_count']}} respuesta(s) ({{$result['percent']}}%)  <p>
+					<p> Opci&oacute;n {{$result['name']}} - {{$result['result_count']}} respuesta(s) ({{$result['percent']}}%)  <p>
 				@endforeach	
 			@endif					
 		</div>
 		@endforeach
 
 		<div style="text-align:center; background-color:#F6F6F6">
-			Generado con: 
-			<img style="text-align:center;color:#42c2b8" src="http://s11.postimg.org/duhv9zmv7/logo_sm.png">	
+			Generado con: PROAGIL
 		</div>
 
 		

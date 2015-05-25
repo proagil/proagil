@@ -33,11 +33,11 @@
                           <div class="categories-content">
                             @if (isset($categories))
                                @foreach($categories as $index => $category)
-                              <div class="form-group project-saved-category-{{$category->id}}">
+                              <div class="form-group project-saved-category-{{$category['id']}}">
                                 <label class="col-md-4 title-label fc-grey-iv control-label" for="textinput">Categor&iacute;a </label>  
                                 <div class="col-md-4">
-                                    {{ Form::text('values[category]['.$category->id. ']', $category->name, array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
-                                    <div data-category-id="{{$category->id}}" data-category-name="{{$category->name}}" data-project-id="{{$projectId}}" class="btn-delete-saved-invitation circle activity-option txt-center fs-big fc-turquoise">
+                                    {{ Form::text('values[category]['.$category['id']. ']', $category['name'], array('placeholder' => 'Ej: Requisitos', 'class'=>'form-control category-input app-input')) }}
+                                    <div data-category-id="{{$category['id']}}" data-category-name="{{$category['name']}}" data-project-id="{{$projectId}}" class="btn-delete-saved-invitation circle activity-option txt-center fs-big fc-pink">
                                       <i class="fa fa-times fa-fw"></i>
                                     </div> 
                                     <br><br>

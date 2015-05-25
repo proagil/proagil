@@ -20,203 +20,87 @@ class ActivityController extends BaseController {
 	    $user = Session::get('user');
     	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
 
-	    //get user On iteration
-	    $users =  array('0' => 'Seleccione un usuario'); 
-	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
-	    $usersOnIteration = $users+$usersOnIteration; 
+		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']);    
+		
+    	if(empty($userRole) || !$permission){
 
-		//get categories On project
-		$typeCategories = array('0' => 'Seleccione una categoría');
-    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
+      		return Redirect::to(URL::action('DashboardController@index')); 	
 
-    	$iteration = (array) Iteration::get($iterationId);
+      	}else{	 	
 
-    	if (!empty($categories)){
-    		$categories = $typeCategories+$categories;
-    	} 		
+		    //get user On iteration
+		    $users =  array('0' => 'Seleccione un usuario'); 
+		    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId);
+		    $usersOnIteration = $users+$usersOnIteration; 
 
-    	$project = (array) Project::get($projectId);
+			//get categories On project
+			$typeCategories = array('0' => 'Seleccione una categoría');
+	    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
 
-		if(Input::has('_token')){
-			
-			// validation rules
-	        $rules =  array(
-	        'title'											=> 'required',
-	        'closing_date'									=> 'required',
-            'description'									=> 'required',
-            'assigned_user_id'								=> 'integer|min:1'
-	        );
+	    	$iteration = (array) Iteration::get($iterationId);
 
+	    	if (!empty($categories)){
+	    		$categories = $typeCategories+$categories;
+	    	} 		
 
-	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
+	    	$project = (array) Project::get($projectId);
 
-	        // get input valiues
-	        $values = Input::get('values');
+			if(Input::has('_token')){
+				
+				// validation rules
+		        $rules =  array(
+			        'title'									=> 'required',
+			        'start_date'							=> 'required|date_format:"d-m-Y"',
+			        'closing_date'							=> 'required|date_format:"d-m-Y"|after:start_date',
+		            'description'							=> 'required',
+		            'assigned_user_id'						=> 'integer|min:1'
+		        );
 
-	        if(!$validator->fails()){
-
-		        $nowDate = (array) new DateTime('today');
-
-		        $activity = array(
-	                'title'      	    						=> $values['title'],
-	                'description'       						=> $values['description'],
-					'enabled'           						=> Config::get('constant.ENABLED'),
-	                'status'   									=> Config::get('constant.activity.not_initiated'),
-	                'category_id'   							=> (isset($values['category_id']))?$values['category_id']:null,
-	                'start_date'								=> $nowDate['date'],
-	                'closing_date'     							=> $values['closing_date']
-	            );
-
-	            // insert activity on DB
-	            $activityId = Activity::insert($activity);
-
-	            if($activityId>0) {
-
-	            	$assignedUserId = $values['assigned_user_id'];
+		        $message =  array(
+			        'after'			=> 'La fecha fin debe ser mayor a la fecha inicio'
+		        );
+		        // set validation rules to input values
+		        $validator = Validator::make(Input::get('values'), $rules, $message);
 
 
-			        $projectActivity = array(
-			            'project_id'    => $projectId,
-			            'activity_id'   => $activityId,
-			            'user_id'		=> $assignedUserId,
-			            'iteration_id'  => $iterationId 
-			        );
-			
-					//save project activity
-		            Activity::insertProjectActivity($projectActivity); 
+		        // get input valiues
+		        $values = Input::get('values');
 
-		            $assignedUser = (array) User::getUserById($assignedUserId);
+		        if(!$validator->fails()){
 
-	                $emailData = array(
-		                'assigned_user_name'     		=> $assignedUser['first_name'],
-		                'activity_title'     			=> $values['title'],
-		                'iteration_name'				=> $iteration['name'],
-	                	'user_name'     				=> $user['first_name'],
-		                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId . '/'. $iterationId 
+			        // $nowDate = (array) new DateTime('today');
+
+			        $activity = array(
+		                'title'      	    						=> $values['title'],
+		                'description'       						=> $values['description'],
+						'enabled'           						=> Config::get('constant.ENABLED'),
+		                'status'   									=> Config::get('constant.activity.not_initiated'),
+		                'category_id'   							=> (isset($values['category_id']))?$values['category_id']:null,
+		                'start_date'								=> $values['start_date'],
+		                'closing_date'     							=> $values['closing_date']
 		            );
 
-					$email = $assignedUser['email'];
+		            // insert activity on DB
+		            $activityId = Activity::insert($activity);
 
-	                // send email with assigned activity
-	                Mail::send('frontend.email_templates.assignedUserActivity', 
+		            if($activityId>0) {
 
-	                $emailData, 
-
-	                function($message) use ($email){
-
-	                  $message->to($email);
-	                  $message->subject('PROAGIL: Notificación de actividad asignada');
-	                });  
-					Session::flash('success_message', 'Se ha creado la actividad: '.$activity['title']); 
-					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);
-                
-                }
-
-		    }else{
-
-              	return View::make('frontend.activity.create')
-                        ->with('categories', $categories)
-                        ->with('iteration', $iteration)
-		        		->with('project', $project)
-		        		->with('projectDetail', TRUE)
-		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-		        		->with('usersOnIteration',$usersOnIteration)
-		        		->withErrors($validator)
-                        ->with('values', $values);
-		    }			
-
-		}else{
-
-	        // render view first time 
-	        return View::make('frontend.activity.create') 
-	        		->with('categories', $categories)
-	        		->with('iteration', $iteration)
-	        		->with('project', $project)
-	        		->with('projectDetail', TRUE)
-	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	        		->with('usersOnIteration',$usersOnIteration);
-	    }
-		
-
-	}
-
-	public function edit($activityId)
-	{
-		$activity = (array) Activity::get($activityId);
-
-		$iterationId = $activity['iteration_id'];
-		
-		$iteration = (array) Iteration::get($iterationId);
-
-		$projectId = $activity['project_id'];
-
-		//get user
-	    $user = Session::get('user');
-    	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
-
-	    //get user On iteration
-	    $usersOnIteration = (array) Project::getAllUsersOnIteration($iterationId, $user['id']);
+		            	$assignedUserId = isset($values['assigned_user_id'])?$values['assigned_user_id']:NULL;
 
 
-		//get categories On project
-		$typeCategories = array('0' => 'Seleccione una categoria');
-    	$categories = (array) ActivityCategory::getCategoriesByProjectId($projectId);
-    	if (!empty($categories)){
-    		$categories = $typeCategories+$categories;
-    	} 
-
-		//get project information
-    	$project = (array) Project::get($projectId);
-
-		if(Input::has('_token')){
-			
-			// validation rules
-	        $rules =  array(
-		        'title'									=> 'required',
-		        'closing_date'							=> 'required',
-	            'description'							=> 'required',
-	            'assigned_user_id'						=> 'integer|min:1'
-	        );
-
-	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
-
-	        // get input valiues
-	        $values = Input::get('values');
-
-	        if(!$validator->fails()){
-
-		        $nowDate = (array) new DateTime('today');
-
-		        $updateActivity = array(
-	                'title'      	    	=> $values['title'],
-	                'description'       	=> $values['description'],
-	                'category_id'   		=> (isset($values['category_id']))?$values['category_id']:null,
-	                'closing_date'     		=> $values['closing_date']
-	            );
-
-	            // insert activity on DB
-	            $updateActivity = Activity::updateActivity($activityId,$updateActivity);
-
-	            if($updateActivity) {
-
-	            	$assignedUserId = $values['assigned_user_id'];
-	            	if($assignedUserId != $activity['user_id']){
-
-				        $updateProjectActivity = array(
-				            'user_id'		=> $assignedUserId 
+				        $projectActivity = array(
+				            'project_id'    => $projectId,
+				            'activity_id'   => $activityId,
+				            'user_id'		=> $assignedUserId,
+				            'iteration_id'  => $iterationId 
 				        );
-
-						$abtpId = $activity['abtp_id'];
-
+				
 						//save project activity
-			            Activity::updateProjectActivity($abtpId, $updateProjectActivity); 
+			            Activity::insertProjectActivity($projectActivity); 
 
 			            $assignedUser = (array) User::getUserById($assignedUserId);
 
-
-						$emailData = array(
+		                $emailData = array(
 			                'assigned_user_name'     		=> $assignedUser['first_name'],
 			                'activity_title'     			=> $values['title'],
 			                'iteration_name'				=> $iteration['name'],
@@ -236,77 +120,239 @@ class ActivityController extends BaseController {
 		                  $message->to($email);
 		                  $message->subject('PROAGIL: Notificación de actividad asignada');
 		                });  
-		            }
+						Session::flash('success_message', 'Se ha creado la actividad: '.$activity['title']); 
+						return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);
+	                
+	                }
 
-					Session::flash('success_message', 'Se ha editó la actividad: '.$values['title']); 
-					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);                
-                	
-                }
+			    }else{
 
-		    }else{
+	              	return View::make('frontend.activity.create')
+	                        ->with('categories', $categories)
+	                        ->with('iteration', $iteration)
+			        		->with('project', $project)
+			        		->with('projectDetail', TRUE)
+			        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+			        		->with('usersOnIteration',$usersOnIteration)
+			        		->withErrors($validator)
+	                        ->with('values', $values);
+			    }			
+
+			}else{
+
+		        // render view first time 
+		        return View::make('frontend.activity.create') 
+		        		->with('categories', $categories)
+		        		->with('iteration', $iteration)
+		        		->with('project', $project)
+		        		->with('projectDetail', TRUE)
+		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+		        		->with('usersOnIteration',$usersOnIteration);
+		    }
+
+		}
+		
+
+	}
+
+	public function edit($activityId){
+
+		//get user
+	    $user = Session::get('user');
+
+		$permission = User::userHasPermissionOnActivity($activityId, 'activity_belongs_to_project', $user['id']); 
+
+		if(!$permission){
+
+			return Redirect::to(URL::action('DashboardController@index')); 
+
+		}else{
+
+			$activity = (array) Activity::get($activityId);
+
+			$iterationId = $activity['iteration_id'];
+			
+			$iteration = (array) Iteration::get($iterationId);
+
+			$projectId = $activity['project_id'];
+
+			//get user
+		    $user = Session::get('user');
+	    	$userRole = (array) User::getUserRoleOnIteration($iterationId, $user['id']);
+
+		    //get user On iteration
+		    $usersOnIteration = (array) Project::getUsersOnIteration($iterationId);
+
+			//get categories On project
+			$typeCategories = array('0' => 'Seleccione una categoria');
+	    	$categories = (array) ActivityCategory::getAllCategoriesByProjectId($projectId);
+
+	    	if (!empty($categories)){
+	    		$categories = $typeCategories+$categories;
+	    	} 
+
+			//get project information
+	    	$project = (array) Project::get($projectId);
+
+			if(Input::has('_token')){
 				
-              	return View::make('frontend.activity.edit')
-              			->with('activityId', $activityId)
-                        ->with('categories', $categories)
+				// validation rules
+		        $rules =  array(
+			        'title'									=> 'required',
+			        'start_date'							=> 'required|date_format:"d-m-Y"',
+			        'closing_date'							=> 'required|date_format:"d-m-Y"|after:start_date',
+		            'description'							=> 'required',
+		            'assigned_user_id'						=> 'integer|min:1'
+		        );
+
+		        $message =  array(
+			        'after'			=> 'La fecha fin debe ser mayor a la fecha inicio'
+		        );
+		        // set validation rules to input values
+		        $validator = Validator::make(Input::get('values'), $rules, $message);
+
+		        // get input valiues
+		        $values = Input::get('values');
+
+		        if(!$validator->fails()){
+
+			        $nowDate = (array) new DateTime('today');
+
+			        $updateActivity = array(
+		                'title'      	    	=> $values['title'],
+		                'description'       	=> $values['description'],
+		                'category_id'   		=> (isset($values['category_id']))?$values['category_id']:null,
+		                'start_date'     		=> $values['start_date'],
+		                'closing_date'     		=> $values['closing_date']
+		            );
+
+		            // insert activity on DB
+		            $updateActivity = Activity::updateActivity($activityId,$updateActivity);
+
+		            if($updateActivity) {
+
+		            	$assignedUserId = $values['assigned_user_id'];
+		            	if($assignedUserId != $activity['user_id']){
+
+					        $updateProjectActivity = array(
+					            'user_id'		=> $assignedUserId 
+					        );
+
+							$abtpId = $activity['abtp_id'];
+
+							//save project activity
+				            Activity::updateProjectActivity($abtpId, $updateProjectActivity); 
+
+				            $assignedUser = (array) User::getUserById($assignedUserId);
+
+
+							$emailData = array(
+				                'assigned_user_name'     		=> $assignedUser['first_name'],
+				                'activity_title'     			=> $values['title'],
+				                'iteration_name'				=> $iteration['name'],
+			                	'user_name'     				=> $user['first_name'],
+				                'url_token'     				=> URL::to('/'). '/proyecto/detalle/'. $projectId . '/'. $iterationId 
+				            );
+
+							$email = $assignedUser['email'];
+
+			                // send email with assigned activity
+			                Mail::send('frontend.email_templates.assignedUserActivity', 
+
+			                $emailData, 
+
+			                function($message) use ($email){
+
+			                  $message->to($email);
+			                  $message->subject('PROAGIL: Notificación de actividad asignada');
+			                });  
+			            }
+
+						Session::flash('success_message', 'Se ha editó la actividad: '.$values['title']); 
+						return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId. '/'. $iterationId);                
+	                	
+	                }
+
+			    }else{
+					
+	              	return View::make('frontend.activity.edit')
+	              			->with('activityId', $activityId)
+	                        ->with('categories', $categories)
+			        		->with('project', $project)
+			        		->with('projectDetail', TRUE)
+			        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
+			        		->with('usersOnIteration',$usersOnIteration)
+			        		->withErrors($validator)
+	                        ->with('values', $values);
+			    }			
+
+			}else{
+				$values = $activity;
+
+				$date = new DateTime($values['start_date']);
+				$values['start_date']	= $date->format('d-m-Y');
+
+				$date = new DateTime($values['closing_date']);
+				$values['closing_date']	= $date->format('d-m-Y');
+			        	
+		        // render view first time 
+		        return View::make('frontend.activity.edit') 
+		        		->with('activityId', $activityId)	        		
+		        		->with('categories', $categories)
 		        		->with('project', $project)
 		        		->with('projectDetail', TRUE)
 		        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 		        		->with('usersOnIteration',$usersOnIteration)
-		        		->withErrors($validator)
-                        ->with('values', $values);
-		    }			
+		        		->with('values', $values);
+		    }
 
-		}else{
-			$values = $activity;
-
-			$date = new DateTime($values['closing_date']);
-			$values['closing_date']	= $date->format('d-m-Y');
-		        	
-	        // render view first time 
-	        return View::make('frontend.activity.edit') 
-	        		->with('activityId', $activityId)	        		
-	        		->with('categories', $categories)
-	        		->with('project', $project)
-	        		->with('projectDetail', TRUE)
-	        		->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-	        		->with('usersOnIteration',$usersOnIteration)
-	        		->with('values', $values);
-	    }
+		}
 		
 	}
 
 
-	public function delete($activityId)
-	{
-		$activity = (array) Activity::getById($activityId);
+	public function delete($activityId){
 
-		$projectId = $activity['project_id'];
+		//get user
+	    $user = Session::get('user');		
 
-		$iterationId = $activity['iteration_id'];
+		$permission = User::userHasPermissionOnActivity($activityId, 'activity_belongs_to_project', $user['id']); 
 
-		$deleteCommets = Activity::deleteActivityComment($activityId);
+		if(!$permission){
 
-		$deleteIterationActivity = Activity::deleteIterationActivity($activityId, $iterationId);
+			return Redirect::to(URL::action('DashboardController@index')); 
 
-		if($deleteIterationActivity){
+		}else{
 
-			$deleteActivity = (array) Activity::deleteActivity($activityId);
-			if($deleteActivity){
+			$activity = (array) Activity::getById($activityId);
 
-				Session::flash('success_message', 'Se ha eliminado la actividad: '.$activity['title']); 
-				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
+			$projectId = $activity['project_id'];
+
+			$iterationId = $activity['iteration_id'];
+
+			$deleteCommets = Activity::deleteActivityComment($activityId);
+
+			$deleteIterationActivity = Activity::deleteIterationActivity($activityId, $iterationId);
+
+			if($deleteIterationActivity){
+
+				$deleteActivity = (array) Activity::deleteActivity($activityId);
+				if($deleteActivity){
+
+					Session::flash('success_message', 'Se ha eliminado la actividad: '.$activity['title']); 
+					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
+				}else{
+					
+					Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
+					return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
+				}
+
 			}else{
-				
+					
 				Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
 				return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
 			}
-
-		}else{
-				
-			Session::flash('error_message', 'Ocurrió un problema al eliminar la actividad'.$activity['title']); 
-			return Redirect::to(URL::to('/'). '/proyecto/detalle/'. $projectId . '/' . $iterationId );
 		}
-	
 
 	}
 
@@ -320,13 +366,13 @@ class ActivityController extends BaseController {
 
 		switch($activity['status']){
 			case 1:
-				$activity['status_name'] = 'SIN EMPEZAR';
+				$activity['status_name'] = 'Asignada';
 				break; 
 			case 2:
-				$activity['status_name'] = 'EN PROCESO';
+				$activity['status_name'] = 'Iniciada';
 				break; 			
 			case 3:
-				$activity['status_name'] = 'TERMINADA';
+				$activity['status_name'] = 'Terminada';
 				break; 			
 		}
 

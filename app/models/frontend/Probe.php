@@ -6,7 +6,7 @@ class Probe extends Eloquent{
 
 		DB::setFetchMode(PDO::FETCH_ASSOC);
 
-		return DB::table('probe')->where('iteration_id', $iterationId)->orderby('probe.id', 'ASC')->get();
+		return DB::table('probe')->where('iteration_id', $iterationId)->orderby('probe.id', 'DES')->get();
 	}
 
 	public static function getAnswerTypes($type){
@@ -148,6 +148,8 @@ class Probe extends Eloquent{
 
 					->groupBy('ptev.probe_template_option_id', 'pto.name')
 
+					->orderBy('ptev.probe_template_option_id')
+
 					->get();
 
 					$probeOptions = DB::table('probe_template_option AS pto')
@@ -155,6 +157,8 @@ class Probe extends Eloquent{
 					->select('pto.*')
 
 					->where('pto.probe_template_element_id', $probeElement['id'])
+
+					->orderBy('pto.id')
 
 					->get();
 

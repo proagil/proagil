@@ -17,7 +17,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$project['name']}} <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Tormenta de Ideas
 							</div>	
 
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('ProjectController@detail', array($project['id'], $iteration['id']))}}" class="btn-back-i"> Volver</a>													
 		                	@if (Session::has('error_message'))
 		                		<div class="error-alert-dashboard"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('error_message')}}</div>
 		                	@endif	
@@ -35,7 +35,7 @@
 
 
 							@if($projectOwner)
-								<div class=" fs-med common-btn-i btn-iii btn-green pull-right btn-add-storm-ideas" data-project-id="{{$project['id']}}"  data-iteration-id="{{$iteration['id']}}">
+								<div class="txt-center fs-med common-btn-i btn-iii btn-green pull-right btn-add-storm-ideas" data-project-id="{{$project['id']}}"  data-iteration-id="{{$iteration['id']}}">
 									<i class="fs-big fa fa-plus fa-fw"></i> Crear Tormenta de Ideas
 								</div>
 							@endif
@@ -102,7 +102,7 @@
 																		
 								@endforeach
 							@else
-								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay Tormenta de Ideas creadas</div>
+								<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay tormentas de ideas creadas</div>
 							@endif
 											
 							</div>											

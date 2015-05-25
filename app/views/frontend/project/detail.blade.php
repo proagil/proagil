@@ -52,7 +52,7 @@
 									
 								</div>	
 
-								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 															
+								<span class="fs-big fc-green fa fa-calendar-o fa-fw"></span><span class="f-bold">Periodo de iteraci&oacute;n:</span> Desde {{$iteration['init_date']}} hasta {{$iteration['end_date']}} 
 
 								<div class="section-title fc-blue-iii fs-big">
 									<div class="pull-left">
@@ -77,7 +77,7 @@
 										        <div class="modal-content" style="border-radius:0px;">
 										            <div class="modal-header">
 											            <button type="button" class="close" data-dismiss="modal" aria-hidden="true"> <i class="fs-med fa fa-times fc-pink fa-fw"></i></button>
-											            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Agregar Artefacto a la Iteraci&oacute;n : {{$iteration['name']}}</h4>
+											            <h4 class="fs-med text-center f-bold fc-turquoise" id="myModalLabel">Agregar Artefacto a la Iteraci&oacute;n {{$iteration['name']}}</h4>
 										            </div>
 										            <div class="modal-body">
 										            	<div class="form-group-modal">
@@ -85,16 +85,29 @@
 											            	<label  class=" col-md-4 control-label">Agregar Artefacto</label>
 											            	<div class="col-md-8">
 									                          @if(count($iterationArtefacts) < count($allArtefacts))
+									                          		
 									                                <div id = "new-iteration-artefacts" class="project-artefact-list">
+									                               	<label class="fc-turquoise">Indagaci&oacute;n</label><br>
 									                                @foreach($allArtefacts as $artefact)
-									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)))									                                       
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 1)									                                       
 									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
 									                                       {{ $artefact['name'] }}
 									                                       <br/>    
 									                                    @endif                               
-									                                @endforeach                             
+									                                @endforeach 
+
+									                               	<label class="fc-turquoise">Inspecci&oacute;n</label><br>
+									                                @foreach($allArtefacts as $artefact)
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 2)									                                       
+									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
+									                                       {{ $artefact['name'] }}
+									                                       <br/>    
+									                                    @endif                               
+									                                @endforeach  									                                                            
 									                                </div>
 																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
+									                          @else
+									                          	<label class="fc-grey-iv">Se han agregado todos los artefactos disponibles</label>
 									                          @endif
 									                          
 										                	</div>
@@ -105,9 +118,11 @@
 										            	<div class="save-comment txt-center fs-med common-btn btn-modal-i btn-pink" data-dismiss="modal">
 				                          					Cerrar
 				                        				</div>
+				                        				@if(count($iterationArtefacts) < count($allArtefacts))
 										            	<div data-iteration-id="{{$iteration['id']}}" class="btn-add-iteration-artefact txt-center fs-med common-btn btn-modal-ii btn-yellow">
 				                          					Agregar
 				                        				</div>	
+				                        				@endif
 										        	</div>
 										    	</div>
 										  	</div>
@@ -131,7 +146,7 @@
 													<img width="100%" src="{{URL::to('/').'/uploads/'.$iterationArtefact['icon_file']}}"/>
 												</div>
 												
-												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-friendly-url="{{$iterationArtefact['friendly_url']}}">
+												<div class="artefact-info txt-center artefact-detail" data-project-id="{{$projectId}}" data-iteration-id="{{$iteration['id']}}" data-artefact-friendly-url="{{$iterationArtefact['friendly_url']}}">
 													{{$iterationArtefact['name']}} 
 												</div>
 
@@ -143,7 +158,7 @@
 									<div class="txt-center fs-med">
 										<i class="fa  fa-frown-o fc-yellow fa-fw"></i> A&uacute;n no hay artefactos asociados al proyecto. @if($projectOwner) Para crear alg&uacute;n artefacto haga clic 
 										
-										<a class="txt-undrln" href="{{URL::action('ProjectController@edit', array($project['id']))}}"> aqu&iacute; </a> 
+										<a data-toggle="modal" data-target="#addArtefactModal-{{$iteration['id']}}" class="txt-undrln" href="#"> aqu&iacute; </a> 
 									@endif
 									</div>
 									@endif
@@ -185,8 +200,10 @@
 
 										@if(!empty($activityCategories))
 											@foreach($activityCategories as $activityCategory)
-												<a href="#" data-category-id="{{$activityCategory->id}}" class="{{(in_array($activityCategory->id, $filtersArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-filter">{{$activityCategory->name}}</a>
+												<a href="#" data-category-id="{{$activityCategory['id']}}" class="{{(in_array($activityCategory['id'], $filtersArray))?'selected-tag tags-list-on':'unselected-tag tags-list-off'}} btn-filter">{{$activityCategory['name']}}</a>
 											@endforeach									
+										@else
+											<label class="fs-min fc-turquoise">No hay categor&iacute;as creadas</label>
 										@endif
 
 										@if($projectOwner)
@@ -212,7 +229,7 @@
 											<div class="btn-change-status">
 												<i data-toggle="tooltip" data-original-title="Cambiar estado" class="btn-change-activity-status fs-big fa fa-check-circle {{$activity['status_class']}} fa-fw" data-activity-id="{{$activity['id']}}" data-activity-status="{{$activity['status']}}"></i>	
 											</div>
-											<div style="width:{{($projectOwner)?'88%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
+											<div style="width:{{($projectOwner)?'84%':'95%'}}" class="activity" data-activity-id="{{$activity['id']}}">
 												<div data-activity-id="{{$activity['id']}}" class="activity-info btn-activity-description">
 						
 													<span class="{{($activity['status']==3)?'txt-strike':''}} activity-title-{{$activity['id']}}"> {{$activity['title']}} </span>
@@ -261,7 +278,7 @@
 															  </div>
 															  <!-- END MODAL HTML TO REASSIGN ACTIVITY -->
 														  @endif
-						                                  <i class="fs-med fa fa-calendar fc-turquoise fa-fw"></i> <span class="fc-pink"> Fecha tope:</span> {{$activity['closing_date']}} 
+						                                  <i class="fs-med fa fa-clock-o fc-turquoise fa-fw"></i> <span class="fc-pink"> Duraci&oacute;n:</span> {{$activity['interval']}} 
 						                                  <i class="fs-med fa fa-tasks fc-turquoise fa-fw"></i> <span class="fc-pink">Estado:</span> {{$activity['status_name']}} 
 						                                  <i class="fs-med fa fa-filter fc-turquoise fa-fw"></i> <span class="fc-pink">Categor&iacute;a:</span> {{($activity['category_name']!='')?$activity['category_name']:'Sin categoría'}}
 						                              </div>  
@@ -288,31 +305,33 @@
 													</div>													
 
 							                         @if(!empty($activity['comments']))			                         
-							                        <div class="comment-list comment-list-{{$activity['id']}}">
-							                            @foreach($activity['comments'] as $comment)                       
-							                            <div class="comment-content" id="comment-{{$comment['id']}}">
-							                                <div class="user-avatar">
-							                                    @if($comment['user_avatar']>0)
-							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/uploads/'. $comment['avatar_file']}}"/>
-							                                    @else
-							                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
-							                                    @endif
-							                                </div>
-							                                <span class="f-bold fs-min"> {{$comment['user_first_name']}} <i class="fs-med fa fa-calendar-o fc-green fa-fw"></i> {{$comment['date']}}</span>
-							                                <div class="comment-text">
-							                                    {{$comment['comment']}}
-							                                </div>
-							                                @if($comment['editable'])
-							                                <div class="comment-action">
-							                                  <div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="{{$comment['id']}}">
-							                                    <i class="fa fa-times fc-pink fa-fw"></i>
-							                                  </div>                               
-							                                </div>
-							                                @endif
-							                            </div> 
-							                            @endforeach
-							                        </div> 
-							                        @endif  					                              	
+								                        <div class="comment-list comment-list-{{$activity['id']}}">
+								                            @foreach($activity['comments'] as $comment)                       
+								                            <div class="comment-content" id="comment-{{$comment['id']}}">
+								                                <div class="user-avatar">
+								                                    @if($comment['user_avatar']>0)
+								                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/uploads/'. $comment['avatar_file']}}"/>
+								                                    @else
+								                                        <img class="img-circle comment-user-avatar" src="{{URL::to('/').'/images/dummy-user.png'}}"/>
+								                                    @endif
+								                                </div>
+								                                <span class="f-bold fs-min"> {{$comment['user_first_name']}} <i class="fs-med fa fa-calendar-o fc-green fa-fw"></i> {{$comment['date']}}</span>
+								                                <div class="comment-text">
+								                                    {{$comment['comment']}}
+								                                </div>
+								                                @if($comment['editable'])
+								                                <div class="comment-action">
+								                                  <div  class="btn-delete-comment txt-center fs-big fc-grey-iii" data-comment-id="{{$comment['id']}}">
+								                                    <i class="fa fa-times fc-pink fa-fw"></i>
+								                                  </div>                               
+								                                </div>
+								                                @endif
+								                            </div> 
+								                            @endforeach
+								                        </div> 
+							                        @else 
+							                        	<div class="comment-list comment-list-{{$activity['id']}}"></div>
+							                        @endif 					                              	
 
 												</div>							
 											</div>							

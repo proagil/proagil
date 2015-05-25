@@ -289,97 +289,106 @@ class UserController extends BaseController {
 
 	public function edit($userId) {
 
+		$sessionUser = Session::get('user');
+
 		$user = (array) User::getUserById($userId);
 
-		if(Input::has('_token')){
+			if(!empty($user) && $sessionUser['id']==$userId){
 
-			// get input valiues
-	        $values = Input::get('values');
+			if(Input::has('_token')){
 
-	        // validation rules
-	        $rules =  array(
-	          'first_name'         	=> 'required',
-	          'last_name'          	=> 'required',
-	        );
+				// get input valiues
+		        $values = Input::get('values');
 
-	        if($values['password']!=NULL || $values['password'] != '') {
-	        	$rules['password'] = 'required';
-	        	$rules['repeat_password'] = 'required|same:password'; 
-	        }
+		        // validation rules
+		        $rules =  array(
+		          'first_name'         	=> 'required',
+		          'last_name'          	=> 'required',
+		        );
 
-	        // set validation rules to input values
-	        $validator = Validator::make(Input::get('values'), $rules);
+		        if($values['password']!=NULL || $values['password'] != '') {
+		        	$rules['password'] = 'required';
+		        	$rules['repeat_password'] = 'required|same:password'; 
+		        }
 
-           	if(!$validator->fails()){
+		        // set validation rules to input values
+		        $validator = Validator::make(Input::get('values'), $rules);
 
-	           	// get user avatar
-	           	$avatar = Input::file('avatar');
+	           	if(!$validator->fails()){
 
-	           	if($avatar!=NULL){
+		           	// get user avatar
+		           	$avatar = Input::file('avatar');
 
-	           		// save new user avatar
-	           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
+		           	if($avatar!=NULL){
 
-	           		// delete old avatar
-	           		if($user['avatar']!=NULL || $user['avatar']!=''){
-	           			$this->deleteFile($user['avatar_file'], $user['avatar']); 
-	           		}
+		           		// save new user avatar
+		           		$imageId = $this->uploadAndResizeFile($avatar, 300, 300); 
 
+		           		// delete old avatar
+		           		if($user['avatar']!=NULL || $user['avatar']!=''){
+		           			$this->deleteFile($user['avatar_file'], $user['avatar']); 
+		           		}
+
+		           	}
+
+	              $updateUser = array(
+	                'first_name'      	=> $values['first_name'],
+	                'last_name'       	=> $values['last_name'],
+	                'avatar'			=> (isset($imageId))?$imageId:$user['avatar'],
+	                'password'        	=> ($values['password']!=NULL)?md5($values['password']):$user['password'],
+	              );
+
+	              // update user on DB
+	              if(User::_update($user['id'], $updateUser)){
+
+	                $editedUser = User::getUserById($userId);
+
+	                 $sessionUser = array(
+		                  'id'                => $editedUser->id,
+		                  'first_name'        => $editedUser->first_name,
+		                  'last_name'         => $editedUser->last_name,
+		                  'twitter_account'   => $editedUser->twitter_account,
+		                  'facebook_account'  => $editedUser->facebook_account,
+		                  'email'             => $editedUser->email,
+		                  'avatar_file'       => $editedUser->avatar_file
+	                   );
+
+
+	                 Session::put('user', $sessionUser);
+
+	                 Session::flash('success_message', 'Se edit&oacute; su perfil'); 
+
+	                 // update user session
+					return Redirect::to(URL::action('DashboardController@index'));
+
+	              }else{
+
+	              	// update on DB fail
+	                return View::make('frontend.user.edit')->with('error_message', 'No se edit&oacute; el perfil');
+
+	              }
+
+	           	}else{
+
+	           		// validation fails
+	              return View::make('frontend.user.edit')
+	              			->withErrors($validator)
+	              			->with('values', $user)
+	              			->with('userId', $userId);
 	           	}
 
-              $updateUser = array(
-                'first_name'      	=> $values['first_name'],
-                'last_name'       	=> $values['last_name'],
-                'avatar'			=> (isset($imageId))?$imageId:$user['avatar'],
-                'password'        	=> ($values['password']!=NULL)?md5($values['password']):$user['password'],
-              );
+		      }else{
 
-              // update user on DB
-              if(User::_update($user['id'], $updateUser)){
+		        // render view first time 
+		        return View::make('frontend.user.edit')
+		        			->with('userId', $userId)
+		        			->with('values', $user); 
+		      }
+		}else{
 
-                $editedUser = User::getUserById($userId);
+			return Redirect::to(URL::action('LoginController@index'));
 
-                 $sessionUser = array(
-	                  'id'                => $editedUser->id,
-	                  'first_name'        => $editedUser->first_name,
-	                  'last_name'         => $editedUser->last_name,
-	                  'twitter_account'   => $editedUser->twitter_account,
-	                  'facebook_account'  => $editedUser->facebook_account,
-	                  'email'             => $editedUser->email,
-	                  'avatar_file'       => $editedUser->avatar_file
-                   );
-
-
-                 Session::put('user', $sessionUser);
-
-                 Session::flash('success_message', 'Se editó su perfil'); 
-
-                 // update user session
-				return Redirect::to(URL::action('DashboardController@index'));
-
-              }else{
-
-              	// update on DB fail
-                return View::make('frontend.user.edit')->with('error_message', 'No se editó el perfil');
-
-              }
-
-           	}else{
-
-           		// validation fails
-              return View::make('frontend.user.edit')
-              			->withErrors($validator)
-              			->with('values', $user)
-              			->with('userId', $userId);
-           	}
-
-	      }else{
-
-	        // render view first time 
-	        return View::make('frontend.user.edit')
-	        			->with('userId', $userId)
-	        			->with('values', $user); 
-	      }		
+		}		
 
 	}
 

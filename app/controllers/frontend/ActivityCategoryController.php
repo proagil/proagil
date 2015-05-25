@@ -20,7 +20,9 @@ class ActivityCategoryController extends BaseController {
     $user = Session::get('user'); 
     $userRole = (array) User::getUserRoleOnProject($projectId, $user['id']);
 
-    if(empty($userRole)){
+    $permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
+
+    if(empty($userRole) || !$permission){
 
       return Redirect::to(URL::action('DashboardController@index')); 
 
@@ -88,22 +90,34 @@ class ActivityCategoryController extends BaseController {
 
   public function delete($categoryId, $projectId){
 
-    if(ActivityCategory::_delete($categoryId)){
+    $user = Session::get('user'); 
+    $permission = User::userHasPermissionOnProject($projectId, $user['id']); 
 
-      $result = array(
-          'error'     => false
-      );
+    if($permission){
+
+      if(ActivityCategory::_delete($categoryId)){
+
+        $result = array(
+            'error'     => false
+        );
 
 
-    }else{
+      }else{
 
-      $result = array(
-          'error'     => true
-      );
+        $result = array(
+            'error'     => true
+        );
+
+      }
+        header('Content-Type: application/json');
+        return Response::json($result);      
+
+      }else{
+
+        return Redirect::to(URL::action('DashboardController@index')); 
 
     }
-      header('Content-Type: application/json');
-      return Response::json($result);
+
 
   }
 

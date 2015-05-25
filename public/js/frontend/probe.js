@@ -158,8 +158,6 @@ $(function() {
             $(this).addClass('error-probe-input');
             $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
           }else{
-             $(this).removeClass('error-probe-input');
-             $('.error-alert-text').parent().removeClass('hidden'); 
               successValidation++; 
           }
         });
@@ -240,7 +238,7 @@ $(function() {
                 var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                 $('.question-title-'+probeId).replaceWith(htmlTitle);
 
-                var probeStatus = (response.data.status==1)?'Cerrado':'Abierto'; 
+                var probeStatus = (response.data.status==1)?'Privado':'P&uacute;blico'; 
                 var htmlProbeType = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+probeStatus+'</span>';
    
                 $('.question-status-'+probeId).replaceWith(htmlProbeType);   
@@ -265,17 +263,17 @@ $(function() {
 
        var probeId = $(this).data('probeId'); 
 
-       if($('input[name="values[title]').val()=='' || 
-          $('textarea[name="values[description]').val() == ''){
+       if($('input[name="values[title]"]').val()=='' || 
+          $('textarea[name="values[description]"]').val() == ''){
 
             $('html, body').animate({ scrollTop: 0 }, 'slow');
 
-            if($('input[name="values[title]').val()==''){
-              $('input[name="values[title]').addClass('error-probe-input');
+            if($('input[name="values[title]"]').val()==''){
+              $('input[name="values[title]"]').addClass('error-probe-input');
             }   
 
-            if($('textarea[name="values[description]').val()==''){
-              $('textarea[name="values[description]').addClass('error-probe-input');
+            if($('textarea[name="values[description]"]').val()==''){
+              $('textarea[name="values[description]"]').addClass('error-probe-input');
             }                                 
             
             $('.error-alert-text').html(' Debe especificar un valor para los campos indicados').parent().removeClass('hidden');
@@ -285,9 +283,9 @@ $(function() {
 
             var parameters = {
                 'values[probe_id]'    : probeId,
-                'values[title]'       : $('input[name="values[title]').val(),
-                'values[status]'      : $('select[name="values[status]').val(), 
-                'values[description]' : $('textarea[name="values[description]').val(),
+                'values[title]'       : $('input[name="values[title]"]').val(),
+                'values[status]'      : $('select[name="values[status]"]').val(), 
+                'values[description]' : $('textarea[name="values[description]"]').val(),
             };
 
 
@@ -305,7 +303,7 @@ $(function() {
                     var htmlTitle = '<div class="question-title-'+probeId+' fc-turquoise">T&iacute;tulo: <span class="fc-blue-i probe-label-value">'+response.data.title+'</span></div>';
                     $('.question-title-'+probeId).replaceWith(htmlTitle);
 
-                    var statusText = (response.data.status==1)?'Cerrado':'Abierto';
+                    var statusText = (response.data.status==1)?'Privado':'P&uacute;blico';
                     var htmlProbeStatus = '<div class="question-status-'+probeId+' fc-turquoise">Estado: <span class="fc-blue-i probe-label-value">'+statusText+'</span></div>';   
                       $('.question-status-'+probeId).replaceWith(htmlProbeStatus);   
 
@@ -896,7 +894,7 @@ $(function() {
           $.ajax({
             url:'http://api.bit.ly/v3/shorten',
             data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
-            dataType:"jsonp",
+            dataType:'jsonp',
             success:function(response){
 
               if(response.status_text == 'OK'){
@@ -950,12 +948,17 @@ $(function() {
                 var urlToShare = bitLyUrl,
                 message = 'Les comparto este sondeo, me gustaría que lo respondieran';
 
-                message = message.replace(/\s/g,'+');
+                //message = message.replace(/\s/g,'+');
             
                 FB.ui(
                 {
-                  method: 'share',
-                  href: 'www.google.com',
+                  method: 'feed',
+                  href: 'http://proagil.dev:8000/',
+                  description: message,
+                  message: message,
+                  caption: 'Sondeo', 
+                  link: bitLyUrl,
+                  picture: 'http://s11.postimg.org/duhv9zmv7/logo_sm.png'
 
                 });
 

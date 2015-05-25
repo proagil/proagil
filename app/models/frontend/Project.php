@@ -122,6 +122,8 @@ class Project extends Eloquent{
 
 			->groupBy('p.id')
 
+			->orderBy('p.id', 'des')
+
 			->get();
 
 			// get project iteration
@@ -131,9 +133,9 @@ class Project extends Eloquent{
 				->select('ubtp.iteration_id')
 				->where('ubtp.project_id', $project['id'])
 				->where('ubtp.user_id', $userId)
-				->first();
+				->get();
 
-				$ownerProjects[$index]['iteration_id'] = implode($iterationId);
+				$ownerProjects[$index]['iteration_id'] = implode(min($iterationId));
 
 			}
 
@@ -175,6 +177,8 @@ class Project extends Eloquent{
 
 			->groupBy('p.id')
 
+			->orderBy('p.id', 'des')
+
 			->get();
 
 			// get project iteration
@@ -194,11 +198,13 @@ class Project extends Eloquent{
 
 	}
 
-	public static function getAllUsersOnIteration($iterationId){
+	public static function getUsersOnIteration($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
 
 		$result = DB::table('user_belongs_to_project AS ubtp')
 
-			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id')
+			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id', 'ubtp.iteration_id')
 
 			->where('ubtp.iteration_id', $iterationId)
 
@@ -209,7 +215,31 @@ class Project extends Eloquent{
 		$usersOnIteration = array(); 
 		
 		foreach($result as $index => $row){
-			$usersOnIteration[$row->id] = $row->first_name;
+			$usersOnIteration[$row['id']] = $row['first_name'];
+		}
+
+		return $usersOnIteration; 
+
+	}
+
+	public static function getAllUsersOnIteration($iterationId){
+
+		DB::setFetchMode(PDO::FETCH_ASSOC);
+
+		$result = DB::table('user_belongs_to_project AS ubtp')
+
+			->select('u.id', 'u.first_name', 'u.email', 'ubtp.user_role_id', 'ubtp.iteration_id')
+
+			->where('ubtp.iteration_id', $iterationId)
+
+			->join('user AS u', 'ubtp.user_id', '=', 'u.id')
+
+			->get();
+
+		$usersOnIteration = array(); 
+		
+		foreach($result as $index => $row){
+			$usersOnIteration[$row['id']] = $row['first_name'];
 		}
 
 		return $usersOnIteration; 
@@ -261,7 +291,7 @@ class Project extends Eloquent{
 
 				  ->leftJoin('category_activity_belongs_to_project AS cabtp', 'cabtp.id', '=', 'a.category_id')
 
-				  ->orderBy('a.id', 'ASC');
+				  ->orderBy('a.id', 'DES');
 
 			return $query->get();		
 

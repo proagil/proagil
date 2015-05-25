@@ -16,7 +16,7 @@
         							<div class="breadcrumbs-content">
         								Inicio <span class="fc-green"> &raquo; </span> {{$project['name']}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}<span class="fc-green"> &raquo; </span> Generar Tormenta de Ideas
         							</div>
-                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('StormIdeasController@index', array($project['id'], $iteration['id']))}}" > Volver</a> 
+                      <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('StormIdeasController@index', array($project['id'], $iteration['id']))}}" class="btn-back-i"> Volver</a> 
                       @if (Session::has('success_message'))
                         <div class="success-alert"><i class="fc-grey-i glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
                       @endif                          
@@ -25,7 +25,7 @@
         								Tormenta de Ideas
         							</div>
 
-                      <div class="form-content">
+                      <div class="form-content" style="padding-bottom: 5%;">
                         <div class="form-group">
                           <div class="col-md-12">
                             <p class="text-center fc-turquoise f-bold fs-big text-uppercase">{{$stormIdeas['name']}}</p>

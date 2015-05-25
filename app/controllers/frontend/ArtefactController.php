@@ -90,7 +90,6 @@ class ArtefactController extends BaseController {
 
 		$artefact = (array) Artefact::getById($artefactId); 
 
-
 	    if(!empty($artefact)){
 
 	      $result = array(
