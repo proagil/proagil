@@ -26,6 +26,7 @@
 	line-height: 40px; /* adjust line height to align vertically*/
 	padding:0;
 	border-radius: 50%;
+	border-color: #a8d76f;
 
  }
 
@@ -64,8 +65,9 @@
 	border-left-style: ridge;
 	position: absolute;
 	top: 168px;
-	left: 330px;
+	left: 290px;
 	height: 35px;
+	border-color: #eecb44;
 
 
 }
@@ -74,9 +76,17 @@
 
 	position: absolute;
 	top: 175px;
-	left: 350px;
+	left: 320px;
 	width: 10%;
 	height: 25px;
+	
+}
+
+#zoom-out{
+
+	position: absolute;
+	top: 175px;
+	left: 350px;
 	
 }
 
@@ -129,7 +139,7 @@ top: 50px;
     border-radius: 0px;
     box-shadow: 10px 5px 5px rgba(0,0,0,0.5);
     border-left: 1px solid #eeeeee;
-    cursor: crosshair;
+    cursor: move;
     
 }
 .cuerpo {

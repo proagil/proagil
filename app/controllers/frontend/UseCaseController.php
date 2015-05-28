@@ -26,5 +26,44 @@ class UseCaseController extends BaseController {
 
 	}
 
+	public function saveDiagram(){
 
+
+		$diagramValues = Input::all();   
+		print_r($diagramValues); die; 
+
+		return View::make('frontend.diagrams.use_case.show');
+		//header('Content-Type: application/json');
+	    // return Response::json($result);die; 
+		/*$query= DB::table('use_diagram')->where('id_project', '$id');
+		$diagram = Input::get('jsonString');
+
+		if (is_null ($query)){
+
+			$usediagram = new $use_diagram();
+			$usediagram->id_project = $id;
+			$usediagram->diagrama = $diagram;
+
+			$usediagram->save();
+			
+			
+
+
+		}else{
+
+			$row = use_diagram::where('id_project', '$id')->update(diagrama => $diagram);
+
+
+
+		}
+		
+
+
+
+		header('Content-Type: application/json');
+	     return Response::json($result);	
+
+	}
+*/
+}
 }

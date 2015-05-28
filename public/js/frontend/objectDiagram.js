@@ -100,7 +100,9 @@ var obj= {
                 
             }
         }
-    });
+    
+    })
+}
 
 var circle= new joint.shapes.basic.Circle({
         size: {

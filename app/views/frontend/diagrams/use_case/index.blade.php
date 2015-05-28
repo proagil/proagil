@@ -47,21 +47,24 @@
 										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
 									</button>
 
-										 <!--
-									
-										<input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+										 
+									<!--<<span class="glyphicon glyphicon-zoom-out zoom-out" ></span>
+										 
+										input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">-->
 										        
 									 
-									<p class="glyphicon glyphicon-zoom-in fa_icons" ></p>-->
-										 
 									
 									
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
+										 <p class="glyphicon glyphicon-remove fa_icons" onclick="eliminarElemento()" ></p>
+									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Guardar">
-										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
+										 <p class="glyphicon glyphicon-floppy-disk fa_icons" onclick="guardar()" ></p>
 									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar">
 										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
 									</button>
+
 
 									<div class= "separador"> </div> 
 
@@ -135,7 +138,7 @@
 
   	});
 
-
+//////////////// Diferentes links a mostrar/////////////////////
     var ddData = [
     {
         
@@ -172,14 +175,25 @@
    		
     }
 	});
+////////////////////////////////////////////////////////////////////
 
+/*Funcion que permite que el panel de atributos sea draggable*/
 	$(function() {
    	 	$( "#draggable" ).draggable();
   	});
 
 
-	
+/* Llevar el diagrama a formato json */
+
 	</script>
+
+	
+
+
+
+
+	
+
 	</body>
 
 </html>

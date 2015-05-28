@@ -44,4 +44,4 @@
 
 {{ HTML::script('js/frontend/jquery.ddslick.min.js') }}  
 
-{{ HTML::script('js/frontend/objectDiagram.js') }}  
+<!--{{ HTML::script('js/frontend/objectDiagram.js') }}  -->

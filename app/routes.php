@@ -236,5 +236,9 @@ Route::any('/guia-de-estilos/eliminar/{style_guide_id}', 'StyleGuideController@d
 
 Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
 
+Route::any('/diagrama-de-casos-de-uso/guardar', 'UseCaseController@saveDiagram');
+
 Route::any('/diagrama-de-objetos-de-dominio/{project_id}', 'DomainObjectController@index');
+
+
 

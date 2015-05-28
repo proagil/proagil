@@ -5,7 +5,7 @@ class ProjectController extends BaseController {
   public function __construct(){
 
       //not user on session
-      $this->beforeFilter(function(){
+    $this->beforeFilter(function(){
 
         $user = Session::get('user'); 
         $project = Session::get('project'); 
@@ -36,7 +36,7 @@ class ProjectController extends BaseController {
           // get input valiues
           $values = Input::get('values');
 
-          //print_r($values); die; 
+         // print_r($values); die; 
 
           // validation rules
           $rules =  array(
@@ -200,6 +200,8 @@ class ProjectController extends BaseController {
                     Session::put('created_project_id', $projectId);
 
                     // redirect to invitation view
+                  
+
                     return Redirect::to(URL::action('DashboardController@index'));                   
 
                 } // end if iterations                

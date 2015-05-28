@@ -66,6 +66,16 @@
                                           <i style="cursor:pointer;" data-artefact-id="{{$artefact->id}}" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>
                                           <br>
                                         @endif
+                                       @endforeach
+
+                                       <label class="fc-turquoise">Diagramaci&oacute;n</label><br>
+                                      @foreach($artefacts as $artefact)
+                                        @if($artefact->type==3)
+                                          <input name="values[artefacts][]" type="checkbox" value="{{$artefact->id}}">
+                                          <label>{{$artefact->name}}</label>
+                                          <i style="cursor:pointer;" data-artefact-id="{{$artefact->id}}" class="btn-artefact-description fc-turquoise fa fa-info-circle fa-fw"></i>
+                                          <br>
+                                        @endif
                                        @endforeach                                                                        
                                     @endif                            
                                   </div>
