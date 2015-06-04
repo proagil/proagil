@@ -82,12 +82,21 @@
 	
 }
 
-#zoom-out{
+.atributos2{
 
 	position: absolute;
 	top: 175px;
-	left: 350px;
+	left: 440px;
+	width: 100px;
 	
+}
+
+.zoom-in{
+
+	position: absolute;
+	top: 175px;
+	left: 565px;
+	width: 100px;
 }
 
 .dd-select{
@@ -103,9 +112,10 @@
 	top: 1px;
 }
 
-.sx{
-
-top: 50px;
+#sx{
+	position: absolute;
+	top: 1px;
+	left: 20px;
 }
 
 /*aqui*/

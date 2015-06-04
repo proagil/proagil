@@ -234,11 +234,20 @@ Route::any('/guia-de-estilos/eliminar/{style_guide_id}', 'StyleGuideController@d
 
 /*---------------ROUTES: Diagrams & Prototype---------------------*/
 
-Route::any('/diagrama-de-casos-de-uso/{project_id}', 'UseCaseController@index');
+Route::any('/diagrama-de-casos-de-uso/proyecto/{project_id}/{iteration_id}', 'UseCaseController@index');
 
-Route::any('/diagrama-de-casos-de-uso/guardar', 'UseCaseController@saveDiagram');
+Route::any('/diagrama-de-casos-de-uso/actualizar', 'UseCaseController@update');
+
+Route::any('/diagrama-de-casos-de-uso/crear/{project_id}/{iteration_id}', 'UseCaseController@create');
+
+Route::any('/diagrama-de-casos-de-uso/guardar', 'UseCaseController@save');
+
+Route::any('/diagrama-de-casos-de-uso/mostrar/{use_caseid}/{project_id}/{iteration_id}', 'UseCaseController@showdiagram');
+
+Route::any('/diagrama-de-casos-de-uso/obtener/{use_caseid}', 'UseCaseController@getdiagram');
 
 Route::any('/diagrama-de-objetos-de-dominio/{project_id}', 'DomainObjectController@index');
+
 
 
 

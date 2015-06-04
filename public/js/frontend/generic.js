@@ -1793,3 +1793,31 @@ $(function() {
 
     });
 
+/***      USE CASE DIAGRAM     ***/
+
+
+$(document).on('click', '.save-usecase', function(e){
+
+        var successValidation = 0,
+            totalInputs = 0;
+
+        //validate categories
+        $('input[type="text"], textarea').each(function(){
+
+          totalInputs++; 
+
+          if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $(this).addClass('error-use_case-input');
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+          }else{
+              successValidation++; 
+          }
+        });
+
+
+        // success validation, all inputs are valid
+        if(successValidation==totalInputs){
+          $('#form-create-use-case').submit(); 
+        }  
+    });  

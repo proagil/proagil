@@ -108,6 +108,7 @@
  .login-options,
  .login-title,
  .proagil-logo,
+ .use-case-item-content,
  .btn-mini,
  .btn-content,
  .storm-ideas-item-content,
@@ -1417,3 +1418,20 @@ textarea{
 .colaborator-label {
 	font-weight: 100; 
 }
+
+/*------------------------------------------
+		USACE CASE SECTION
+--------------------------------------------*/
+
+.use-case-item-content {
+	width: 100%;
+	height: 40px;
+	background-color: #f2f2f2;
+	margin: 1% 0 0 0; 
+	padding: 9px 4px;
+}
+
+.use-case-item-content:hover {
+	background-color: #e3e2e2;
+}
+

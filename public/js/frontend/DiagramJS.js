@@ -1,3 +1,4 @@
+
 /* paper del stencil_container*/
 var graph = new joint.dia.Graph;
 var paper = new joint.dia.Paper({
@@ -60,15 +61,8 @@ var paper2 = new joint.dia.Paper({
         
     
     
-}
+    }
 });
-
-
-//var rect = joint.shapes.basic.Rect;
-var path = joint.shapes.basic.Path;
-var circle = joint.shapes.basic.Circle;
-var text = joint.shapes.basic.Text;
-
 
 
 
@@ -120,7 +114,7 @@ var circle= new joint.shapes.basic.Circle({
 
             }
         }
-    });
+});
 
 var rect= new joint.shapes.basic.Rect({
         size: {
@@ -151,7 +145,7 @@ var rect= new joint.shapes.basic.Rect({
                 
             }
         }
-    });
+});
 
 
 
@@ -192,7 +186,7 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
 })
 
 /*Se agrega una clase a los elementos del contenedor*/
-paper.$el.addClass('cursor')
+paper.$el.addClass('cursor');
 
 
 // cache important html elements
@@ -213,20 +207,20 @@ paper2.on('cell:pointerclick ', function(cellView,evt, x, y) {
 
 //Primero cuando le de click va a parecer el cuadro de atributos para luego cuando haga cambios solo se haga en ese elemento
 
-document.getElementById("draggable").style.display = "inline";
+    document.getElementById("draggable").style.display = "inline";
 
-$wh.on('input change', function() {
+    $wh.on('input change', function() {
 
      
      cellView.model.resize(parseFloat(this.value), parseFloat(this.value));
 
 
-});
+    });
 
-$texto.on('input change', function() {
+    $texto.on('input change', function() {
 
-    cellView.model.attr('text', this.value );
-});
+        cellView.model.attr('text', this.value );
+    });
 
 
 });
@@ -235,9 +229,7 @@ paper2.on('blank:pointerclick ', function(cellView,evt, x, y) {
 
 //Primero cuando le de click va a parecer el cuadro de atributos para luego cuando haga cambios solo se haga en ese elemento
 
-document.getElementById("draggable").style.display = "none";
-
-
+    document.getElementById("draggable").style.display = "none";
 
 });
 
@@ -250,14 +242,10 @@ function eliminar(){
 
   function eliminarElemento(){
 
-   paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
+     paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
 
-  
-        cellView.model.remove();
-        cell:pointerdown.stopPropagation();
-
-   
-
+        cellView.model.id.remove();
+     
    });
 
 }
@@ -297,36 +285,94 @@ function eliminar(){
     }*/
 
 
-var jsonString = JSON.stringify(graph2);
+
 
        
 
-function guardar() {
+function guardar(use_caseId) { 
 
-      var jsonDiagrama=  graph2.toJSON();
-   // var jsonString = JSON.stringify(graph2);
+    /*Aqui paso a json los diagramas*/
+    
+    var jsonDiagrama=  graph2.toJSON();
 
-    //var project_id = $(this).data('project_id'); 
-   // console.log(project_id);
+    var jsonString = JSON.stringify(jsonDiagrama);
 
-    $.ajax({
-        url: projectURL+'/diagrama-de-casos-de-uso/guardar',
-        type: 'POST',
-        data: jsonDiagrama,
-        dataType: 'JSON',
-       success:function (response) {
+    //console.log(jsonString);
+     var parameters = {
 
-                  if(!response.error){
+        'id'             : use_caseId,
+        'diagrama'       : jsonString,
+                
+    };
+    //console.log(parameters);
 
-                    console.log(response); 
+ 
 
-                }
-        }
+       $.ajax({
+            type: 'POST',
+            url: projectURL+'/diagrama-de-casos-de-uso/actualizar',
+            data: parameters,
+            dataType: 'JSON',
+            success: function (response) {
+
+              //console.log(response); 
+      
+            },
+
+            error: function (err) {
+                console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+            }
 
 
-    })
+        });
 
-    }
+      // graph2.fromJSON(JSON.parse(jsonString))
+
+}
+
+$(document).ready(function(){
+
+    var use_caseid = $('#ident').attr('name');
+
+      
+
+       //console.log(use_caseid);
+
+       $.ajax({
+          url: projectURL+'/diagrama-de-casos-de-uso/obtener/'+use_caseid,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+             
+
+              if(!response.error){
+
+               console.log(response['data']);
+
+               if(response['data']!= 'NULL'){
+
+                   var  grafico= JSON.parse(response['data']);
+                   graph2.fromJSON(grafico);
+                   // graph2.clear();  
+                   // graph2.fromJSON(response['data']);   
+                   // graph2.fromJSON(JSON.parse(response['data']));
+
+                  
+
+              }
+               }
+          },
+          error: function(xhr, error) {
+
+
+          }
+      });      
+
+});
+
+
+
 
 
 

@@ -9,106 +9,88 @@
 
 	    	@include('frontend.includes.header')
 
+			<!-- Social media odal -->
+			<div class="modal fade" id="modal-share-probe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+			  <div class="modal-dialog">
+			    <div class="modal-content probe-share-modal-content">
+			      <div class="modal-header">
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fs-big" aria-hidden="true">&times;</span></button>
+			      </div>
+			      <div class="modal-body">
+			        <a class="share" href="#">share me</a>
+			      </div>
+			    </div>
+			  </div>
+			</div>	
+
+			<div style="display:none" class="social-icons-container">
+				<i style="color:#3b5998" class="share-option share-probe-facebook fs-xbig fa fa-facebook cur-point fa-fw"></i>
+				<i style="color:#55acee" class="share-option share-probe-twitter fs-xbig fa fa-twitter cur-point  fa-fw"></i>
+				<i style="color:#2672ae" class="share-option share-probe-linkedin fs-xbig fa fa-linkedin cur-point fa-fw"></i>
+			</div>				
+
+
 	        <div id="page-wrapper">
 	            <div class="row">
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Diagrama de Casos de Uso
-							</div>							
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span>  {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Diagramas de casos de uso
+							</div>	
+
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>
-		                	@endif							
+		                	@endif	
 
+
+		                	@if (Session::has('error_message'))
+		                		<div class="error-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('error_message')}} </div>
+		                	@endif	
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Diagrama de Casos de Uso
+									Diagramas
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
-							
+							@if($projectOwner)
+							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
+								<a href="{{URL::action('UseCaseController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
+							</div>
+							@endif
 							
 							<div class="list-content">
-								<!-- Menu top con elementos para grandar, borrar, exportar-->
-
-								<div class="toolbar_container" >
-									
-									<button type="button" class="btn btn-default  btn-circle" data-toggle="tooltip" data-placement="bottom" title="Deshacer">
-										 <p class=" fa fa-mail-reply fa_icons" > </p><br/>
-									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Rehacer">
-										 <p class="fa fa-share fa_icons"></p>  
-									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">
-										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
-									</button>
-
-										 
-									<!--<<span class="glyphicon glyphicon-zoom-out zoom-out" ></span>
-										 
-										input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">-->
-										        
-									 
-									
-									
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
-										 <p class="glyphicon glyphicon-remove fa_icons" onclick="eliminarElemento()" ></p>
-									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Guardar">
-										 <p class="glyphicon glyphicon-floppy-disk fa_icons" onclick="guardar()" ></p>
-									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar">
-										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
-									</button>
-
-
-									<div class= "separador"> </div> 
-
-
-
-									<!--<form role="form">
-									    <div class="form-group dropdownlineas">
-									      <select class="form-control lineas" id="sel1">
-									        <option  data-content="<img src= ../images/LineaNormal.png>">hola</option>
-									        <option value="">2</option>
-									        <option value="">3</option>
-									        <option value="">4</option>
-									      </select>
-									    </div>
-  									</form>-->
-
-  									<div id="dropdownlineas" class= "contenedor"></div>
-																		
-
-
-									
-								</div>
-								
-
-								
-								<!-- Canvas-->
-								<div class="paper"> </div>
-
-								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
-								<div class="stencil_container" ></div>
-								 
-								 <div class="panel primario attributes-panel"  id="draggable">
-								    <div class="cabecera"><h3>Atributos</h3></div>
-								      <div class="cuerpo">
-								          <div class="form-group atributos">
-								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
-								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
-								          </div>
-								          <div class="form-group atributos">
-								            <label for="texto" id="texto" data-tooltip="Texto del elemento">Nombre</label>
-								         	<input id= "texto" class="form-control app-input" type="text" />
-								          </div>								          
-								     </div>
-								  </div>				
+								@if(!empty($UseCase))
+									@foreach($UseCase as $use_diagram)
+									<a href="#" data-toggle="modal" data-target="#imageModal-{{$use_diagram['id']}}" >
+										<div style="width:{{($projectOwner)?'81%':'96%'}}" class="use-case-item-content">
+											<i class="fc-turquoise fa fa-circle-o fa-fw"></i>{{$use_diagram['title']}}
+										</div>
+									</a>	
+									@if($projectOwner)	
+									<div class="probe-options txt-center">
+																	
+										<div data-toggle="tooltip" data-placement="top" title="Editar" class=" edit-usecase circle activity-option txt-center fs-big " id='identificado'data-usecase-id="{{$usecaseId}}" >
+											<a href="{{URL::action('UseCaseController@showdiagram', array($use_diagram['id'], $projectId, $iterationId))}}">
+												<i class="fa fa-pencil fc-yellow fa-fw"></i>
+											</a>
+										</div>
+										<div  data-probe-title="{{$use_diagram['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+											<i class="fa fa-share-alt fa-fw"></i>
+										</div>
+																			
+										<div data-probe-title="{{$use_diagram['title']}}" data-probe-id="{{$use_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-probe circle activity-option txt-center fs-big ">
+											<i class="fa fa-times fc-pink fa-fw"></i>
+										</div>																				
+									</div>
+									@endif									
+									@endforeach
+								@else
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay diagramas creados</div>
+								@endif				
 							</div>											
 						</div>
 					</div>
@@ -120,11 +102,12 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.js_diagramas')
-	
+
+
+	@include('frontend.includes.javascript')
+	{{ HTML::script('js/frontend/probe.js') }}
 
 	<script>
-
 
     $(function() {
 
@@ -138,62 +121,7 @@
 
   	});
 
-//////////////// Diferentes links a mostrar/////////////////////
-    var ddData = [
-    {
-        
-        value: 1,
-        selected: false,
-        imageSrc: "../images/LineaNormal.png"
-    },
-    {
-        
-        value: 2,
-        selected: false,
-        imageSrc: "../images/punteada.png"
-    },
-    {
-
-        value: 3,
-        selected: false,
-        imageSrc: "../images/NormalPunta.png"
-    }
-	];
-
-    $('#dropdownlineas').ddslick({
-    data: ddData,
-    width: 100,
-    imagePosition: "center",
-    defaultSelectedIndex:3,
-
-    onSelected: function (data) {
-        var ddData = $('#dropdownlineas').data('ddslick');
-       var index = ddData.selectedIndex;
-       
-       
-       document.getElementById("dropdownlineas").className= index;
-   		
-    }
-	});
-////////////////////////////////////////////////////////////////////
-
-/*Funcion que permite que el panel de atributos sea draggable*/
-	$(function() {
-   	 	$( "#draggable" ).draggable();
-  	});
-
-
-/* Llevar el diagrama a formato json */
-
 	</script>
-
-	
-
-
-
-
-	
-
 	</body>
 
 </html>
