@@ -18,6 +18,8 @@ var paper2 = new joint.dia.Paper({
     gridSize: 50,
     perpendicularLinks: false,
     model: graph2,
+    width: 650,
+    height: 650,
     embeddingMode: true,
     
     defaultLink: function() {
@@ -26,7 +28,7 @@ var paper2 = new joint.dia.Paper({
 
         return new joint.dia.Link;
 
-      } else if(document.getElementById("dropdownlineas").className== "1"){
+       } else if(document.getElementById("dropdownlineas").className== "1"){
 
         return new joint.dia.Link({
 
@@ -41,7 +43,8 @@ var paper2 = new joint.dia.Paper({
                  }
             } 
 
-         })
+        })
+
       } else if (document.getElementById("dropdownlineas").className== "2"){
 
 
@@ -58,8 +61,6 @@ var paper2 = new joint.dia.Paper({
 
          })
       }
-        
-    
     
     }
 });
@@ -78,30 +79,36 @@ var image = new joint.shapes.basic.Image({
     attrs : {
         text: { text: 'Usuario'},
         image : {
-          'xlink:href' : '../../images/actor.png',
+          'xlink:href' : '/images/actor.png',
             width : 100,
             height : 100
         }
     }
 });
 
-var circle= new joint.shapes.basic.Circle({
-        size: {
+
+var erd = joint.shapes.erd;
+
+
+var elipse = new erd.Normal({  
+
+      size: {
             width: 130,
             height: 70
         },
-        position: { 
+      position: { 
 
             x: 20, y: 165
 
         },
-        attrs: {
-            circle: {
+      attrs: {
+            elipse: {
                 rx: 10,
                 ry: 10,
-                width: 800,
-                height: 800,
-                fill: "#ffffff",
+                width: 600,
+                height: 600,
+                stroke: '#00000',
+                fill: '#FFFFFF',
 
                 
             },
@@ -114,7 +121,10 @@ var circle= new joint.shapes.basic.Circle({
 
             }
         }
+
 });
+
+
 
 var rect= new joint.shapes.basic.Rect({
         size: {
@@ -130,8 +140,10 @@ var rect= new joint.shapes.basic.Rect({
             rect: {
                 rx: 10,
                 ry: 10,
-                width: 800,
-                height: 800,
+                width: 600,
+                height: 600,
+                stroke: "#000000",
+                'stroke-width': 2,
                 fill: "#ffffff",
                 
                 
@@ -148,11 +160,42 @@ var rect= new joint.shapes.basic.Rect({
 });
 
 
+var textos = new joint.shapes.basic.Text({
+
+          position: {
+              x: 30,
+              y: 400
+
+          },
+
+          size: {
+              width: 100, 
+              height: 50 
+          },
+          
+          attrs: {
+            text: { 
+
+              text: "Texto",
+              fill: "black",
+              "font-size": 10,
+               
+
+            }
+          }
+
+                //content: "<p style='color:black;'>asdf asdf asdf asdf this needs to word wrap</p>"
+
+});
+
+
 
 /*Se agregan las imagenes en el stencil*/
 graph.addCell(image)
 graph.addCell(rect)
-graph.addCell(circle)
+graph.addCell(elipse)
+graph.addCell(textos)
+
 
 
 
@@ -166,12 +209,12 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
        rect2.attr('rect/magnet', true);
         graph2.addCell(rect2)
     
-    }else if (cellView.model.id == circle.id) {
+    }else if (cellView.model.id == elipse.id) {
 
-        var circle2 = circle.clone();
-        circle2.attr('circle/magnet', true);
+        var elipse2 = elipse.clone();
+        elipse2.attr('elipse/magnet', true);
 
-        graph2.addCell(circle2)
+        graph2.addCell(elipse2)
 
     }else if (cellView.model.id == image.id) {
 
@@ -179,6 +222,11 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
 
         actor.attr('image/magnet', true);
         graph2.addCell(actor)
+
+    }else if(cellView.model.id == textos.id){   
+
+        var tx = textos.clone();
+         graph2.addCell(tx)
 
     };
 
@@ -193,20 +241,20 @@ paper.$el.addClass('cursor');
 var $sx = $('#sx');
 var $wh = $('#wh');
 var $texto = $('#texto');
-
+var $ps = $('#ps');
 
 
 $sx.on('input change', function() {
     paper2.scale(parseFloat(this.value), parseFloat(this.value));
 });
 
+$ps.on('input change', function() {
+    paper2.setDimensions(parseFloat(this.value), parseFloat(this.value));
+});
 
-
-
-paper2.on('cell:pointerclick ', function(cellView,evt, x, y) { 
-
-//Primero cuando le de click va a parecer el cuadro de atributos para luego cuando haga cambios solo se haga en ese elemento
-
+//Evento que permite aparecer las opciones de atributos y realizar cambios en los elementos
+paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
+  
     document.getElementById("draggable").style.display = "inline";
 
     $wh.on('input change', function() {
@@ -219,86 +267,58 @@ paper2.on('cell:pointerclick ', function(cellView,evt, x, y) {
 
     $texto.on('input change', function() {
 
-        cellView.model.attr('text', this.value );
+        cellView.model.attr('text/text', this.value );
     });
 
 
 });
 
+//Evento  que permite desaparecer el cuadro de atributos
 paper2.on('blank:pointerclick ', function(cellView,evt, x, y) { 
-
-//Primero cuando le de click va a parecer el cuadro de atributos para luego cuando haga cambios solo se haga en ese elemento
 
     document.getElementById("draggable").style.display = "none";
 
 });
 
-/*Funciones de cada boton del toolbar_container*/
+
+/*****************************Funciones de cada boton del toolbar_container***********************************/
+
 function eliminar(){
 
     graph2.clear();
     document.getElementById("draggable").style.display = "none";
 }
 
-  function eliminarElemento(){
 
-     paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
+var selected;
 
-        cellView.model.id.remove();
+paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
+
+    
+    selected = cellView.model;
+
      
-   });
+ });
+
+function eliminarElemento(){
+
+    
+    if (selected) selected.remove();
+     
 
 }
 
-   /* function guardar($id){
-
-       $conexion = pg_connect("host=localhost dbname=proagil_db user=postgres password=root")
-       or die('Could not connect: ' . pg_last_error());
-
-        $consulta="SELECT * FROM use_diagram WHERE id_project=".$id;
-
-
-
-        $resultado=pg_query($conexion,$consulta) or die (mysql_error()); 
-
-        if (pg_num_rows($resultado)) { 
-
-            $query = "INSERT INTO use_diagram (id_project, diagrama)
-                      VALUES ('$id', '$jsonString')";
-
-           $result= pg_query($conexion,$query);
-
-        }else{
-
-            $query = "UPDATE use_diagram 
-                      SET diagrama = '$jsonString'
-                      WHERE id_project = $id";
-                      
-             $result= pg_query($conexion,$query);
-        }
-       
-    
- 
-    pg_close($conexion);
-    
-
-    }*/
-
-
-
-
-       
 
 function guardar(use_caseId) { 
 
     /*Aqui paso a json los diagramas*/
     
-    var jsonDiagrama=  graph2.toJSON();
+   var jsonDiagrama=  graph2.toJSON();
 
-    var jsonString = JSON.stringify(jsonDiagrama);
+   var jsonString = JSON.stringify(jsonDiagrama);
 
     //console.log(jsonString);
-     var parameters = {
+   var parameters = {
 
         'id'             : use_caseId,
         'diagrama'       : jsonString,
@@ -306,25 +326,23 @@ function guardar(use_caseId) {
     };
     //console.log(parameters);
 
- 
+    $.ajax({
+      type: 'POST',
+      url: projectURL+'/diagrama-de-casos-de-uso/actualizar',
+      data: parameters,
+      dataType: 'JSON',
+      success: function (response) {
 
-       $.ajax({
-            type: 'POST',
-            url: projectURL+'/diagrama-de-casos-de-uso/actualizar',
-            data: parameters,
-            dataType: 'JSON',
-            success: function (response) {
-
-              //console.log(response); 
+             
       
-            },
+       },
 
-            error: function (err) {
-                console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
-            }
+      error: function (err) {
+         console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+      }
 
 
-        });
+    });
 
       // graph2.fromJSON(JSON.parse(jsonString))
 
@@ -334,42 +352,48 @@ $(document).ready(function(){
 
     var use_caseid = $('#ident').attr('name');
 
-      
+    $.ajax({
+      url: projectURL+'/diagrama-de-casos-de-uso/obtener/'+use_caseid,
+      type:'GET',
+      dataType: 'JSON',
+      success:function (response) {
 
-       //console.log(use_caseid);
+        if(!response.error){
 
-       $.ajax({
-          url: projectURL+'/diagrama-de-casos-de-uso/obtener/'+use_caseid,
-          type:'GET',
-          dataType: 'JSON',
-          success:function (response) {
+               //console.log(response['data']);
 
-             
+          if(response['data'] != 'NULL'){
 
-              if(!response.error){
-
-               console.log(response['data']);
-
-               if(response['data']!= 'NULL'){
-
-                   var  grafico= JSON.parse(response['data']);
-                   graph2.fromJSON(grafico);
-                   // graph2.clear();  
-                   // graph2.fromJSON(response['data']);   
-                   // graph2.fromJSON(JSON.parse(response['data']));
-
-                  
-
-              }
-               }
-          },
-          error: function(xhr, error) {
-
+              var  grafico= JSON.parse(response['data']);
+              graph2.fromJSON(grafico);
+                   
 
           }
-      });      
+                    
+        }
+      },
+      error: function(xhr, error) {
+
+
+      }
+  });      
 
 });
+
+
+function exportar(){
+
+    
+  var svgDoc = paper2.svg;
+  var serializer = new XMLSerializer();
+  var svgString = serializer.serializeToString(svgDoc);
+
+
+}
+
+
+
+
 
 
 

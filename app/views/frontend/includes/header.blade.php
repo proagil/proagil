@@ -43,6 +43,9 @@
                         <li><a href="{{URL::action('UserController@edit', array(Session::get('user')['id']))}}"><i class="fa fc-green fa-gear fa-fw"></i> Editar Perfil</a>
                         </li>
                         <li class="divider"></li>
+                        <li><a href="{{URL::action('UserController@information')}}"><i class="fa fc-green fa-info fa-fw"></i> Acerca de</a>
+                        </li>
+                        <li class="divider"></li>
                         <li><a href="{{URL::action('LoginController@logout')}}"><i class="fa fc-green fa-sign-out fa-fw"></i> Cerrar Sesi&oacute;n</a>
                         </li>
                     </ul>

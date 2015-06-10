@@ -228,4 +228,41 @@ class UseCaseController extends BaseController {
 		
 
 	}
+
+	public function eliminar($usecaseId){
+
+
+		$user = Session::get('user');
+
+	    $permission = User::userHasPermissionOnArtefact($usecaseId, 'use_diagram', $user['id']);  
+
+	    if(!$permission){
+
+	    	return Redirect::to(URL::action('LoginController@index'));
+
+	    }else{    
+
+	    	
+	    	$infoproject = Use_case::getUseCaseInfo($usecaseId);
+
+			if(Use_case::deleteUseCase($usecaseId)){
+
+				Session::flash('success_message', 'Se ha eliminado el diagrama correctamente'); 
+
+			   	return Redirect::to(URL::action('UseCaseController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));
+
+			}else{
+			   	
+			   	Session::flash('error_message', 'No se pudo eliminar el diagrama'); 
+
+			   	return Redirect::to(URL::action('UseCaseController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));			
+			} 
+
+		}
+
+			
+	}
+
+
+	
 }

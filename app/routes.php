@@ -242,11 +242,15 @@ Route::any('/diagrama-de-casos-de-uso/crear/{project_id}/{iteration_id}', 'UseCa
 
 Route::any('/diagrama-de-casos-de-uso/guardar', 'UseCaseController@save');
 
+Route::any('/diagrama-de-casos-de-uso/eliminar/{use_caseid}', 'UseCaseController@eliminar');
+
 Route::any('/diagrama-de-casos-de-uso/mostrar/{use_caseid}/{project_id}/{iteration_id}', 'UseCaseController@showdiagram');
 
 Route::any('/diagrama-de-casos-de-uso/obtener/{use_caseid}', 'UseCaseController@getdiagram');
 
 Route::any('/diagrama-de-objetos-de-dominio/{project_id}', 'DomainObjectController@index');
+
+Route::any('/acerca-de', 'UserController@information');
 
 
 

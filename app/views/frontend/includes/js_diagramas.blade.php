@@ -28,6 +28,10 @@
 
 {{ HTML::script('js/frontend/joint-master/plugins/joint.shapes.basic.js') }} 
 
+{{ HTML::script('js/frontend/joint-master/plugins/joint.shapes.erd.js') }} 
+
+{{ HTML::script('js/frontend/joint-master/plugins/joint.shapes.uml.js') }} 
+
 {{ HTML::script('js/frontend/joint-master/plugins/routers/joint.routers.orthogonal.js') }}
 
 {{ HTML::script('js/frontend/joint-master/plugins/routers/joint.routers.manhattan.js') }} 

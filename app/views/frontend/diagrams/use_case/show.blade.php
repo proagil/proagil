@@ -55,7 +55,7 @@
 									<button type="button" class="guardar btn btn-default btn-circle"  data-toggle="tooltip" data-placement="bottom" title="Guardar" onclick="guardar({{$use_caseId}})" >
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar">
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar" onclick="exportar()">
 										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
 									</button>
 
@@ -68,13 +68,27 @@
   									<div class="atributos2">
 									<span class="glyphicon glyphicon-zoom-out" ></span>
 										 
-										<input id="sx" type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
 																		
 									</div>
 									<div class= "zoom-in">
 										<span class="glyphicon glyphicon-zoom-in" ></span>
 
 									</div>
+									<div class= "menos">
+										<span class="fa fa-minus fa_icons" ></span>
+										
+									</div>
+									<div id= "papersize">
+
+										<input id="ps" title='Tamaño del canvas' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
+
+									</div>
+									<div class= "mas">
+										<span class="fa fa-plus fa_icons" ></span>
+
+									</div>
+
 
 									
 								</div>
@@ -96,7 +110,7 @@
 								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
 								          </div>
 								          <div class="form-group atributos">
-								            <label for="texto" id="texto" data-tooltip="Texto del elemento">Nombre</label>
+								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>
 								         	<input id= "texto" class="form-control app-input" type="text" />
 								          </div>								          
 								     </div>

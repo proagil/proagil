@@ -112,14 +112,14 @@ joint.shapes.erd.Attribute = joint.dia.Element.extend({
                 transform: 'translate(50, 25)'
             },
             '.outer': {
-                stroke: '#D35400', 'stroke-width': 2,
+                stroke: '#000000', 'stroke-width': 2,
                 cx: 0, cy: 0, rx: 50, ry: 25,
-                fill: '#E67E22'
+                fill: '#FFFFFF'
             },
             '.inner': {
-                stroke: '#D35400', 'stroke-width': 2,
+                stroke: '#000000', 'stroke-width': 2,
                 cx: 0, cy: 0, rx: 45, ry: 20,
-                fill: '#E67E22', display: 'none'
+                fill: '#FFFFFF', display: 'none'
             },
             text: {
                  'font-family': 'Arial', 'font-size': 14,

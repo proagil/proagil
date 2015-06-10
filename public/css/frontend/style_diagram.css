@@ -99,6 +99,30 @@
 	width: 100px;
 }
 
+.menos{
+
+	position: absolute;
+	top: 176px;
+	left: 590px;
+	width: 20px;
+}
+
+.mas{
+
+	position: absolute;
+	top: 176px;
+	left: 718px;
+	width: 20px;
+}
+
+#papersize{
+
+	position: absolute;
+	top: 175px;
+	left: 610px;
+	width: 100px;
+}
+
 .dd-select{
 
 
@@ -117,6 +141,8 @@
 	top: 1px;
 	left: 20px;
 }
+
+
 
 /*aqui*/
 .left {

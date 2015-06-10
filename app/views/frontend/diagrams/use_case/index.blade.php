@@ -67,7 +67,8 @@
 									@foreach($UseCase as $use_diagram)
 									<a href="#" data-toggle="modal" data-target="#imageModal-{{$use_diagram['id']}}" >
 										<div style="width:{{($projectOwner)?'81%':'96%'}}" class="use-case-item-content">
-											<i class="fc-turquoise fa fa-circle-o fa-fw"></i>{{$use_diagram['title']}}
+											<i class="fc-turquoise fa fa-circle-o fa-fw"></i>
+											<span> {{$use_diagram['title']}}</span>		
 										</div>
 									</a>	
 									@if($projectOwner)	
@@ -78,11 +79,11 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										<div  data-probe-title="{{$use_diagram['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+										<div  data-usecase-title="{{$use_diagram['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
 											<i class="fa fa-share-alt fa-fw"></i>
 										</div>
 																			
-										<div data-probe-title="{{$use_diagram['title']}}" data-probe-id="{{$use_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-probe circle activity-option txt-center fs-big ">
+										<div data-usecase-title="{{$use_diagram['title']}}" data-usecase-id="{{$use_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-use-case circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>
 										</div>																				
 									</div>
@@ -120,6 +121,30 @@
       })
 
   	});
+
+  	 $('.delete-use-case').on('click', function(){
+
+      		var usecaseId = $(this).data('usecaseId'),
+      			usecaseTitle = $(this).data('usecaseTitle');
+
+          var showAlert = swal({
+            title: 'Eliminar Diagrama: '+usecaseTitle,
+            text: 'Al eliminar el diagrama se elimina toda su información asociada. ¿Realmente desea eliminarlo?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#ef6f66',
+            confirmButtonText: 'Sí, eliminar',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+          function(){
+
+              window.location.href = projectURL+'//diagrama-de-casos-de-uso/eliminar/'+usecaseId;
+
+          });               
+
+      })
 
 	</script>
 	</body>

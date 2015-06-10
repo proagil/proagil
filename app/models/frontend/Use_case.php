@@ -17,7 +17,7 @@ class Use_case extends Eloquent{
 
 	public static function deleteUseCase($usecaseId){
 
-	/*	try{
+		try{
 
 			return DB::table('use_diagram')
 						->where('id', $usecaseId)
@@ -27,7 +27,7 @@ class Use_case extends Eloquent{
 
 			return false; 
 
-		}*/
+		}
 
 	}
 

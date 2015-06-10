@@ -428,4 +428,12 @@ class UserController extends BaseController {
 		return $fileDeleted; 
 	}
 
+
+	public function information(){
+
+		return View::make('frontend.acercade'); 
+		
+	}
+
+
 }
