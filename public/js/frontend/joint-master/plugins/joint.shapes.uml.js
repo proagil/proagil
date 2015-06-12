@@ -33,9 +33,9 @@ joint.shapes.uml.Class = joint.shapes.basic.Generic.extend({
         attrs: {
             rect: { 'width': 200 },
 
-            '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#3498db' },
-            '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
-            '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#2980b9' },
+            '.uml-class-name-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#FFFFFF' },
+            '.uml-class-attrs-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#FFFFFF' },
+            '.uml-class-methods-rect': { 'stroke': 'black', 'stroke-width': 2, 'fill': '#FFFFFF' },
 
             '.uml-class-name-text': {
                 'ref': '.uml-class-name-rect', 'ref-y': .5, 'ref-x': .5, 'text-anchor': 'middle', 'y-alignment': 'middle', 'font-weight': 'bold',
@@ -206,18 +206,18 @@ joint.shapes.uml.State = joint.shapes.basic.Generic.extend({
         attrs: {
             '.uml-state-body': {
                 'width': 200, 'height': 200, 'rx': 10, 'ry': 10,
-                'fill': '#ecf0f1', 'stroke': '#bdc3c7', 'stroke-width': 3
+                'fill': '#FFFFFF', 'stroke': 'black', 'stroke-width': 2
             },
             '.uml-state-separator': {
-                'stroke': '#bdc3c7', 'stroke-width': 2
+                'stroke': 'black', 'stroke-width': 2
             },
             '.uml-state-name': {
                 'ref': '.uml-state-body', 'ref-x': .5, 'ref-y': 5, 'text-anchor': 'middle',
-                'fill': '#000000', 'font-family': 'Courier New', 'font-size': 14
+                'fill': '#000000', 'font-family': 'Times New Roman', 'font-weight' : 'bold', 'font-size': 14
             },
             '.uml-state-events': {
                 'ref': '.uml-state-separator', 'ref-x': 5, 'ref-y': 5,
-                'fill': '#000000', 'font-family': 'Courier New', 'font-size': 14
+                'fill': '#000000', 'font-family': 'Times New Roman', 'font-size': 14
             }
         },
 

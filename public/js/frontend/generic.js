@@ -1821,3 +1821,61 @@ $(document).on('click', '.save-usecase', function(e){
           $('#form-create-use-case').submit(); 
         }  
     });  
+
+
+/***     DOMAIN OBJECT DIAGRAM    ***/
+
+$(document).on('click', '.save-object', function(e){
+
+        var successValidation = 0,
+            totalInputs = 0;
+
+        //validate categories
+        $('input[type="text"], textarea').each(function(){
+
+          totalInputs++; 
+
+          if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $(this).addClass('error-object-input');
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+          }else{
+              successValidation++; 
+          }
+        });
+
+
+        // success validation, all inputs are valid
+        if(successValidation==totalInputs){
+          $('#form-create-object').submit(); 
+        }  
+    });  
+
+
+/***     PROTOTYPE    ***/
+
+$(document).on('click', '.save-prototipo', function(e){
+
+        var successValidation = 0,
+            totalInputs = 0;
+
+        //validate categories
+        $('input[type="text"], textarea').each(function(){
+
+          totalInputs++; 
+
+          if($(this).val() == ''){
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+            $(this).addClass('error-object-input');
+            $('.error-alert-text').html(' Debe especificar un valor para los campos de textos indicados').parent().removeClass('hidden'); 
+          }else{
+              successValidation++; 
+          }
+        });
+
+
+        // success validation, all inputs are valid
+        if(successValidation==totalInputs){
+          $('#form-create-prototipo').submit(); 
+        }  
+    });  

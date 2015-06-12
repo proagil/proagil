@@ -16,7 +16,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Diagrama de Casos de Uso
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> Prototipo
 							</div>							
 
 		                	@if (Session::has('success_message'))
@@ -27,7 +27,7 @@
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', $projectId )}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Diagrama de Casos de Uso: {{$use_caseName}}
+									Prototipo: {{$PrototypeName}}
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
@@ -52,7 +52,7 @@
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
 										 <p class="glyphicon glyphicon-remove fa_icons" onclick="eliminarElemento()" ></p>
 									</button>
-									<button type="button" class="guardar btn btn-default btn-circle"  data-toggle="tooltip" data-placement="bottom" title="Guardar" onclick="guardar({{$use_caseId}})" >
+									<button type="button" class="guardar btn btn-default btn-circle"  data-toggle="tooltip" data-placement="bottom" title="Guardar" onclick="guardar({{$PrototypeId}})" >
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar" onclick="exportar()">
@@ -96,7 +96,7 @@
 
 								
 								<!-- Canvas-->
-								<div id="ident" name= '{{$use_caseId}}' hidden ></div>
+								<div id="ident" name= '{{$PrototypeId}}' hidden ></div>
 								<div class="paper" > </div>
 
 								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
@@ -112,11 +112,7 @@
 								          <div class="form-group atributos">
 								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>
 								         	<input id= "texto" class="form-control app-input" type="text" />
-								          </div>	
-								          <div class="form-group atributos">
-								             <label for="rotar" data-tooltip="Tamaño del elemento">Tamaño</label>
-								            <input id="rotar"  type="range" value="1.00" step="0" min="0" max="100" autocomplete="off" />
-								          </div>							          
+								          </div>								          
 								     </div>
 								  </div>				
 							</div>											

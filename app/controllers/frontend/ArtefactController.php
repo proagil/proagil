@@ -75,7 +75,13 @@ class ArtefactController extends BaseController {
 
 	              	return Redirect::to(URL::action('DomainObjectController@index', array($projectId,$iterationId)));
 
-	              break;       	              	              
+	              break;   
+
+	              case Config::get('constant.artefact.prototype'):
+
+	              	return Redirect::to(URL::action('PrototypetController@index', array($projectId,$iterationId)));
+
+	              break;     	              	              
 	        }
 
 

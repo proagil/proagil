@@ -196,7 +196,8 @@ graph.addCell(rect)
 graph.addCell(elipse)
 graph.addCell(textos)
 
-
+var selected;
+var selected2;
 
 
 /*Funcion que devuelve la imagen, que el usuario le dio click, al contenedor*/
@@ -242,6 +243,7 @@ var $sx = $('#sx');
 var $wh = $('#wh');
 var $texto = $('#texto');
 var $ps = $('#ps');
+var $rotar = $('#rotar');
 
 
 $sx.on('input change', function() {
@@ -252,25 +254,37 @@ $ps.on('input change', function() {
     paper2.setDimensions(parseFloat(this.value), parseFloat(this.value));
 });
 
-//Evento que permite aparecer las opciones de atributos y realizar cambios en los elementos
+/***** Evento que permite aparecer las opciones de atributos y realizar cambios en los elementos **/
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
   
+     selected2 = cellView.model;
+     console.log(selected2);
     document.getElementById("draggable").style.display = "inline";
 
-    $wh.on('input change', function() {
-
-     
-     cellView.model.resize(parseFloat(this.value), parseFloat(this.value));
+ 
+});
 
 
-    });
+$wh.on('input change', function() {
 
-    $texto.on('input change', function() {
+     if (selected2.attributes.type == 'erd.Normal'){
 
-        cellView.model.attr('text/text', this.value );
-    });
+     selected2.resize(parseFloat(this.value), 70);
+   }else{
 
+    selected2.resize(parseFloat(this.value), parseFloat(this.value));
+   }
 
+});
+
+$texto.on('input change', function() {
+
+        selected2.attr('text/text', this.value );
+});
+
+$rotar.on('input change', function() {
+
+        selected2.rotate(parseInt(this.value) );
 });
 
 //Evento  que permite desaparecer el cuadro de atributos
@@ -279,7 +293,7 @@ paper2.on('blank:pointerclick ', function(cellView,evt, x, y) {
     document.getElementById("draggable").style.display = "none";
 
 });
-
+/******************************************************************************************************/
 
 /*****************************Funciones de cada boton del toolbar_container***********************************/
 
@@ -290,7 +304,7 @@ function eliminar(){
 }
 
 
-var selected;
+
 
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
 

@@ -21,7 +21,7 @@ var image = new joint.shapes.basic.Image({
     },
     attrs : {
         image : {
-            "xlink:href" : "actor.jpg",
+            "xlink:href" : "actor.png",
             width : 100,
             height : 100
         }

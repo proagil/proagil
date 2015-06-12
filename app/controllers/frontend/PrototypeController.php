@@ -1,6 +1,6 @@
 <?php
 
-class DomainObjectController extends BaseController {
+class PaperPrototypeController extends BaseController {
 
 	public function index($projectId, $iterationId){
 
@@ -27,18 +27,18 @@ class DomainObjectController extends BaseController {
 		    	 // get iteration data
 		    	 $iteration = (array) Iteration::get($iterationId);
 
-		    	 $object_d = Object::enumerate($iterationId);
+		    	 $Prototype_d = Prototype::enumerate($iterationId);
 
-		    	 $objectId = Object::getId($projectId);
+		    	 $PrototypeId = Prototype::getId($projectId);
 
-		    	return View::make('frontend.diagrams.domain_object.index')
+		    	return View::make('frontend.prototype.index')
 		    				->with('iteration', $iteration)
 		    				->with('iterationId', $iterationId)
 		    				->with('projectName', $project['name'])
 		    				->with('projectId', $projectId)
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
-		    				->with('objectId', $objectId['id'])
-		    				->with('object_d', $object_d);
+		    				->with('PrototypeId', $PrototypeId['id'])
+		    				->with('Prototype_d', $Prototype_d);
 
 		    }			
 
@@ -65,7 +65,7 @@ class DomainObjectController extends BaseController {
 
 	    	$iteration = (array) Iteration::get($iterationId); 
 
-	    	return View::make('frontend.diagrams.domain_object.create')
+	    	return View::make('frontend.diagrams.domain_Prototype.create')
 		    				->with('iteration', $iteration)
 		    				->with('projectId', $projectId)
 		    				->with('projectName', $project['name'])
@@ -86,25 +86,25 @@ class DomainObjectController extends BaseController {
 
 		$result= Input::all();
 	
-		$objectInfoDiagrama = json_encode($result['diagrama']);
+		$PrototypeInfoDiagrama = json_encode($result['diagrama']);
 			
 	
 		
 		//print_r($usecaseInfoDiagrama); die;
 
-		$objectInfoData = array(
+		$PrototypeInfoData = array(
 
-			'diagrama'	=> $objectInfoDiagrama
+			'diagrama'	=> $PrototypeInfoDiagrama
 
 		);
 
-		if(Object::editObject($result['id'], $objectInfoData)){
+		if(Prototype::editPrototype($result['id'], $PrototypeInfoData)){
 
-			$objectd = (array) Object::getObjectInfo($result['id']); 
+			$PrototypeDiagram = (array) Prototype::getPrototypeInfo($result['id']); 
 
 			$result = array(
 	          'error'   => false,
-	          'data'	=> $objectd
+	          'data'	=> $PrototypeDiagram
 	      );
 
 		}else{
@@ -128,9 +128,9 @@ class DomainObjectController extends BaseController {
 	public function save(){
 
 		
-		 $values = Input::get('object');
+		 $values = Input::get('Prototype');
 
-		 $objectdiagram = array(
+		 $Prototypediagram = array(
 		   		
 		   		'id_project'		=> $values['project_id'],
 		   		'diagrama'			=> NULL,
@@ -140,33 +140,33 @@ class DomainObjectController extends BaseController {
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
-		  $objectId = Object::insertObject($objectdiagram); 
+		  $PrototypeId = Prototype::insertPrototype($Prototypediagram); 
 
-		  if($objectId>0){
+		  if($PrototypeId>0){
 
 		  	Session::flash('success_message', 'Se creó el nombre del diagrama'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('DomainObjectController@index', array($values['project_id'], $values['iteration_id'])));
+                return Redirect::to(URL::action('PrototypeController@index', array($values['project_id'], $values['iteration_id'])));
 
 		  }else{
 
 		  	Session::flash('error_message', 'No se pudo crear el nombre del diagrama'); 
 
-		   		return Redirect::to(URL::action('DomainObjectController@index', array($values['project_id'], $values['iteration_id'])));
+		   		return Redirect::to(URL::action('PrototypeController@index', array($values['project_id'], $values['iteration_id'])));
 
 
 		  }
 	}
 
 
-	public function showdiagram($objectId, $projectId, $iterationId ){
+	public function showdiagram($PrototypeId, $projectId, $iterationId ){
 
 
 		$user = Session::get('user');
 	    $userRole = Session::get('user_role');
 
-	    $permission = User::userHasPermissionOnArtefact($objectId, 'object_diagram', $user['id']); 
+	    $permission = User::userHasPermissionOnArtefact($PrototypeId, 'prototype', $user['id']); 
 
 	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){ 
 
@@ -175,17 +175,17 @@ class DomainObjectController extends BaseController {
 
 	    	$iteration = (array) Iteration::get($iterationId);
 
-	    	$object_d =  (array) Object::getName($objectId); 
+	    	$Prototype_d =  (array) Prototype::getName($PrototypeId); 
 
 	    	//$diagrama =  (array) Use_case::getUseCaseInfo($use_caseid); 
 
 	    	//importante pasarle el diagrama
-	    	return View::make('frontend.diagrams.domain_object.show')
+	    	return View::make('frontend.prototype.show')
 	    					->with('iteration', $iteration)
 		    				->with('projectId', $projectId)
-		    				->with('objectName', $object_d['title'])
-		    				->with('objectId', $objectId)
-		    				->with('objectDiagram', $object_d['diagrama'])
+		    				->with('PrototypeName', $Prototype_d['title'])
+		    				->with('PrototypeId', $PrototypeId)
+		    				->with('PrototypeDiagram', $Prototype_d['diagrama'])
 		    				->with('projectName', $project['name'])
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
 
@@ -201,10 +201,10 @@ class DomainObjectController extends BaseController {
 
 
 
-	public function getdiagram($objectId){	
+	public function getdiagram($PrototypeId){	
 
 
-		$diagram = (array) Object::getObjectInfo($objectId); 
+		$diagram = (array) Prototype::getPrototypeInfo($PrototypeId); 
 
 
 		//print_r($diagram['diagrama']);
@@ -229,12 +229,12 @@ class DomainObjectController extends BaseController {
 
 	}
 
-	public function eliminar($objectId){
+	public function eliminar($PrototypeId){
 
 
 		$user = Session::get('user');
 
-	    $permission = User::userHasPermissionOnArtefact($objectId, 'object_diagram', $user['id']);  
+	    $permission = User::userHasPermissionOnArtefact($PrototypeId, 'prototype', $user['id']);  
 
 	    if(!$permission){
 
@@ -243,19 +243,19 @@ class DomainObjectController extends BaseController {
 	    }else{    
 
 	    	
-	    	$infoproject = Object::getObjectInfo($objectId);
+	    	$infoproject = Prototype::getUseCaseInfo($PrototypeId);
 
-			if(Object::deleteObject($objectId)){
+			if(Prototype::deletePrototype($PrototypeId)){
 
 				Session::flash('success_message', 'Se ha eliminado el diagrama correctamente'); 
 
-			   	return Redirect::to(URL::action('DomainObjectController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));
+			   	return Redirect::to(URL::action('PrototypeController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));
 
 			}else{
 			   	
 			   	Session::flash('error_message', 'No se pudo eliminar el diagrama'); 
 
-			   	return Redirect::to(URL::action('DomainObjectController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));			
+			   	return Redirect::to(URL::action('PrototypeController@index', array($infoproject['id_project'], $infoproject['iteration_id'])));			
 			} 
 
 		}

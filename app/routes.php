@@ -248,7 +248,33 @@ Route::any('/diagrama-de-casos-de-uso/mostrar/{use_caseid}/{project_id}/{iterati
 
 Route::any('/diagrama-de-casos-de-uso/obtener/{use_caseid}', 'UseCaseController@getdiagram');
 
-Route::any('/diagrama-de-objetos-de-dominio/{project_id}', 'DomainObjectController@index');
+Route::any('/diagrama-de-objetos-de-dominio/proyecto/{project_id}/{iteration_id}', 'DomainObjectController@index');
+
+Route::any('/diagrama-de-objetos-de-dominio/crear/{project_id}/{iteration_id}', 'DomainObjectController@create');
+
+Route::any('/diagrama-de-objetos-de-dominio/actualizar', 'DomainObjectController@update');
+
+Route::any('/diagrama-de-objetos-de-dominio/guardar', 'DomainObjectController@save');
+
+Route::any('/diagrama-de-objetos-de-dominio/eliminar/{object_id}', 'DomainObjectController@eliminar');
+
+Route::any('/diagrama-de-objetos-de-dominio/mostrar/{object_id}/{project_id}/{iteration_id}', 'DomainObjectController@showdiagram');
+
+Route::any('/diagrama-de-objetos-de-dominio/obtener/{object_id}', 'DomainObjectController@getdiagram');
+
+Route::any('/prototipo/proyecto/{project_id}/{iteration_id}', 'PrototypeController@index');
+
+Route::any('/prototipo/crear/{project_id}/{iteration_id}', 'PrototypeController@create');
+
+Route::any('/prototipo/actualizar', 'PrototypeController@update');
+
+Route::any('/prototipo/guardar', 'PrototypeController@save');
+
+Route::any('/prototipo/eliminar/{prototype_id}', 'PrototypeController@eliminar');
+
+Route::any('/prototipo/mostrar/{prototype_id}/{project_id}/{iteration_id}', 'PrototypeController@showdiagram');
+
+Route::any('/prototipo/obtener/{prototype_id}', 'PrototypeController@getdiagram');
 
 Route::any('/acerca-de', 'UserController@information');
 
