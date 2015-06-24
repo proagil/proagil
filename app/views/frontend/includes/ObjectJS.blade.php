@@ -44,8 +44,18 @@
 
 {{ HTML::script('js/frontend/joint-master/plugins/connectors/joint.connectors.smooth.js') }}  
 
+{{ HTML::script('js/frontend/jquery.ddslick.min.js') }} 
+
+{{ HTML::script('js/frontend/canvg-master/canvg.js') }}   
+
+{{ HTML::script('js/frontend/canvg-master/bower.js') }} 
+
+{{ HTML::script('js/frontend/canvg-master/component.jason') }} 
+
+{{ HTML::script('js/frontend/canvg-master/package.jason') }} 
+
 {{ HTML::script('js/frontend/objectDiagram.js') }}  
 
-{{ HTML::script('js/frontend/jquery.ddslick.min.js') }}  
+ 
 
 

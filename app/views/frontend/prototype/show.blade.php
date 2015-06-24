@@ -59,37 +59,40 @@
 										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
 									</button>
 
+									<div class="separador" ></div>
+									<button type="button" class="btn btn-default traer" data-toggle="tooltip" data-placement="bottom" title="Traer elemento al frente" onclick="traer()">
+										 Traer al frente
+									</button>
 
-									<div class= "separador"> </div> 
+									<button type="button" class="btn btn-default llevar" data-toggle="tooltip" data-placement="bottom" title="Enviar elemento al fondo" onclick="enviar()">
+										 Enviar al fondo
+									</button>
 
-
-  									<div id="dropdownlineas" class= "contenedor"></div>
-
-  									<div class="atributos2">
+									<div class="separador2" ></div>
+  									
+  									<div class="atributos3">
 									<span class="glyphicon glyphicon-zoom-out" ></span>
 										 
 										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
 																		
 									</div>
-									<div class= "zoom-in">
+									<div class= "zoom-in2">
 										<span class="glyphicon glyphicon-zoom-in" ></span>
 
 									</div>
-									<div class= "menos">
+									<div class= "menos2">
 										<span class="fa fa-minus fa_icons" ></span>
 										
 									</div>
-									<div id= "papersize">
+									<div id= "papersize2">
 
 										<input id="ps" title='Tamaño del canvas' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
 
 									</div>
-									<div class= "mas">
+									<div class= "mas2">
 										<span class="fa fa-plus fa_icons" ></span>
 
 									</div>
-
-
 									
 								</div>
 								
@@ -99,22 +102,17 @@
 								<div id="ident" name= '{{$PrototypeId}}' hidden ></div>
 								<div class="paper" > </div>
 
-								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
-								<div class="stencil_container" ></div>
+								<!-- Menu derecho con elementos geometricos para hacer drag and drop
+								<div class="stencil_container" >
+								<ul class="nav nav-tabs">
+  									<li role="presentation" class="active"><a href="#">Web</a></li>
+  									<li role="presentation"><a href="#">Móvil</a></li>
+ 									
+								</ul>
+
+								</div>-->
 								 
-								 <div class="panel primario attributes-panel"  id="draggable">
-								    <div class="cabecera"><h3>Atributos</h3></div>
-								      <div class="cuerpo">
-								          <div class="form-group atributos">
-								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
-								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
-								          </div>
-								          <div class="form-group atributos">
-								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>
-								         	<input id= "texto" class="form-control app-input" type="text" />
-								          </div>								          
-								     </div>
-								  </div>				
+												
 							</div>											
 						</div>
 					</div>
@@ -126,7 +124,7 @@
 	    </div>
 	    <!-- /#wrapper -->
 
-	@include('frontend.includes.js_diagramas')
+	@include('frontend.includes.prototypeJS')
 	
 
 	<script>
@@ -143,58 +141,6 @@
       })
 
   	});
-
-//////////////// Diferentes links a mostrar/////////////////////
-    var ddData = [
-    {
-        
-        value: 1,
-        selected: false,
-        imageSrc: "/images/LineaNormal.png"
-    },
-    {
-        
-        value: 2,
-        selected: false,
-        imageSrc: "/images/punteada.png"
-    },
-    {
-
-        value: 3,
-        selected: false,
-        imageSrc: "/images/NormalPunta.png"
-    }
-	];
-
-	//console.log(ddDATA);
-    $('#dropdownlineas').ddslick({
-    data: ddData,
-    width: 100,
-    imagePosition: "center",
-    defaultSelectedIndex:3,
-
-
-    onSelected: function (data) {
-        var ddData = $('#dropdownlineas').data('ddslick');
-       var index = ddData.selectedIndex;
-       //console.log(data);
-       
-       document.getElementById("dropdownlineas").className= index;
-
-   		
-    }
-
-  //  graph.fromJSON(JSON.parse(jsonString))
-
-
-	});
-////////////////////////////////////////////////////////////////////
-
-/*Funcion que permite que el panel de atributos sea draggable*/
-	$(function() {
-   	 	$( "#draggable" ).draggable();
-  	});
-
 
 
 	</script>

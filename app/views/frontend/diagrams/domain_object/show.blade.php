@@ -55,9 +55,12 @@
 									<button type="button" class="guardar btn btn-default btn-circle"  data-toggle="tooltip" data-placement="bottom" title="Guardar" onclick="guardar({{$objectId}})" >
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar" onclick="exportar()">
-										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
-									</button>
+									<a  data-download= "{{$objectName}}.png" id="btn-download"> 
+										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar en PNG">
+											 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
+										</button>
+									 </a>
+
 
 
 									<div class= "separador"> </div> 
@@ -112,6 +115,10 @@
 								          <div class="form-group atributos">
 								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>
 								         	<input id= "texto" class="form-control app-input" type="text" />
+								          </div>
+								          <div class="form-group atributos">
+								             <label for="rotar" data-tooltip="Tamaño del elemento">Rotar</label>
+								            <input id="rotar"  type="range" value="1.00" step="0" min="0" max="360" autocomplete="off" />
 								          </div>								          
 								     </div>
 								  </div>				

@@ -58,13 +58,13 @@
 							</div>	
 							@if($projectOwner)
 							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('UseCaseController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
+								<a href="{{URL::action('PrototypeController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear prototipo</a>
 							</div>
 							@endif
 							
 							<div class="list-content">
-								@if(!empty($prototype))
-									@foreach($prototype as $prototipo)
+								@if(!empty($Prototype_d))
+									@foreach($Prototype_d as $prototipo)
 									<a href="#" data-toggle="modal" data-target="#imageModal-{{$prototipo['id']}}" >
 										<div style="width:{{($projectOwner)?'81%':'96%'}}" class="use-case-item-content">
 											<i class="fc-turquoise fa fa-circle-o fa-fw"></i>
@@ -74,23 +74,23 @@
 									@if($projectOwner)	
 									<div class="probe-options txt-center">
 																	
-										<div data-toggle="tooltip" data-placement="top" title="Editar" class=" edit-prototipo circle activity-option txt-center fs-big " id='identificado'data-prototipo-id="{{$prototipoId}}" >
-											<a href="{{URL::action('PrototypeController@showdiagram', array($prototype['id'], $projectId, $iterationId))}}">
+										<div data-toggle="tooltip" data-placement="top" title="Editar" class=" edit-prototipo circle activity-option txt-center fs-big " id='identificado'data-prototipo-id="{{$PrototypeId}}" >
+											<a href="{{URL::action('PrototypeController@showdiagram', array($prototipo['id'], $projectId, $iterationId))}}">
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										<div  data-prototipo-title="{{$prototype['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+										<div  data-prototipo-title="{{$prototipo['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
 											<i class="fa fa-share-alt fa-fw"></i>
 										</div>
 																			
-										<div data-prototipo-title="{{$prototype['title']}}" data-prototipo-id="{{$prototype['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-prototipo circle activity-option txt-center fs-big ">
+										<div data-prototipo-title="{{$prototipo['title']}}" data-prototipo-id="{{$prototipo['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-prototipo circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>
 										</div>																				
 									</div>
 									@endif									
 									@endforeach
 								@else
-									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay diagramas creados</div>
+									<div class="txt-center fs-med"> <i class="fa  fa-frown-o fc-yellow fa-fw"></i> No hay prototipos creados</div>
 								@endif				
 							</div>											
 						</div>

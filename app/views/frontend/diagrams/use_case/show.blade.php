@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 
@@ -55,10 +54,12 @@
 									<button type="button" class="guardar btn btn-default btn-circle"  data-toggle="tooltip" data-placement="bottom" title="Guardar" onclick="guardar({{$use_caseId}})" >
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar" onclick="exportar()">
-										 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
-									</button>
 
+									<a  data-download= "{{$use_caseName}}.png" id="btn-download"> 
+										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar en PNG">
+											 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
+										</button>
+									 </a>
 
 									<div class= "separador"> </div> 
 
@@ -98,6 +99,7 @@
 								<!-- Canvas-->
 								<div id="ident" name= '{{$use_caseId}}' hidden ></div>
 								<div class="paper" > </div>
+								<!--<div id="canvas"></div>-->
 
 								<!-- Menu derecho con elementos geometricos para hacer drag and drop-->
 								<div class="stencil_container" ></div>
@@ -114,8 +116,8 @@
 								         	<input id= "texto" class="form-control app-input" type="text" />
 								          </div>	
 								          <div class="form-group atributos">
-								             <label for="rotar" data-tooltip="Tamaño del elemento">Tamaño</label>
-								            <input id="rotar"  type="range" value="1.00" step="0" min="0" max="100" autocomplete="off" />
+								             <label for="rotar" data-tooltip="Tamaño del elemento">Rotar</label>
+								            <input id="rotar"  type="range" value="1.00" step="0" min="0" max="360" autocomplete="off" />
 								          </div>							          
 								     </div>
 								  </div>				
@@ -203,12 +205,7 @@
 
 	</script>
 
-	
 
-
-
-
-	
 
 	</body>
 

@@ -1,6 +1,6 @@
 <?php
 
-class PaperPrototypeController extends BaseController {
+class PrototypeController extends BaseController {
 
 	public function index($projectId, $iterationId){
 
@@ -65,7 +65,7 @@ class PaperPrototypeController extends BaseController {
 
 	    	$iteration = (array) Iteration::get($iterationId); 
 
-	    	return View::make('frontend.diagrams.domain_Prototype.create')
+	    	return View::make('frontend.prototype.create')
 		    				->with('iteration', $iteration)
 		    				->with('projectId', $projectId)
 		    				->with('projectName', $project['name'])
@@ -128,12 +128,12 @@ class PaperPrototypeController extends BaseController {
 	public function save(){
 
 		
-		 $values = Input::get('Prototype');
+		 $values = Input::get('prototipo');
 
 		 $Prototypediagram = array(
 		   		
 		   		'id_project'		=> $values['project_id'],
-		   		'diagrama'			=> NULL,
+		   		'prototipo'			=> NULL,
 		   		'title'				=> $values ['title'],
 		   		'iteration_id'  	=> $values['iteration_id']
 
@@ -185,7 +185,7 @@ class PaperPrototypeController extends BaseController {
 		    				->with('projectId', $projectId)
 		    				->with('PrototypeName', $Prototype_d['title'])
 		    				->with('PrototypeId', $PrototypeId)
-		    				->with('PrototypeDiagram', $Prototype_d['diagrama'])
+		    				->with('PrototypeDiagram', $Prototype_d['prototipo'])
 		    				->with('projectName', $project['name'])
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
 
@@ -212,7 +212,7 @@ class PaperPrototypeController extends BaseController {
 
 	      $result = array(
 	          'error'  			=> false,
-	          'data'			=> json_decode($diagram['diagrama']),
+	          'data'			=> json_decode($diagram['prototipo']),
 	      );
 
 	    }else{

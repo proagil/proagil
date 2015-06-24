@@ -110,6 +110,7 @@ var elipse = new erd.Normal({
                 stroke: '#00000',
                 fill: '#FFFFFF',
 
+
                 
             },
             text: {
@@ -163,14 +164,14 @@ var rect= new joint.shapes.basic.Rect({
 var textos = new joint.shapes.basic.Text({
 
           position: {
-              x: 30,
+              x: 50,
               y: 400
 
           },
 
           size: {
-              width: 100, 
-              height: 50 
+              width: 80, 
+              height: 30 
           },
           
           attrs: {
@@ -213,7 +214,7 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
     }else if (cellView.model.id == elipse.id) {
 
         var elipse2 = elipse.clone();
-        elipse2.attr('elipse/magnet', true);
+        elipse2.attr('ellipse/magnet', true);
 
         graph2.addCell(elipse2)
 
@@ -244,7 +245,7 @@ var $wh = $('#wh');
 var $texto = $('#texto');
 var $ps = $('#ps');
 var $rotar = $('#rotar');
-
+var tam;
 
 $sx.on('input change', function() {
     paper2.scale(parseFloat(this.value), parseFloat(this.value));
@@ -252,13 +253,15 @@ $sx.on('input change', function() {
 
 $ps.on('input change', function() {
     paper2.setDimensions(parseFloat(this.value), parseFloat(this.value));
+
+    tam= parseFloat(this.value);
 });
 
 /***** Evento que permite aparecer las opciones de atributos y realizar cambios en los elementos **/
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
   
      selected2 = cellView.model;
-     console.log(selected2);
+     //console.log(selected2);
     document.getElementById("draggable").style.display = "inline";
 
  
@@ -284,7 +287,8 @@ $texto.on('input change', function() {
 
 $rotar.on('input change', function() {
 
-        selected2.rotate(parseInt(this.value) );
+        var coordinates= selected2.get("position");
+        selected2.rotate(parseInt(this.value), coordinates);
 });
 
 //Evento  que permite desaparecer el cuadro de atributos
@@ -326,7 +330,7 @@ function eliminarElemento(){
 function guardar(use_caseId) { 
 
     /*Aqui paso a json los diagramas*/
-    
+   
    var jsonDiagrama=  graph2.toJSON();
 
    var jsonString = JSON.stringify(jsonDiagrama);
@@ -395,19 +399,50 @@ $(document).ready(function(){
 });
 
 
-function exportar(){
+var filename;
 
-    
-  var svgDoc = paper2.svg;
-  var serializer = new XMLSerializer();
-  var svgString = serializer.serializeToString(svgDoc);
+$('#btn-download').on('click', function(){
+
+    filename = $(this).data('download');
+    var arrow = $(".marker-arrowhead");
+    arrow.remove();
+
+    var tool = $(".link-tools");
+    tool.remove();
+  
+    var svgDoc = paper2.svg;
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(svgDoc);
+    var width= 500;
+    render(svgString, width, width, filename); 
 
 
+});
+
+
+function render(svg, width, height, filename) {
+
+  //document.createElement('canvas')
+  var c = document.createElement('canvas');
+  c.width = width || 1000;
+  c.height = height || 1000;
+  //document.getElementById('canvas').innerHTML = '';
+  //document.getElementById('canvas').appendChild(c);
+
+  canvg(c, svg, { log: true, renderCallback: function (dom) {
+       
+
+  var dataURL = c.toDataURL('image/png');
+  console.log(filename);
+  
+  link = document.getElementById('btn-download');
+  link.href=  dataURL;
+  link.download = filename;
+  
+   // console.log(link);
+       
+  }});
 }
-
-
-
-
 
 
 

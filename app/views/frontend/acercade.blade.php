@@ -31,6 +31,8 @@
 		                	<div>
 		                	<span> Librer&iacute;as utilizadas</span>
 
+		                	<a href="www.jointjs.com">JointJS</a>	
+
 		                	</div>							
 						</div>
 					</div>

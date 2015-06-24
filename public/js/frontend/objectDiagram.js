@@ -103,12 +103,10 @@ var clase = new uml.Class({
 
       },
 
-      name: 'BloodGroup',
-      attributes: ['bloodGroup: String'],
-      methods: ['+ isCompatible(): Boolean']
+      name: 'BloodGroup'
+      
 
 });
-
 
 
 var estado = new uml.State({
@@ -127,8 +125,8 @@ var estado = new uml.State({
         '.uml-state-body': {}
 
          },
-       name: "state 1",
-       events: ["entry / init()"]
+       name: "Estado"
+       
 });
 
 
@@ -141,8 +139,8 @@ var textos = new joint.shapes.basic.Text({
           },
 
           size: {
-              width: 100, 
-              height: 50 
+              width: 80, 
+              height: 30 
           },
           
           attrs: {
@@ -245,6 +243,7 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
 
         var estado2 = estado.clone();
         estado2.attr('.uml-state-body/magnet', true);
+         
 
         graph2.addCell(estado2)
 
@@ -276,6 +275,7 @@ var $sx = $('#sx');
 var $wh = $('#wh');
 var $texto = $('#texto');
 var $ps = $('#ps');
+var $rotar = $('#rotar');
 
 
 $sx.on('input change', function() {
@@ -320,6 +320,12 @@ $texto.on('input change', function() {
 
   }
   
+});
+
+$rotar.on('input change', function() {
+
+        var coordinates= selected2.get("position");
+        selected2.rotate(parseInt(this.value), coordinates);
 });
 
 //Evento  que permite desaparecer el cuadro de atributos
@@ -430,14 +436,48 @@ $(document).ready(function(){
 });
 
 
-function exportar(){
+var filename;
 
-    
-  var svgDoc = paper2.svg;
-  var serializer = new XMLSerializer();
-  var svgString = serializer.serializeToString(svgDoc);
+$('#btn-download').on('click', function(){
+
+    filename = $(this).data('download');
+    var arrow = $(".marker-arrowhead");
+    arrow.remove();
+
+    var tool = $(".link-tools");
+    tool.remove();
+  
+    var svgDoc = paper2.svg;
+    var serializer = new XMLSerializer();
+    var svgString = serializer.serializeToString(svgDoc);
+    var width= 500;
+    render(svgString, width, width, filename); 
 
 
+});
+
+function render(svg, width, height, filename) {
+
+  //document.createElement('canvas')
+  var c = document.createElement('canvas');
+  c.width = width || 1000;
+  c.height = height || 1000;
+  //document.getElementById('canvas').innerHTML = '';
+  //document.getElementById('canvas').appendChild(c);
+
+  canvg(c, svg, { log: true, renderCallback: function (dom) {
+       
+
+  var dataURL = c.toDataURL('image/png');
+  console.log(filename);
+  
+  link = document.getElementById('btn-download');
+  link.href=  dataURL;
+  link.download = filename;
+  
+   // console.log(link);
+       
+  }});
 }
 
 

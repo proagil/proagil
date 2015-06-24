@@ -103,7 +103,25 @@
 									                                       {{ $artefact['name'] }}
 									                                       <br/>    
 									                                    @endif                               
-									                                @endforeach  									                                                            
+									                                @endforeach  
+
+									                                <label class="fc-turquoise">Diagramaci&oacute;n</label><br>
+									                                @foreach($allArtefacts as $artefact)
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 3)									                                       
+									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
+									                                       {{ $artefact['name'] }}
+									                                       <br/>    
+									                                    @endif                               
+									                                @endforeach 
+
+									                                <label class="fc-turquoise">Prototipaje</label><br>
+									                                @foreach($allArtefacts as $artefact)
+									                                    @if(!(in_array($artefact['id'], $iterationArtefactsSimple)) && $artefact['type'] == 4)									                                       
+									                                       {{Form::checkbox('values[artefacts][]',$artefact['id'], FALSE) }}									                                           
+									                                       {{ $artefact['name'] }}
+									                                       <br/>    
+									                                    @endif                               
+									                                @endforeach 									                                                            
 									                                </div>
 																	<span class="error-modal-{{$iteration['id']}} fc-pink fs-min hidden">Debe seleccionar al menos una artefacto</span>									                                
 									                          @else

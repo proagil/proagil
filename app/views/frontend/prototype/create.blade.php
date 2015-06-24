@@ -14,7 +14,7 @@
 	                <div class="col-lg-12">
 						<div class="activities-content">
 							<div class="breadcrumbs-content">
-								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>  Diagrama de Casos de Uso <span class="fc-green"> &raquo; </span> Crear
+								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>  Prototipo <span class="fc-green"> &raquo; </span> Crear
 							</div>	
 
 							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
@@ -30,7 +30,7 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									Crear Diagrama
+									Crear Prototipo
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
