@@ -6,6 +6,8 @@
 
 {{ HTML::script('js/frontend/jquery-ui-1.11.4.custom/jquery-ui.js') }} 
 
+{{ HTML::script('js/frontend/underscore.js') }}
+
 {{ HTML::script('js/frontend/joint-master/lib/lodash.js') }} 
 
 {{ HTML::script('js/frontend/joint-master/lib/backbone.js') }} 
@@ -54,7 +56,13 @@
 
 {{ HTML::script('js/frontend/canvg-master/package.jason') }} 
 
-{{ HTML::script('js/frontend/objectDiagram.js') }}  
+{{ HTML::script('js/frontend/Backbone.Undo.min.js') }}  
+
+{{ HTML::script('js/frontend/jQuery.Shortcut.js-master/jQuery.Shortcut.js') }}
+
+{{ HTML::script('js/frontend/objectDiagram.js') }} 
+
+
 
  
 

@@ -23,12 +23,7 @@
 			  </div>
 			</div>	
 
-			<div style="display:none" class="social-icons-container">
-				<i style="color:#3b5998" class="share-option share-probe-facebook fs-xbig fa fa-facebook cur-point fa-fw"></i>
-				<i style="color:#55acee" class="share-option share-probe-twitter fs-xbig fa fa-twitter cur-point  fa-fw"></i>
-				<i style="color:#2672ae" class="share-option share-probe-linkedin fs-xbig fa fa-linkedin cur-point fa-fw"></i>
-			</div>				
-
+		
 
 	        <div id="page-wrapper">
 	            <div class="row">
@@ -79,9 +74,7 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										<div  data-object-title="{{$object_diagram['title']}}" data-probe-url="" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
-											<i class="fa fa-share-alt fa-fw"></i>
-										</div>
+		
 																			
 										<div data-object-title="{{$object_diagram['title']}}" data-object-id="{{$object_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-use-case circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>

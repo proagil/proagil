@@ -1878,4 +1878,6 @@ $(document).on('click', '.save-prototipo', function(e){
         if(successValidation==totalInputs){
           $('#form-create-prototipo').submit(); 
         }  
-    });  
+    });
+
+

@@ -20,18 +20,32 @@
 
 							<div>
 
-		                	<span> Desarrolladores</span>
-		                	<i class="fc-green fa-venus">Sandra Jim&eacute;nez</i>	
-		                	<i class="fc-green fa-mars">Aldemaro D&iacute;az</i>	
-		                	<i class="fc-green fa-venus">Mar&iacute;a F Malav&eacute;</i>	
+		                	<div class="section-title ">
+
+								<div  style="font-size: 100%; font-weight: bold; text-align: center;">Desarrolladores</div>
+							</div>
+							<div >
+								<i style= "height:100px; width:100px;" class="fc-green fa fa-venus"></i> <p> Sandra Jim&eacute;nez </p>
+							</div>
+		                	
+							<div>
+							<i class="fc-green fa-mars"></i> <p>Aldemaro D&iacute;az</p>		
+							</div>
+		                	
+		                	<div>
+		                	<i class="fc-green fa-venus"></i>Mar&iacute;a F Malav&eacute;</p>		
+		                	</div>
 
 
 		                	</div>	
 
 		                	<div>
-		                	<span> Librer&iacute;as utilizadas</span>
+		                	<div class="section-title">
 
-		                	<a href="www.jointjs.com">JointJS</a>	
+								<div  style="font-size: 100%; font-weight: bold; text-align: center;">Librer&iacute;a</div>
+							</div>
+		                	
+		                		<a href="www.jointjs.com">JointJS</a>	
 
 		                	</div>							
 						</div>

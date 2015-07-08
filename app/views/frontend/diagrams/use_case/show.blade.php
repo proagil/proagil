@@ -27,7 +27,7 @@
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', $projectId )}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Diagrama de Casos de Uso: {{$use_caseName}}
-									<div class="section-arrow pull-right"></div>
+									<div class="section-arrow-diag pull-right"></div>
 								</div>							
 
 							</div>	
@@ -38,10 +38,10 @@
 
 								<div class="toolbar_container" >
 									
-									<button type="button" class="btn btn-default  btn-circle" data-toggle="tooltip" data-placement="bottom" title="Deshacer">
+									<button type="button" class="btn btn-default  btn-circle " id= 'undo-button' data-toggle="tooltip" data-placement="botton" title="Deshacer">
 										 <p class=" fa fa-mail-reply fa_icons" > </p><br/>
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Rehacer">
+									<button type="button" class="btn btn-default btn-circle" id='redo-button' data-toggle="tooltip" data-placement="botton" title="Rehacer">
 										 <p class="fa fa-share fa_icons"></p>  
 									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">

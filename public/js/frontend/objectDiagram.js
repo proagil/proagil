@@ -103,7 +103,7 @@ var clase = new uml.Class({
 
       },
 
-      name: 'BloodGroup'
+      name: 'Clase'
       
 
 });
@@ -290,6 +290,7 @@ $ps.on('input change', function() {
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
 
      selected2 = cellView.model;
+      console.log(cellView.model.attributes.type);
   
     document.getElementById("draggable").style.display = "inline";
 
@@ -307,7 +308,7 @@ $wh.on('input change', function() {
 $texto.on('input change', function() {
     
       //console.log(cellView);
-     //console.log(cellView.model.attributes.type);
+    
       //console.log(textos);
 
   if (selected2.attributes.type == 'uml.Class'){
@@ -317,6 +318,10 @@ $texto.on('input change', function() {
   }else if (selected2.attributes.type == 'basic.Text'){
 
     selected2.attr('text/text', this.value );
+
+  }else if (selected2.attributes.type == 'uml.State'){
+
+     selected2.prop('name', this.value );
 
   }
   
@@ -481,12 +486,46 @@ function render(svg, width, height, filename) {
 }
 
 
+var myUndoManager = new Backbone.UndoManager();
+myUndoManager.register(graph2);
+myUndoManager.startTracking();
+
+$('#undo-button').on('click', function(){
+   //console.log(pila);
+   myUndoManager.undo();
+  
+});
+
+$('#redo-button').on('click', function(){
+   //console.log(pila);
+   myUndoManager.redo();
+  
+});
+
+$.Shortcut.on("ctrl + Z", function (e) {
+    // e is the jQuery normalized KeyEvent
+    myUndoManager.undo();
+})
+
+$.Shortcut.on("ctrl + Y", function (e) {
+    // e is the jQuery normalized KeyEvent
+    myUndoManager.redo();
+})
+
+var elemento;
+graph2.on('add', function(cell) { 
+     
+    $.Shortcut.on("ctrl + C", function (e) {
+    // e is the jQuery normalized KeyEvent
+    console.log('New cell with id ' + cell.id + ' added to the graph.') ;
+    elemento= cell.clone();
+    })
+
+    $.Shortcut.on("ctrl + V", function (e) {
+    // e is the jQuery normalized KeyEvent
+    graph2.addCell(elemento);
+    })
 
 
 
-
-
-
-
-
-
+});

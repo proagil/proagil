@@ -94,7 +94,7 @@ class PrototypeController extends BaseController {
 
 		$PrototypeInfoData = array(
 
-			'diagrama'	=> $PrototypeInfoDiagrama
+			'prototipo'	=> $PrototypeInfoDiagrama
 
 		);
 
