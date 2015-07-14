@@ -95,13 +95,6 @@ var clase = new uml.Class({
 
         },
 
-      attrs: {
-        rect: {
-
-
-        }
-
-      },
 
       name: 'Clase'
       
@@ -306,11 +299,12 @@ $wh.on('input change', function() {
 });
 
 $texto.on('input change', function() {
-    
-      //console.log(cellView);
-    
-      //console.log(textos);
 
+   $('input:text').focus(
+        function(){
+            $(this).val('');
+   });
+   
   if (selected2.attributes.type == 'uml.Class'){
 
     selected2.prop('name', this.value );

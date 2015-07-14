@@ -46,7 +46,7 @@
 							
 							<div class="filters-content">
 								<div class="section-title fc-blue-iii fs-big">
-									Diagramas
+									Diagramas de objetos de dominio
 									<div class="section-arrow pull-right"></div>
 								</div>							
 

@@ -140,14 +140,15 @@ class DomainObjectController extends BaseController {
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
-		  $objectId = Object::insertObject($objectdiagram); 
+		  $objectCount = Object::insertObject($objectdiagram); 
+		   $objectId= (array) Object::getId($values['project_id']);
 
-		  if($objectId>0){
+		  if($objectCount>0){
 
-		  	Session::flash('success_message', 'Se creó el nombre del diagrama'); 
+		  	//Session::flash('success_message', 'Se creó el nombre del diagrama'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('DomainObjectController@index', array($values['project_id'], $values['iteration_id'])));
+                return Redirect::to(URL::action('DomainObjectController@showdiagram', array($objectId['id'], $values['project_id'], $values['iteration_id'])));
 
 		  }else{
 

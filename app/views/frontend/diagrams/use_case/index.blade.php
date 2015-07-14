@@ -46,14 +46,14 @@
 							
 							<div class="filters-content">
 								<div class="section-title fc-blue-iii fs-big">
-									Diagramas
+									Diagramas de casos de uso
 									<div class="section-arrow pull-right"></div>
 								</div>							
 
 							</div>	
 							@if($projectOwner)
 							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('UseCaseController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
+								<a href="{{URL::action('UseCaseController@index', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
 							</div>
 							@endif
 							

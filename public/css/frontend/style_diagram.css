@@ -8,6 +8,12 @@
  	overflow: hidden;
  }
 
+
+.use_case-input,
+.object-input,
+.prototipo-input{
+	border-radius: 0px; 
+}
 .toolbar_container{
 
 	width: 100%;
@@ -101,6 +107,7 @@
 .section-arrow-diag{
 	position: relative;
 	right: 15px;
+	cursor: pointer;
 }
 .fa_icons{
 

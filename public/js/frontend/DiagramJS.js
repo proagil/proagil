@@ -18,8 +18,8 @@ var paper2 = new joint.dia.Paper({
     gridSize: 50,
     perpendicularLinks: false,
     model: graph2,
-    width: 650,
-    height: 650,
+    width: 1000,
+    height: 1000,
     embeddingMode: true,
     
     defaultLink: function() {
@@ -179,13 +179,13 @@ var textos = new joint.shapes.basic.Text({
 
               text: "Texto",
               fill: "black",
-              "font-size": 10,
+              
                
 
             }
           }
 
-                //content: "<p style='color:black;'>asdf asdf asdf asdf this needs to word wrap</p>"
+                
 
 });
 
@@ -282,6 +282,10 @@ $wh.on('input change', function() {
 
 $texto.on('input change', function() {
 
+      $('input:text').focus(
+        function(){
+            $(this).val('');
+       });
         selected2.attr('text/text', this.value );
 });
 

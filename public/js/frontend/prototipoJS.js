@@ -234,7 +234,7 @@ paper2.on('blank:pointerclick ', function(cellView,evt, x, y) {
 });
 
 /*Al darle click aprece/desaprece los elementos de ese menu*/
- $('.section-arrow').on('click', function(){
+ $('.section-arrow-diag').on('click', function(){
 
         var section = $(this).data('section'); 
         
@@ -1787,7 +1787,6 @@ function eliminar(){
 
 
 
-
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
 
     
@@ -1938,10 +1937,11 @@ function llevar(){
 
        
         
-      $('#web').addClass('active');
-      $('#movil').removeClass('active');
-     document.getElementById("stencil-movil").style.display = "none";
-    document.getElementById("stencil-web").style.display = "block";
+    $('#web').addClass('active');
+    $('#movil').removeClass('active');
+    $("#stencil-movil").css('display', 'none');
+    $("#stencil-web").css('display', 'block');
+    
 
       
 
@@ -1951,85 +1951,14 @@ function llevar(){
 
      
         
-      $('#movil').addClass('active');
-      $('#web').removeClass('active');
-     document.getElementById("stencil-web").style.display = "none";
-      document.getElementById("stencil-movil").style.display = "block";
+    $('#movil').addClass('active');
+    $('#web').removeClass('active');
+    $("#stencil-web").css('display', 'none');
+    $("#stencil-movil").css('display', 'block');
         
 
   });
 
-/*************Pila que contine los cambios en los elementos****************/
- /* var node = function()
-{
-    var data;
-    var next = null;
-}
-  
-var stack = function()
-{
-    this.top = null;
-  
-    this.push = function(data) {
-        if (this.top == null) {
-            this.top = new node();
-            this.top.data = data;
-        } else {
-            var temp = new node();
-            temp.data = data;
-            temp.next = this.top;
-            this.top = temp;
-        }
-    }
-  
-    this.pop = function() {
-        var temp = this.top;
-        var data = this.top.data;
-        this.top = this.top.next;
-        temp = null;
-        return data;
-    }
-  
-    this.print = function() {
-        var node = this.top;
-        while (node != null) {
-            console.log(node.data);
-            node = node.next;
-        }
-    }
-}*/
-  
- /* var pila = [];
-
-
-graph2.on('change ', function(cell) { 
-     
-    pila.push(cell);
-    console.log(pila)
-})
-
-$( document ).ready(function() {
-
-    menu.on('change', function(cell) { 
-     
-    pila.push(cell);
-    console.log(pila)
-})
-});
-
-  
-$('#undo-button').on('click', function(){
-   //console.log(pila);
-  var elmntAnterior= pila.pop();
-     console.log(elmntAnterior)
-      graph2.addCell(elmntAnterior);
-    elmntAnterior.remove();
-    // var elemntNuevo= pila.pop()
-  
-        
-    
-
-  });*/
 
 
 var myUndoManager = new Backbone.UndoManager();
@@ -2063,7 +1992,7 @@ graph2.on('add', function(cell) {
      
     $.Shortcut.on("ctrl + C", function (e) {
     // e is the jQuery normalized KeyEvent
-    console.log('New cell with id ' + cell.id + ' added to the graph.') ;
+    
     elemento= cell.clone();
     })
 

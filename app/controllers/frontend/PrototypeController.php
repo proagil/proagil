@@ -140,14 +140,16 @@ class PrototypeController extends BaseController {
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
-		  $PrototypeId = Prototype::insertPrototype($Prototypediagram); 
+		  $PrototypeCount = Prototype::insertPrototype($Prototypediagram); 
+		  $prototypeId= Prototype::getId($values['project_id']);
+		  $protoId= (array) $prototypeId;
 
-		  if($PrototypeId>0){
+		  if($PrototypeCount>0){
 
-		  	Session::flash('success_message', 'Se creó el nombre del diagrama'); 
+		  	//Session::flash('success_message', 'Se creó el nombre del diagrama'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('PrototypeController@index', array($values['project_id'], $values['iteration_id'])));
+                return Redirect::to(URL::action('PrototypeController@showdiagram', array($protoId['id'], $values['project_id'], $values['iteration_id'])));
 
 		  }else{
 

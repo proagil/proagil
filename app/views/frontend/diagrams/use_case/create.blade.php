@@ -35,7 +35,7 @@
 								</div>							
 
 							</div>	
-							{{ Form::open(array('action' => array('UseCaseController@save'), 'id' => 'form-create-use-case')) }}	
+							{{ Form::open(array('action' => array('UseCaseController@index'), 'id' => 'form-create-use-case')) }}	
 
 								<label class="use-case-label txt-right">T&iacute;tulo:</label>
 							

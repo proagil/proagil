@@ -58,7 +58,7 @@ class UseCaseController extends BaseController {
 		$permission = User::userHasPermissionOnProjectIteration($projectId, $iterationId, $user['id']); 
 		
 	    if($permission && $userRole['user_role_id']==Config::get('constant.project.owner')){
-	    	echo "entro al create y al if";
+	    	//echo "entro al create y al if";
 
 	    	// get project data
 	    	$project = (array) Project::getName($projectId); 
@@ -140,14 +140,15 @@ class UseCaseController extends BaseController {
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
-		  $usecaseid = Use_case::insertUseCase($usecase); 
+		  $usecaseCount = Use_case::insertUseCase($usecase); 
+		 Use_case::getId($values['project_id']);
 
-		  if($usecaseid>0){
+		  if($usecaseCount>0){
 
-		  	Session::flash('success_message', 'Se creó el nombre del diagrama'); 
+		  	//Session::flash('success_message', 'Se creó el nombre del diagrama'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('UseCaseController@index', array($values['project_id'], $values['iteration_id'])));
+                return Redirect::to(URL::action('UseCaseController@showdiagram', array($ucid['id'], $values['project_id'], $values['iteration_id'])));
 
 		  }else{
 
