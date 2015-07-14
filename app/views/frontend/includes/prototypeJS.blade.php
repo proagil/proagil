@@ -48,15 +48,9 @@
 
 {{ HTML::script('js/frontend/canvg-master/canvg.js') }}   
 
-{{ HTML::script('js/frontend/canvg-master/bower.js') }} 
-
-{{ HTML::script('js/frontend/canvg-master/component.jason') }} 
-
-{{ HTML::script('js/frontend/canvg-master/package.jason') }}
-
 {{ HTML::script('js/frontend/Backbone.Undo.min.js') }} 
 
-{{ HTML::script('js/frontend/jQuery.Shortcut.js-master/jQuery.Shortcut.js') }}
+{{ HTML::script('js/frontend/jQuery.Shortcut.js-master/jquery.Shortcut.js') }}
 
 {{ HTML::script('js/frontend/prototipoJS.js') }}  
 

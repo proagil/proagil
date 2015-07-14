@@ -69,7 +69,7 @@
   									<div class="atributos2">
 									<span class="glyphicon glyphicon-zoom-out" ></span>
 										 
-										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="5" autocomplete="off">
 																		
 									</div>
 									<div class= "zoom-in">

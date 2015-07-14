@@ -41,7 +41,7 @@
 							
 								<input type="hidden" name="prototipo[project_id]" value="{{$projectId}}">
 								<input type="hidden" name="prototipo[iteration_id]" value="{{$iteration['id']}}">	
-								<input type="text" name="prototipo[title]"  class="prototipo-input-name use-case-input form-control">	
+								<input type="text" name="prototipo[title]"  class="prototipo-input-name prototipo-input form-control">	
 								
 							 {{Form::close()}}
 

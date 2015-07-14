@@ -25,7 +25,7 @@
 
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', $projectId )}}" class="btn-back"> Volver</a>
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('PrototypeController@index', $projectId )}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Prototipo: {{$PrototypeName}}
 									<div class="section-arrow-diag pull-right"></div>
@@ -116,7 +116,7 @@
 								<div  id="stencil-web">
 									<div class="section-title-stencil ">
 
-										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Menúes</div>
+										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Menús</div>
 										<div data-section="section-menu" class="section-arrow-diag pull-right">
 											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
 										</div>
@@ -165,7 +165,7 @@
 									 
 									</div>
 									<div class="section-title-stencil ">
-										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Browser</div>
+										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Navegador</div>
 										<div data-section="section-browser" class="section-arrow-diag pull-right">
 											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
 										</div>
