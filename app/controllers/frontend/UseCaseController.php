@@ -135,13 +135,14 @@ class UseCaseController extends BaseController {
 		   		'id_project'		=> $values['project_id'],
 		   		'diagrama'			=> NULL,
 		   		'title'				=> $values ['title'],
-		   		'iteration_id'  	=> $values['iteration_id']
+		   		'iteration_id'  	=> $values['iteration_id'],
+		   		'url'				=> md5($values['title'].date('H:i:s'))
 
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
 		  $usecaseCount = Use_case::insertUseCase($usecase); 
-		 Use_case::getId($values['project_id']);
+		  $ucid= (array) Use_case::getId($values['project_id']);
 
 		  if($usecaseCount>0){
 
@@ -182,7 +183,7 @@ class UseCaseController extends BaseController {
 
 	    	//importante pasarle el diagrama
 	    	return View::make('frontend.diagrams.use_case.show')
-	    					->with('iteration', $iteration)
+	    					->with('iterationId', $iterationId)
 		    				->with('projectId', $projectId)
 		    				->with('use_caseName', $usecase['title'])
 		    				->with('use_caseId', $use_caseid)

@@ -135,14 +135,15 @@ class PrototypeController extends BaseController {
 		   		'id_project'		=> $values['project_id'],
 		   		'prototipo'			=> NULL,
 		   		'title'				=> $values ['title'],
-		   		'iteration_id'  	=> $values['iteration_id']
+		   		'iteration_id'  	=> $values['iteration_id'],
+		   		'url'				=> md5($values['title'].date('H:i:s'))
 
 		  );
 
 		  $project = (array) Project::getName($values['project_id']);	
 		  $PrototypeCount = Prototype::insertPrototype($Prototypediagram); 
-		  $prototypeId= Prototype::getId($values['project_id']);
-		  $protoId= (array) $prototypeId;
+		  $protoId= (array) Prototype::getId($values['project_id']);
+		 
 
 		  if($PrototypeCount>0){
 
@@ -183,7 +184,7 @@ class PrototypeController extends BaseController {
 
 	    	//importante pasarle el diagrama
 	    	return View::make('frontend.prototype.show')
-	    					->with('iteration', $iteration)
+	    					->with('iterationId', $iterationId)
 		    				->with('projectId', $projectId)
 		    				->with('PrototypeName', $Prototype_d['title'])
 		    				->with('PrototypeId', $PrototypeId)

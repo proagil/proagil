@@ -24,7 +24,7 @@
 
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', $projectId )}}" class="btn-back"> Volver</a>
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Diagrama de Casos de Uso: {{$use_caseName}}
 									<div class="section-arrow-diag pull-right"></div>
@@ -56,7 +56,7 @@
 									</button>
 
 									<a  data-download= "{{$use_caseName}}.png" id="btn-download"> 
-										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar en PNG">
+										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar a PNG">
 											 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
 										</button>
 									 </a>
@@ -109,7 +109,7 @@
 								      <div class="cuerpo">
 								          <div class="form-group atributos">
 								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
-								            <input id="wh"  type="range" value="1.00" step="0.1" min="90" max="400" autocomplete="off"/>
+								            <input id="wh"  type="range" value="1.00" step="0.1" min="50" max="400" autocomplete="off"/>
 								          </div>
 								          <div class="form-group atributos">
 								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>

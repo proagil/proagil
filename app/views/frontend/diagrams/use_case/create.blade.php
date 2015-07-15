@@ -17,7 +17,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>  Diagrama de Casos de Uso <span class="fc-green"> &raquo; </span> Crear
 							</div>	
 
-							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
+							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>			
 
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text">Error Alert</span> </div>	
 
@@ -35,7 +35,7 @@
 								</div>							
 
 							</div>	
-							{{ Form::open(array('action' => array('UseCaseController@index'), 'id' => 'form-create-use-case')) }}	
+							{{ Form::open(array('action' => array('UseCaseController@save'), 'id' => 'form-create-use-case')) }}	
 
 								<label class="use-case-label txt-right">T&iacute;tulo:</label>
 							

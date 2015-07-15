@@ -25,7 +25,7 @@
 
 							
 							<div class="filters-content">
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('DomainObjectController@index', $projectId )}}" class="btn-back"> Volver</a>
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('DomainObjectController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
 									Diagrama de Objetos de Dominio: {{$objectName}}
 									<div class="section-arrow-diag-diag pull-right"></div>
@@ -56,7 +56,7 @@
 										 <p class="glyphicon glyphicon-floppy-disk fa_icons" ></p>
 									</button>
 									<a  data-download= "{{$objectName}}.png" id="btn-download"> 
-										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar en PNG">
+										<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Exportar a PNG">
 											 <p class="glyphicon glyphicon-save-file fa_icons" ></p>
 										</button>
 									 </a>

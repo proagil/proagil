@@ -188,6 +188,61 @@ var textos = new joint.shapes.basic.Text({
                 
 
 });
+var include = new joint.shapes.basic.Text({
+
+          position: {
+              x: 30,
+              y: 450
+
+          },
+
+          size: {
+              width: 70, 
+              height: 20 
+          },
+          
+          attrs: {
+            text: { 
+
+              text: "<<include>>",
+              fill: "black",
+              "font-size": 5,
+               
+
+            }
+          }
+
+               
+
+});
+
+var exclude = new joint.shapes.basic.Text({
+
+          position: {
+              x: 110,
+              y: 450
+
+          },
+
+          size: {
+              width: 70, 
+              height: 20 
+          },
+          
+          attrs: {
+            text: { 
+
+              text: "<<exclude>>",
+              fill: "black",
+              "font-size": 5,
+               
+
+            }
+          }
+
+               
+
+});
 
 
 
@@ -196,6 +251,8 @@ graph.addCell(image)
 graph.addCell(rect)
 graph.addCell(elipse)
 graph.addCell(textos)
+graph.addCell(include)
+graph.addCell(exclude)
 
 var selected;
 var selected2;
@@ -230,6 +287,15 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
         var tx = textos.clone();
          graph2.addCell(tx)
 
+    }else if(cellView.model.id == include.id){   
+
+        var incld = include.clone();
+         graph2.addCell(incld)
+
+    }else if(cellView.model.id == exclude.id){   
+
+        var excld = exclude.clone();
+         graph2.addCell(excld);
     };
 
     
@@ -261,7 +327,7 @@ $ps.on('input change', function() {
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
   
      selected2 = cellView.model;
-     //console.log(selected2);
+     console.log(selected2);
     document.getElementById("draggable").style.display = "inline";
 
  
@@ -272,10 +338,13 @@ $wh.on('input change', function() {
 
      if (selected2.attributes.type == 'erd.Normal'){
 
-     selected2.resize(parseFloat(this.value), 70);
-   }else{
+      selected2.resize(parseFloat(this.value), 70);
 
-    selected2.resize(parseFloat(this.value), parseFloat(this.value));
+    }else{
+
+      
+      selected2.resize(parseFloat(this.value), parseFloat(this.value));
+
    }
 
 });
@@ -422,12 +491,12 @@ $('#btn-download').on('click', function(){
 
 
 });
-
-
+  var c
+  var dataURL
 function render(svg, width, height, filename) {
 
   //document.createElement('canvas')
-  var c = document.createElement('canvas');
+  c = document.createElement('canvas');
   c.width = width || 1000;
   c.height = height || 1000;
   //document.getElementById('canvas').innerHTML = '';
@@ -436,7 +505,7 @@ function render(svg, width, height, filename) {
   canvg(c, svg, { log: true, renderCallback: function (dom) {
        
 
-  var dataURL = c.toDataURL('image/png');
+  dataURL = c.toDataURL('image/png');
   console.log(filename);
   
   link = document.getElementById('btn-download');
@@ -494,3 +563,112 @@ graph2.on('add', function(cell) {
 });
 
 
+ /*$('.share-probe-popover').popover({ 
+        html : true, 
+        placement: 'top',
+        content: function() {
+          return $('.social-icons-container').html();
+        }
+    });  
+
+
+    $('.share-probe-popover').on('shown.bs.popover', function () {
+
+      var usecaseTitle = $(this).data('usecaseTitle'),
+          
+          popOverId = $(this).attr('aria-describedby');
+
+      $('#'+popOverId).find('.popover-content').find('.share-option')
+                      .attr('data-usecase-title', usecaseTitle)
+                      .attr('data-usecase-url', usecaseUrl);    
+  
+    });     
+
+
+  $(document).on('click','.share-probe-twitter', function(e){
+      e.preventDefault();
+   
+      var usecaseTitle = $(this).data('usecaseTitle'),
+          usecaseUrl = $(this).data('usecaseUrl'),
+          longUrl = encodeURI(dataURL),
+          bitLyUrl = '';  
+
+          $.ajax({
+            url:'http://api.bit.ly/v3/shorten',
+            data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+            dataType:'jsonp',
+            success:function(response){
+
+              if(response.status_text == 'OK'){
+
+                bitLyUrl = response.data.url; 
+
+              }else{
+
+                bitLyUrl = longUrl; 
+
+              }
+
+              var urlToShare = 'http://twitter.com/share?url='+bitLyUrl,
+              message = 'Les comparto el diagrama de casos de uso que he hecho';
+
+              window.open(urlToShare + '&text=' + message, 'twitterwindow', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
+
+            },
+            error: function(xhr, error) {
+
+            }            
+          });        
+     
+    });    
+
+
+    $(document).on('click','.share-probe-facebook', function(e){
+        e.preventDefault();
+     
+        var probeTitle = $(this).data('probeTitle'),
+            probeUrl = $(this).data('probeUrl'),
+            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
+            bitLyUrl = '';  
+
+            $.ajax({
+              url:'http://api.bit.ly/v3/shorten',
+              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
+              dataType:"jsonp",
+              success:function(response){
+
+                if(response.status_text == 'OK'){
+
+                  bitLyUrl = response.data.url; 
+
+                }else{
+
+                  bitLyUrl = longUrl; 
+
+                }
+
+                var urlToShare = bitLyUrl,
+                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
+
+                //message = message.replace(/\s/g,'+');
+            
+                FB.ui(
+                {
+                  method: 'feed',
+                  href: 'http://proagil.dev:8000/',
+                  description: message,
+                  message: message,
+                  caption: 'Sondeo', 
+                  link: bitLyUrl,
+                  picture: 'http://s11.postimg.org/duhv9zmv7/logo_sm.png'
+
+                });
+
+
+              },
+              error: function(xhr, error) {
+
+              }            
+            });        
+       
+      });  */

@@ -23,6 +23,11 @@
 			  </div>
 			</div>	
 
+			<div style="display:none" class="social-icons-container">
+				<i style="color:#3b5998" class="share-option share-probe-facebook fs-xbig fa fa-facebook cur-point fa-fw"></i>
+				<i style="color:#55acee" class="share-option share-probe-twitter fs-xbig fa fa-twitter cur-point  fa-fw"></i>
+			</div>				
+
 		
 
 	        <div id="page-wrapper">
@@ -53,7 +58,7 @@
 							</div>	
 							@if($projectOwner)
 							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('UseCaseController@index', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
+								<a href="{{URL::action('UseCaseController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
 							</div>
 							@endif
 							
@@ -74,7 +79,10 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										
+
+										<!--<div  data-usecase-title="{{$use_diagram['title']}}" data-usecase-url="{{$use_diagram['url']}}" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+											<i class="fa fa-share-alt fa-fw"></i>
+										</div>-->
 																			
 										<div data-usecase-title="{{$use_diagram['title']}}" data-usecase-id="{{$use_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-use-case circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>

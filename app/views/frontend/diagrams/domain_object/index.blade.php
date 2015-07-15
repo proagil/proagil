@@ -33,7 +33,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span>  {{$iteration['name']}}  <span class="fc-green"> &raquo; </span> Diagramas de objetos de dominio
 							</div>	
 
-							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>													
+							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('ProjectController@detail', array($projectId, $iteration['id']))}}"  class="btn-back"> Volver</a>													
 
 		                	@if (Session::has('success_message'))
 		                		<div class="success-alert"><i class="fc-blue-iii glyphicon glyphicon-alert"></i> {{Session::get('success_message')}} </div>

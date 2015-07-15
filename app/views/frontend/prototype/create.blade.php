@@ -17,7 +17,7 @@
 								Inicio  <span class="fc-green"> &raquo; </span> {{$projectName}}  <span class="fc-green"> &raquo; </span> {{$iteration['name']}}  <span class="fc-green"> &raquo; </span>  Prototipo <span class="fc-green"> &raquo; </span> Crear
 							</div>	
 
-							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="#" class="btn-back"> Volver</a>			
+							<i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('PrototypeController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>			
 
 							<div class="error-alert-dashboard hidden"><i class="fc-blue-iii glyphicon glyphicon-alert"></i><span class="error-alert-text">Error Alert</span> </div>	
 

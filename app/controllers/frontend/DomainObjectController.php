@@ -135,7 +135,8 @@ class DomainObjectController extends BaseController {
 		   		'id_project'		=> $values['project_id'],
 		   		'diagrama'			=> NULL,
 		   		'title'				=> $values ['title'],
-		   		'iteration_id'  	=> $values['iteration_id']
+		   		'iteration_id'  	=> $values['iteration_id'],
+		   		'url'				=> md5($values['title'].date('H:i:s'))
 
 		  );
 
@@ -182,7 +183,7 @@ class DomainObjectController extends BaseController {
 
 	    	//importante pasarle el diagrama
 	    	return View::make('frontend.diagrams.domain_object.show')
-	    					->with('iteration', $iteration)
+	    					->with('iterationId', $iteration['id'])
 		    				->with('projectId', $projectId)
 		    				->with('objectName', $object_d['title'])
 		    				->with('objectId', $objectId)

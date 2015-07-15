@@ -18,8 +18,8 @@ var paper2 = new joint.dia.Paper({
     gridSize: 50,
     perpendicularLinks: false,
     model: graph2,
-    width: 650,
-    height: 650,
+    width: 1000,
+    height: 1000,
     embeddingMode: true,
     
     defaultLink: function() {
@@ -152,23 +152,24 @@ var textos = new joint.shapes.basic.Text({
 });
 
 
-var include = new joint.shapes.basic.Text({
+
+var cardinalidad = new joint.shapes.basic.Text({
 
           position: {
-              x: 30,
+              x: 70,
               y: 340
 
           },
 
           size: {
-              width: 70, 
-              height: 20 
+              width: 25, 
+              height: 15 
           },
           
           attrs: {
             text: { 
 
-              text: "<<include>>",
+              text: "1..*",
               fill: "black",
               "font-size": 5,
                
@@ -176,37 +177,10 @@ var include = new joint.shapes.basic.Text({
             }
           }
 
-               
+                
 
 });
 
-var exclude = new joint.shapes.basic.Text({
-
-          position: {
-              x: 110,
-              y: 340
-
-          },
-
-          size: {
-              width: 70, 
-              height: 20 
-          },
-          
-          attrs: {
-            text: { 
-
-              text: "<<exclude>>",
-              fill: "black",
-              "font-size": 5,
-               
-
-            }
-          }
-
-               
-
-});
 
 var selected;
 var selected2;
@@ -215,8 +189,9 @@ var selected2;
 graph.addCell(clase)
 graph.addCell(estado)
 graph.addCell(textos)
-graph.addCell(include)
-graph.addCell(exclude)
+graph.addCell(cardinalidad)
+
+
 
 
 
@@ -246,15 +221,10 @@ paper.on('cell:pointerdown ', function(cellView,evt, x, y) {
         var tx = textos.clone();
          graph2.addCell(tx)
 
-    }else if(cellView.model.id == include.id){   
+    }else if(cellView.model.id == cardinalidad.id){   
 
-        var incld = include.clone();
-         graph2.addCell(incld)
-
-    }else if(cellView.model.id == exclude.id){   
-
-        var excld = exclude.clone();
-         graph2.addCell(excld);
+        var card = cardinalidad.clone();
+         graph2.addCell(card)
     };
     
 })
@@ -283,7 +253,7 @@ $ps.on('input change', function() {
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
 
      selected2 = cellView.model;
-      console.log(cellView.model.attributes.type);
+      
   
     document.getElementById("draggable").style.display = "inline";
 
