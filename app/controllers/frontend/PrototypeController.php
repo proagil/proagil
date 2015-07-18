@@ -67,6 +67,7 @@ class PrototypeController extends BaseController {
 
 	    	return View::make('frontend.prototype.create')
 		    				->with('iteration', $iteration)
+		    				->with('iterationId', $iterationId)
 		    				->with('projectId', $projectId)
 		    				->with('projectName', $project['name'])
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -246,7 +247,7 @@ class PrototypeController extends BaseController {
 	    }else{    
 
 	    	
-	    	$infoproject = Prototype::getUseCaseInfo($PrototypeId);
+	    	$infoproject = Prototype::getPrototypeInfo($PrototypeId);
 
 			if(Prototype::deletePrototype($PrototypeId)){
 
@@ -264,6 +265,40 @@ class PrototypeController extends BaseController {
 		}
 
 			
+	}
+
+	public function update_name($PrototypeId){
+		$nameProto= Input::all();
+	   
+		//echo "hola";
+		$Prototypename = array(
+
+			'title'	=> $nameProto['name']
+
+		);
+
+		if(Prototype::editPrototype($PrototypeId, $Prototypename)){
+
+			$Prototypetitle = (array) Prototype::getPrototypeInfo($PrototypeId); 
+
+			$result = array(
+	          'error'   => false,
+	          'data'	=> $Prototypetitle['title']
+	      );
+
+		}else{
+
+			$result = array(
+	          'error'     => true
+	      );
+
+		}
+		
+		
+		//print_r($result['data']); die;
+		
+	     header('Content-Type: application/json');
+	     return Response::json($result);
 	}
 
 

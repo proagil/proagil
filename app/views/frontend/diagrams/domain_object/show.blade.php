@@ -65,7 +65,11 @@
 
 									<div class= "separador"> </div> 
 
+									<div id="conectores">
 
+										<p class="titulos">Conectores</p>
+										
+									</div>
   									<div id="dropdownlineas" class= "contenedor"></div>
 
   									<div class="atributos2">
@@ -74,12 +78,23 @@
 										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
 																		
 									</div>
+									<div id="acercar-alejar">
+
+										<p class="titulos">Acercar/alejar</p>
+										
+									</div>
 									<div class= "zoom-in">
 										<span class="glyphicon glyphicon-zoom-in" ></span>
 
 									</div>
 									<div class= "menos">
 										<span class="fa fa-minus fa_icons" ></span>
+										
+									</div>
+
+									<div id="tamano">
+
+										<p class="titulos">Tamaño del canvas<p>
 										
 									</div>
 									<div id= "papersize">

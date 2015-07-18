@@ -67,6 +67,7 @@ class DomainObjectController extends BaseController {
 
 	    	return View::make('frontend.diagrams.domain_object.create')
 		    				->with('iteration', $iteration)
+		    				->with('iterationId', $iterationId)
 		    				->with('projectId', $projectId)
 		    				->with('projectName', $project['name'])
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);

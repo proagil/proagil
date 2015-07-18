@@ -46,7 +46,7 @@ class Prototype extends Eloquent{
 
 	public static function getPrototypeInfo($prototypeId){
 
-		 // get probe data
+		 
 		 return DB::table('prototype AS u')
 
 		->select('u.*')
@@ -64,7 +64,11 @@ class Prototype extends Eloquent{
 
 	}
 
+	public static function updateTitle($prototypeId, $name){
 
+		return DB::table('prototype')->where('id', $prototypeId)->update($value);
+
+	}
 
 }
 

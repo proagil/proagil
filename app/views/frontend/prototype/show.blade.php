@@ -27,9 +27,12 @@
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('PrototypeController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Prototipo: {{$PrototypeName}}
-									<div class="section-arrow-diag pull-right"></div>
-								</div>							
+									Título:
+								</div>	
+								<div class="titulo-edit">
+								<input class="diag-title" type= "text" value= '{{$PrototypeName}}' > 
+									<!--<p class= "diag-name" contenteditable="true">  {{$PrototypeName}} </p>-->
+								</div>					
 
 							</div>	
 							
@@ -45,8 +48,8 @@
 									<button type="button" class="btn btn-default btn-circle" id='redo-button' data-toggle="tooltip" data-placement="botton" title="Rehacer">
 										 <p class="fa fa-share fa_icons"></p>  
 									</button>
-									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">
-										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
+									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Nuevo canvas" onclick="eliminar()">
+										 <p class=" glyphicon glyphicon-file fa_icons"></p>
 									</button>
 									
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
@@ -71,20 +74,32 @@
 									</button>
 
 									<div class="separador2" ></div>
-  									
+
+  									<div id="acercar-alejar2">
+
+										<p class="titulos">Acercar/alejar</p>
+										
+									</div>
   									<div class="atributos3">
 
 										<span class="glyphicon glyphicon-zoom-out" ></span>
 										 
-										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
+										<input  id="sx" title='Acercar/Alejar' type="range" value="1.00" step="0.1" min="0.1" max="3" autocomplete="off">
 																		
 									</div>
 									<div class= "zoom-in2">
 										<span class="glyphicon glyphicon-zoom-in" ></span>
 
 									</div>
+
+									
 									<div class= "menos2">
 										<span class="fa fa-minus fa_icons" ></span>
+										
+									</div>
+									<div id="tamano2">
+
+										<p class="titulos">Tamaño del canvas<p>
 										
 									</div>
 									<div id= "papersize2">
@@ -236,7 +251,7 @@
 											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
 										</div>
 									</div>
-									<div id="section-iconpios" class="showed section-iconpios">
+									<div id="section-iconios" class="showed section-iconpios">
 
 										<div class="stencil_iconios" ></div>
 									 

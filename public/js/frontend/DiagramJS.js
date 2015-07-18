@@ -105,18 +105,17 @@ var elipse = new erd.Normal({
             elipse: {
                 rx: 10,
                 ry: 10,
-                width: 600,
-                height: 600,
                 stroke: '#00000',
                 fill: '#FFFFFF',
+                inPorts: ['in1','in2'],
 
 
                 
             },
             text: {
-                text: "Uso",
+                text: "    Uso   ",
                 fill: "black",
-                "font-size": 10,
+                "font-size": 20,
                 stroke: "#000000",
                 "stroke-width": 0,
 
@@ -308,6 +307,7 @@ paper.$el.addClass('cursor');
 // cache important html elements
 var $sx = $('#sx');
 var $wh = $('#wh');
+var $hg= $('#hg')
 var $texto = $('#texto');
 var $ps = $('#ps');
 var $rotar = $('#rotar');
@@ -333,21 +333,109 @@ paper2.on('cell:pointerdown', function(cellView,evt, x, y) {
  
 });
 
-
+var anchNueva;
+var anchura;
+var altura;
+var altNueva;
+var bandera = 0;
+var bandera2= 0;
 $wh.on('input change', function() {
+  anchNueva= parseFloat(this.value);
+  bandera=1;
 
-     if (selected2.attributes.type == 'erd.Normal'){
+  if(bandera2==1){
+
+      if (selected2.attributes.type == 'erd.Normal'){
+
+      selected2.resize(parseFloat(this.value), altNueva);
+
+    }else if(selected2.attributes.type == 'basic.Rect'){
+
+      
+      selected2.resize(parseFloat(this.value), altNueva);
+
+   }else if(selected2.attributes.type == 'basic.Text'){
+
+      var altura= parseFloat(selected2.attributes.size.height);
+
+      selected2.resize(anchura, altura);
+      
+   }else{
+
+    selected2.resize(parseFloat(this.value), altNueva);
+   }
+
+}else{
+  if (selected2.attributes.type == 'erd.Normal'){
 
       selected2.resize(parseFloat(this.value), 70);
 
-    }else{
+    }else if(selected2.attributes.type == 'basic.Rect'){
 
       
-      selected2.resize(parseFloat(this.value), parseFloat(this.value));
+      selected2.resize(parseFloat(this.value), 98);
 
+   }else if(selected2.attributes.type == 'basic.Text'){
+
+      var altura= parseFloat(selected2.attributes.size.height);
+
+      selected2.resize(parseFloat(this.value), altura);
+      
+   }else{
+
+    selected2.resize(parseFloat(this.value), 100);
    }
-
+   
+}
 });
+
+$hg.on('input change', function() {
+  bandera2=1;
+  altNueva= parseFloat(this.value);
+  if (bandera==1){
+    if (selected2.attributes.type == 'erd.Normal'){
+
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+      }else if(selected2.attributes.type == 'basic.Rect'){
+
+        
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+     }else if(selected2.attributes.type == 'basic.Text'){
+
+        
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+     }else{
+
+      selected2.resize(anchNueva, parseFloat(this.value));
+     }
+
+     
+  }else{
+    if (selected2.attributes.type == 'erd.Normal'){
+
+          selected2.resize(130, parseFloat(this.value));
+
+        }else if(selected2.attributes.type == 'basic.Rect'){
+
+          
+          selected2.resize(100, parseFloat(this.value));
+
+       }else if(selected2.attributes.type == 'basic.Text'){
+
+          anchura= parseFloat(selected2.attributes.size.width);
+          selected2.resize(anchura, parseFloat(this.value));
+
+       }else{
+
+        selected2.resize(100, parseFloat(this.value));
+       }
+     
+  }
+});
+
 
 $texto.on('input change', function() {
 
@@ -563,112 +651,10 @@ graph2.on('add', function(cell) {
 });
 
 
- /*$('.share-probe-popover').popover({ 
-        html : true, 
-        placement: 'top',
-        content: function() {
-          return $('.social-icons-container').html();
-        }
-    });  
 
+/*cambiar titulo del diagrama*/
+$('.diag-title').on('input change', function(){
 
-    $('.share-probe-popover').on('shown.bs.popover', function () {
+console.log( $( this ).val() );
 
-      var usecaseTitle = $(this).data('usecaseTitle'),
-          
-          popOverId = $(this).attr('aria-describedby');
-
-      $('#'+popOverId).find('.popover-content').find('.share-option')
-                      .attr('data-usecase-title', usecaseTitle)
-                      .attr('data-usecase-url', usecaseUrl);    
-  
-    });     
-
-
-  $(document).on('click','.share-probe-twitter', function(e){
-      e.preventDefault();
-   
-      var usecaseTitle = $(this).data('usecaseTitle'),
-          usecaseUrl = $(this).data('usecaseUrl'),
-          longUrl = encodeURI(dataURL),
-          bitLyUrl = '';  
-
-          $.ajax({
-            url:'http://api.bit.ly/v3/shorten',
-            data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
-            dataType:'jsonp',
-            success:function(response){
-
-              if(response.status_text == 'OK'){
-
-                bitLyUrl = response.data.url; 
-
-              }else{
-
-                bitLyUrl = longUrl; 
-
-              }
-
-              var urlToShare = 'http://twitter.com/share?url='+bitLyUrl,
-              message = 'Les comparto el diagrama de casos de uso que he hecho';
-
-              window.open(urlToShare + '&text=' + message, 'twitterwindow', 'scrollbars=yes,width=800,height=450,top='+(screen.height-450)/2+',left='+(screen.width-800)/2);
-
-            },
-            error: function(xhr, error) {
-
-            }            
-          });        
-     
-    });    
-
-
-    $(document).on('click','.share-probe-facebook', function(e){
-        e.preventDefault();
-     
-        var probeTitle = $(this).data('probeTitle'),
-            probeUrl = $(this).data('probeUrl'),
-            longUrl = encodeURI(projectURL+'/sondeo/generar/'+probeUrl),
-            bitLyUrl = '';  
-
-            $.ajax({
-              url:'http://api.bit.ly/v3/shorten',
-              data:{longUrl:longUrl,apiKey:'R_35a2e8dc3c694cc1a2162681219676f0',login:'proagilwebapp'},
-              dataType:"jsonp",
-              success:function(response){
-
-                if(response.status_text == 'OK'){
-
-                  bitLyUrl = response.data.url; 
-
-                }else{
-
-                  bitLyUrl = longUrl; 
-
-                }
-
-                var urlToShare = bitLyUrl,
-                message = 'Les comparto este sondeo, me gustaría que lo respondieran';
-
-                //message = message.replace(/\s/g,'+');
-            
-                FB.ui(
-                {
-                  method: 'feed',
-                  href: 'http://proagil.dev:8000/',
-                  description: message,
-                  message: message,
-                  caption: 'Sondeo', 
-                  link: bitLyUrl,
-                  picture: 'http://s11.postimg.org/duhv9zmv7/logo_sm.png'
-
-                });
-
-
-              },
-              error: function(xhr, error) {
-
-              }            
-            });        
-       
-      });  */
+})

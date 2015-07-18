@@ -58,7 +58,7 @@
 							</div>	
 							@if($projectOwner)
 							<div class="txt-center fs-med common-btn btn-i btn-green pull-right">
-								<a href="{{URL::action('UseCaseController@create', array($projectId, $iteration['id']))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
+								<a href="{{URL::action('UseCaseController@create', array($projectId, $iterationId))}}">  <i class="fs-big fa fa-plus fa-fw"></i> Crear diagrama</a>
 							</div>
 							@endif
 							
@@ -80,9 +80,9 @@
 											</a>
 										</div>
 
-										<!--<div  data-usecase-title="{{$use_diagram['title']}}" data-usecase-url="{{$use_diagram['url']}}" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
-											<i class="fa fa-share-alt fa-fw"></i>
-										</div>-->
+										<div  data-usecase-title="{{$use_diagram['title']}}" data-usecase-url="{{$use_diagram['url']}}" class="share-probe-popover circle activity-option txt-center fs-big fc-green">
+											<i class="fa fa-envelope fc-green fa-fw"></i>
+										</div>
 																			
 										<div data-usecase-title="{{$use_diagram['title']}}" data-usecase-id="{{$use_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-use-case circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>

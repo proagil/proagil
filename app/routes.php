@@ -276,6 +276,8 @@ Route::any('/prototipo/mostrar/{prototype_id}/{project_id}/{iteration_id}', 'Pro
 
 Route::any('/prototipo/obtener/{prototype_id}', 'PrototypeController@getdiagram');
 
+Route::any('/prototipo/actualizar/nombre/{prototype_id}', 'PrototypeController@update_name');
+
 Route::any('/acerca-de', 'UserController@information');
 
 

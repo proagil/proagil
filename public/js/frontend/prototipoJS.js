@@ -1842,10 +1842,10 @@ function guardar(PrototypeId) {
       // graph2.fromJSON(JSON.parse(jsonString))
 
 }
-
+var PrototypeId;
 $(document).ready(function(){
 
-    var PrototypeId = $('#ident').attr('name');
+    PrototypeId = $('#ident').attr('name');
 
     $.ajax({
       url: projectURL+'/prototipo/obtener/'+PrototypeId,
@@ -2004,3 +2004,33 @@ graph2.on('add', function(cell) {
 
 
 });
+ 
+
+/*cambiar titulo del diagrama*/
+$('.diag-title').on('input change', function(){
+
+    var namePrototype= {
+
+                         'name':  $( this ).val(), 
+                     } ;
+//console.log( name );
+
+    $.ajax({
+          type: 'POST',
+          url: projectURL+'/prototipo/actualizar/nombre/'+PrototypeId,
+          data: namePrototype,
+          dataType: 'JSON',
+          success: function (response) {
+
+                 //console.log(response['data']);
+          
+           },
+
+          error: function (err) {
+             console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+          }
+
+
+    });
+
+})

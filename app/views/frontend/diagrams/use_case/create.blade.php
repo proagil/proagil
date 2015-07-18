@@ -40,7 +40,7 @@
 								<label class="use-case-label txt-right">T&iacute;tulo:</label>
 							
 								<input type="hidden" name="use_case[project_id]" value="{{$projectId}}">
-								<input type="hidden" name="use_case[iteration_id]" value="{{$iteration['id']}}">	
+								<input type="hidden" name="use_case[iteration_id]" value="{{$iterationId}}">	
 								<input type="text" name="use_case[title]"  class="use_case-input-name use-case-input form-control">	
 								
 							 {{Form::close()}}

@@ -108,8 +108,12 @@
 								    <div class="cabecera"><h3>Atributos</h3></div>
 								      <div class="cuerpo">
 								          <div class="form-group atributos">
-								            <label for="wh" data-tooltip="Tamaño del elemento">Tamaño</label>
+								            <label for="wh" data-tooltip="Tamaño del elemento">Anchura</label>
 								            <input id="wh"  type="range" value="1.00" step="0.1" min="50" max="400" autocomplete="off"/>
+								          </div>
+								          <div class="form-group atributos">
+								            <label for="hg" data-tooltip="Tamaño del elemento">Altura</label>
+								            <input id="hg"  type="range" value="1.00" step="0.1" min="50" max="400" autocomplete="off"/>
 								          </div>
 								          <div class="form-group atributos">
 								            <label for="texto" data-tooltip="Texto del elemento">Nombre</label>

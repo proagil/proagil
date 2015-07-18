@@ -74,7 +74,10 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-		
+
+										<div data-object-title="{{$object_diagram['title']}}" data-object-id="{{$object_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Enviar" class="delete-use-case circle activity-option txt-center fs-big ">
+											<i class="fa fa-envelope fc-green fa-fw"></i>
+										</div>
 																			
 										<div data-object-title="{{$object_diagram['title']}}" data-object-id="{{$object_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-use-case circle activity-option txt-center fs-big ">
 											<i class="fa fa-times fc-pink fa-fw"></i>

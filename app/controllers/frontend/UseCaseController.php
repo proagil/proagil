@@ -66,6 +66,7 @@ class UseCaseController extends BaseController {
 	    	$iteration = (array) Iteration::get($iterationId); 
 
 	    	return View::make('frontend.diagrams.use_case.create')
+		    				->with('iterationId', $iteration['id'])
 		    				->with('iteration', $iteration)
 		    				->with('projectId', $projectId)
 		    				->with('projectName', $project['name'])
@@ -183,7 +184,7 @@ class UseCaseController extends BaseController {
 
 	    	//importante pasarle el diagrama
 	    	return View::make('frontend.diagrams.use_case.show')
-	    					->with('iterationId', $iterationId)
+	    					->with('iterationId', $iteration['id'])
 		    				->with('projectId', $projectId)
 		    				->with('use_caseName', $usecase['title'])
 		    				->with('use_caseId', $use_caseid)
