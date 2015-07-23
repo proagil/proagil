@@ -30,9 +30,20 @@
 									Título:
 								</div>	
 								<div class="titulo-edit">
-								<input class="diag-title" type= "text" value= '{{$PrototypeName}}' > 
-									<!--<p class= "diag-name" contenteditable="true">  {{$PrototypeName}} </p>-->
-								</div>					
+									<div class="question-title-{{$PrototypeId}} titulo-proto "><span class="fc-blue-i proto-label-value"> {{$PrototypeName}}</span>
+									</div>
+								
+								</div>	
+
+
+								<div data-proto="{{$PrototypeId}}" class="pull-right edit-proto-info edit-proto-info-default circle activity-option txt-center fs-big fc-yellow">
+									<i class="fa fa-pencil fa-fw"></i>
+								</div>
+
+								<div class="hidden pull-right edit-proto-info-save">									
+									<div data-proto="{{$PrototypeId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-proto="{{$PrototypeId}}" class="save-edit-proto-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+								</div>	
 
 							</div>	
 							
@@ -99,7 +110,7 @@
 									</div>
 									<div id="tamano2">
 
-										<p class="titulos">Tamaño del canvas<p>
+										<p class="titulos">Tamaño del lienzo<p>
 										
 									</div>
 									<div id= "papersize2">

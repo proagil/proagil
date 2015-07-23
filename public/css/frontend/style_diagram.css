@@ -37,6 +37,25 @@
 
  }
 
+ .edit-proto-info, .edit-use-info, .edit-object-info{
+ 	position: absolute;
+ 	top: 110px;
+ 	left: 180px;
+ }
+
+ .cancel-edit-question-info{
+ 	position: absolute;
+ 	top:110px;
+ 	right: 30px;
+
+ }
+ .save-edit-proto-info, .save-edit-use-info, .save-edit-object-info{
+
+ 	position: absolute;
+ 	top:110px;
+ 	right: 100px;
+ }
+
 .paper {
 
 	width : 750px;
@@ -368,8 +387,17 @@
 }
 .titulo-edit{
 	position: absolute;
-	top: 114px;
-	left: 120px;
+	top: 107px;
+	left: 110px;
+
+}
+
+.titulo-proto, .titulo-object, .titulo-use{
+
+	position: absolute;
+	top: 10px;
+	left: 0px;
+
 
 }
 .primario {
@@ -442,3 +470,31 @@ output, .output {
 .btn-attributes-save {
 	margin-left: 9%; 
 }
+
+.modal-header, h4, .close {
+      background-color: #f9f9f9;
+      color: #41cac0;
+      text-align: center;
+      font-size: 30px;
+ 
+}
+
+.modal-title{
+	position: absolute;
+	top: 10px;
+	left: 210px;
+}
+.modal-header{
+  	height:  70px;
+}
+
+.close{
+	position: absolute;
+	top: 5px;
+	right: 30px;
+
+}
+
+ .modal-footer {
+      background-color: #f9f9f9;
+  }

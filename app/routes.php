@@ -248,6 +248,14 @@ Route::any('/diagrama-de-casos-de-uso/mostrar/{use_caseid}/{project_id}/{iterati
 
 Route::any('/diagrama-de-casos-de-uso/obtener/{use_caseid}', 'UseCaseController@getdiagram');
 
+Route::any('/diagrama-de-casos-de-uso/actualizar/nombre/{use_caseid}', 'UseCaseController@update_name');
+
+Route::any('/diagrama-de-casos-de-uso/obtener-uso-informacion/{use_caseid}', 'UseCaseController@getInfo');
+
+Route::any('/diagrama-de-casos-de-uso/obtener-info-iteracion/{iteration_id}', 'UseCaseController@getInfoIter');
+
+Route::any('/diagrama-de-casos-de-uso/enviar-diagrama-uso/', 'UseCaseController@send_useDiagram');
+
 Route::any('/diagrama-de-objetos-de-dominio/proyecto/{project_id}/{iteration_id}', 'DomainObjectController@index');
 
 Route::any('/diagrama-de-objetos-de-dominio/crear/{project_id}/{iteration_id}', 'DomainObjectController@create');
@@ -261,6 +269,14 @@ Route::any('/diagrama-de-objetos-de-dominio/eliminar/{object_id}', 'DomainObject
 Route::any('/diagrama-de-objetos-de-dominio/mostrar/{object_id}/{project_id}/{iteration_id}', 'DomainObjectController@showdiagram');
 
 Route::any('/diagrama-de-objetos-de-dominio/obtener/{object_id}', 'DomainObjectController@getdiagram');
+
+Route::any('/diagrama-de-objetos-de-dominio/actualizar/nombre/{object_id}', 'DomainObjectController@update_name');
+
+Route::any('/diagrama-de-objetos-de-dominio/obtener-objeto-informacion/{object_id}', 'DomainObjectController@getInfo');
+
+Route::any('/diagrama-de-objetos-de-dominio/obtener-info-iteracion/{iteration_id}', 'DomainObjectController@getInfoIter');
+
+Route::any('/diagrama-de-objetos-de-dominio/enviar-diagrama-objetos/', 'DomainObjectController@send_objectDiagram');
 
 Route::any('/prototipo/proyecto/{project_id}/{iteration_id}', 'PrototypeController@index');
 
@@ -277,6 +293,12 @@ Route::any('/prototipo/mostrar/{prototype_id}/{project_id}/{iteration_id}', 'Pro
 Route::any('/prototipo/obtener/{prototype_id}', 'PrototypeController@getdiagram');
 
 Route::any('/prototipo/actualizar/nombre/{prototype_id}', 'PrototypeController@update_name');
+
+Route::any('/prototipo/obtener-prototipo-informacion/{prototype_id}', 'PrototypeController@getInfo');
+
+Route::any('/prototipo/obtener-info-iteracion/{iteration_id}', 'PrototypeController@getInfoIter');
+
+Route::any('/prototipo/enviar-prototipo/', 'PrototypeController@send_prototype');
 
 Route::any('/acerca-de', 'UserController@information');
 

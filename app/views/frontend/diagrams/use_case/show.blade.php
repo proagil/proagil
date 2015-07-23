@@ -26,8 +26,22 @@
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('UseCaseController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Diagrama de Casos de Uso: {{$use_caseName}}
-									<div class="section-arrow-diag pull-right"></div>
+									Título: 
+									
+								</div>
+
+								<div class="titulo-edit">
+									<div class="question-title-{{$use_caseId}} titulo-object "><span class="fc-blue-i use-label-value"> {{$use_caseName}}</span>
+									</div>
+								
+								</div>	
+
+								<div data-use="{{$use_caseId}}" class="pull-right edit-use-info edit-use-info-default circle activity-option txt-center fs-big fc-yellow">
+									<i class="fa fa-pencil fa-fw"></i>
+								</div>	
+								<div class="hidden pull-right edit-use-info-save">									
+									<div data-object="{{$use_caseId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-object="{{$use_caseId}}" class="save-edit-use-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
 								</div>							
 
 							</div>	
@@ -45,7 +59,7 @@
 										 <p class="fa fa-share fa_icons"></p>  
 									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">
-										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
+										 <p class=" glyphicon glyphicon-file fa_icons"></p>
 									</button>
 									
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
@@ -61,8 +75,13 @@
 										</button>
 									 </a>
 
-									<div class= "separador"> </div> 
+									<div class= "separador"> </div>
 
+									<div id="conectores">
+
+										<p class="titulos">Conectores</p>
+										
+									</div>
 
   									<div id="dropdownlineas" class= "contenedor"></div>
 
@@ -72,6 +91,11 @@
 										<input  id="sx" title='Zoom in/out' type="range" value="1.00" step="0.1" min="0.1" max="5" autocomplete="off">
 																		
 									</div>
+									<div id="acercar-alejar">
+
+										<p class="titulos">Acercar/alejar</p>
+										
+									</div>
 									<div class= "zoom-in">
 										<span class="glyphicon glyphicon-zoom-in" ></span>
 
@@ -80,9 +104,14 @@
 										<span class="fa fa-minus fa_icons" ></span>
 										
 									</div>
+									<div id="tamano">
+
+										<p class="titulos">Tamaño del lienzo<p>
+										
+									</div>
 									<div id= "papersize">
 
-										<input id="ps" title='Tamaño del canvas' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
+										<input id="ps" title='Tamaño del lienzo' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
 
 									</div>
 									<div class= "mas">
@@ -140,20 +169,12 @@
 	
 
 	<script>
-
-
     $(function() {
-
       $('.project-item').on('click', function(){
-
       	projectId = $(this).data('projectId');
-
       	 window.location.href = projectURL+'/proyecto/detalle/'+projectId;
-
       })
-
   	});
-
 //////////////// Diferentes links a mostrar/////////////////////
     var ddData = [
     {
@@ -169,44 +190,32 @@
         imageSrc: "/images/punteada.png"
     },
     {
-
         value: 3,
         selected: false,
         imageSrc: "/images/NormalPunta.png"
     }
 	];
-
 	//console.log(ddDATA);
     $('#dropdownlineas').ddslick({
     data: ddData,
     width: 100,
     imagePosition: "center",
     defaultSelectedIndex:3,
-
-
     onSelected: function (data) {
         var ddData = $('#dropdownlineas').data('ddslick');
        var index = ddData.selectedIndex;
        //console.log(data);
        
        document.getElementById("dropdownlineas").className= index;
-
    		
     }
-
   //  graph.fromJSON(JSON.parse(jsonString))
-
-
 	});
 ////////////////////////////////////////////////////////////////////
-
 /*Funcion que permite que el panel de atributos sea draggable*/
 	$(function() {
    	 	$( "#draggable" ).draggable();
   	});
-
-
-
 	</script>
 
 

@@ -30,7 +30,7 @@
 							<div class="filters-content">
 							 
 								<div class="section-title fc-blue-iii fs-big">
-									Crear Diagrama
+									Crear título
 									<div class="section-arrow pull-right"></div>
 								</div>							
 

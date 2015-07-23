@@ -2007,30 +2007,128 @@ graph2.on('add', function(cell) {
  
 
 /*cambiar titulo del diagrama*/
-$('.diag-title').on('input change', function(){
 
-    var namePrototype= {
+ $(document).on('click', '.edit-proto-info', function(e){
 
-                         'name':  $( this ).val(), 
-                     } ;
-//console.log( name );
+      $('.edit-proto-info-save').removeClass('hidden');
+      $('.edit-proto-info-default').addClass('hidden');
 
-    $.ajax({
-          type: 'POST',
-          url: projectURL+'/prototipo/actualizar/nombre/'+PrototypeId,
-          data: namePrototype,
+       var protoId = $(this).data('proto'); 
+      // console.log(protoId);
+      
+
+      $.ajax({
+          url: projectURL+'/prototipo/obtener-prototipo-informacion/'+protoId,
+          type:'GET',
           dataType: 'JSON',
-          success: function (response) {
+          success:function (response) {
 
-                 //console.log(response['data']);
-          
-           },
+              if(!response.error){
 
-          error: function (err) {
-             console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+protoId+' proto-input-name proto-input form-control">'
+                $('.question-title-'+protoId).replaceWith(htmlTitle);
+
+
+                
+
+              }
+          },
+          error: function(xhr, error) {
+
           }
-
-
-    });
-
+      });     
 })
+
+$(document).on('click', '.cancel-edit-question-info', function(e){
+
+
+       var protoId = $(this).data('proto'); 
+       //console.log(protoId);
+
+       $.ajax({
+          url: projectURL+'/prototipo/obtener-prototipo-informacion/'+protoId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<div class="question-title-'+protoId+' "><span class="fc-blue-i proto-label-value">'+response.data.title+'</span></div>';
+                $('.question-title-'+protoId).replaceWith(htmlTitle);
+
+                 $('.edit-proto-info-save').addClass('hidden');
+                 $('.edit-proto-info-default').removeClass('hidden');
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+ 
+    // alde
+     $(document).on('click', '.save-edit-proto-info', function(e){
+
+       var protoId = $(this).data('proto'); 
+
+       if($('input[name="values[title]"]').val()==''){
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+            if($('input[name="values[title]"]').val()==''){
+              $('input[name="values[title]"]').addClass('error-proto-input');
+            }                                  
+            
+            $('.error-alert-text').html(' Debe especificar un título para el campo indicado').parent().removeClass('hidden');
+
+
+       }else{
+
+            var parameters = {
+                'values[id]'    : protoId,
+                'values[title]'       : $('input[name="values[title]"]').val(),
+                
+            };
+
+
+           $.ajax({
+              url: projectURL+'/prototipo/actualizar/nombre/'+protoId,
+              type:'POST',
+              dataType: 'JSON',
+              data: parameters,
+              success:function (response) {
+
+                  if(!response.error){
+
+                    
+
+                    var htmlTitle = '<div class="question-title-'+protoId+' titulo-proto"><span class="fc-blue-i proto-label-value">'+response.data.title+'</span></div>';
+                    $('.question-title-'+protoId).replaceWith(htmlTitle);
+
+                  
+                    $('.edit-proto-info-save').addClass('hidden');
+                    $('.edit-proto-info-default').removeClass('hidden');
+
+
+                  }
+              },
+              error: function(xhr, error) {
+
+              }
+          });   
+
+      }   
+
+    })       
+
+
+
+
+   
+
+
+
+
+

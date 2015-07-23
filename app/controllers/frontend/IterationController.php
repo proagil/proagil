@@ -289,7 +289,7 @@ class IterationController extends BaseController {
                     $userInvitation = array(
                         'email'         => $colaborator['email'],
                         'project_id'    => $projectId,
-                        'iteration_id'  => $IterationId,
+                        'iteration_id'  => $iterationId,
                         'user_role_id'  => $colaborator['role'],
                         'token'         => md5($colaborator['email'].date('H:i:s'))
                     ); 

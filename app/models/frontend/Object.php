@@ -65,6 +65,11 @@ class Object extends Eloquent{
 	}
 
 
+	public static function updateTitle($projectId, $name){
+
+		return DB::table('object_diagram')->where('id', $projectId)->update($value);
+
+	}
 
 }
 

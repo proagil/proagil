@@ -493,3 +493,120 @@ graph2.on('add', function(cell) {
 
 
 });
+
+/*cambiar titulo del diagrama*/
+
+ $(document).on('click', '.edit-object-info', function(e){
+
+      $('.edit-object-info-save').removeClass('hidden');
+      $('.edit-object-info-default').addClass('hidden');
+
+       var objectId = $(this).data('object'); 
+      // console.log(objectId);
+      
+
+      $.ajax({
+          url: projectURL+'/diagrama-de-objetos-de-dominio/obtener-objeto-informacion/'+objectId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+objectId+' object-input-name object-input form-control">'
+                $('.question-title-'+objectId).replaceWith(htmlTitle);
+
+
+                
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });     
+})
+
+$(document).on('click', '.cancel-edit-question-info', function(e){
+
+
+       var objectId = $(this).data('object'); 
+       //console.log(objectId);
+
+       $.ajax({
+          url: projectURL+'/diagrama-de-objetos-de-dominio/obtener-objeto-informacion/'+objectId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<div class="question-title-'+objectId+' "><span class="fc-blue-i object-label-value">'+response.data.title+'</span></div>';
+                $('.question-title-'+objectId).replaceWith(htmlTitle);
+
+                 $('.edit-object-info-save').addClass('hidden');
+                 $('.edit-object-info-default').removeClass('hidden');
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+ 
+    // alde
+     $(document).on('click', '.save-edit-object-info', function(e){
+
+       var objectId = $(this).data('object'); 
+
+       if($('input[name="values[title]"]').val()==''){
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+            if($('input[name="values[title]"]').val()==''){
+              $('input[name="values[title]"]').addClass('error-object-input');
+            }                                  
+            
+            $('.error-alert-text').html(' Debe especificar un título para el campo indicado').parent().removeClass('hidden');
+
+
+       }else{
+
+            var parameters = {
+                'values[id]'    : objectId,
+                'values[title]'       : $('input[name="values[title]"]').val(),
+                
+            };
+
+
+           $.ajax({
+              url: projectURL+'/diagrama-de-objetos-de-dominio/actualizar/nombre/'+objectId,
+              type:'POST',
+              dataType: 'JSON',
+              data: parameters,
+              success:function (response) {
+
+                  if(!response.error){
+
+                    
+
+                    var htmlTitle = '<div class="question-title-'+objectId+' titulo-object"><span class="fc-blue-i object-label-value">'+response.data.title+'</span></div>';
+                    $('.question-title-'+objectId).replaceWith(htmlTitle);
+
+                  
+                    $('.edit-object-info-save').addClass('hidden');
+                    $('.edit-object-info-default').removeClass('hidden');
+
+
+                  }
+              },
+              error: function(xhr, error) {
+
+              }
+          });   
+
+      }   
+
+    }) 

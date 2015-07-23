@@ -27,9 +27,24 @@
 							<div class="filters-content">
 							 <i class="fc-green glyphicon glyphicon-chevron-left"></i> <a href="{{URL::action('DomainObjectController@index', array($projectId, $iterationId))}}" class="btn-back"> Volver</a>
 								<div class="section-title fc-blue-iii fs-big">
-									Diagrama de Objetos de Dominio: {{$objectName}}
-									<div class="section-arrow-diag-diag pull-right"></div>
-								</div>							
+									Título:
+								</div>
+
+								<div class="titulo-edit">
+									<div class="question-title-{{$objectId}} titulo-object "><span class="fc-blue-i object-label-value"> {{$objectName}}</span>
+									</div>
+								
+								</div>	
+
+
+								<div data-object="{{$objectId}}" class="pull-right edit-object-info edit-object-info-default circle activity-option txt-center fs-big fc-yellow">
+									<i class="fa fa-pencil fa-fw"></i>
+								</div>
+
+								<div class="hidden pull-right edit-object-info-save">									
+									<div data-object="{{$objectId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-object="{{$objectId}}" class="save-edit-object-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+								</div>								
 
 							</div>	
 							
@@ -46,7 +61,7 @@
 										 <p class="fa fa-share fa_icons"></p>  
 									</button>
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Limpiar" onclick="eliminar()">
-										 <p class=" glyphicon glyphicon-trash fa_icons"></p>
+										 <p class=" glyphicon glyphicon-file fa_icons"></p>
 									</button>
 									
 									<button type="button" class="btn btn-default btn-circle" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
@@ -94,12 +109,12 @@
 
 									<div id="tamano">
 
-										<p class="titulos">Tamaño del canvas<p>
+										<p class="titulos">Tamaño del lienzo<p>
 										
 									</div>
 									<div id= "papersize">
 
-										<input id="ps" title='Tamaño del canvas' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
+										<input id="ps" title='Tamaño del lienzo' type="range" value="0" step="0.1" min="500" max="2000" autocomplete="off">
 
 									</div>
 									<div class= "mas">

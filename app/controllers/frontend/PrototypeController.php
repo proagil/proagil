@@ -38,6 +38,7 @@ class PrototypeController extends BaseController {
 		    				->with('projectId', $projectId)
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 		    				->with('PrototypeId', $PrototypeId['id'])
+		    				->with('PrototypeName', $PrototypeId['title'])
 		    				->with('Prototype_d', $Prototype_d);
 
 		    }			
@@ -143,15 +144,16 @@ class PrototypeController extends BaseController {
 
 		  $project = (array) Project::getName($values['project_id']);	
 		  $PrototypeCount = Prototype::insertPrototype($Prototypediagram); 
-		  $protoId= (array) Prototype::getId($values['project_id']);
+		 
 		 
 
 		  if($PrototypeCount>0){
 
+
 		  	//Session::flash('success_message', 'Se creó el nombre del diagrama'); 
 
                 // redirect to index probre view
-                return Redirect::to(URL::action('PrototypeController@showdiagram', array($protoId['id'], $values['project_id'], $values['iteration_id'])));
+                return Redirect::to(URL::action('PrototypeController@showdiagram', array($PrototypeCount, $values['project_id'], $values['iteration_id'])));
 
 		  }else{
 
@@ -188,7 +190,7 @@ class PrototypeController extends BaseController {
 	    					->with('iterationId', $iterationId)
 		    				->with('projectId', $projectId)
 		    				->with('PrototypeName', $Prototype_d['title'])
-		    				->with('PrototypeId', $PrototypeId)
+		    				->with('PrototypeId', $Prototype_d['id'])
 		    				->with('PrototypeDiagram', $Prototype_d['prototipo'])
 		    				->with('projectName', $project['name'])
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE);
@@ -268,12 +270,12 @@ class PrototypeController extends BaseController {
 	}
 
 	public function update_name($PrototypeId){
-		$nameProto= Input::all();
+		$nameProto= Input::get('values');
 	   
 		//echo "hola";
 		$Prototypename = array(
 
-			'title'	=> $nameProto['name']
+			'title'	=> $nameProto['title']
 
 		);
 
@@ -283,7 +285,7 @@ class PrototypeController extends BaseController {
 
 			$result = array(
 	          'error'   => false,
-	          'data'	=> $Prototypetitle['title']
+	          'data'	=> $Prototypetitle
 	      );
 
 		}else{
@@ -301,5 +303,131 @@ class PrototypeController extends BaseController {
 	     return Response::json($result);
 	}
 
+	public function getInfo($PrototypeId){
 
-}
+		$ProtoInfo = (array) Prototype::getPrototypeInfo($PrototypeId);
+
+		
+ 		if(!empty($ProtoInfo)){
+			$resultado = array(
+				          'error'   => false,
+				          'data'	=> $ProtoInfo
+		     			);
+
+		}else{
+
+			$resultado = array(
+
+		          'error'   => true
+		          
+		     );
+		}
+
+		
+ 		header('Content-Type: application/json');
+	    return Response::json($resultado);			
+
+
+ 	}
+
+public function send_prototype(){
+
+ 		if(Input::has('_token')){	
+ 
+        // validation rules
+	        $rules =  array(
+	          'email'              => 'required|email',
+	          
+	        );
+
+	        $values = Input::all();
+	        
+	        $user = Session::get('user');
+	   
+			 $email_checked = Input::get('email');
+			
+			foreach ($email_checked as $mailuser) {
+			
+		 		 $emailData = array(
+		                      'url_token'       => URL::to('/'). '/prototipo/mostrar/'. $values['PrototypeId'] . '/ '. $values['projectId'] . '/'. $values['iterationId'],
+		                      'user_name'       => $user['first_name'].' '.$user['last_name'],
+		                      'project_name'    => $values['projectName'],
+		                      'iteration_name'  => $values['iterationName'],
+		                      'artefact_name'	=> "Prototipo",
+		                      'mensaje'			=> $values['mensaje']
+		          
+		           );
+
+		 		 	//print_r($mailuser);
+		                    // send email with invitation to registered user
+		           Mail::send('frontend.email_templates.seeArtefact', $emailData, 
+
+		                  function($message) use ($mailuser){
+
+		                      $message->to($mailuser);
+		                      $message->subject('PROAGIL: Invitación a revisar artefacto');
+		           }); 
+		    }
+
+
+
+		  	Session::flash('success_message', 'Se envió el correo'); 
+
+		 	
+		  	
+
+                // redirect to index probre view
+              return Redirect::to(URL::action('PrototypeController@index', array($values['projectId'], $values['iterationId'])));
+
+		  
+
+		  
+
+
+		  }else{
+
+		  	Session::flash('error_message', 'No se pudo enviar el correo'); 
+
+		   	return Redirect::to(URL::action('PrototypeController@index', array($values['projectId'], $values['iterationId'])));
+
+		  }
+     	
+
+ }
+
+ 	public function getInfoIter($iterationId){
+
+ 		$colaborators = Iteration::getColaboratorOnIteration($iterationId); 
+ 		
+
+ 		//$usuario= User::getUserById($colaborators);
+ 		
+ 		if(!empty($colaborators)){
+ 		$resultado = array(
+
+                  'error'    => false,
+                  'data'   => $colaborators,
+                
+                  
+          );
+
+ 		}else{
+
+ 		$resultado = array(
+
+		          'error'   => true	
+		          );
+ 		}
+
+ 	
+
+		
+ 		header('Content-Type: application/json');
+	    return Response::json($resultado);			
+
+
+
+
+ 	}
+ }
+

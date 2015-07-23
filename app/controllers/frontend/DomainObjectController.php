@@ -266,5 +266,166 @@ class DomainObjectController extends BaseController {
 			
 	}
 
+	public function update_name($objectId){
+		$nameObject= Input::get('values');
+	   
+		//echo "hola";
+		$Objectname = array(
+
+			'title'	=> $nameObject['title']
+
+		);
+
+		if(Object::editObject($objectId, $Objectname)){
+
+			$Objecttitle = (array) Object::getObjectInfo($objectId); 
+
+			$result = array(
+	          'error'   => false,
+	          'data'	=> $Objecttitle
+	      );
+
+		}else{
+
+			$result = array(
+	          'error'     => true
+	      );
+
+		}
+		
+		
+		//print_r($result['data']); die;
+		
+	     header('Content-Type: application/json');
+	     return Response::json($result);
+	}
+
+	public function getInfo($objectId){
+
+		$ObjectInfo = (array) Object::getObjectInfo($objectId);
+
+		
+ 		if(!empty($ObjectInfo)){
+			$resultado = array(
+				          'error'   => false,
+				          'data'	=> $ObjectInfo
+		     			);
+
+		}else{
+
+			$resultado = array(
+
+		          'error'   => true
+		          
+		     );
+		}
+
+		
+ 		header('Content-Type: application/json');
+	    return Response::json($resultado);			
+
+
+ 	}
+
+public function send_objectDiagram(){
+
+ 		if(Input::has('_token')){	
+ 
+        // validation rules
+	        $rules =  array(
+	          'email'              => 'required|email',
+	          
+	        );
+
+	        $values = Input::all();
+	        
+	        $user = Session::get('user');
+	   
+			 $email_checked = Input::get('email');
+			
+			foreach ($email_checked as $mailuser) {
+			
+		 		 $emailData = array(
+		                      'url_token'       => URL::to('/'). '/diagrama-de-objetos-de-dominio/mostrar/'. $values['objectId'] . '/ '. $values['projectId'] . '/'. $values['iterationId'],
+		                      'user_name'       => $user['first_name'].' '.$user['last_name'],
+		                      'project_name'    => $values['projectName'],
+		                      'iteration_name'  => $values['iterationName'],
+		                      'artefact_name'	=> "Diagrama de objetos de dominio",
+		                      'mensaje'			=> $values['mensaje']
+		          
+		           );
+
+		 		 	//print_r($mailuser);
+		                    // send email with invitation to registered user
+		           Mail::send('frontend.email_templates.seeArtefact', $emailData, 
+
+		                  function($message) use ($mailuser){
+
+		                      $message->to($mailuser);
+		                      $message->subject('PROAGIL: Invitación a revisar artefacto');
+		           }); 
+		    }
+
+
+
+		  	Session::flash('success_message', 'Se envió el correo'); 
+
+		 	
+		  	
+
+                // redirect to index probre view
+              return Redirect::to(URL::action('DomainObjectController@index', array($values['projectId'], $values['iterationId'])));
+
+		  
+
+		  
+
+
+		  }else{
+
+		  	Session::flash('error_message', 'No se pudo enviar el correo'); 
+
+		   	return Redirect::to(URL::action('DomainObjectController@index', array($values['projectId'], $values['iterationId'])));
+
+		  }
+     	
+
+ }
+
+ 	public function getInfoIter($iterationId){
+
+ 		$colaborators = Iteration::getColaboratorOnIteration($iterationId); 
+ 		
+
+ 		//$usuario= User::getUserById($colaborators);
+ 		
+ 		if(!empty($colaborators)){
+ 		$resultado = array(
+
+                  'error'    => false,
+                  'data'   => $colaborators,
+                
+                  
+          );
+
+ 		}else{
+
+ 		$resultado = array(
+
+		          'error'   => true	
+		          );
+ 		}
+
+ 	
+
+		
+ 		header('Content-Type: application/json');
+	    return Response::json($resultado);			
+
+
+
+
+ 	}
+
 
 }

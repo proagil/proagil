@@ -64,6 +64,12 @@ class Use_case extends Eloquent{
 
 	}
 
+	public static function updateTitle($usecaseId, $name){
+
+		return DB::table('use_diagram')->where('id', $usecaseId)->update($value);
+
+	}
+
 
 
 }

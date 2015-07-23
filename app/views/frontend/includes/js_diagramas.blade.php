@@ -6,6 +6,8 @@
 
 {{ HTML::script('js/frontend/jquery-ui-1.11.4.custom/jquery-ui.js') }} 
 
+{{ HTML::script('bower_components/bootstrap/dist/js/bootstrap.min.js') }}
+
 {{ HTML::script('js/frontend/underscore.js') }}
 
 {{ HTML::script('js/frontend/joint-master/lib/lodash.js') }} 

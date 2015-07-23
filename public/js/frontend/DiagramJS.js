@@ -652,9 +652,121 @@ graph2.on('add', function(cell) {
 
 
 
+
 /*cambiar titulo del diagrama*/
-$('.diag-title').on('input change', function(){
 
-console.log( $( this ).val() );
+ $(document).on('click', '.edit-use-info', function(e){
 
+      $('.edit-use-info-save').removeClass('hidden');
+      $('.edit-use-info-default').addClass('hidden');
+
+       var useId = $(this).data('use'); 
+      // console.log(useId);
+      
+
+      $.ajax({
+          url: projectURL+'/diagrama-de-casos-de-uso/obtener-uso-informacion/'+useId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<input type="text" value="'+response.data.title+'" name="values[title]" class="question-title-'+useId+' use-input-name use-input form-control">'
+                $('.question-title-'+useId).replaceWith(htmlTitle);
+
+
+                
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });     
 })
+
+$(document).on('click', '.cancel-edit-question-info', function(e){
+
+
+       var useId = $(this).data('use'); 
+       //console.log(useId);
+
+       $.ajax({
+          url: projectURL+'/diagrama-de-casos-de-uso/obtener-uso-informacion/'+useId,
+          type:'GET',
+          dataType: 'JSON',
+          success:function (response) {
+
+              if(!response.error){
+
+                var htmlTitle = '<div class="question-title-'+useId+' "><span class="fc-blue-i use-label-value">'+response.data.title+'</span></div>';
+                $('.question-title-'+useId).replaceWith(htmlTitle);
+
+                 $('.edit-use-info-save').addClass('hidden');
+                 $('.edit-use-info-default').removeClass('hidden');
+
+              }
+          },
+          error: function(xhr, error) {
+
+          }
+      });      
+
+    })
+ 
+    // alde
+     $(document).on('click', '.save-edit-use-info', function(e){
+
+       var useId = $(this).data('use'); 
+
+       if($('input[name="values[title]"]').val()==''){
+
+            $('html, body').animate({ scrollTop: 0 }, 'slow');
+
+            if($('input[name="values[title]"]').val()==''){
+              $('input[name="values[title]"]').addClass('error-use-input');
+            }                                  
+            
+            $('.error-alert-text').html(' Debe especificar un título para el campo indicado').parent().removeClass('hidden');
+
+
+       }else{
+
+            var parameters = {
+                'values[id]'    : useId,
+                'values[title]'       : $('input[name="values[title]"]').val(),
+                
+            };
+
+
+           $.ajax({
+              url: projectURL+'/diagrama-de-casos-de-uso/actualizar/nombre/'+useId,
+              type:'POST',
+              dataType: 'JSON',
+              data: parameters,
+              success:function (response) {
+
+                  if(!response.error){
+
+                    
+
+                    var htmlTitle = '<div class="question-title-'+useId+' titulo-use"><span class="fc-blue-i use-label-value">'+response.data.title+'</span></div>';
+                    $('.question-title-'+useId).replaceWith(htmlTitle);
+
+                  
+                    $('.edit-use-info-save').addClass('hidden');
+                    $('.edit-use-info-default').removeClass('hidden');
+
+
+                  }
+              },
+              error: function(xhr, error) {
+
+              }
+          });   
+
+      }   
+
+    })   
+
