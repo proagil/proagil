@@ -9,19 +9,45 @@
 
 	    	@include('frontend.includes.header')
 
-			<!-- Social media odal -->
-			<div class="modal fade" id="modal-share-probe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-			  <div class="modal-dialog">
-			    <div class="modal-content probe-share-modal-content">
-			      <div class="modal-header">
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span class="fs-big" aria-hidden="true">&times;</span></button>
-			      </div>
-			      <div class="modal-body">
-			        <a class="share" href="#">share me</a>
-			      </div>
-			    </div>
-			  </div>
-			</div>	
+			<!-- compartir modal -->
+		<div id="myModal" class="modal fade" role="dialog">
+		  <div class="modal-dialog">
+
+		    <!-- Modal content-->
+		    <div class="modal-content">
+		      <div class="modal-header" style="padding:35px 50px;">
+		        <button type="button" class="close" data-dismiss="modal">&times;</button>
+		        <h4 class="modal-title">Enviar diagrama</h4>
+		      </div>
+		      <div class="modal-body" style="padding:40px 50px;">
+		        {{ Form::open(array('action' => array('DomainObjectController@send_objectDiagram'), 'id'  => 'form-create-prototipo')) }}	
+
+					<label>Eligue a quién(es) deseas enviar el diagrama</label>
+					<div class ="colaboradores"></div>
+
+					<input class="hidden" name="projectName"   value ="{{$projectName}}" >
+					<input class="hidden" name="iterationName" value ="{{$iteration['name']}}" >
+					<input class="hidden" name="objectName" value ="{{$objectName}}" >
+					<input class="hidden" name="projectId" value ="{{$projectId}}" >
+					<input class="hidden" name="iterationId" value ="{{$iterationId}}" >
+					<input class="hidden" name="objectId" value ="{{$objectId}}" >
+
+				
+					
+					<label>Mensaje</label><br>
+					<textarea name="mensaje"></textarea>
+								
+				
+		      </div>
+		      <div class="modal-footer">
+		      	{{ Form::submit('Enviar', array('class' => 'btn btn-success btn-default')) }}
+		        <button type="button" class="btn btn-danger btn-default pull-left" data-dismiss="modal">Cancelar</button>
+		      </div>
+		      {{Form::close()}}
+		    </div>
+
+		  </div>
+		</div>	
 
 		
 
@@ -75,7 +101,7 @@
 											</a>
 										</div>
 
-										<div data-object-title="{{$object_diagram['title']}}" data-object-id="{{$object_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Enviar" class="delete-use-case circle activity-option txt-center fs-big ">
+										<div data-iter="{{$iterationId}}" title= "Enviar" data-object-id="{{$object_diagram['id']}}" data-toggle="tooltip" data-placement="top" title="Enviar" class="send-diagrama circle activity-option txt-center fs-big ">
 											<i class="fa fa-envelope fc-green fa-fw"></i>
 										</div>
 																			
@@ -141,6 +167,37 @@
           });               
 
       })
+  	 $('.send-diagrama').on('click', function(){
+
+  	 	 var iterId = $(this).data('iter'); 
+	     $.ajax({
+	          url: projectURL+'/diagrama-de-objetos-de-dominio/obtener-info-iteracion/'+iterId,
+	          type:'GET',
+	          dataType: 'JSON',
+	          success:function (response) {
+
+	          	
+	              if(!response.error){
+
+	              	var tam=Object.keys(response).length;
+	              
+	             
+	              	for (i=0; i<tam; i++){
+
+	              	$('<input  type= "checkbox"  name="email['+response.data[i].email+']" value="'+response.data[i].email+'"><label>'+response.data[i].email+'</label><br>').appendTo('.colaboradores');
+
+	            
+	              	}
+	              	
+
+	              }
+	          },
+	          error: function(xhr, error) {
+
+	          }
+	      });      
+        $("#myModal").modal();
+    });
 
 	</script>
 	</body>

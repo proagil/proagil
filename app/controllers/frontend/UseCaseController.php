@@ -38,6 +38,7 @@ class UseCaseController extends BaseController {
 		    				->with('projectId', $projectId)
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 		    				->with('usecaseId', $UsecaseId['id'])
+		    				->with('usecaseName', $UsecaseId['title'])
 		    				->with('UseCase', $UseCase);
 
 		    }			
@@ -345,7 +346,7 @@ public function send_useDiagram(){
 			foreach ($email_checked as $mailuser) {
 			
 		 		 $emailData = array(
-		                      'url_token'       => URL::to('/'). '/diagrama-de-casos-de-uso/mostrar/'. $values['usecaseId'] . '/ '. $values['projectId'] . '/'. $values['iterationId'],
+		                      'url_token'       => URL::to('/'). '/diagrama-de-casos-de-uso/mostrar/'. $values['UseCaseId'] . '/ '. $values['projectId'] . '/'. $values['iterationId'],
 		                      'user_name'       => $user['first_name'].' '.$user['last_name'],
 		                      'project_name'    => $values['projectName'],
 		                      'iteration_name'  => $values['iterationName'],

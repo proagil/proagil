@@ -38,6 +38,7 @@ class DomainObjectController extends BaseController {
 		    				->with('projectId', $projectId)
 		    				->with('projectOwner', ($userRole['user_role_id']==Config::get('constant.project.owner'))?TRUE:FALSE)
 		    				->with('objectId', $objectId['id'])
+		    				->with('objectName', $objectId['title'])
 		    				->with('object_d', $object_d);
 
 		    }			

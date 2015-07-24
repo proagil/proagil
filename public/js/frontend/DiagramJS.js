@@ -661,7 +661,7 @@ graph2.on('add', function(cell) {
       $('.edit-use-info-default').addClass('hidden');
 
        var useId = $(this).data('use'); 
-      // console.log(useId);
+       
       
 
       $.ajax({

@@ -40,8 +40,8 @@
 									<i class="fa fa-pencil fa-fw"></i>
 								</div>	
 								<div class="hidden pull-right edit-use-info-save">									
-									<div data-object="{{$use_caseId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
-									<div data-object="{{$use_caseId}}" class="save-edit-use-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
+									<div data-use="{{$use_caseId}}" class="cancel-edit-question-info common-btn btn-mini txt-center btn-pink pull-right">Cancelar</div>														
+									<div data-use="{{$use_caseId}}" class="save-edit-use-info common-btn btn-mini txt-center btn-turquoise pull-right">Guardar</div>		      
 								</div>							
 
 							</div>	
