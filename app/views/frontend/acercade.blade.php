@@ -25,15 +25,19 @@
 								<div  style="font-size: 100%; font-weight: bold; text-align: center;">Desarrolladores</div>
 							</div>
 							<div >
-								<i style= "height:100px; width:100px;" class="fc-green fa fa-venus"></i> <p> Sandra Jim&eacute;nez </p>
+
+							<a style="font-size: 100%; font-weight: bold;" href="mailto:sandrap1992@gmail.com"> Sandra Jim&eacute;nez</a>
+								 
 							</div>
 		                	
 							<div>
-							<i class="fc-green fa-mars"></i> <p>Aldemaro D&iacute;az</p>		
+							<a style="font-size: 100%; font-weight: bold;" href="mailto:aldmru@gmail.com "> Aldemaro D&iacute;az</a>
+							 		
 							</div>
 		                	
 		                	<div>
-		                	<i class="fc-green fa-venus"></i>Mar&iacute;a F Malav&eacute;</p>		
+		                	<a style="font-size: 100%; font-weight: bold;" href="mailto:mariaf.malave@gmail.com "> Mar&iacute;a F Malav&eacute;</a>
+		                	
 		                	</div>
 
 
@@ -42,11 +46,12 @@
 		                	<div>
 		                	<div class="section-title">
 
-								<div  style="font-size: 100%; font-weight: bold; text-align: center;">Librer&iacute;a</div>
+								<div  style="font-size: 100%; font-weight: bold; text-align: center;">Librer&iacute;as</div>
 							</div>
 		                	
-		                		<a href="www.jointjs.com">JointJS</a>	
+		                		<a style="font-size: 100%; font-weight: bold;" href="www.jointjs.com">JointJS</a>
 
+		                	
 		                	</div>							
 						</div>
 					</div>
@@ -60,21 +65,7 @@
 
 	@include('frontend.includes.javascript')
 
-	<script>
-
-    $(function() {
-
-      $('.project-item').on('click', function(){
-
-      	var projectId = $(this).data('projectId'),
-      		iterationId = $(this).data('iterationId'); 
-
-      	 window.location.href = projectURL+'/proyecto/detalle/'+projectId+'/'+iterationId;
-
-      })
-
-  	});
-	</script>
+	
 	</body>
 
 </html>

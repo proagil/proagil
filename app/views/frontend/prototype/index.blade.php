@@ -100,7 +100,7 @@
 												<i class="fa fa-pencil fc-yellow fa-fw"></i>
 											</a>
 										</div>
-										<div  data-iter="{{$iterationId}}"  data-usecase-url="{{$prototipo['url']}}" class="send-prototipo circle activity-option txt-center fs-big fc-green">
+										<div  data-iter="{{$iterationId}}"  title= "Enviar" data-usecase-url="{{$prototipo['url']}}" class="send-prototipo circle activity-option txt-center fs-big fc-green">
 											<i class="fa fa-envelope fc-green fa-fw"></i>
 										</div>							
 										<div data-proto-title="{{$prototipo['title']}}" data-prototipo-id="{{$prototipo['id']}}" data-toggle="tooltip" data-placement="top" title="Eliminar" class="delete-prototipo circle activity-option txt-center fs-big ">
@@ -146,7 +146,7 @@
   	 $('.delete-prototipo').on('click', function(){
 
       		var prototipoId = $(this).data('prototipoId'),
-      			prototipoTitle = $(this).data('prototipoTitle');
+      			prototipoTitle = $(this).data('protoTitle');
 
           var showAlert = swal({
             title: 'Eliminar Prototipo: '+prototipoTitle,

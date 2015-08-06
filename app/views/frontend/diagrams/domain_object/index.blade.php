@@ -148,6 +148,7 @@
 
       		var objectId = $(this).data('objectId'),
       			objectTitle = $(this).data('objectTitle');
+      			console.log(objectTitle);
 
           var showAlert = swal({
             title: 'Eliminar Diagrama: '+objectTitle,

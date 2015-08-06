@@ -54,6 +54,8 @@
 
 {{ HTML::script('js/frontend/jQuery.Shortcut.js-master/jquery.Shortcut.js') }}
 
+{{ HTML::script('js/frontend/sweet-alert.min.js') }} 
+
 {{ HTML::script('js/frontend/prototipoJS.js') }}  
 
 

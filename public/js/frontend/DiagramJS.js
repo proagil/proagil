@@ -327,7 +327,7 @@ $ps.on('input change', function() {
 paper2.on('cell:pointerdown', function(cellView,evt, x, y) { 
   
      selected2 = cellView.model;
-     console.log(selected2);
+     //console.log(selected2);
     document.getElementById("draggable").style.display = "inline";
 
  
@@ -464,8 +464,24 @@ paper2.on('blank:pointerclick ', function(cellView,evt, x, y) {
 
 function eliminar(){
 
-    graph2.clear();
-    document.getElementById("draggable").style.display = "none";
+    var showAlert = swal({
+            title: 'Nuevo lienzo',
+            text: 'Se eliminaran todos los elementos del lienzo. ¿Realmente desea hacerlo?',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#a8d76f',
+            confirmButtonText: 'Sí',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#ef6f66',
+            closeOnConfirm: true
+          },
+
+            function(){
+
+                document.getElementById("draggable").style.display = "none";
+                 graph2.clear();
+              
+            });
 }
 
 
@@ -476,14 +492,19 @@ paper2.on('cell:pointerdown', function(cellView,evt, x, y) {
     
     selected = cellView.model;
 
-     
+    $.Shortcut.on("DELETE", function (e) {
+    // e is the jQuery normalized KeyEvent
+    selected.remove();
+    })
+
  });
 
 function eliminarElemento(){
 
     
     if (selected) selected.remove();
-     
+
+      
 
 }
 
@@ -512,12 +533,19 @@ function guardar(use_caseId) {
       dataType: 'JSON',
       success: function (response) {
 
-             
+              
+          swal({
+            title: 'Guardado',
+            text: 'El diagrama ha sido guardado',
+            type: 'success',
+            confirmButtonColor: '#a8d76f',
+      
+          });
       
        },
 
       error: function (err) {
-         console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
+        console.log("AJAX error in request: " + JSON.stringify(err, null, 2));
       }
 
 
@@ -570,6 +598,15 @@ $('#btn-download').on('click', function(){
 
     var tool = $(".link-tools");
     tool.remove();
+
+     var deleteX= $(".marker-vertices");
+    deleteX.remove();
+
+    var connection= $(".connection-wrap");
+    connection.remove();
+
+    var  marker= $(".marker-vertex");
+    marker.remove();
   
     var svgDoc = paper2.svg;
     var serializer = new XMLSerializer();
@@ -594,7 +631,7 @@ function render(svg, width, height, filename) {
        
 
   dataURL = c.toDataURL('image/png');
-  console.log(filename);
+ // console.log(filename);
   
   link = document.getElementById('btn-download');
   link.href=  dataURL;
@@ -632,12 +669,14 @@ $.Shortcut.on("ctrl + Y", function (e) {
     myUndoManager.redo();
 })
 
+
+
 var elemento;
 graph2.on('add', function(cell) { 
      
     $.Shortcut.on("ctrl + C", function (e) {
     // e is the jQuery normalized KeyEvent
-    console.log('New cell with id ' + cell.id + ' added to the graph.') ;
+    //console.log('New cell with id ' + cell.id + ' added to the graph.') ;
     elemento= cell.clone();
     })
 
@@ -645,6 +684,7 @@ graph2.on('add', function(cell) {
     // e is the jQuery normalized KeyEvent
     graph2.addCell(elemento);
     })
+
 
 
 

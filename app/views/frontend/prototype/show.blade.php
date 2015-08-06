@@ -227,6 +227,21 @@
 									</div>
 									<div class="section-title-stencil ">
 
+										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Iconografía</div>
+										<div data-section="section-iconAndroid" class="section-arrow-diag pull-right">
+											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
+										</div>
+									</div>
+									<div id="section-iconAndroid" class="showed section-iconAndroid">
+
+										<div class="stencil_iconAndroid" ></div>
+									 
+									</div>
+
+
+
+									<div class="section-title-stencil ">
+
 										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Misceláneos</div>
 										<div data-section="section-misc" class="section-arrow-diag pull-right">
 											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
@@ -265,6 +280,18 @@
 									<div id="section-iconios" class="showed section-iconpios">
 
 										<div class="stencil_iconios" ></div>
+									 
+									</div>
+									<div class="section-title-stencil ">
+
+										<div  class="pull-left" style="font-size: 100%; font-weight: bold;">Misceláneos</div>
+										<div data-section="section-miscIos" class="section-arrow-diag pull-right">
+											<i class="fc-turquoise fa fa-caret-down fa-fw"></i>
+										</div>
+									</div>
+									<div id="section-miscIos" class="showed section-miscIos">
+
+										<div class="stencil_miscIos" ></div>
 									 
 									</div>
 
@@ -307,6 +334,11 @@
 
       })
 
+  	});
+
+  	/*Funcion que permite que el panel de atributos sea draggable*/
+	$(function() {
+   	 	$( "#draggable" ).draggable();
   	});
 
 

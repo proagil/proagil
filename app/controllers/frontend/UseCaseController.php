@@ -144,7 +144,7 @@ class UseCaseController extends BaseController {
 
 		  $project = (array) Project::getName($values['project_id']);	
 		  $usecaseCount = Use_case::insertUseCase($usecase); 
-		  $ucid= (array) Use_case::getId($values['project_id']);
+		  $ucid= (array) Use_case::getIdbyName($values['title']);
 
 		  if($usecaseCount>0){
 

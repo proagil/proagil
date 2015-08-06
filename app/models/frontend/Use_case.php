@@ -63,6 +63,12 @@ class Use_case extends Eloquent{
 		return DB::table('use_diagram')->where('id_project', $projectId)->first();		
 
 	}
+	public static function getIdbyName($useName){
+
+		 // get probe data
+		return DB::table('use_diagram')->where('title', $useName)->first();		
+
+	}
 
 	public static function updateTitle($usecaseId, $name){
 
