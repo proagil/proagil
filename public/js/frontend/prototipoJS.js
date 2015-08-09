@@ -1944,7 +1944,7 @@ paper11.on('cell:pointerdown ', function(cellView,evt, x, y) {
     }
     else if(cellView.model.id == llamar.id){   
 
-        var llamar2 = favoritoicon.clone();
+        var llamar2 = llamar.clone();
         llamar2.resize(74, 70);
         llamar2.attr('image/width', '74');
         llamar2.attr('image/height', '70');
@@ -2894,7 +2894,7 @@ function eliminar(){
 
     var showAlert = swal({
             title: 'Nuevo lienzo',
-            text: 'Se eliminaran todos los elementos del lienzo. ¿Realmente desea hacerlo?',
+            text: 'Se eliminarán todos los elementos del lienzo. ¿Realmente desea hacerlo?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#a8d76f',

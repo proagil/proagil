@@ -236,6 +236,8 @@ paper.$el.addClass('cursor');
 // cache important html elements
 var $sx = $('#sx');
 var $wh = $('#wh');
+var $hg= $('#hg')
+var $wh = $('#wh');
 var $texto = $('#texto');
 var $ps = $('#ps');
 var $rotar = $('#rotar');
@@ -259,14 +261,103 @@ paper2.on('cell:pointerdown', function(cellView,evt, x, y) {
 
 });
 
+var anchNueva;
+var anchura;
+var altura;
+var altNueva;
+var bandera = 0;
+var bandera2= 0;
+
+ 
+
 
 $wh.on('input change', function() {
    
-      
-     selected2.resize(parseFloat(this.value), parseFloat(this.value));
+  anchNueva= parseFloat(this.value);
+  bandera=1;
     
 
+  if(bandera2==1){
+
+      if (selected2.attributes.type == 'uml.Class'){
+
+      selected2.resize(parseFloat(this.value), altNueva);
+
+    }else if(selected2.attributes.type == 'uml.State'){
+
+      
+      selected2.resize(parseFloat(this.value), altNueva);
+
+   }else if(selected2.attributes.type == 'basic.Text'){
+
+      var altura= parseFloat(selected2.attributes.size.height);
+
+      selected2.resize(anchura, altura);
+      
+   }
+
+}else{
+  if (selected2.attributes.type == 'uml.Class'){
+
+      selected2.resize(parseFloat(this.value), 70);
+
+    }else if(selected2.attributes.type == 'uml.State'){
+
+      
+      selected2.resize(parseFloat(this.value), 98);
+
+   }else if(selected2.attributes.type == 'basic.Text'){
+
+      var altura= parseFloat(selected2.attributes.size.height);
+
+      selected2.resize(parseFloat(this.value), altura);
+      
+   }
+   
+}
 });
+
+$hg.on('input change', function() {
+  bandera2=1;
+  altNueva= parseFloat(this.value);
+  if (bandera==1){
+    if (selected2.attributes.type == 'uml.Class'){
+
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+      }else if(selected2.attributes.type == 'uml.State'){
+
+        
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+     }else if(selected2.attributes.type == 'basic.Text'){
+
+        
+        selected2.resize(anchNueva, parseFloat(this.value));
+
+     }
+
+     
+  }else{
+    if (selected2.attributes.type == 'uml.Class'){
+
+          selected2.resize(130, parseFloat(this.value));
+
+        }else if(selected2.attributes.type == 'uml.State'){
+
+          
+          selected2.resize(120, parseFloat(this.value));
+
+       }else if(selected2.attributes.type == 'basic.Text'){
+
+          anchura= parseFloat(selected2.attributes.size.width);
+          selected2.resize(anchura, parseFloat(this.value));
+
+       }
+     
+  }
+});
+
 
 $texto.on('input change', function() {
 
@@ -311,7 +402,7 @@ function eliminar(){
 
   var showAlert = swal({
             title: 'Nuevo lienzo',
-            text: 'Se eliminaran todos los elementos del lienzo. ¿Realmente desea hacerlo?',
+            text: 'Se eliminarán todos los elementos del lienzo. ¿Realmente desea hacerlo?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#a8d76f',

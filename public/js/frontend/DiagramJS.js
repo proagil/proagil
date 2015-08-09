@@ -466,7 +466,7 @@ function eliminar(){
 
     var showAlert = swal({
             title: 'Nuevo lienzo',
-            text: 'Se eliminaran todos los elementos del lienzo. ¿Realmente desea hacerlo?',
+            text: 'Se eliminarán todos los elementos del lienzo. ¿Realmente desea hacerlo?',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#a8d76f',
